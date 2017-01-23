@@ -22,7 +22,7 @@ public class ConnectToDatabase {
     {
         String url = "jdbc:sqlite:src/Customer/Database.db";
         
-        String sql = "CREATE TABLE customers (\n" + "Number integer PRIMARY KEY NOT NULL, \n" + 
+        String sql = "CREATE TABLE customers (\n" + "Number INT PRIMARY KEY NOT NULL, \n" + 
                 "first_name text NOT NULL,\n" + "last_name text NOT NULL,\n" +
                 "address text NOT NULL,\n" + "postcode text NOT NULL,\n"
                 + "email text NOT NULL\n" + ");";
