@@ -1,7 +1,8 @@
 
-package Customer;
+package customer;
 
 
+import Customer.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public class ConnectToDatabase {
     
     private Connection connect()
     {
-        String url = "jdbc:sqlite:src/Customer/Customers.sqlite";
+        String url = "jdbc:sqlite:src/Customer/Records.db";
         Connection conn = null;
         
         try 
@@ -28,7 +29,7 @@ public class ConnectToDatabase {
     
     public void selectAll()
     {
-        String sql = "SELECT ID, Firstname, Surname, Phone FROM Customer_accounts";
+        String sql = "SELECT ID, Firstname, Surname, Phone FROM Customer_Accounts";
         
         try(Connection conn = this.connect();
             Statement stat = conn.createStatement();
