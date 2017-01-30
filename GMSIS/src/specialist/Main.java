@@ -7,8 +7,8 @@ package specialist;
 
 /**
  *
- * @author Mustakim
+ * @author prashant
  */
-public class main {
+public class Main {
     
 }
