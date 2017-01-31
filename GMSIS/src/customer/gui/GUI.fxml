@@ -22,7 +22,7 @@
          <items>
             <SplitPane prefHeight="426.0" prefWidth="340.0" />
          </items></SplitPane>
-      <SplitPane dividerPositions="0.5, 0.5" layoutX="343.0" layoutY="96.0" prefHeight="428.0" prefWidth="537.0">
+      <SplitPane layoutX="343.0" layoutY="96.0" prefHeight="428.0" prefWidth="537.0">
          <items>
             <TableView prefHeight="200.0" prefWidth="200.0">
               <columns>
@@ -35,8 +35,6 @@
                 <TableColumn prefWidth="94.0" text="Phone_NO" />
               </columns>
             </TableView>
-            <Button mnemonicParsing="false" text="Button" />
-            <Button mnemonicParsing="false" text="Button" />
          </items>
       </SplitPane>
       <GridPane prefHeight="268.0" prefWidth="268.0" AnchorPane.bottomAnchor="122.0" AnchorPane.rightAnchor="582.0">
@@ -82,7 +80,7 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" text="SEARCH" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="635.0" >
+      <Button mnemonicParsing="false" text="SEARCH" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="635.0">
           <font>
             <Font name="System Bold" size="13.0" />
          </font>
