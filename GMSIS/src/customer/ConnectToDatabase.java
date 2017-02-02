@@ -1,19 +1,28 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package customer;
 
+/**
+ *
+ * @author Manoharan
+ */
 
-import Customer.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-public class ConnectToDatabase {
-    
+
+public class ConnectToDatabase 
+{    
     private Connection connect()
     {
-        String url = "jdbc:sqlite:src/Customer/Customers.sqlite";
+        String url = "jdbc:sqlite:src/common/Records.db";
         Connection conn = null;
         
         try 
@@ -29,18 +38,18 @@ public class ConnectToDatabase {
     
     public void selectAll()
     {
-        String sql = "SELECT ID, Firstname, Surname, Phone FROM Customer_accounts";
+        String sql = "SELECT ID, Firstname, Surname, Postcode FROM Customer_Accounts";
         
         try(Connection conn = this.connect();
             Statement stat = conn.createStatement();
             ResultSet rs = stat.executeQuery(sql))
             {
-                // loop through the result set
+                
                 while(rs.next())
                 {
                     System.out.println(rs.getInt("ID") + "\t" + rs.getString("Firstname")  + 
                             rs.getString("Surname") 
-                     + rs.getString("Phone")); 
+                     + rs.getString("Postcode")); 
                 }
                 
             }
@@ -48,17 +57,13 @@ public class ConnectToDatabase {
         {
             System.out.println(e.getMessage());
         }
+        
     }
-
-     
     public static void main(String[] args) throws Exception
     {
         ConnectToDatabase obj = new ConnectToDatabase();
-        
         obj.connect();
         obj.selectAll();
     }
-}
-
     
-
+}

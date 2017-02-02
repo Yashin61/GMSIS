@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Customer.logic;
+package diagrep;
 
 /**
  *
- * @author Manoharan
+ * @author Mustakim
  */
-public class Main {
+public class ComponentLoader {
     
 }

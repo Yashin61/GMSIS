@@ -10,56 +10,63 @@ package customer;
  * @author Manoharan
  */
 
-import Customer.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
+import java.sql.ResultSet;
 
-    public class ConnectToCustomers {
-    
-    public static void createNewTable()
+
+public class ConnectToCustomers 
+{
+    private Connection connect()
     {
-        String url = "jdbc:sqlite:src/Customer/Database.db";
+        String url = "jdbc:sqlite:src/customer/Records.db";
+        Connection conn = null;
         
-        String sql = "CREATE TABLE customers (\n" + "Number INT PRIMARY KEY NOT NULL, \n" + 
-                "first_name text NOT NULL,\n" + "last_name text NOT NULL,\n" +
-                "address text NOT NULL,\n" + "postcode text NOT NULL,\n"
-                + "email text NOT NULL\n" + ");";
-        
-       
-        try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
-            // create a new table
-            stmt.execute(sql);
-            String insert= "INSERT INTO customers VALUES(\n" + "1  ,  ' N ', ' M ', ' A ', ' C ' ,' C ');";
-            
-             String insert2= "INSERT INTO customers VALUES(\n" + "2  ,  ' A ', ' M ', ' A ', ' C ' ,' C ');";
-             String insert3= "INSERT INTO customers VALUES(\n" + "3  ,  ' N ', ' M ', ' A ', ' C ' ,' C ');";
-             stmt.executeUpdate( insert);
-            stmt.executeUpdate( insert2);
-            stmt.executeUpdate( insert3);
+        try 
+        {
+            conn = DriverManager.getConnection(url);
         }
         catch(SQLException e)
         {
             System.out.println(e.getMessage());
         }
-            
+        return conn;
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws Exception{
+    public void selectAll()
+    {
+        String sql = "SELECT ID, Firstname, Surname, Phone FROM Customer_Accounts";
         
-        
-            createNewTable();
-        
-        
-        
-       
+        try(Connection conn = this.connect();
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql))
+            {
+                // loop through the result set
+                while(rs.next())
+                {
+                    System.out.println(rs.getInt("ID") + "\t" + rs.getString("Firstname")  + 
+                            rs.getString("Surname") 
+                     + rs.getString("Phone")); 
+                }
+                
+            }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
-}
-    
 
+     
+    public static void main(String[] args) throws Exception
+    {
+        ConnectToCustomers obj = new ConnectToCustomers();
+        
+        obj.connect();
+        obj.selectAll();
+    }
+    
+    
+}

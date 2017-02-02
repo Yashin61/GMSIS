@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customer;
+package diagrep.gui;
 
 /**
  *
- * @author Manoharan
+ * @author Mustakim
  */
-public class Main {
+public class NewClass {
     
 }

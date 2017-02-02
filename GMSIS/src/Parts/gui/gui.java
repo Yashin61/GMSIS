@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Customer.gui;
+package Parts.gui;
 
 /**
  *
- * @author Manoharan
+ * @author rohim
  */
-public class Main {
+public class gui {
     
 }

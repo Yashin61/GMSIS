@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DiagnosisAndRepair;
+package specialist.logic;
 
 /**
  *
- * @author Mustakim
+ * @author prashant
  */
-public class ComponentLoader {
+public class k {
     
 }
