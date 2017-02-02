@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package vehicles;
-import customers.*;
+
 /**
  *
  * @author yhk30
@@ -14,4 +14,3 @@ public class Main {
 		
 	}
 }
-d
