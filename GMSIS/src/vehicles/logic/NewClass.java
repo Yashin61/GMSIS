@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vehicles;
-import customers.*;
+package vehicles.logic;
+
 /**
  *
  * @author yhk30
  */
-public class Main {
-	public static void main(String[] args) {
-		
-	}
+public class NewClass {
+    
 }
-d
