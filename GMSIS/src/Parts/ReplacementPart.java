@@ -9,20 +9,21 @@ package Parts;
  *
  * @author rohim
  */
-import java.util.Calendar;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-public class ReplacementPart extends Parts{
+
+public class ReplacementPart extends Partss{
     String dateInstalled;
     String dateWarranty;
-    ReplacementPart(String pname, String pdescription, int pid, int pqty, int pcost){
-        super(pname,pdescription, pid, pqty, pcost);
+    ReplacementPart(int pid){
+        super(pid);
         //set to current date
-        dateInstalled="date";
-        dateWarranty="date";
+        dateInstalled=setDate();
+        dateWarranty=setDate();
         
     }
+    public String setDate(){
+        
     
-   
+    return null;
+    }
 }
 
