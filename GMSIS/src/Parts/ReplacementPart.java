@@ -6,7 +6,7 @@ package Parts;
  * @author rohim
  */
 
-public class ReplacementPart extends Partss{
+public class ReplacementPart extends Parts{
     String dateInstalled;
     String dateWarranty;
     ReplacementPart(int pid){

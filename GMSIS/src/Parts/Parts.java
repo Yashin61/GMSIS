@@ -10,12 +10,12 @@ package Parts;
  * @author rohim
  */
 
-public class Partss {
+public class Parts {
  
     int ID;
    
     
-    public Partss(int pid){
+    public Parts(int pid){
     
     ID = pid;
     
