@@ -89,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
        
        int ID=Integer.parseInt(Parts.getText());
        int number = Integer.parseInt(qty.getText());
-        Partss p = new Partss(ID);
+        Parts p = new Parts(ID);
         p.addStock(number);
           
     }
@@ -97,7 +97,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void IDSearch(ActionEvent event) {
         int ID=Integer.parseInt(Parts.getText());
-        Partss p = new Partss(ID);
+        Parts p = new Parts(ID);
         p.SeachByID();
     }
     
