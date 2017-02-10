@@ -27,9 +27,82 @@ public class Vehicle
     private String deliveryDate;
     private String returnDate;
     
-    public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, String fuelTypeX, int milageX, String colourX, String registrationNumberX, int customerIDX, String warrantyX, String MOTRenewalDateX, String lastServiceDateX, String deliveryDateX, String returnDate)
+    public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, String fuelTypeX, int milageX, String colourX, String registrationNumberX, int customerIDX, String warrantyX, String MOTRenewalDateX, String lastServiceDateX, String deliveryDateX, String returnDateX)
     {
         vehicleType=vehicleTypeX;
-        
+        model=modelX;
+        year=yearX;
+        engineSize=engineSizeX;
+        fuelType=fuelTypeX;
+        milage=milageX;
+        colour=colourX;
+        registrationNumber=registrationNumberX;
+        customerID=customerIDX;
+        warranty=warrantyX;
+        MOTRenewalDate=MOTRenewalDateX;
+        lastServiceDate=lastServiceDateX;
+        deliveryDate=deliveryDateX;
+        returnDate=returnDateX;
+    }
+    
+    public String getVehicleType()
+    {
+        return vehicleType;
+    }
+    public String getMake()
+    {
+        return make;
+    }
+    public int getModel()
+    {
+        return model;
+    }
+    public int getYear()
+    {
+        return year;
+    }
+    public String getEngineSize()
+    {
+        return engineSize;
+    }
+    public String getFuelType()
+    {
+        return fuelType;
+    }
+    public int getMilage()
+    {
+        return milage;
+    }
+    public String getColour()
+    {
+        return colour;
+    }
+    public String getRegistrationNumber()
+    {
+        return registrationNumber;
+    }
+    public int getCustomerID()
+    {
+        return customerID;
+    }
+    public String getWarranty()
+    {
+        return warranty;
+    }
+    public String getMOTRenewalDate()
+    {
+        return MOTRenewalDate;
+    }
+    public String getLastServiceDate()
+    {
+        return lastServiceDate;
+    }
+    public String getDeliveryDate()
+    {
+        return deliveryDate;
+    }
+    public String getReturnDate()
+    {
+        return returnDate;
     }
 }
