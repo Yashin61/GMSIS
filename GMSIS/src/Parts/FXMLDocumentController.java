@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 
-package Parts.gui;
+package Parts;
+
 import Parts.*;
 import java.net.URL;
 import java.util.ResourceBundle;
