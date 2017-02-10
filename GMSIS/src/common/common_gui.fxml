@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxWidth="1100.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxWidth="1100.0" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane orientation="VERTICAL" prefHeight="112.0" prefWidth="1250.0">
         <items>
@@ -21,7 +21,7 @@
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
-                  <Button layoutX="611.0" layoutY="14.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="141.0" text="Vehicle Records" AnchorPane.topAnchor="14.0">
+                  <Button layoutX="611.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButton" prefHeight="76.0" prefWidth="141.0" text="Vehicle Records" AnchorPane.topAnchor="14.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
