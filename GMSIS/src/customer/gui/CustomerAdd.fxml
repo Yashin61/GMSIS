@@ -11,12 +11,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="374.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" onDragDetected="#add" prefHeight="374.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
    <children>
       <Separator layoutX="100.0" layoutY="83.0" prefHeight="3.0" prefWidth="522.0" />
       <ImageView fitHeight="107.0" fitWidth="94.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../Pictures/Car.png" />
+            <Image url="@../Car.png" />
          </image>
       </ImageView>
       <Button layoutX="28.0" layoutY="321.0" mnemonicParsing="false" text="BACK" />
@@ -35,40 +35,40 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="113.0" layoutY="124.0" prefHeight="26.0" prefWidth="200.0" />
-      <TextField layoutX="113.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="340.0" />
-      <Button layoutX="550.0" layoutY="321.0" mnemonicParsing="false" text="SEARCH" />
-      <Button layoutX="482.0" layoutY="321.0" mnemonicParsing="false" text="CLEAR" />
+      <TextField fx:id="firstname" layoutX="113.0" layoutY="124.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="surname" layoutX="113.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="340.0" />
+      <Button layoutX="576.0" layoutY="321.0" mnemonicParsing="false" onAction="#add" text="ADD" />
+      <Button layoutX="506.0" layoutY="321.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
       <Label layoutX="26.0" layoutY="227.0" text="Address: " AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="227.0">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="113.0" layoutY="224.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="address" layoutX="113.0" layoutY="224.0" prefHeight="26.0" prefWidth="200.0" />
       <Label layoutX="334.0" layoutY="127.0" text="Postcode: ">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="422.0" layoutY="124.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="postcode" layoutX="422.0" layoutY="124.0" prefHeight="26.0" prefWidth="200.0" />
       <Label layoutX="337.0" layoutY="177.0" text="Phone_NO:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="422.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="phone" layoutX="422.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" />
       <Label layoutX="336.0" layoutY="227.0" text="Email:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="421.0" layoutY="224.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="email" layoutX="421.0" layoutY="224.0" prefHeight="26.0" prefWidth="200.0" />
       <Label layoutX="26.0" layoutY="277.0" text="Account Type: " AnchorPane.topAnchor="277.0">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <RadioButton layoutX="139.0" layoutY="278.0" mnemonicParsing="false" text="Private">
+      <RadioButton fx:id="private_type" layoutX="139.0" layoutY="278.0" mnemonicParsing="false" selected="true" text="Private">
         <toggleGroup>
             <ToggleGroup fx:id="Type" />
         </toggleGroup>
@@ -76,7 +76,7 @@
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton layoutX="227.0" layoutY="278.0" mnemonicParsing="false" text="Business" toggleGroup="$Type">
+      <RadioButton fx:id="business_type" layoutX="227.0" layoutY="278.0" mnemonicParsing="false" text="Business" toggleGroup="$Type">
          <font>
             <Font size="14.0" />
          </font></RadioButton>
