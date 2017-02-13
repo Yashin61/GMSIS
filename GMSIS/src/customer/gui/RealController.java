@@ -13,6 +13,7 @@ package customer.gui;
 import common.CommonDatabase;
 import customer.ConnectToDatabase;
 import customer.logic.customers;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,6 +32,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class RealController implements Initializable 
 {
@@ -150,9 +160,10 @@ public class RealController implements Initializable
         }
         else
         {
-            String sql = "update Customer_Accounts set ID=?, Firstname=?, Surname=?, Address=?, Postcode=?, Phone=?, Email=? where ID=" + Integer.parseInt(ID.getText()) + "";
+            int id = Integer.parseInt(ID.getText());
+            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= '"+email.getText()+"' WHERE ID= '"+ id + "' ";
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), "private");
-            acc.editCustomer(sql, Integer.parseInt(ID.getText()));   
+            acc.editCustomer(sql, id);   
         }
     }
     
@@ -166,6 +177,41 @@ public class RealController implements Initializable
         postcode.setText(null);
         phone.setText(null);
         email.setText(null);
+    }
+    
+    @FXML
+    private void openAddPage(ActionEvent event) throws IOException
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.show();
+        } 
+        catch(Exception e) 
+        {
+           e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void openEditPage(ActionEvent event) throws IOException
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.show();
+        } 
+        catch(Exception e) 
+        {
+           e.printStackTrace();
+        }
+    
     }
    
     @Override

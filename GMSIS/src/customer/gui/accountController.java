@@ -7,26 +7,35 @@ package customer.gui;
 
 /**
  *
- * @author Manoharan
+ * @author Nandhini
  */
 
+import customer.ConnectToDatabase;
 import customer.logic.customers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import java.sql.*;
+import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javafx.fxml.FXML;
-import javafx.scene.control.MenuButton;
+import java.sql.Statement;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 
-public class accountController implements Initializable
+public class accountController implements Initializable 
 {
+   
+    
+    /****** For Add Page **********/
     @FXML
     private TextField firstname;
 
@@ -46,66 +55,37 @@ public class accountController implements Initializable
     private TextField email;
 
     @FXML
-    private MenuButton account;
+    private RadioButton private_type;
+
+    @FXML
+    private ToggleGroup Type;
+
+    @FXML
+    private RadioButton business_type;  
     
-    /**@FXML
-    private TableView<customers> dataTable;
-
-    @FXML
-    private TableColumn id;
-
-    @FXML
-    private TableColumn first;
-
-    @FXML
-    private TableColumn sur;
-
-    @FXML
-    private TableColumn add;
-
-    @FXML
-    private TableColumn post;
-
-    @FXML
-    private TableColumn mobile;
-
-    @FXML
-    private TableColumn ema;
-    ***/
     
-    @FXML
-    private void add(ActionEvent event)
+    public void add(ActionEvent evt)
     {
-        if(firstname.getText().equals("") || surname.getText().equals("") || address.getText().equals("")|| postcode.getText().equals("") || phone.getText().equals("") || email.getText().equals(""))
+        if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
         { 
             System.out.println("Fill in all details");
-            clearDetails(event);
+            clearDetails(evt);
         }
         else
         {
-            String sql = "INSERT INTO Customer_Accounts(ID, Firstname, Surname, Address, Postcode, Phone, Email) VALUES(?, ?, ?, ?, ?, ?, ?)";
-              
-            try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql))
+            String account_type = "private";
+            if(business_type.isSelected())
             {
-                pstmt.setString(2, firstname.getText());         
-                pstmt.setString(3, surname.getText());
-                pstmt.setString(4, address.getText());
-                pstmt.setString(5, postcode.getText());
-                pstmt.setString(6, phone.getText());
-                pstmt.setString(7, email.getText());
-                pstmt.executeUpdate();   
+                account_type = "business";
+            }
 
-                clearDetails(event);
-            }
-            catch(SQLException e)
-            {
-                System.out.println(e.getMessage());
-            }
-            
-        }  
+            customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
+            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email) VALUES(?, ?, ?, ?, ?, ?, ?)";
+            acc.addCustomer(sql); 
+            clearDetails(evt);
+        }
     }
     
-    // Clears all fields
     @FXML
     private void clearDetails(ActionEvent event)
     {
@@ -116,41 +96,11 @@ public class accountController implements Initializable
         phone.setText(null);
         email.setText(null);
     }
-    
-    // DB Connection method
-    private Connection connect()
-    {
-        String url = "jdbc:sqlite:src/common/Records.db";
-        Connection conn = null;
-        
-        try 
-        {
-            conn = DriverManager.getConnection(url);
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-    
-    @FXML
-    public void searchCustomer(ActionEvent event)
-    {
-        openSearchPage open = new openSearchPage();
-        open.launch();
-    }
-    
-    @FXML 
-    public void updateAll(ActionEvent event)
-    {
-        
-    }
-    
+   
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) 
+    {
         // TODO
     }    
-       
     
 }
