@@ -21,7 +21,7 @@ public class Database {
      */
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:/Users/Mustakim/RecordsTest.db";
+        String url = "jdbc:sqlite:src/common/Records3.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
