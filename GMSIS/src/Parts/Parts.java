@@ -1,37 +1,43 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Parts;
-
 /**
  *
  * @author rohim
  */
+
 public class Parts {
-    String name;
-    String description;
+ 
     int ID;
-    int qty;
-    int cost;
+   
     
-    public Parts(String pname, String pdescription, int pid, int pqty, int pcost){
-    name=pname;
-    description = pdescription;
+    public Parts(int pid){
+    
     ID = pid;
-    //update in database then assign pqty
-    qty = pqty;
-    cost = pcost;
+    
     }
     
-    void addStock(int newqty){
-        qty= qty+newqty;
+    public void addStock(int newqty){
+        ConnectionToParts c = new ConnectionToParts();
+        
+        c.add(ID,newqty);
+          //  qty= qty+newqty;
     }
     
-    void partWithdraw(){
-       qty=qty-1; 
+    public void partWithdraw(){
+       //qty=qty-1; 
     }
+
+    
+    public void SeachByID(){
+        ConnectionToParts con = new ConnectionToParts();
+        con.IDSearch(ID);
+    }
+ 
 
  
  }
