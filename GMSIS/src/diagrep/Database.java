@@ -21,7 +21,7 @@ public class Database {
      */
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:/Users/Mustakim/NetBeansProjects/NBProjects/GMSIS/GMSIS/RecordsTest.db";
+        String url = "jdbc:sqlite:/Users/Mustakim/RecordsTest.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -31,7 +31,7 @@ public class Database {
         return conn;
     }
     
-    private void select(){
+    private void selectBooking(){
         String sql = "SELECT * FROM Booking";
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -49,13 +49,32 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
+    
+    private void selectCustomer(){
+        String sql = "SELECT * FROM Customer_Accounts";
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            
+            // loop through the result set
+            while (rs.next()) {
+                System.out.println(rs.getInt("ID") +  "\t" + 
+                                   rs.getString("Firstname") + "\t" +
+                                   rs.getFloat("Surname") + "\t" +
+                                   rs.getString("Address") + "\t" +
+                                   rs.getString("Postcode"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
         
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Database app = new Database();
-        app.select();
+        app.selectBooking();
     }
 }
     
