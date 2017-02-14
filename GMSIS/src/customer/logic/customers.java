@@ -101,33 +101,29 @@ public class customers
         close(connection);
     }
     
-    public void editCustomer(String sql, int customer_id)
+    public void editCustomer(String sql, int n)
     {
-        PreparedStatement statement = null;
         Connection connection = null;
+        PreparedStatement statement = null;
         CommonDatabase db = new CommonDatabase();
         connection = db.getConnection();
-        
         try
-        {           
+        {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, customer_id);
+            statement.setInt(1, n);
             statement.setString(2, getFirstname());         
             statement.setString(3, getSurname());
             statement.setString(4, getAddress());
             statement.setString(5, getPostcode());
             statement.setString(6, getPhone());
             statement.setString(7, getEmail());
-            statement.execute();   
-            
-            
-            System.out.println("UPDATED");
+            System.out.println("DONE");
         }
-        catch(SQLException e)
+        catch(Exception e)
         {
             System.out.println("ERROR");
-        }     
-             
+        }
+                
     }
        
     
