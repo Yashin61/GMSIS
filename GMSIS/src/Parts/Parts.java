@@ -16,7 +16,6 @@ public class Parts {
    
     
     public Parts(int pid){
-    
     ID = pid;
     
     }
