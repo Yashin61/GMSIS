@@ -83,7 +83,9 @@ public class FXMLDocumentController implements Initializable {
        
         String surename=Surename.getText();
         String postcode=Postcode.getText();
-        
+        ConnectionToParts con = new ConnectionToParts();
+        con.searchByNameandPostcode(surename,postcode);
+        System.out.println("W");
         
     }
 

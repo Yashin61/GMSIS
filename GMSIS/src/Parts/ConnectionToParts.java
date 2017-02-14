@@ -96,10 +96,31 @@ public class ConnectionToParts {
                 {
                     System.out.println(info.getInt("ID") + "\t" + info.getString("name") + info.getInt("Quantity"));
                 }
+         con.close();
         }
         catch(SQLException e)
         {
             
+        }
+    }
+    
+    public void searchByNameandPostcode(String name, String postcode){
+        System.out.println("W");
+        Connection con = connect();
+        System.out.println("W");
+        String sql = "SELECT ID, Firstname, Surname, Address, Postcode, Phone, Email FROM Customer_Accounts WHERE Surname=? AND Postcode=?";
+        try{
+            PreparedStatement stat = con.prepareStatement(sql);
+            stat.setString(1,name);
+            stat.setString(2, postcode);
+            ResultSet info = stat.executeQuery();
+            while(info.next()){
+                System.out.println(info.getInt("ID") + " " + info.getString("Firstname") + "  " + info.getString("Surname"));
+            }
+         con.close();        
+        }
+        catch (SQLException e){
+        
         }
     }
      
