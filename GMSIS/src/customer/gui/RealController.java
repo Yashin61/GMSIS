@@ -12,6 +12,7 @@ package customer.gui;
 
 import common.CommonDatabase;
 import customer.ConnectToDatabase;
+import customer.logic.customerDetails;
 import customer.logic.customers;
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +35,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -41,6 +43,10 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 
 public class RealController implements Initializable 
 {
@@ -75,7 +81,37 @@ public class RealController implements Initializable
     private ToggleGroup Type;
 
     @FXML
-    private RadioButton business_type;  
+    private RadioButton business_type; 
+    
+    @FXML
+    private TableView<customerDetails> dataTable;
+
+    @FXML
+    private TableColumn<customerDetails, Integer> customer_ID;
+
+    @FXML
+    private TableColumn<customerDetails, String> first;
+
+    @FXML
+    private TableColumn<customerDetails, String> sur;
+
+    @FXML
+    private TableColumn<customerDetails, String> adr;
+
+    @FXML
+    private TableColumn<customerDetails, String> post;
+
+    @FXML
+    private TableColumn<customerDetails, String> mobile;
+
+    @FXML
+    private TableColumn<customerDetails, String> ema;
+
+    @FXML
+    private TextField regNumber;
+
+    private ObservableList<customerDetails>data;
+    
     
     
     public void add(ActionEvent evt)
@@ -214,10 +250,55 @@ public class RealController implements Initializable
     
     }
    
+    
+    private void setCellTable()
+    {
+        customer_ID.setCellValueFactory(new PropertyValueFactory("id"));
+        
+        first.setCellFactory(new PropertyValueFactory("firstname"));
+        sur.setCellFactory(new PropertyValueFactory("surname"));
+        adr.setCellFactory(new PropertyValueFactory("address"));
+        post.setCellFactory(new PropertyValueFactory("postcode"));
+        mobile.setCellFactory(new PropertyValueFactory("phone"));
+        ema.setCellFactory(new PropertyValueFactory("email"));
+    }
+    
+    private void loadDataFromDatabase()
+    {
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = db.getConnection();
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement("select * from Customer_Accounts");
+            ResultSet rs = statement.executeQuery();
+            while(rs.next())
+            {
+                data.add(new customerDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("error");
+        }
+        
+        dataTable.setItems(data);
+        
+    }
+    
+    @FXML
+    private void viewAllCustomers(ActionEvent event)
+    {
+        data = FXCollections.observableArrayList();
+        setCellTable();
+        loadDataFromDatabase();
+        
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         // TODO
+        
     }    
     
 }

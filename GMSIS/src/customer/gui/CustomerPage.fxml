@@ -41,16 +41,16 @@
       <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
       <TableView fx:id="dataTable" layoutX="336.0" layoutY="130.0" prefHeight="322.0" prefWidth="620.0">
         <columns>
-          <TableColumn fx:id="id" prefWidth="34.0" text="ID" />
+          <TableColumn fx:id="customer_ID" prefWidth="34.0" text="ID" />
           <TableColumn fx:id="first" prefWidth="116.0" text="Firstname" />
             <TableColumn fx:id="sur" prefWidth="87.0" text="Surname" />
-            <TableColumn fx:id="add" prefWidth="115.0" text="Address" />
+            <TableColumn fx:id="adr" prefWidth="115.0" text="Address" />
             <TableColumn fx:id="post" prefWidth="79.0" text="Postcode" />
             <TableColumn fx:id="mobile" prefWidth="88.0" text="Phone_No" />
             <TableColumn fx:id="ema" prefWidth="100.0" text="Email" />
         </columns>
       </TableView>
-      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL CUSTOMERS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#viewAllCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL CUSTOMERS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
