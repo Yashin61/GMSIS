@@ -20,7 +20,7 @@ public class ConnectionToParts {
         
         try 
         {
-           conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\rohim\\Documents\\rohim\\year 2\\NBProject\\SE8\\GMSIS\\src\\common\\Records(2).db");
+           conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records3.db");
             //conn = DriverManager.getConnection("jdbc:sqlite:Records1(2).db");
         }
         catch(SQLException e)
@@ -32,7 +32,7 @@ public class ConnectionToParts {
  
     public void add(int ID, int Plus_Qty){
         int qty=0;
-        String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts2";
+        String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts";
         Connection con=connect();
             
      
@@ -45,7 +45,7 @@ public class ConnectionToParts {
           // stats.execute();#qty=qty+Plus_Qty;
           if(qty<10){
               qty=qty+Plus_Qty;
-      String addData= "UPDATE Parts2 SET Quantity=? WHERE ID=?";
+      String addData= "UPDATE Parts SET Quantity=? WHERE ID=?";
       PreparedStatement addD = con.prepareStatement(addData);
       addD.setInt(1, qty);
       addD.setInt(2, ID);
@@ -86,7 +86,7 @@ public class ConnectionToParts {
     
     public void IDSearch(int ID){
         Connection con = connect();
-        String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts2 WHERE ID=?";
+        String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts WHERE ID=?";
         try{
         PreparedStatement stat = con.prepareStatement(sql);
         stat.setInt(1,ID);
