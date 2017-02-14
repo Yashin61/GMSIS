@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -26,7 +27,7 @@ public class SpecialistDB
     private Object[] cols;
     private int rowsLength;
     private String[] SPCList;
-    String Recordurl = "JDBC:sqlite:Records.db";
+    String Recordurl = "JDBC:sqlite:Records2.db";
     
     public void addSPC(Object name)
     {
@@ -120,7 +121,7 @@ public class SpecialistDB
         try
         {
             //Connect to database 
-            connect = DriverManager.getConnection(Recordurl);
+            connect = DriverManager.getConnection("JDBC:sqlite:/Users/prashant/Documents/NBProjects/SE8/GMSIS/src/common/Records2.db");
             stmt = connect.createStatement();
             ResultSet set = stmt.executeQuery("SELECT SPCname FROM SPC");
 
@@ -141,5 +142,10 @@ public class SpecialistDB
               JOptionPane.showMessageDialog(null, "SPC cannot be located");   
           } 
           return SPCList;
+    }
+    
+    public static void main(String[] args) {
+        SpecialistDB app = new SpecialistDB();
+        System.out.print(Arrays.toString(app.getSPC()));
     }
 }
