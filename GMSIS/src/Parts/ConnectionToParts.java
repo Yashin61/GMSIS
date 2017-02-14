@@ -105,9 +105,7 @@ public class ConnectionToParts {
     }
     
     public void searchByNameandPostcode(String name, String postcode){
-        System.out.println("W");
         Connection con = connect();
-        System.out.println("W");
         String sql = "SELECT ID, Firstname, Surname, Address, Postcode, Phone, Email FROM Customer_Accounts WHERE Surname=? AND Postcode=?";
         try{
             PreparedStatement stat = con.prepareStatement(sql);
