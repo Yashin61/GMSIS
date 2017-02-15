@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Author: yhk30--y.hosseinkhorrami@se15.qmul.ac.uk--150479358--Yashin Hossein Khorrami
+
 package vehicles;
 
-/**
- *
- * @author yhk30
- */
 public class Vehicle
 {
     private String vehicleType;
@@ -26,8 +19,12 @@ public class Vehicle
     private String lastServiceDate;
     private String deliveryDate;
     private String returnDate;
+    private int WarrantyID;
     
-    public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, String fuelTypeX, int milageX, String colourX, String registrationNumberX, int customerIDX, String warrantyX, String MOTRenewalDateX, String lastServiceDateX, String deliveryDateX, String returnDateX)
+    public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, 
+            String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
+            int customerIDX, String warrantyX, String MOTRenewalDateX, 
+            String lastServiceDateX, String deliveryDateX, String returnDateX, int WarrantyID)
     {
         vehicleType=vehicleTypeX;
         model=modelX;
