@@ -27,12 +27,12 @@ public class Main extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("common_gui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Template.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Main Window");
         stage.show();
-        Connection connection = Database.getConnection();
+        //Connection connection = Database.getConnection();
     }
   
 }
