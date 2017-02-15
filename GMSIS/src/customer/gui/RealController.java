@@ -12,7 +12,7 @@ package customer.gui;
 
 import common.CommonDatabase;
 import customer.ConnectToDatabase;
-import customer.logic.customerDetails;
+import customer.logic.allCustomers;
 import customer.logic.customers;
 import java.io.IOException;
 import java.net.URL;
@@ -84,33 +84,36 @@ public class RealController implements Initializable
     private RadioButton business_type; 
     
     @FXML
-    private TableView<customerDetails> dataTable;
+    private TableView<allCustomers> dataTable;
 
     @FXML
-    private TableColumn<customerDetails, Integer> customer_ID;
+    private TableColumn<allCustomers, Integer> customer_ID;
 
     @FXML
-    private TableColumn<customerDetails, String> first;
+    private TableColumn<allCustomers, String> first;
 
     @FXML
-    private TableColumn<customerDetails, String> sur;
+    private TableColumn<allCustomers, String> sur;
 
     @FXML
-    private TableColumn<customerDetails, String> adr;
+    private TableColumn<allCustomers, String> adr;
 
     @FXML
-    private TableColumn<customerDetails, String> post;
+    private TableColumn<allCustomers, String> post;
 
     @FXML
-    private TableColumn<customerDetails, String> mobile;
+    private TableColumn<allCustomers, String> mobile;
 
     @FXML
-    private TableColumn<customerDetails, String> ema;
+    private TableColumn<allCustomers, String> ema;
 
     @FXML
     private TextField regNumber;
+    
+    private ObservableList<allCustomers> data;
+    
 
-    private ObservableList<customerDetails>data;
+   
     
     
     
@@ -130,7 +133,7 @@ public class RealController implements Initializable
             }
 
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email) VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, AccountType) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
             acc.addCustomer(sql); 
             clearDetails(evt);
         }
@@ -197,7 +200,7 @@ public class RealController implements Initializable
         else
         {
             int id = Integer.parseInt(ID.getText());
-            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= '"+email.getText()+"' WHERE ID= '"+ id + "' ";
+            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= "+email.getText()+" WHERE ID= "+ id + "; ";
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), "private");
             acc.editCustomer(sql, id);   
         }
@@ -250,7 +253,7 @@ public class RealController implements Initializable
     
     }
    
-    
+    /**
     private void setCellTable()
     {
         customer_ID.setCellValueFactory(new PropertyValueFactory("id"));
@@ -292,13 +295,53 @@ public class RealController implements Initializable
         setCellTable();
         loadDataFromDatabase();
         
+    }**/
+    @FXML
+    private void displayCustomers(ActionEvent event)
+    {
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = null;
+        
+        try
+        {
+            connection = db.getConnection();
+            data = FXCollections.observableArrayList();
+            
+            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Customer_Accounts");
+            while(rs.next())
+            {
+                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work");
+        }
+        
+        
+        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        
+        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        
+        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        
+        adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        
+        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        
+        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        
+        ema.setCellValueFactory(new PropertyValueFactory("Email"));
+  
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+                
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        // TODO
-        
+         
     }    
     
 }
