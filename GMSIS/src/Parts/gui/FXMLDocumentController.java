@@ -6,6 +6,7 @@
 
 package Parts.gui;
 import Parts.*;
+import customer.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -67,6 +68,7 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem DippedHeadLights;
     
     private void handleButtonAction(ActionEvent event) {
+   
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
@@ -78,15 +80,18 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void runcu(ActionEvent event) {
+       
         String surename=Surename.getText();
         String postcode=Postcode.getText();
+        ConnectionToParts con = new ConnectionToParts();
+        con.searchByNameandPostcode(surename,postcode);
         
     }
 
     @FXML
     private void addPart(ActionEvent event) {
          
-       
+      
        int ID=Integer.parseInt(Parts.getText());
        int number = Integer.parseInt(qty.getText());
         Parts p = new Parts(ID);

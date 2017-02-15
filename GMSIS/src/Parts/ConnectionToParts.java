@@ -37,14 +37,14 @@ public class ConnectionToParts {
             
      
         try {
-             //con = this.connect();
+            
             Statement stats = con.createStatement();
              ResultSet rs = stats.executeQuery(sql);
-            qty=rs.getInt("Quantity");
+            //qty=rs.getInt("Quantity");
             //stats.setString(2,"rohim");
           // stats.execute();#qty=qty+Plus_Qty;
           if(qty<10){
-              qty=qty+Plus_Qty;
+              qty=rs.getInt("Quantity")+Plus_Qty;
       String addData= "UPDATE Parts SET Quantity=? WHERE ID=?";
       PreparedStatement addD = con.prepareStatement(addData);
       addD.setInt(1, qty);
@@ -74,7 +74,7 @@ public class ConnectionToParts {
                 // loop through the result set
                 while(rs.next())
                 {
-                    System.out.println(rs.getInt("ID") + "\t" + rs.getString("name"));
+                    System.out.println(rs.getInt("ID") + "\t" + rs.getString("name") );
                 }
                 
             }
@@ -85,6 +85,7 @@ public class ConnectionToParts {
     }
     
     public void IDSearch(int ID){
+     
         Connection con = connect();
         String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts WHERE ID=?";
         try{
@@ -93,12 +94,31 @@ public class ConnectionToParts {
        ResultSet info = stat.executeQuery();
         while(info.next())
                 {
-                    System.out.println(info.getInt("ID") + "\t" + info.getString("name"));
+                    System.out.println(info.getInt("ID") + "\t" + info.getString("name") + info.getInt("Quantity"));
                 }
+         con.close();
         }
         catch(SQLException e)
         {
             
+        }
+    }
+    
+    public void searchByNameandPostcode(String name, String postcode){
+        Connection con = connect();
+        String sql = "SELECT ID, Firstname, Surname, Address, Postcode, Phone, Email FROM Customer_Accounts WHERE Surname=? AND Postcode=?";
+        try{
+            PreparedStatement stat = con.prepareStatement(sql);
+            stat.setString(1,name);
+            stat.setString(2, postcode);
+            ResultSet info = stat.executeQuery();
+            while(info.next()){
+                System.out.println(info.getInt("ID") + " " + info.getString("Firstname") + "  " + info.getString("Surname"));
+            }
+         con.close();        
+        }
+        catch (SQLException e){
+        
         }
     }
      
