@@ -41,7 +41,7 @@
             <TableColumn prefWidth="106.10504150390625" text="Bill" />
         </columns>
       </TableView>
-      <Button layoutX="860.0" layoutY="600.0" mnemonicParsing="false" onAction="#openAddPage" prefWidth="70.0" text="ADD" />
-      <Button layoutX="870.0" layoutY="600.0" mnemonicParsing="false" onAction="#openEditPage" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="78.0" />
+      <Button fx:id="Add_Button" layoutX="860.0" layoutY="600.0" mnemonicParsing="false" onAction="#openAddBooking" prefWidth="70.0" text="ADD" />
+      <Button fx:id="Edit_Button" layoutX="870.0" layoutY="600.0" mnemonicParsing="false" onAction="#openEditBooking" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="78.0" />
   </children>
 </AnchorPane>

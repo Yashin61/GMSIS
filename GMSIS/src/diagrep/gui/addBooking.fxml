@@ -27,7 +27,7 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <MenuButton layoutX="200.0" layoutY="180.0" mnemonicParsing="false">
+      <MenuButton fx:id="CustomerNames" layoutX="200.0" layoutY="180.0" mnemonicParsing="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
         </items>
@@ -42,19 +42,19 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <JFXDatePicker layoutX="440.0" layoutY="175.0" promptText="Booking Date" />
-      <JFXDatePicker layoutX="700.0" layoutY="175.0" promptText="Booking Time" showTime="true" />
-      <MenuButton layoutX="200.0" layoutY="280.0" mnemonicParsing="false">
+      <JFXDatePicker fx:id="Date" layoutX="440.0" layoutY="175.0" promptText="Booking Date" />
+      <JFXDatePicker fx:id="Time" layoutX="700.0" layoutY="175.0" promptText="Booking Time" showTime="true" />
+      <MenuButton fx:id="Vehicles" layoutX="200.0" layoutY="280.0" mnemonicParsing="false">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
          </items>
       </MenuButton>
-      <Label layoutX="60.0" layoutY="380.0" text="Mechanic:">
+      <Label layoutX="60.0" layoutY="430.0" text="Mechanic:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <MenuButton layoutX="200.0" layoutY="380.0" mnemonicParsing="false">
+      <MenuButton fx:id="Mechanic" layoutX="200.0" layoutY="430.0" mnemonicParsing="false">
          <items>
             <MenuItem mnemonicParsing="false" text="Action 1" />
          </items>
@@ -66,13 +66,19 @@
           <TableColumn prefWidth="189.2437744140625" text="Name of Part" />
         </columns>
       </TableView>
-      <TextField layoutX="750.0" layoutY="260.0" promptText="Enter Part 1 ID" />
+      <TextField fx:id="Part1ID" layoutX="750.0" layoutY="260.0" promptText="Enter Part 1 ID" />
       <TextField layoutX="750.0" layoutY="420.0" promptText="Enter Part 5 ID" />
-      <TextField layoutX="750.0" layoutY="380.0" promptText="Enter Part 4 ID" />
-      <TextField layoutX="750.0" layoutY="340.0" promptText="Enter Part 3 ID" />
-      <TextField layoutX="750.0" layoutY="300.0" promptText="Enter Part 2 ID" />
-      <Button layoutX="725.0" layoutY="510.0" mnemonicParsing="false" onAction="#openAddPage" prefWidth="70.0" text="Clear" />
-      <Button layoutX="825.0" layoutY="510.0" mnemonicParsing="false" onAction="#openAddPage" prefWidth="70.0" text="Submit" />
-      <Button layoutX="50.0" layoutY="510.0" mnemonicParsing="false" onAction="#openAddPage" prefWidth="70.0" text="Back" />
+      <TextField fx:id="Part4ID" layoutX="750.0" layoutY="380.0" promptText="Enter Part 4 ID" />
+      <TextField fx:id="Part3ID" layoutX="750.0" layoutY="340.0" promptText="Enter Part 3 ID" />
+      <TextField fx:id="Part2ID" layoutX="750.0" layoutY="300.0" promptText="Enter Part 2 ID" />
+      <Button fx:id="Clear" layoutX="725.0" layoutY="510.0" mnemonicParsing="false" onAction="#clearPage" prefWidth="70.0" text="Clear" />
+      <Button fx:id="Submit_Button" layoutX="825.0" layoutY="510.0" mnemonicParsing="false" onAction="#submitDetails" prefWidth="70.0" text="Submit" />
+      <Button fx:id="Back_Button" layoutX="50.0" layoutY="510.0" mnemonicParsing="false" onAction="#openBookingDetails" prefWidth="70.0" text="Back" />
+      <Label layoutX="60.0" layoutY="350.0" text="Mileage:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="Mileage" layoutX="200.0" layoutY="350.0" />
    </children>
 </AnchorPane>
