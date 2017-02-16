@@ -136,7 +136,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void Refresh_Parts(KeyEvent event) {
         
-        Parts_Coice.getItems().add("w");
+      
         
     }
     
