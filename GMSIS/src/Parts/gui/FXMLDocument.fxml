@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
@@ -12,25 +13,24 @@
 
 <AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Parts.gui.FXMLDocumentController">
    <children>
-      <TableView layoutX="213.0" layoutY="218.0" prefHeight="85.0" prefWidth="377.0">
+       <TableView layoutX="221.0" layoutY="261.0" prefHeight="85.0" prefWidth="377.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="rohim" />
+          <TableColumn prefWidth="75.0" text="ID" />
             <TableColumn prefWidth="75.0" text="Name" />
             <TableColumn prefWidth="75.0" text="Description" />
             <TableColumn prefWidth="75.0" text="Cost" />
             <TableColumn prefWidth="75.0" text="Quantity" />
         </columns>
       </TableView>
-      <TextField fx:id="Surename" layoutX="122.0" layoutY="75.0" />
-      <TextField fx:id="Postcode" layoutX="330.0" layoutY="75.0" />
-      <TextField fx:id="Parts" layoutX="84.0" layoutY="336.0" prefHeight="25.0" prefWidth="117.0" />
-      <Button fx:id="Search_Parts" layoutX="89.0" layoutY="365.0" mnemonicParsing="false" onAction="#IDSearch" text="Search Part By ID" />
-      <Button fx:id="Search_Customer" layoutX="484.0" layoutY="75.0" mnemonicParsing="false" onAction="#runcu" text="Search Customer" />
-      <Label layoutX="66.0" layoutY="79.0" text="Surename" />
-      <Label layoutX="276.0" layoutY="79.0" text="Postcode" />
-      <Label layoutX="62.0" layoutY="340.0" text="ID" />
-      <Separator layoutX="62.0" layoutY="321.0" prefHeight="0.0" prefWidth="526.0" />
-      <SplitMenuButton fx:id="CarPartsList" layoutX="64.0" layoutY="218.0" mnemonicParsing="false" text="Select Car Part">
+      <TextField fx:id="Surename" layoutX="205.0" layoutY="75.0" />
+      <TextField fx:id="Postcode" layoutX="413.0" layoutY="75.0" />
+      
+      <Button fx:id="Search_Customer" layoutX="567.0" layoutY="75.0" mnemonicParsing="false" onAction="#runcu" text="Search Customer" />
+      <Label layoutX="149.0" layoutY="79.0" text="Surename" />
+      <Label layoutX="359.0" layoutY="79.0" text="Postcode" />
+      
+      <Separator layoutX="149.0" layoutY="367.0" prefHeight="0.0" prefWidth="526.0" />
+      <SplitMenuButton fx:id="CarPartsList" layoutX="284.0" layoutY="219.0" mnemonicParsing="false" text="Select Car Part">
         <items>
           <MenuItem fx:id="Engine" mnemonicParsing="false" text="Engine" />
             <MenuItem fx:id="Tyre" mnemonicParsing="false" text="Tyre" />
@@ -44,7 +44,7 @@
             <MenuItem fx:id="DippedHeadLights" mnemonicParsing="false" text="Dipped Head Lights" />
         </items>
       </SplitMenuButton>
-      <TableView fx:id="Customer_Det" layoutX="64.0" layoutY="108.0" prefHeight="91.0" prefWidth="526.0">
+      <TableView fx:id="Customer_Det" layoutX="146.0" layoutY="107.0" prefHeight="91.0" prefWidth="526.0">
         <columns>
           <TableColumn prefWidth="75.0" text="ID" />
           <TableColumn prefWidth="75.0" text="Firstname" />
@@ -55,19 +55,10 @@
           <TableColumn prefWidth="75.0" text="Email" />
         </columns>
       </TableView>
-      <Button fx:id="Add_To_Repair" layoutX="64.0" layoutY="261.0" mnemonicParsing="false" text="Add Part to Repair" />
-      <TableView layoutX="213.0" layoutY="336.0" prefHeight="91.0" prefWidth="377.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Name" />
-          <TableColumn prefWidth="75.0" text="Description" />
-            <TableColumn prefWidth="75.0" text="Cost" />
-            <TableColumn prefWidth="75.0" text="Quantity" />
-        </columns>
-      </TableView>
-      <Label layoutX="62.0" layoutY="405.0" text="Qty" />
-      <TextField fx:id="qty" layoutX="84.0" layoutY="401.0" prefHeight="25.0" prefWidth="42.0" />
-      <Button fx:id="Add_Parts" layoutX="136.0" layoutY="401.0" mnemonicParsing="false" onAction="#addPart" text="Add Part" />
-      <Separator layoutX="67.0" layoutY="395.0" prefHeight="3.0" prefWidth="138.0" />
-   </children>
+        <Button fx:id="Add_To_Repair" layoutX="413.0" layoutY="219.0" mnemonicParsing="false" text="Add Part to Repair" />
+      <Button fx:id="UpdateParts" layoutX="356.0" layoutY="380.0" mnemonicParsing="false" onAction="#Go_To_Parts" text="Upadate Parts" />
+      <Button fx:id="Create_Query" layoutX="359.0" layoutY="413.0" mnemonicParsing="false" onAction="#Go_To_Query" text="Create Query" />
+      <ChoiceBox fx:id="Parts_Coice" layoutX="117.0" layoutY="219.0" onKeyPressed="#Refresh_Parts" onMouseClicked="#Refresh_Parts" prefWidth="150.0" />
+     
+            </children>
 </AnchorPane>

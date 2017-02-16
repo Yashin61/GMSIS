@@ -18,6 +18,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -27,18 +33,12 @@ public class FXMLDocumentController implements Initializable {
     
     private Label label;
     @FXML
-    private Button Search_Parts;
-    @FXML
     private TableView<?> Customer_Det;
     @FXML
     private Button Add_To_Repair;
     @FXML
-    private Button Add_Parts;
-    @FXML
     private Button Search_Customer;
-    @FXML
     private TextField qty;
-    @FXML
     private TextField Parts;
     @FXML
     private TextField Surename;
@@ -66,6 +66,12 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem Brakes;
     @FXML
     private MenuItem DippedHeadLights;
+    @FXML
+    private Button UpdateParts;
+    @FXML
+    private Button Create_Query;
+    @FXML
+    private ChoiceBox<String> Parts_Coice;
     
     private void handleButtonAction(ActionEvent event) {
    
@@ -88,7 +94,6 @@ public class FXMLDocumentController implements Initializable {
         
     }
 
-    @FXML
     private void addPart(ActionEvent event) {
          
       
@@ -99,11 +104,40 @@ public class FXMLDocumentController implements Initializable {
           
     }
 
-    @FXML
     private void IDSearch(ActionEvent event) {
+        
         int ID=Integer.parseInt(Parts.getText());
         Parts p = new Parts(ID);
         p.SeachByID();
+    }
+
+    @FXML
+    private void Go_To_Parts(ActionEvent event) {
+        
+        try{
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddParts.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
+        }
+        catch(Exception e){
+        
+        System.out.println("No doesnt work");
+        
+        }
+    }
+
+    @FXML
+    private void Go_To_Query(ActionEvent event) {
+    }
+
+    @FXML
+    private void Refresh_Parts(KeyEvent event) {
+        
+        Parts_Coice.getItems().add("w");
+        
     }
     
     
