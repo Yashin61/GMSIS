@@ -39,11 +39,13 @@ public class Database {
             
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getString("RepairTime") +  "\t" + 
-                                   rs.getString("BookingType") + "\t" +
-                                   rs.getFloat("Bill") + "\t" +
+                System.out.println(rs.getInt("BookingID") +  "\t" + 
                                    rs.getString("RegistrationNumber") + "\t" +
-                                   rs.getString("BookingTime"));
+                                   rs.getString("BookingType") + "\t" +
+                                   rs.getString("BookingDate") + "\t" +
+                                   rs.getString("BookingTime") + "\t" +
+                                   rs.getString("RepairTime") + "\t" +
+                                   rs.getFloat("Bill"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

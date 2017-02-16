@@ -27,9 +27,9 @@ public class SpecialistDB
     private Object[] cols;
     private int rowsLength;
     private String[] SPCList;
-    String Recordurl = "JDBC:sqlite:Records2.db";
+    String Recordurl = "jdbc:sqlite:TestRecords.db";
     
-    public void addSPC(Object name)
+    public void addSPC(String name, String address, String phone, String email)
     {
         
         Connection conn = null;
@@ -40,11 +40,11 @@ public class SpecialistDB
             conn = DriverManager.getConnection(Recordurl);
 
             stmt = conn.createStatement();
-            String sql = "INSERT INTO SPC (SPCname) VALUES (" + "'" + name + "');"; 
+            String sql = "INSERT INTO SPC (SPCname, SPCaddress, SPCphone, SPCemail) "
+                    + "VALUES ("+"'"+name+"'"+",'"+address+"'"+phone+"'"+",'"+email+");"; 
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "A new SPC has been added. \n" + 
-                    "Remember to input it's details!");
+            JOptionPane.showMessageDialog(null, "A new SPC has been added. \n");
 
             stmt.close();
             conn.close();
@@ -54,34 +54,37 @@ public class SpecialistDB
         }
     }
     
-    public void editSupplier(Object id, Object information, int row, int col)
-    {
-        
+    public void editSPC(String id, String newData, int col)
+    {      
         Connection connect = null;
         Statement stmt = null;
-      
+        
         try
         {
-            if((id==null) && (col==1))
+            if(id.equals(""))
             {
-                this.addSPC(information);
+                System.out.println("error");
             } 
             else
             {    
-                String tableColumn ="";
-                if(col==1){ tableColumn = "SPCname";}
-                else if(col==2){ tableColumn =  "SPCaddress"; }
-                else if(col==3){ tableColumn = "SPCphone"; }
-                else if(col==4){ tableColumn = "SPCemail"; }
-                connect = DriverManager.getConnection(Recordurl);
-                stmt = connect.createStatement();
-                String sql = "UPDATE SPC SET "+ tableColumn + " = '" + information + "' "+ "WHERE SPCId = " + id + " ;";
+                try
+                {
+                    Integer newid = Integer.parseInt(id);
+                    String tableColumn ="";
+                    if(col==1){ tableColumn = "SPCname";}
+                    else if(col==2){ tableColumn =  "SPCaddress"; }
+                    else if(col==3){ tableColumn = "SPCphone"; }
+                    else if(col==4){ tableColumn = "SPCemail"; }
+                    connect = DriverManager.getConnection(Recordurl);
+                    stmt = connect.createStatement();
+                    String sql = "UPDATE SPC SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE SPCId = " + newid + " ;";
 
-                stmt.executeUpdate(sql);
-                JOptionPane.showMessageDialog(null, "SPC list has been updated");
+                    stmt.executeUpdate(sql);
+                    JOptionPane.showMessageDialog(null, "SPC list has been updated");
 
-                stmt.close();
-                connect.close();  
+                    stmt.close();
+                    connect.close();
+                }catch(NumberFormatException e){System.out.println("Error in converting the id");}
             }
         }catch(SQLException e)
         {
@@ -121,7 +124,7 @@ public class SpecialistDB
         try
         {
             //Connect to database 
-            connect = DriverManager.getConnection("JDBC:sqlite:/Users/prashant/Documents/NBProjects/SE8/GMSIS/src/common/Records2.db");
+            connect = DriverManager.getConnection(Recordurl);
             stmt = connect.createStatement();
             ResultSet set = stmt.executeQuery("SELECT SPCname FROM SPC");
 
