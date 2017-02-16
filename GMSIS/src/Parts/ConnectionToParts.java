@@ -20,8 +20,8 @@ public class ConnectionToParts {
         
         try 
         {
-           conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records3.db");
-            //conn = DriverManager.getConnection("jdbc:sqlite:Records1(2).db");
+           conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            //conn = DriverManager.getConnection("jdbc:sqlite:Records.db");
         }
         catch(SQLException e)
         {
