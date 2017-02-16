@@ -34,8 +34,6 @@ public class ConnectionToParts {
         int qty=0;
         String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts";
         Connection con=connect();
-            
-     
         try {
             
             Statement stats = con.createStatement();
@@ -85,7 +83,6 @@ public class ConnectionToParts {
     }
     
     public void IDSearch(int ID){
-     
         Connection con = connect();
         String sql = "SELECT ID,Name,Description,Quantity,Cost FROM Parts WHERE ID=?";
         try{
