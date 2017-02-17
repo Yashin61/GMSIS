@@ -14,17 +14,16 @@ public class Vehicle
     private String colour;
     private String registrationNumber;
     private int customerID;
-    private String warranty;
+    private int warrantyID;
     private String MOTRenewalDate;
     private String lastServiceDate;
     private String deliveryDate;
     private String returnDate;
-    private int WarrantyID;
     
     public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, 
             String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
-            int customerIDX, String warrantyX, String MOTRenewalDateX, 
-            String lastServiceDateX, String deliveryDateX, String returnDateX, int WarrantyID)
+            int customerIDX, int warrantyIDX, String MOTRenewalDateX, 
+            String lastServiceDateX, String deliveryDateX, String returnDateX)
     {
         vehicleType=vehicleTypeX;
         model=modelX;
@@ -35,7 +34,7 @@ public class Vehicle
         colour=colourX;
         registrationNumber=registrationNumberX;
         customerID=customerIDX;
-        warranty=warrantyX;
+        warrantyID=warrantyIDX;
         MOTRenewalDate=MOTRenewalDateX;
         lastServiceDate=lastServiceDateX;
         deliveryDate=deliveryDateX;
@@ -82,9 +81,9 @@ public class Vehicle
     {
         return customerID;
     }
-    public String getWarranty()
+    public int getWarrantyID()
     {
-        return warranty;
+        return warrantyID;
     }
     public String getMOTRenewalDate()
     {
@@ -102,4 +101,4 @@ public class Vehicle
     {
         return returnDate;
     }
-} 
+}
