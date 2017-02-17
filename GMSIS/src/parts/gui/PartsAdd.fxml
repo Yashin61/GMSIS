@@ -20,24 +20,23 @@
             <Image url="@../Car.png" />
          </image>
       </ImageView>
-      <Button layoutX="28.0" layoutY="321.0" mnemonicParsing="false" text="BACK" />
-      <Label layoutX="227.0" layoutY="39.0" prefHeight="55.0" prefWidth="215.0" text="Add Customer">
+      <Button fx:id="BAck_btn" layoutX="28.0" layoutY="321.0" mnemonicParsing="false" onAction="#close" text="BACK" />
+      <Label layoutX="227.0" layoutY="39.0" prefHeight="55.0" prefWidth="215.0" text="Edit Parts">
          <font>
             <Font name="Apple Braille" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="576.0" layoutY="321.0" mnemonicParsing="false" text="ADD" />
-      <Button layoutX="506.0" layoutY="321.0" mnemonicParsing="false" text="CLEAR" />
-      <Label fx:id="New_Part_Name" layoutX="41.0" layoutY="136.0" text="Name:" visible="false" />
-      <Label fx:id="New_Part_Description" layoutX="41.0" layoutY="168.0" text="Description:" visible="false" />
-      <Label fx:id="New_Part_Cost" layoutX="42.0" layoutY="198.0" text="Cost:" visible="false" />
-      <Label fx:id="New_Part_Quantity" layoutX="42.0" layoutY="228.0" text="Quantity:" visible="false" />
-      <TextField fx:id="txt_New_Part_Name" layoutX="120.0" layoutY="129.0" visible="false" />
-      <TextField fx:id="txt_New_Part_Description" layoutX="120.0" layoutY="160.0" visible="false" />
-      <TextField fx:id="txt_New_Part_Cost" layoutX="120.0" layoutY="190.0" visible="false" />
-      <TextField fx:id="txt_New_Part_Quantity" layoutX="120.0" layoutY="220.0" visible="false" />
-      <CheckBox fx:id="New_Part_Select" layoutX="554.0" layoutY="301.0" mnemonicParsing="false" onAction="#New_Part_Choice" text="New Part" />
-      <TableView layoutX="280.0" layoutY="107.0" prefHeight="192.0" prefWidth="345.0">
+      <Button fx:id="btn_Clear" layoutX="572.0" layoutY="321.0" mnemonicParsing="false" onAction="#Clear_Add_Page" text="CLEAR" />
+      <Label fx:id="New_Part_Name" disable="true" layoutX="42.0" layoutY="175.0" style="-fx-text-fill: black;" text="Name:" visible="false" />
+      <Label fx:id="New_Part_Description" layoutX="42.0" layoutY="207.0" text="Description:" visible="false" />
+      <Label fx:id="New_Part_Cost" layoutX="43.0" layoutY="237.0" text="Cost:" visible="false" />
+      <Label fx:id="New_Part_Quantity" layoutX="43.0" layoutY="267.0" text="Quantity:" visible="false" />
+      <TextField fx:id="txt_New_Part_Name" layoutX="121.0" layoutY="168.0" visible="false" />
+      <TextField fx:id="txt_New_Part_Description" layoutX="121.0" layoutY="199.0" visible="false" />
+      <TextField fx:id="txt_New_Part_Cost" layoutX="121.0" layoutY="229.0" visible="false" />
+      <TextField fx:id="txt_New_Part_Quantity" layoutX="121.0" layoutY="259.0" visible="false" />
+      <CheckBox fx:id="New_Part_Select" layoutX="554.0" layoutY="299.0" mnemonicParsing="false" onAction="#New_Part_Choice" text="New Part" />
+      <TableView layoutX="280.0" layoutY="105.0" prefHeight="192.0" prefWidth="345.0">
         <columns>
           <TableColumn prefWidth="36.0" text="ID" />
           <TableColumn prefWidth="63.0" text="Name" />
@@ -46,8 +45,8 @@
             <TableColumn prefWidth="89.0" text="Quantity" />
         </columns>
       </TableView>
-      <CheckBox fx:id="Update_CurrentPart" layoutX="384.0" layoutY="301.0" mnemonicParsing="false" onAction="#Update_Currrent_Part_V" text="Update Current Part Detail" />
-      <CheckBox fx:id="add_Quantity" layoutX="281.0" layoutY="301.0" mnemonicParsing="false" onAction="#add_quantity_V" text="Add Quantity" />
+      <CheckBox fx:id="Update_CurrentPart" layoutX="384.0" layoutY="299.0" mnemonicParsing="false" onAction="#Update_Currrent_Part_V" text="Update Current Part Detail" />
+      <CheckBox fx:id="add_Quantity" layoutX="281.0" layoutY="299.0" mnemonicParsing="false" onAction="#add_quantity_V" text="Add Quantity" />
       <Label fx:id="lbl_Search_ID_ID" layoutX="41.0" layoutY="113.0" text="ID" />
       <Label fx:id="lbl_Search_ID_Name" layoutX="39.0" layoutY="168.0" text="Name" />
       <Label fx:id="lbl_Search_ID_Description" layoutX="37.0" layoutY="223.0" text="Description" />
@@ -58,6 +57,7 @@
       <Label fx:id="lbl_Search_ID_QTY" layoutX="37.0" layoutY="282.0" text="Qty" />
       <TextField fx:id="txt_Search_ID_QTY" layoutX="120.0" layoutY="278.0" prefHeight="25.0" prefWidth="79.0" />
       <Button fx:id="btn_Add_Part_by_ID" layoutX="206.0" layoutY="278.0" mnemonicParsing="false" text="Add Part" />
+      <Button fx:id="Add_Quantity_btn" layoutX="228.0" layoutY="288.0" mnemonicParsing="false" text="ADD" visible="false" />
       
    </children>
 </AnchorPane>

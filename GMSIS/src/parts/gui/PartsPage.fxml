@@ -39,7 +39,7 @@
       <TextField fx:id="firstname" layoutX="144.0" layoutY="206.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="206.0" />
       <TextField fx:id="surname" layoutX="144.0" layoutY="260.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="260.0" />
       <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
-      <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
+      <Button fx:id="clear" layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clear" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
       <TableView fx:id="dataTable" layoutX="539.0" layoutY="131.0" prefHeight="322.0" prefWidth="416.0">
         <columns>
           <TableColumn fx:id="customer_ID" prefWidth="94.0" text="Customer ID" />
@@ -48,8 +48,8 @@
             <TableColumn fx:id="adr" prefWidth="95.0" text="Booking ID" />
         </columns>
       </TableView>
-      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="123.0" text="VIEW ALL PARTS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="779.0" layoutY="465.0" mnemonicParsing="false" text="EDIT" AnchorPane.rightAnchor="152.0" AnchorPane.topAnchor="465.0" />
+      <Button fx:id="Add_Parts" layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#Add_Parts" prefHeight="26.0" prefWidth="123.0" text="VIEW ALL PARTS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
+      <Button fx:id="Edit" layoutX="779.0" layoutY="465.0" mnemonicParsing="false" onAction="#Edit_Page" text="EDIT" AnchorPane.rightAnchor="152.0" AnchorPane.topAnchor="465.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Car.png" />
@@ -83,23 +83,23 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="339.0" style="-fx-background-color: white; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="email" layoutX="340.0" layoutY="339.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
       <Separator layoutX="327.0" layoutY="141.0" orientation="VERTICAL" prefHeight="311.0" prefWidth="6.0" />
-      <Label layoutX="340.0" layoutY="207.0" style="-fx-background-color: white; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="address" layoutX="340.0" layoutY="207.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="251.0" style="-fx-background-color: white; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="postcode" layoutX="340.0" layoutY="251.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="295.0" style="-fx-background-color: white; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="phone" layoutX="340.0" layoutY="295.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>

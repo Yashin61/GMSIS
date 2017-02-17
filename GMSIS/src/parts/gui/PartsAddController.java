@@ -66,6 +66,12 @@ public class PartsAddController implements Initializable {
     private TextField txt_Search_ID_QTY;
     @FXML
     private Button btn_Add_Part_by_ID;
+    @FXML
+    private Button Add_Quantity_btn;
+    @FXML
+    private Button BAck_btn;
+    @FXML
+    private Button btn_Clear;
 
     /**
      * Initializes the controller class.
@@ -77,36 +83,82 @@ public class PartsAddController implements Initializable {
     }    
 
     @FXML
-    private void New_Part_Choice(ActionEvent event) {
+    public void New_Part_Choice(ActionEvent event) {
         if(New_Part_Select.isSelected()){
+            Visibility_Curent_Parts_Update(false);
            Visibility_New_Parts(true);
+           add_Quantity.setSelected(false);
+           Update_CurrentPart.setSelected(false);
+           lbl_Search_ID_ID.setVisible(false);
+                   txt_ID_Search_ID.setVisible(false);
+                   Search_Part_by_ID_btn.setVisible(false);
+                   lbl_Search_ID_ID.setVisible(false);
         }
-       
+    }
+    @FXML
+    public void Update_Currrent_Part_V(ActionEvent event) {
+         if(Update_CurrentPart.isSelected()){
+           Visibility_Curent_Parts_Update(false);
+           Visibility_New_Parts(true);
+           add_Quantity.setSelected(false);
+           New_Part_Select.setSelected(false);
+            txt_ID_Search_ID.setVisible(true);
+                   Search_Part_by_ID_btn.setVisible(true);
+                   lbl_Search_ID_ID.setVisible(true);
+        }
+    }
+    public void add_quantity_V(ActionEvent event) {
+         if(add_Quantity.isSelected()){
+           Visibility_Curent_Parts_Update(true);
+           Visibility_New_Parts(false);
+                   New_Part_Select.setSelected(false); 
+           Update_CurrentPart.setSelected(false);
+        }
         
     }
+
     
-    public void Visibility_New_Parts(boolean t){
+    public void Search_Part(ActionEvent event) {
+        
+    }
+     public void Visibility_Curent_Parts_Update(boolean t){
+         
+
+  lbl_Search_ID_Name.setVisible(t);
+   lbl_Search_ID_Description.setVisible(t);
+    lbl_data_Name.setVisible(t);
+ lbl_data_Description.setVisible(t);
+lbl_Search_ID_QTY.setVisible(t);
+ txt_Search_ID_QTY.setVisible(t);
+   btn_Add_Part_by_ID.setVisible(t); 
+    }
+    
+      public void Visibility_New_Parts(boolean t){
          New_Part_Name.setVisible(t);
             New_Part_Description.setVisible(t);
             New_Part_Cost.setVisible(t);
             New_Part_Quantity.setVisible(t);
-            New_Part_Select.setVisible(t);
             txt_New_Part_Name.setVisible(t);
             txt_New_Part_Description.setVisible(t);
             txt_New_Part_Cost.setVisible(t);
             txt_New_Part_Quantity.setVisible(t);
+   Add_Quantity_btn.setVisible(t);
+            
     }
 
-    @FXML
-    private void Update_Currrent_Part_V(ActionEvent event) {
+  
+ 
+    public void close(ActionEvent event) {
     }
-
-    @FXML
-    private void add_quantity_V(ActionEvent event) {
+  
+   public void Clear_Add_Page(ActionEvent event) {
+            txt_Search_ID_QTY.clear();
+            txt_ID_Search_ID.clear();
+             txt_New_Part_Name.clear();
+    txt_New_Part_Description.clear();
+    txt_New_Part_Cost.clear();
+    txt_New_Part_Quantity.clear();
+    lbl_data_Name.setText("");
+    lbl_data_Description.setText("");
     }
-
-    @FXML
-    private void Search_Part(ActionEvent event) {
-    }
-    
 }

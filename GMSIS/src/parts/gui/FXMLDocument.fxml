@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Parts.gui.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="506.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.FXMLDocumentController">
    <children>
        <TableView layoutX="235.0" layoutY="261.0" prefHeight="85.0" prefWidth="351.0">
         <columns>
