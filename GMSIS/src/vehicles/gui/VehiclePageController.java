@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import java.sql.Connection;
 
-public class VehicleGUIController
+public class VehiclePageController
 {
     @FXML
     Pane pane;
