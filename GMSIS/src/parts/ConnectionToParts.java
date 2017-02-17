@@ -8,8 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
-//import org.sqlite.JDBC;
-import Parts.gui.*;
+import org.sqlite.JDBC;
+import parts.gui.*;
 
 public class ConnectionToParts {
  private Connection connect()
