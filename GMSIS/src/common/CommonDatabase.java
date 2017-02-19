@@ -47,6 +47,20 @@ public class CommonDatabase
         return this.connection;
     }
     
+    public static void main(String[] args)
+    {
+        try
+        {
+            CommonDatabase db = new CommonDatabase();
+            Connection conn = db.getConnection();
+            System.out.println("PASS");
+        }
+        catch(Exception e)
+        {
+            System.out.println("FAIL");
+        }
+        
+    }
     
        
     
