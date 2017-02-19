@@ -250,14 +250,22 @@ public class RealController implements Initializable
     private void openEditPage(ActionEvent event) throws IOException
     {
         allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
-        Stage stage = new Stage();
-        Parent root1 = (Parent) loader.load();
-        EditController controller = loader.<EditController>getController();
-        controller.initData(cust);
-        stage.setScene(new Scene(root1));  
-
-        stage.show(); 
+        if(cust == null)
+        {
+            System.out.println("No customer account selected");
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            EditController controller=fxmlLoader.<EditController>getController();
+            controller.setAllFields(cust, "business");
+            Stage stage = new Stage();
+            stage.setTitle("Edit Customer");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
     }
     
     
@@ -371,11 +379,32 @@ public class RealController implements Initializable
         }
     }
     
+    @FXML 
+    private void openViewAll(ActionEvent event) throws IOException
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            System.out.println("No customer account selected");
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewingDetails.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            viewController controller=fxmlLoader.<viewController>getController();
+            controller.setCustomer(cust);
+            Stage stage = new Stage();
+            stage.setTitle("View All Details");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
+    }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
+    public void initialize(URL url, ResourceBundle rb)  
     {
-         
+        
     }    
     
 }

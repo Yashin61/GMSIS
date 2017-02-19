@@ -5,10 +5,15 @@
  */
 package customer.gui;
 
+import common.CommonDatabase;
 import customer.logic.allCustomers;
 import customer.logic.customers;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
@@ -52,32 +57,73 @@ public class EditController implements Initializable
     @FXML
     private TextField ID;
     
-    private String fn;
-    private String sn;
-    private String a;
-    private String p;
-    private String pn;
-    private String e;
+    @FXML
+    private int customer_ID;
+    
+    @FXML
+    private String account;
     
     public void initialize(URL url, ResourceBundle rb)
     {
-        firstname.setText(fn);
-        surname.setText(sn);
-        address.setText(a);
-        postcode.setText(p);
-        phone.setText(pn);
-        email.setText(e);
     }
     
-    public void initData(allCustomers cust)
+    @FXML
+    public void setAllFields(allCustomers cust, String accountT)
     {
-        fn = cust.getFirstname();
-        sn = cust.getSurname();
-        a = cust.getAddress();
-        p = cust.getPostcode();
-        pn = cust.getPhone();
-        e = cust.getEmail();
-                
+        customer_ID = cust.getID();
+        account = accountT;
+        firstname.setText(cust.getFirstname());
+        surname.setText(cust.getSurname());
+        address.setText(cust.getAddress());
+        postcode.setText(cust.getPostcode());
+        phone.setText(cust.getPhone());
+        email.setText(cust.getEmail());
+        
+        
     }
+    
+    @FXML
+    private void edit(ActionEvent evt)
+    {
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        
+        if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
+        { 
+            System.out.println("Some fields are empty");
+        }
+        else
+        {
+            
+            String sql = "UPDATE Customer_Accounts SET Firstname = ? , " + "Surname = ? , " + "Address = ? , " + "Postcode = ? , " + "Phone = ? , " + "Email = ? , " + "Account = ? " + "WHERE ID = ?";
+               
+            try
+            {
+                connection = db.getConnection();
+                statement = connection.prepareStatement(sql);
+                
+                statement.setString(1, firstname.getText());         
+                statement.setString(2, surname.getText());
+                statement.setString(3, address.getText());
+                statement.setString(4, postcode.getText());
+                statement.setString(5, phone.getText());
+                statement.setString(6, email.getText());
+                statement.setString(7, account);
+                statement.setInt(8, customer_ID);
+                statement.executeUpdate();   
+                System.out.println("DONE");
+                
+            }
+            catch(SQLException e)    
+            {   
+                System.out.println(e.getMessage());
+                
+            }
+            
+        }
+        System.out.println(customer_ID);
+    }
+    
     
 }
