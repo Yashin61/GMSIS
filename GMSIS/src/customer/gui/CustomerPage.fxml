@@ -51,7 +51,7 @@
         </columns>
       </TableView>
       <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#displayCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL CUSTOMERS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" text="BOOKINGS" AnchorPane.rightAnchor="409.0" />
