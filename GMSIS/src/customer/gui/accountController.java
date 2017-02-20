@@ -10,7 +10,7 @@ package customer.gui;
  * @author Nandhini
  */
 
-import customer.ConnectToDatabase;
+//import customer.logic.customers;
 import customer.logic.customers;
 import java.net.URL;
 import java.util.ResourceBundle;

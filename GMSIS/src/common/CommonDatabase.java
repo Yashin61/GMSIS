@@ -47,51 +47,21 @@ public class CommonDatabase
         return this.connection;
     }
     
-    /**private Connection connect()
+    public static void main(String[] args)
     {
-        String url = "jdbc:sqlite:src/common/Records.db";
-        Connection conn = null;
+        try
+        {
+            CommonDatabase db = new CommonDatabase();
+            Connection conn = db.getConnection();
+            System.out.println("PASS");
+        }
+        catch(Exception e)
+        {
+            System.out.println("FAIL");
+        }
         
-        try 
-        {
-            conn = DriverManager.getConnection(url);
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return conn;
     }
     
-    public void selectAll()
-    {
-        String sql = "SELECT ID, Firstname, Surname, Postcode FROM Customer_Accounts";
-        
-        try(Connection conn = this.connect();
-            Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery(sql))
-            {
-                
-                while(rs.next())
-                {
-                    System.out.println(rs.getInt("ID") + "\t" + rs.getString("Firstname")  + 
-                            rs.getString("Surname") 
-                     + rs.getString("Postcode")); 
-                }
-                
-            }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-    }
-    public static void main(String[] args) throws Exception
-    {
-        CommonDatabase obj = new CommonDatabase();
-        obj.connect();
-        obj.selectAll();
-    }**/
        
     
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="322.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AuthenticationController">
+   <children>
+      <Label layoutX="114.0" layoutY="37.0" prefHeight="37.0" prefWidth="138.0" text="GMSIS LOGIN">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="113.0" text="User ID: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="162.0" text="Password:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="230.0" text="User Tye: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="id" layoutX="129.0" layoutY="108.0" prefHeight="26.0" prefWidth="189.0" />
+      <TextField fx:id="password" layoutX="129.0" layoutY="157.0" prefHeight="26.0" prefWidth="189.0" />
+      <RadioButton fx:id="admin_type" layoutX="129.0" layoutY="231.0" mnemonicParsing="false" selected="true" text="Admin">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="Type" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="user_type" layoutX="210.0" layoutY="230.0" mnemonicParsing="false" text="User" toggleGroup="$Type">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Button layoutX="260.0" layoutY="268.0" mnemonicParsing="false" onAction="#clickLogin" text="Login" />
+      <Button layoutX="195.0" layoutY="268.0" mnemonicParsing="false" text="Clear" />
+   </children>
+</AnchorPane>

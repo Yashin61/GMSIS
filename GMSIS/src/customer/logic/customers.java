@@ -19,7 +19,7 @@ import java.sql.Statement;
  */
 public class customers 
 {
-    
+    //private int id;
     private String firstname;
     private String surname;
     private String address;
@@ -28,9 +28,10 @@ public class customers
     private String email;
     private String account;
     
+    
     public customers(String fn, String sn, String a, String p, String pn, String e, String at)
     {
-
+        //id = identifier;
         firstname = fn;
         surname = sn;
         address = a;
@@ -39,6 +40,7 @@ public class customers
         email = e;
         account = at;
     }
+    
     
     public String getFirstname()
     {
@@ -92,11 +94,12 @@ public class customers
             statement.setString(5, getPostcode());
             statement.setString(6, getPhone());
             statement.setString(7, getEmail());
-            statement.executeUpdate();   
+            //statement.setString(8, getAccount());
+            statement.execute();   
         }
         catch(SQLException ex)
         {
-            System.out.println("ERROR");
+            ex.getMessage();
         }
         close(connection);
     }
@@ -117,9 +120,10 @@ public class customers
             statement.setString(5, getPostcode());
             statement.setString(6, getPhone());
             statement.setString(7, getEmail());
+            statement.execute(sql);   
             System.out.println("DONE");
         }
-        catch(Exception e)
+        catch(SQLException e)
         {
             System.out.println("ERROR");
         }
@@ -127,7 +131,7 @@ public class customers
     }
        
     
-    // Common close method to close the connection
+     //Common close method to close the connection
     public void close(Connection connection)
     {
         try

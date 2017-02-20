@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.viewController">
+   <children>
+      <ImageView fitHeight="90.0" fitWidth="77.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="283.0" layoutY="45.0" text="Customer Account Details">
+         <font>
+            <Font name="Apple Braille" size="18.0" />
+         </font>
+      </Label>
+      <TitledPane fx:id="bookingsPane" expanded="false" layoutX="14.0" layoutY="129.0" prefHeight="383.0" prefWidth="143.0" text="Past and Future Bookings">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </TitledPane>
+      <TitledPane fx:id="vehiclesPane" expanded="false" layoutX="210.0" layoutY="129.0" prefHeight="383.0" prefWidth="140.0" text="Vehicle Owned">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </TitledPane>
+      <TitledPane fx:id="partsPane" expanded="false" layoutX="360.0" layoutY="129.0" prefHeight="383.0" prefWidth="573.0" text="Parts">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

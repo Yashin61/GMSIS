@@ -1,21 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Author: yhk30--y.hosseinkhorrami@se15.qmul.ac.uk--150479358--Yashin Hossein Khorrami
+
 package vehicles;
 
-/**
- *
- * @author yhk30
- */
 public class Warranty
 {
+    private int warrantyID;
     private String name;
+    private String address;
+    private String expiryDate;
     
-    
-    public Warranty(String nameX)
+    public Warranty(int warrantyIDX, String nameX, String addressX, String expiryDateX)
     {
+        warrantyID=warrantyIDX;
         name=nameX;
+        address=addressX;
+        expiryDate=expiryDateX;
+    }
+    
+    public int getWarrantyID()
+    {
+        return warrantyID;
+    }
+    public String getName()
+    {
+        return name;
+    }
+    public String getAddress()
+    {
+        return address;
+    }
+    public String getExpiryDate()
+    {
+        return expiryDate;
     }
 }

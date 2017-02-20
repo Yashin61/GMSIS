@@ -11,8 +11,7 @@ package customer.gui;
  */
 
 import common.CommonDatabase;
-import customer.ConnectToDatabase;
-import customer.logic.customerDetails;
+import customer.logic.allCustomers;
 import customer.logic.customers;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +26,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -45,7 +45,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 
 
 public class RealController implements Initializable 
@@ -84,42 +89,50 @@ public class RealController implements Initializable
     private RadioButton business_type; 
     
     @FXML
-    private TableView<customerDetails> dataTable;
+    private TableView<allCustomers> dataTable;
 
     @FXML
-    private TableColumn<customerDetails, Integer> customer_ID;
+    private TableColumn<allCustomers, Integer> customer_ID;
 
     @FXML
-    private TableColumn<customerDetails, String> first;
+    private TableColumn<allCustomers, String> first;
 
     @FXML
-    private TableColumn<customerDetails, String> sur;
+    private TableColumn<allCustomers, String> sur;
 
     @FXML
-    private TableColumn<customerDetails, String> adr;
+    private TableColumn<allCustomers, String> adr;
 
     @FXML
-    private TableColumn<customerDetails, String> post;
+    private TableColumn<allCustomers, String> post;
 
     @FXML
-    private TableColumn<customerDetails, String> mobile;
+    private TableColumn<allCustomers, String> mobile;
 
     @FXML
-    private TableColumn<customerDetails, String> ema;
+    private TableColumn<allCustomers, String> ema;
 
     @FXML
     private TextField regNumber;
+    
+    @FXML
+    private ObservableList<allCustomers> data;
+    
+    
+    @FXML
+    private Button yesButton;
 
-    private ObservableList<customerDetails>data;
+    @FXML
+    private Button noButton;
+
     
-    
-    
-    public void add(ActionEvent evt)
+    @FXML
+    private void add(ActionEvent evt)
     {
         if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
         { 
-            System.out.println("Fill in all details");
-            clearDetails(evt);
+            openMissing();
+            //clearDetails(evt);
         }
         else
         {
@@ -130,14 +143,14 @@ public class RealController implements Initializable
             }
 
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email) VALUES(?, ?, ?, ?, ?, ?, ?)";
-            acc.addCustomer(sql); 
+            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            acc.addCustomer(sql);
             clearDetails(evt);
         }
     }
     
-    
-    public void searchEdit(ActionEvent evt)
+    @FXML
+    private void searchEdit(ActionEvent evt)
     {
         if(ID.getText() == null){}
         else
@@ -188,7 +201,8 @@ public class RealController implements Initializable
         }
     }
     
-    public void edit(ActionEvent evt)
+    @FXML
+    private void edit(ActionEvent evt)
     {
         if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
         { 
@@ -197,7 +211,7 @@ public class RealController implements Initializable
         else
         {
             int id = Integer.parseInt(ID.getText());
-            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= '"+email.getText()+"' WHERE ID= '"+ id + "' ";
+            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= "+email.getText()+" WHERE ID= "+ id + "; ";
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), "private");
             acc.editCustomer(sql, id);   
         }
@@ -235,11 +249,127 @@ public class RealController implements Initializable
     @FXML
     private void openEditPage(ActionEvent event) throws IOException
     {
-        try
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            System.out.println("No customer account selected");
+        }
+        else
         {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
+            EditController controller=fxmlLoader.<EditController>getController();
+            controller.setAllFields(cust, "business");
             Stage stage = new Stage();
+            stage.setTitle("Edit Customer");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
+    }
+    
+    
+    @FXML
+    private void deleteCustomer(ActionEvent event)
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            System.out.println("No customer account selected");
+        }
+        else
+        {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Do you want to continue deleting the account?");
+            
+            ButtonType yes = new ButtonType("YES");
+            ButtonType no = new ButtonType("NO");
+            alert.getButtonTypes().setAll(yes, no);
+            
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if(result.get() == yes)
+            {
+            
+                int cust_id = cust.getID();
+                String sql = "DELETE FROM Customer_Accounts WHERE ID = ?";
+                CommonDatabase db = new CommonDatabase();
+                Connection connection = null;
+
+                try
+                {
+                    connection = db.getConnection();
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    statement.setInt(1, cust_id);
+                    statement.executeUpdate();
+                }
+                catch(SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
+            else
+            {
+                alert.close();
+            }
+        }
+       
+    }
+    
+    
+  
+    @FXML
+    private void displayCustomers(ActionEvent event)
+    {
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = null;
+        
+        try
+        {
+            connection = db.getConnection();
+            data = FXCollections.observableArrayList();
+            
+            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Customer_Accounts");
+            while(rs.next())
+            {
+                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work");
+        }
+        
+        
+        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        
+        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        
+        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        
+        adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        
+        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        
+        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        
+        ema.setCellValueFactory(new PropertyValueFactory("Email"));
+  
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+                
+    }
+    
+    @FXML
+    public void openMissing()
+    {
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Missing.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Missing fields");
             stage.setScene(new Scene(root1));  
             stage.show();
         } 
@@ -247,57 +377,33 @@ public class RealController implements Initializable
         {
            e.printStackTrace();
         }
-    
-    }
-   
-    
-    private void setCellTable()
-    {
-        customer_ID.setCellValueFactory(new PropertyValueFactory("id"));
-        
-        first.setCellFactory(new PropertyValueFactory("firstname"));
-        sur.setCellFactory(new PropertyValueFactory("surname"));
-        adr.setCellFactory(new PropertyValueFactory("address"));
-        post.setCellFactory(new PropertyValueFactory("postcode"));
-        mobile.setCellFactory(new PropertyValueFactory("phone"));
-        ema.setCellFactory(new PropertyValueFactory("email"));
     }
     
-    private void loadDataFromDatabase()
+    @FXML 
+    private void openViewAll(ActionEvent event) throws IOException
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
-        try
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
         {
-            PreparedStatement statement = connection.prepareStatement("select * from Customer_Accounts");
-            ResultSet rs = statement.executeQuery();
-            while(rs.next())
-            {
-                data.add(new customerDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
-            }
+            System.out.println("No customer account selected");
         }
-        catch(SQLException e)
+        else
         {
-            System.out.println("error");
-        }
-        
-        dataTable.setItems(data);
-        
-    }
-    
-    @FXML
-    private void viewAllCustomers(ActionEvent event)
-    {
-        data = FXCollections.observableArrayList();
-        setCellTable();
-        loadDataFromDatabase();
-        
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewingDetails.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            viewController controller=fxmlLoader.<viewController>getController();
+            controller.setCustomer(cust);
+            Stage stage = new Stage();
+            stage.setTitle("View All Details");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
+    public void initialize(URL url, ResourceBundle rb)  
     {
-        // TODO
         
     }    
     
