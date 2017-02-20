@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package parts.gui;
-
+import parts.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,8 +17,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TableView;
+import javafx.collections.ObservableList;
+
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -82,13 +92,29 @@ public class PartsEditController implements Initializable {
     private Label txt_ID_Name;
     @FXML
     private Label txt_ID_Cost;
-
+    @FXML
+    private Button Search_Parts_Using_ID;
+    @FXML
+    private TableColumn<?, ?> Customer_ID;
+    @FXML
+    private TableColumn<?, ?> Reg_no;
+    @FXML
+    private TableColumn<?, ?> Part_ID;
+    @FXML
+    private TableColumn<?, ?> Booking_ID;
+    @FXML
+    private TableView<Customers_Parts_Edit> Customers_Parts_Edit;
+    
+    private static ObservableList<Customers_Parts_Edit> l;
     /**
      * Initializes the controller class.
+     * 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+       
+        
     }    
 
     @FXML
@@ -104,8 +130,21 @@ public class PartsEditController implements Initializable {
 
     @FXML
     private void Search_ID(ActionEvent event) {
+        ObservableList<Customers_Parts_Edit> list=null;
+        table_controles tb = new table_controles();
+        tb.partstable(Customers_Parts_Edit);
+        int i = Integer.parseInt(txt_Search_By_ID.getText());
+         String s=txt_Search_By_ID.getText();
+        ConnectionToParts cn = new ConnectionToParts();
+       ArrayList<Customers_Parts_Edit> p = cn.SearchCustomerparts(i);
+       
+              System.out.println(p.get(0).getregNo());
+       
+       for(int a = 0 ; a<= p.size() ; a++ ){
+              list = FXCollections.observableArrayList(new Customers_Parts_Edit(i,p.get(a).getregNo(),p.get(a).getpID(),p.get(a).getbID()));
+       }
+       Customers_Parts_Edit.setItems(list);
     }
-
     @FXML
     private void Search_using_Surname_Firstname(ActionEvent event) {
     }
@@ -150,6 +189,14 @@ txt_colour_display.setText("");
   txt_Make_display.setText("");
   txt_RN_display.setText("");
 
+    }
+
+    @FXML
+    private void Search_ID_Parts(ActionEvent event) {
+        Parts p = new Parts(Integer.parseInt(Search_ID_txt.getText()));
+        Parts newP=p.SeachByID();
+        txt_ID_Name.setText(newP.Description());
+        txt_ID_Cost.setText(newP.Cost());
     }
     
     

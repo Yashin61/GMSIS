@@ -40,8 +40,6 @@ public class PartsPageController implements Initializable {
     @FXML
     private TableColumn<?, ?> sur;
     @FXML
-    private TableColumn<?, ?> adr;
-    @FXML
     private TextField regNumber;
     @FXML
     private Button Edit;
@@ -57,6 +55,8 @@ public class PartsPageController implements Initializable {
     private Label phone;
     @FXML
     private Button clear;
+    @FXML
+    private TableColumn<?, ?> booking;
 
     /**
      * Initializes the controller class.

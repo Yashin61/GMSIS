@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -134,7 +135,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void Refresh_Parts(KeyEvent event) {
+    private void Refresh_Parts(MouseEvent event) {
         
       
         

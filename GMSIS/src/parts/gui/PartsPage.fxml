@@ -45,7 +45,7 @@
           <TableColumn fx:id="customer_ID" prefWidth="94.0" text="Customer ID" />
           <TableColumn fx:id="first" prefWidth="161.0" text="Registration Number" />
             <TableColumn fx:id="sur" prefWidth="65.0" text="Parts ID" />
-            <TableColumn fx:id="adr" prefWidth="95.0" text="Booking ID" />
+            <TableColumn fx:id="booking" prefWidth="95.0" text="Booking ID" />
         </columns>
       </TableView>
       <Button fx:id="Add_Parts" layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#Add_Parts" prefHeight="26.0" prefWidth="123.0" text="VIEW ALL PARTS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />

@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package parts.gui;
-
+import parts.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -72,6 +77,19 @@ public class PartsAddController implements Initializable {
     private Button BAck_btn;
     @FXML
     private Button btn_Clear;
+    @FXML
+    private TableView<Parts_Table> parts_table;
+     private ObservableList<Parts_Table> l;
+    @FXML
+    private TableColumn<Parts_Table, Integer> id;
+    @FXML
+    private TableColumn<Parts_Table, String> name;
+    @FXML
+    private TableColumn<Parts_Table, String> description;
+    @FXML
+    private TableColumn<Parts_Table, String> cost;
+    @FXML
+    private TableColumn<Parts_Table, Integer> qty;
 
     /**
      * Initializes the controller class.
@@ -80,6 +98,9 @@ public class PartsAddController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+           table_controles tb = new table_controles();
+        tb.parts_d_table(parts_table);
+      l = tb.getParts(parts_table);
     }    
 
     @FXML
@@ -107,19 +128,33 @@ public class PartsAddController implements Initializable {
                    lbl_Search_ID_ID.setVisible(true);
         }
     }
+    @FXML
     public void add_quantity_V(ActionEvent event) {
          if(add_Quantity.isSelected()){
            Visibility_Curent_Parts_Update(true);
            Visibility_New_Parts(false);
                    New_Part_Select.setSelected(false); 
            Update_CurrentPart.setSelected(false);
+           lbl_Search_ID_ID.setVisible(true);
+           txt_ID_Search_ID.setVisible(true);
+           Search_Part_by_ID_btn.setVisible(true);
         }
         
     }
 
     
+    @FXML
     public void Search_Part(ActionEvent event) {
+         Parts pa = new Parts(Integer.parseInt(txt_ID_Search_ID.getText()));
+        Parts newP=pa.SeachByID();
+      lbl_data_Name.setText(newP.name());
+        lbl_data_Description.setText(newP.Description());
         
+        txt_Search_ID_QTY.setText(Integer.toString(newP.qty()));
+       
+        table_controles tb = new table_controles();
+        tb.parts_d_table(parts_table);
+      l = tb.getParts(parts_table);
     }
      public void Visibility_Curent_Parts_Update(boolean t){
          
@@ -148,9 +183,11 @@ lbl_Search_ID_QTY.setVisible(t);
 
   
  
+    @FXML
     public void close(ActionEvent event) {
     }
   
+    @FXML
    public void Clear_Add_Page(ActionEvent event) {
             txt_Search_ID_QTY.clear();
             txt_ID_Search_ID.clear();
