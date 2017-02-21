@@ -58,7 +58,7 @@ public class LoginController implements Initializable {
         String passWord = password.getText();
         Connection connect = null;
         Statement stmt = null;      
-        /*
+        
         try
         {
             //Connect to database 
@@ -70,9 +70,17 @@ public class LoginController implements Initializable {
                 if(username.equals(set.getString("Username")) && passWord.equals(set.getString("Password")))
                 {
                     System.out.println("HELLO");
+                    AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
+                    rootPane.getChildren().setAll(pane);
                 }
-            }*/
-            if(username.equals("hello") && passWord.equals("ok"))
+                else
+                {
+                    System.out.println("Incorrect username or password");
+                    user.clear();
+                    password.clear();
+                }
+            }
+            /*if(username.equals("hello") && passWord.equals("ok"))
             {
                 System.out.println("HELLO");
                 AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
@@ -84,9 +92,9 @@ public class LoginController implements Initializable {
                 System.out.println("Incorrect username or password");
                 user.clear();
                 password.clear();
-            }
+            }*/
 
-            /*
+            
             stmt.close();
             set.close();
             connect.close();
@@ -94,7 +102,7 @@ public class LoginController implements Initializable {
           }catch(SQLException e)
           {
               JOptionPane.showMessageDialog(null, "Login cannot be located");   
-          } */
+          } 
     }
 
         

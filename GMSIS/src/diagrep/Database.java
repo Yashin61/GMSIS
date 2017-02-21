@@ -21,7 +21,7 @@ public class Database {
      */
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:src/common/Records3.db";
+        String url = "jdbc:sqlite:src/common/Records.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -52,24 +52,6 @@ public class Database {
         }
     }
     
-    private void selectCustomer(){
-        String sql = "SELECT * FROM Customer_Accounts";
-        try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
-            
-            // loop through the result set
-            while (rs.next()) {
-                System.out.println(rs.getInt("ID") +  "\t" + 
-                                   rs.getString("Firstname") + "\t" +
-                                   rs.getFloat("Surname") + "\t" +
-                                   rs.getString("Address") + "\t" +
-                                   rs.getString("Postcode"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
         
     /**
      * @param args the command line arguments
