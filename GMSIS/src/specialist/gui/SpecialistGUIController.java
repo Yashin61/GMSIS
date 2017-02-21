@@ -5,6 +5,7 @@
  */
 package specialist.gui;
 
+import specialist.logic.SpecialistDB;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import common.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+import specialist.logic.theSPC;
 
 /**
  * FXML Controller class
@@ -28,7 +33,7 @@ import common.*;
  */
 public class SpecialistGUIController implements Initializable {
 
-     @FXML
+    @FXML
     private AnchorPane rootPane;
     @FXML
     private TextField spcId;
@@ -57,22 +62,29 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void clearSearchAddEdit(ActionEvent event)
     {
-        spcId.setText(null);
-        spcName.setText(null);
-        spcAddress.setText(null);
-        spcPhone.setText(null);
-        spcEmail.setText(null);
+        spcId.clear();
+        spcName.clear();
+        spcAddress.clear();
+        spcPhone.clear();
+        spcEmail.clear();
     }
     
     @FXML
-    private void SpcPage(ActionEvent event) throws IOException
+    private void specificSpcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcRepairer.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
     @FXML
-    private void SpcAddPage(ActionEvent event) throws IOException
+    private void spcPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void spcAddPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("addSPC.fxml"));
         rootPane.getChildren().setAll(pane);
@@ -93,7 +105,7 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void AddSpcButton(ActionEvent event) 
+    private void addSpcButton(ActionEvent event) throws IOException
     {
         String id = spcId.getText();
         String name = spcName.getText();
@@ -113,14 +125,14 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void SpcEditPage(ActionEvent event) throws IOException
+    private void spcEditPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
     @FXML
-    private void UpdateSpcButton(ActionEvent event) 
+    private void updateSpcButton(ActionEvent event) throws IOException
     {
         //get all the texts first
         String id = spcId.getText();
@@ -142,6 +154,34 @@ public class SpecialistGUIController implements Initializable {
         {
             System.out.println("Please input all the details.");
         }
+    }
+    
+    @FXML
+    private void deleteSPCButton(ActionEvent event) throws IOException
+    {
+        //get the selection. from there the name and id
+        //then delete it using the method in specialistdb
+    }
+    
+    @FXML
+    private void showData(ActionEvent event) throws IOException
+    {
+        
+        tableSpcId.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableSpcName.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tableSpcAddress.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        dataTable = new TableView<>();
+        //dataTable.setItems(getproduct());
+        //dataTable.getColumns().addAll(tableSpcId,tableSpcName,tableSpcAddress);
+    }
+    
+    public ObservableList<theSPC> getproduct()
+    {
+        ObservableList<theSPC> products = FXCollections.observableArrayList();
+        SpecialistDB data = new SpecialistDB();
+        data.getSPC();
+        //products.add(new theSPC());
+        return products;
     }
     
     /**

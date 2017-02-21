@@ -12,12 +12,7 @@ package common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.sqlite.JDBC;
 
 public class CommonDatabase 
 {
@@ -28,7 +23,7 @@ public class CommonDatabase
     {
         try
         {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:Records.db");
         }
         catch(SQLException e)
         {
@@ -46,22 +41,7 @@ public class CommonDatabase
     {
         return this.connection;
     }
-    
-    public static void main(String[] args)
-    {
-        try
-        {
-            CommonDatabase db = new CommonDatabase();
-            Connection conn = db.getConnection();
-            System.out.println("PASS");
-        }
-        catch(Exception e)
-        {
-            System.out.println("FAIL");
-        }
-        
-    }
-    
-       
-    
+
 }
+    
+
