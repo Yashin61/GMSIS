@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
-import common.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +29,7 @@ public class SpecialistDB
     private Object[] cols;
     private int rowsLength;
     private String[] SPCList;
-    String Recordurl = "jdbc:sqlite:src/common/Records.db";
+    String Recordurl = "jdbc:sqlite:src/spcpage/TestRecords.db";
     
     public void addSPC(String name, String address, String phone, String email)
     {
@@ -44,7 +43,7 @@ public class SpecialistDB
 
             stmt = conn.createStatement();
             String sql = "INSERT INTO SPC (SPCname, SPCaddress, SPCphone, SPCemail) "
-                    + "VALUES ("+"'"+name+"'"+",'"+address+"'"+phone+"'"+",'"+email+");"; 
+                    + "VALUES ("+"'"+name+"','"+address+"','"+phone+"','"+email+"');"; 
 
             stmt.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "A new SPC has been added. \n");
@@ -53,7 +52,7 @@ public class SpecialistDB
             conn.close();
         }catch(SQLException e)
         {
-             JOptionPane.showMessageDialog(null, "Failed to add a new SPC");
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -91,7 +90,7 @@ public class SpecialistDB
             }
         }catch(SQLException e)
         {
-           JOptionPane.showMessageDialog(null, "Update Failed");
+           Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -114,7 +113,7 @@ public class SpecialistDB
             connect.close();
         }catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(null, "Failed to delete SPC.");
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
