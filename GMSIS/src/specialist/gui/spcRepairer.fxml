@@ -28,6 +28,6 @@
       <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="SELECT" AnchorPane.rightAnchor="409.0" />
+      <Button layoutX="142.0" layoutY="499.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="SELECT" AnchorPane.rightAnchor="762.0" />
    </children>
 </AnchorPane>
