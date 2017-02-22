@@ -16,49 +16,65 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
+<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
    <children>
-      <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <Button layoutX="118.0" layoutY="61.0" mnemonicParsing="false" text="HOME" />
-      <Button layoutX="176.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
-      <Button layoutX="485.0" layoutY="61.0" mnemonicParsing="false" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
-      <Button layoutX="345.0" layoutY="61.0" mnemonicParsing="false" text="VEHICLE RECORDS" />
-      <Button layoutX="738.0" layoutY="61.0" mnemonicParsing="false" text="PARTS" />
-      <Button layoutX="799.0" layoutY="61.0" mnemonicParsing="false" text="SPECIALIST REPAIRS" />
-      <Button layoutX="461.0" layoutY="537.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="461.0" AnchorPane.topAnchor="537.0" />
-      <Button layoutX="370.0" layoutY="537.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="537.0" />
-      <TableView fx:id="dataTable" layoutX="7.0" layoutY="130.0" prefHeight="322.0" prefWidth="949.0">
-        <columns>
-            <TableColumn fx:id="VehicleType" text="Vehicle Type" />
-            <TableColumn fx:id="make" text="Make" />
-            <TableColumn fx:id="model" text="Model" />
-            <TableColumn fx:id="year" text="Year" />
-            <TableColumn fx:id="engineSize" text="Engine Size" />
-            <TableColumn fx:id="fuelType" text="Fuel Type" />
-            <TableColumn fx:id="milage" text="Milage" />
-            <TableColumn fx:id="colour" text="Colour" />
-            <TableColumn fx:id="registrationNumber" text="Registration Number" />
-            <TableColumn fx:id="customerID" text="Customer ID" />
-            <TableColumn fx:id="warrantyID" text="Warranty ID" />
-            <TableColumn fx:id="MOTRenewalDate" text="MOT Renewal Date" />
-            <TableColumn fx:id="lastServiceDate" text="Last Service Date" />
-            <TableColumn fx:id="deliveryDate" text="Delivery Date" />
-            <TableColumn fx:id="returnDate" text="Return Date" />
-        </columns>
-      </TableView>
-      <Button layoutX="902.0" layoutY="463.0" mnemonicParsing="false" text="DELETE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="463.0" />
-      <Button layoutX="854.0" layoutY="463.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="463.0" />
-      <Button layoutX="813.0" layoutY="463.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="463.0" />
-      <ImageView fitHeight="118.0" fitWidth="101.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+      <Button layoutX="248.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="537.0" layoutY="61.0" mnemonicParsing="false" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
+      <Button layoutX="406.0" layoutY="61.0" mnemonicParsing="false" text="VEHICLE RECORDS" />
+      <Button layoutX="768.0" layoutY="61.0" mnemonicParsing="false" text="PARTS" />
+      <Button layoutX="832.0" layoutY="61.0" mnemonicParsing="false" text="SPECIALIST REPAIRS" />
+      <Label layoutX="17.0" layoutY="478.0" text="Search Vehicle">
+         <font>
+            <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
+         </font>
+      </Label>
+      <Button layoutX="235.0" layoutY="543.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="543.0" />
+      <Button layoutX="362.0" layoutY="543.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="362.0" AnchorPane.topAnchor="543.0" />
+      <ScrollPane layoutX="-1.0" layoutY="125.0" prefHeight="306.0" prefWidth="1085.0">
+         <content>
+            <TableView fx:id="dataTable" prefHeight="329.0" prefWidth="1226.0">
+              <columns>
+                  <TableColumn fx:id="VehicleType" text="Vehicle Type" />
+                  <TableColumn fx:id="make" prefWidth="51.0" text="Make" />
+                  <TableColumn fx:id="model" prefWidth="70.0" text="Model" />
+                  <TableColumn fx:id="year" prefWidth="67.0" text="Year" />
+                  <TableColumn fx:id="engineSize" prefWidth="84.0" text="Engine Size" />
+                  <TableColumn fx:id="fuelType" prefWidth="78.0" text="Fuel Type" />
+                  <TableColumn fx:id="milage" prefWidth="91.0" text="Milage" />
+                  <TableColumn fx:id="colour" prefWidth="66.0" text="Colour" />
+                  <TableColumn fx:id="registrationNumber" prefWidth="91.0" text="Registration Number" />
+                  <TableColumn fx:id="customerID" minWidth="0.0" prefWidth="68.0" text="Customer ID" />
+                  <TableColumn fx:id="warrantyID" minWidth="0.0" prefWidth="82.0" text="Warranty ID" />
+                  <TableColumn fx:id="MOTRenewalDate" minWidth="0.0" prefWidth="36.0" text="MOT Renewal Date" />
+                  <TableColumn fx:id="lastServiceDate" prefWidth="176.0" text="Last Service Date" />
+                  <TableColumn fx:id="deliveryDate" text="Delivery Date" />
+                  <TableColumn fx:id="returnDate" text="Return Date" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#displayCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" onAction="#openViewAll" text="VIEW ALL DETAILS" AnchorPane.rightAnchor="409.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../common/Car.png" />
          </image>
       </ImageView>
-      <Label layoutX="21.0" layoutY="497.0" text="Vehicle Registration Number:">
+      <Label layoutX="14.0" layoutY="519.0" text="Vehicle Registration Number:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="regNumber" layoutX="242.0" layoutY="495.0" prefHeight="26.0" prefWidth="291.0" />
+      <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" />
+      <MenuButton layoutX="919.0" layoutY="507.0" mnemonicParsing="false" text="VIEW VEHICLES BY TYPE">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Car" />
+          <MenuItem mnemonicParsing="false" text="Van" />
+        </items>
+      </MenuButton>
    </children>
 </AnchorPane>
