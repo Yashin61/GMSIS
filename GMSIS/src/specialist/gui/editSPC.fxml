@@ -35,7 +35,7 @@
       </Label>
       <TextField fx:id="spcId" layoutX="275.0" layoutY="214.0" prefHeight="26.0" prefWidth="200.0" />
       <TextField fx:id="spcAddress" layoutX="275.0" layoutY="264.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button layoutX="725.0" layoutY="411.0" mnemonicParsing="false" onAction="#updateSpcButton" text="UPDATE" />
+      <Button layoutX="725.0" layoutY="411.0" mnemonicParsing="false" onAction="#UpdateSpcButton" text="UPDATE" />
       <Button layoutX="655.0" layoutY="411.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" text="CLEAR" />
       <Label layoutX="188.0" layoutY="317.0" text="EMAIL:">
          <font>
