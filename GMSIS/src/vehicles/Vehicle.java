@@ -2,103 +2,108 @@
 
 package vehicles;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Vehicle
 {
-    private String vehicleType;
-    private String make;
-    private int model;
-    private int year;
-    private String engineSize;
-    private String fuelType;
-    private int milage;
-    private String colour;
-    private String registrationNumber;
-    private int customerID;
-    private int warrantyID;
-    private String MOTRenewalDate;
-    private String lastServiceDate;
-    private String deliveryDate;
-    private String returnDate;
+    private StringProperty vehicleType;
+    private StringProperty make;
+    private IntegerProperty model;
+    private IntegerProperty year;
+    private StringProperty engineSize;
+    private StringProperty fuelType;
+    private IntegerProperty milage;
+    private StringProperty colour;
+    private StringProperty registrationNumber;
+    private IntegerProperty customerID;
+    private IntegerProperty warrantyID;
+    private StringProperty MOTRenewalDate;
+    private StringProperty lastServiceDate;
+    private StringProperty deliveryDate;
+    private StringProperty returnDate;
     
-    public Vehicle(String vehicleTypeX, int modelX, int yearX, String engineSizeX, 
+    public Vehicle(String vehicleTypeX, String makeX, int modelX, int yearX, String engineSizeX, 
             String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
             int customerIDX, int warrantyIDX, String MOTRenewalDateX, 
             String lastServiceDateX, String deliveryDateX, String returnDateX)
     {
-        vehicleType=vehicleTypeX;
-        model=modelX;
-        year=yearX;
-        engineSize=engineSizeX;
-        fuelType=fuelTypeX;
-        milage=milageX;
-        colour=colourX;
-        registrationNumber=registrationNumberX;
-        customerID=customerIDX;
-        warrantyID=warrantyIDX;
-        MOTRenewalDate=MOTRenewalDateX;
-        lastServiceDate=lastServiceDateX;
-        deliveryDate=deliveryDateX;
-        returnDate=returnDateX;
+        vehicleType=new SimpleStringProperty(vehicleTypeX);
+        make=new SimpleStringProperty(makeX);
+        model=new SimpleIntegerProperty(modelX);
+        year=new SimpleIntegerProperty(yearX);
+        engineSize=new SimpleStringProperty(engineSizeX);
+        fuelType=new SimpleStringProperty(fuelTypeX);
+        milage=new SimpleIntegerProperty(milageX);
+        colour=new SimpleStringProperty(colourX);
+        registrationNumber=new SimpleStringProperty(registrationNumberX);
+        customerID=new SimpleIntegerProperty(customerIDX);
+        warrantyID=new SimpleIntegerProperty(warrantyIDX);
+        MOTRenewalDate=new SimpleStringProperty(MOTRenewalDateX);
+        lastServiceDate=new SimpleStringProperty(lastServiceDateX);
+        deliveryDate=new SimpleStringProperty(deliveryDateX);
+        returnDate=new SimpleStringProperty(returnDateX);
     }
-    
-    public String getVehicleType()
-    {
+
+    public StringProperty getVehicleType() {
         return vehicleType;
     }
-    public String getMake()
-    {
+
+    public StringProperty getMake() {
         return make;
     }
-    public int getModel()
-    {
+
+    public IntegerProperty getModel() {
         return model;
     }
-    public int getYear()
-    {
+
+    public IntegerProperty getYear() {
         return year;
     }
-    public String getEngineSize()
-    {
+
+    public StringProperty getEngineSize() {
         return engineSize;
     }
-    public String getFuelType()
-    {
+
+    public StringProperty getFuelType() {
         return fuelType;
     }
-    public int getMilage()
-    {
+
+    public IntegerProperty getMilage() {
         return milage;
     }
-    public String getColour()
-    {
+
+    public StringProperty getColour() {
         return colour;
     }
-    public String getRegistrationNumber()
-    {
+
+    public StringProperty getRegistrationNumber() {
         return registrationNumber;
     }
-    public int getCustomerID()
-    {
+
+    public IntegerProperty getCustomerID() {
         return customerID;
     }
-    public int getWarrantyID()
-    {
+
+    public IntegerProperty getWarrantyID() {
         return warrantyID;
     }
-    public String getMOTRenewalDate()
-    {
+
+    public StringProperty getMOTRenewalDate() {
         return MOTRenewalDate;
     }
-    public String getLastServiceDate()
-    {
+
+    public StringProperty getLastServiceDate() {
         return lastServiceDate;
     }
-    public String getDeliveryDate()
-    {
+
+    public StringProperty getDeliveryDate() {
         return deliveryDate;
     }
-    public String getReturnDate()
-    {
+
+    public StringProperty getReturnDate() {
         return returnDate;
     }
 }
