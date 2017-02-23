@@ -25,17 +25,20 @@ public class allCustomers
     private final StringProperty postcode;
     private final StringProperty email;
     private final StringProperty phone;
+    private final StringProperty type;
     //private final StringProperty account;
     
-    public allCustomers(Integer ID, String fn, String sn, String a, String p, String e, String pn)
+    public allCustomers(Integer ID, String fn, String sn, String a, String p, String pn, String e, String at)
     {
         this.id = new SimpleIntegerProperty(ID);
         this.firstname = new SimpleStringProperty(fn);
         this.surname = new SimpleStringProperty(sn);
         this.address = new SimpleStringProperty(a);
         this.postcode = new SimpleStringProperty(p);
-        this.email = new SimpleStringProperty(e);
         this.phone = new SimpleStringProperty(pn);
+        this.email = new SimpleStringProperty(e);
+        this.type = new SimpleStringProperty(at);
+        
         //this.account = new SimpleStringProperty(at);
 
     }
@@ -75,6 +78,11 @@ public class allCustomers
         return phone.get();
     }
     
+    public String getAccount()
+    {
+        return type.get();
+    }
+    
     public IntegerProperty idProperty()
     {
         return id;
@@ -110,6 +118,11 @@ public class allCustomers
         return email;
     }
     
+    public StringProperty accountProperty()
+    {
+        return type;
+    }
+    
     public void setID(Integer v)
     {
         id.set(v);
@@ -143,6 +156,11 @@ public class allCustomers
     public void setPhone(String v)
     {
         phone.set(v);
+    }
+    
+    public void setAccount(String v)
+    {
+        type.set(v);
     }
     
 

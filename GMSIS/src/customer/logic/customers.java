@@ -94,7 +94,7 @@ public class customers
             statement.setString(5, getPostcode());
             statement.setString(6, getPhone());
             statement.setString(7, getEmail());
-            //statement.setString(8, getAccount());
+            statement.setString(8, getAccount());
             statement.execute();   
         }
         catch(SQLException ex)
