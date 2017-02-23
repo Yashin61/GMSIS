@@ -111,6 +111,9 @@ public class RealController implements Initializable
 
     @FXML
     private TableColumn<allCustomers, String> ema;
+    
+    @FXML
+    private TableColumn<allCustomers, String> type;
 
     @FXML
     private TextField regNumber;
@@ -259,7 +262,7 @@ public class RealController implements Initializable
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             EditController controller=fxmlLoader.<EditController>getController();
-            controller.setAllFields(cust, "business");
+            controller.setAllFields(cust);
             Stage stage = new Stage();
             stage.setTitle("Edit Customer");
             stage.setScene(new Scene(root1));
@@ -333,7 +336,7 @@ public class RealController implements Initializable
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Customer_Accounts");
             while(rs.next())
             {
-                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
             }
         }
         catch(SQLException e)
@@ -355,6 +358,9 @@ public class RealController implements Initializable
         mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
         
         ema.setCellValueFactory(new PropertyValueFactory("Email"));
+        
+        type.setCellValueFactory(new PropertyValueFactory("Account"));
+  
   
         dataTable.setItems(null);
         dataTable.setItems(data);

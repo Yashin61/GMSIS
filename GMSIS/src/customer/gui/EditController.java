@@ -68,10 +68,14 @@ public class EditController implements Initializable
     }
     
     @FXML
-    public void setAllFields(allCustomers cust, String accountT)
+    public void setAllFields(allCustomers cust)
     {
         customer_ID = cust.getID();
-        account = accountT;
+        account = cust.getAccount();
+        if(account.equals("business"))
+        {
+            business_type.setSelected(true);
+        }
         firstname.setText(cust.getFirstname());
         surname.setText(cust.getSurname());
         address.setText(cust.getAddress());
@@ -109,6 +113,15 @@ public class EditController implements Initializable
                 statement.setString(4, postcode.getText());
                 statement.setString(5, phone.getText());
                 statement.setString(6, email.getText());
+                
+                if(private_type.isSelected())
+                {
+                    account = "private";
+                }
+                else
+                {
+                    account = "business";
+                }
                 statement.setString(7, account);
                 statement.setInt(8, customer_ID);
                 statement.executeUpdate();   

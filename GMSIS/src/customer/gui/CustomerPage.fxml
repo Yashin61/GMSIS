@@ -48,6 +48,7 @@
             <TableColumn fx:id="post" prefWidth="79.0" text="Postcode" />
             <TableColumn fx:id="mobile" prefWidth="88.0" text="Phone_No" />
             <TableColumn fx:id="ema" prefWidth="100.0" text="Email" />
+            <TableColumn fx:id="type" prefWidth="100.0" text="Account" />
         </columns>
       </TableView>
       <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#displayCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL CUSTOMERS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
