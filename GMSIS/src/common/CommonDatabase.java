@@ -23,7 +23,7 @@ public class CommonDatabase
     {
         try
         {
-            connection = DriverManager.getConnection("jdbc:sqlite:Records.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
         }
         catch(SQLException e)
         {
