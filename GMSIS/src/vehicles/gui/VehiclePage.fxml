@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
+<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehiclePageController">
    <children>
       <Button layoutX="118.0" layoutY="61.0" mnemonicParsing="false" text="HOME" />
       <Button layoutX="248.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
@@ -35,7 +37,7 @@
          <content>
             <TableView fx:id="dataTable" prefHeight="329.0" prefWidth="1226.0">
               <columns>
-                  <TableColumn fx:id="VehicleType" text="Vehicle Type" />
+                  <TableColumn fx:id="vt" text="Vehicle Type" />
                   <TableColumn fx:id="make" prefWidth="51.0" text="Make" />
                   <TableColumn fx:id="model" prefWidth="70.0" text="Model" />
                   <TableColumn fx:id="year" prefWidth="67.0" text="Year" />
@@ -51,17 +53,20 @@
                   <TableColumn fx:id="deliveryDate" text="Delivery Date" />
                   <TableColumn fx:id="returnDate" text="Return Date" />
               </columns>
+               <cursor>
+                  
+               </cursor>
             </TableView>
          </content>
       </ScrollPane>
-      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#displayCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" onAction="#openViewAll" text="VIEW ALL DETAILS" AnchorPane.rightAnchor="409.0" />
+      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleButton" text="VIEW ALL DETAILS" AnchorPane.rightAnchor="409.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../common/Car.png" />
+            <Image url="@../../vehicles/Car.png" />
          </image>
       </ImageView>
       <Label layoutX="14.0" layoutY="519.0" text="Vehicle Registration Number:">
@@ -70,11 +75,6 @@
          </font>
       </Label>
       <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" />
-      <MenuButton layoutX="919.0" layoutY="507.0" mnemonicParsing="false" text="VIEW VEHICLES BY TYPE">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Car" />
-          <MenuItem mnemonicParsing="false" text="Van" />
-        </items>
-      </MenuButton>
+      <ChoiceBox fx:id="VehicleType" layoutX="924.0" layoutY="517.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
