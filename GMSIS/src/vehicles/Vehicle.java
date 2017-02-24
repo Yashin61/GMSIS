@@ -47,182 +47,154 @@ public class Vehicle
         returnDate=new SimpleStringProperty(returnDateX);
     }
 
-    public StringProperty getVehicleTypee() {
+    public StringProperty getVehicleType1() {
         return vehicleType;
     }
-
-    public StringProperty getMakee() {
+    public StringProperty getMake1() {
         return make;
     }
-
-    public IntegerProperty getModell() {
+    public IntegerProperty getModel1() {
         return model;
     }
-
-    public IntegerProperty getYearr() {
+    public IntegerProperty getYear1() {
         return year;
     }
-
-    public StringProperty getEngineSizee() {
+    public StringProperty getEngineSize1() {
         return engineSize;
     }
-
-    public StringProperty getFuelTypee() {
+    public StringProperty getFuelType1() {
         return fuelType;
     }
-
-    public IntegerProperty getMilagee() {
+    public IntegerProperty getMilage1() {
         return milage;
     }
-
-    public StringProperty getColourr() {
+    public StringProperty getColour1() {
         return colour;
     }
-
-    public StringProperty getRegistrationNumberr() {
+    public StringProperty getRegistrationNumber1() {
         return registrationNumber;
     }
-
-    public IntegerProperty getCustomerIDd() {
+    public IntegerProperty getCustomerID1() {
         return customerID;
     }
-
-    public IntegerProperty getWarrantyIDd() {
+    public IntegerProperty getWarrantyID1() {
         return warrantyID;
     }
-
-    public StringProperty getMOTRenewalDatee() {
+    public StringProperty getMOTRenewalDate1() {
         return MOTRenewalDate;
     }
-
-    public StringProperty getLastServiceDatee() {
+    public StringProperty getLastServiceDate1() {
         return lastServiceDate;
     }
-
-    public StringProperty getDeliveryDatee() {
+    public StringProperty getDeliveryDate1() {
         return deliveryDate;
     }
-
-    public StringProperty getReturnDatee() {
+    public StringProperty getReturnDate1() {
         return returnDate;
     }
-     public String getVehicleType() {
+    
+    public String getVehicleType2() {
         return vehicleType.get();
     }
-
-    public String getMake() {
+    public String getMake2() {
         return make.get();
     }
-
-    public int getModel() {
+    public int getModel2() {
         return model.get();
     }
-
-    public int getYear() {
+    public int getYear2() {
         return year.get();
     }
-
-    public String getEngineSize() {
+    public String getEngineSize2() {
         return engineSize.get();
     }
-
-    public String getFuelType() {
+    public String getFuelType2() {
         return fuelType.get();
     }
-
-    public int getMilage() {
+    public int getMilage2() {
         return milage.get();
     }
-
-    public String getColour() {
+    public String getColour2() {
         return colour.get();
     }
-
-    public String getRegistrationNumber() {
+    public String getRegistrationNumber2() {
         return registrationNumber.get();
     }
-
-    public int getCustomerID() {
+    public int getCustomerID2() {
         return customerID.get();
     }
-
-    public int getWarrantyID() {
+    public int getWarrantyID2() {
         return warrantyID.get();
     }
-
-    public String getMOTRenewalDate() {
+    public String getMOTRenewalDate2() {
         return MOTRenewalDate.get();
     }
-
-    public String getLastServiceDate() {
+    public String getLastServiceDate2() {
         return lastServiceDate.get();
     }
-
-    public String getDeliveryDate() {
+    public String getDeliveryDate2() {
         return deliveryDate.get();
     }
-
-    public String getReturnDate() {
+    public String getReturnDate2() {
         return returnDate.get();
     }
     
-    public void setVehicleTypee(String i) {
+    public void setVehicleType(String i) {
         vehicleType.set(i);
     }
 
-    public void setMakee(String i) {
+    public void setMake(String i) {
         make.set(i);
     }
 
-    public void getModell(Integer i) {
+    public void setModel(Integer i) {
         model.set(i);
     }
-
-   /* public IntegerProperty getYearr() {
-        return year;
+    public void setYear(Integer i) {
+        year.set(i);
     }
 
-    public StringProperty getEngineSizee() {
-        return engineSize;
+    public void setEngineSize(String i) {
+        engineSize.set(i);
     }
 
-    public StringProperty getFuelTypee() {
-        return fuelType;
+    public void setFuelType(String i) {
+        fuelType.set(i);
     }
 
-    public IntegerProperty getMilagee() {
-        return milage;
+    public void setMilage(Integer i) {
+        milage.set(i);
     }
 
-    public StringProperty getColourr() {
-        return colour;
+    public void setColour(String i) {
+        colour.set(i);
     }
 
-    public StringProperty getRegistrationNumberr() {
-        return registrationNumber;
+    public void setRegistrationNumber(String i) {
+        registrationNumber.set(i);
     }
 
-    public IntegerProperty getCustomerIDd() {
-        return customerID;
+    public void setCustomerID(Integer i) {
+        customerID.set(i);
     }
 
-    public IntegerProperty getWarrantyIDd() {
-        return warrantyID;
+    public void setWarrantyID(Integer i) {
+        warrantyID.set(i);
     }
 
-    public StringProperty getMOTRenewalDatee() {
-        return MOTRenewalDate;
+    public void setMOTRenewalDate(String i) {
+        MOTRenewalDate.set(i);
     }
 
-    public StringProperty getLastServiceDatee() {
-        return lastServiceDate;
+    public void setLastServiceDate(String i) {
+        lastServiceDate.set(i);
     }
 
-    public StringProperty getDeliveryDatee() {
-        return deliveryDate;
+    public void setDeliveryDate(String i) {
+        deliveryDate.set(i);
     }
 
-    public StringProperty getReturnDatee() {
-        return returnDate;
-    }*/
+    public void setReturnDate(String i) {
+        returnDate.set(i);
+    }
 }
