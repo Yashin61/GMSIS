@@ -14,8 +14,9 @@ public class Main extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehicleGUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
         Scene scene = new Scene(root);
+        stage.setTitle("GMSIS");
         stage.setScene(scene);
         stage.show();
     }
