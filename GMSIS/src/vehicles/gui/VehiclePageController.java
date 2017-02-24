@@ -72,20 +72,14 @@ public class VehiclePageController
         
         try
         {
-            
             connection = db.getConnection();
-            
             data = FXCollections.observableArrayList();
-            
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Vehicles");
-         
             while(rs.next())
             {
-             
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
-
         catch(SQLException e)
         {
             System.out.println("Doesn't work");
@@ -106,31 +100,24 @@ public class VehiclePageController
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("lastServiceDate"));
         deliveryDate.setCellValueFactory(new PropertyValueFactory("deliveryDate"));
         returnDate.setCellValueFactory(new PropertyValueFactory("returnDate"));
-        
         dataTable.setItems(null);
         dataTable.setItems(data);
-        
     }
-
+    
     @FXML
     private void clearDetails(ActionEvent event) {
     }
-
-
     @FXML
     private void openEditPage(ActionEvent event) {
     }
-
     @FXML
     private void openAddPage(ActionEvent event) {
     }
-
-
     @FXML
     private void deleteCustomer(ActionEvent event) {
-            CommonDatabase db = new CommonDatabase();
+        CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-         System.out.println("Works");
+        System.out.println("Works");
         
         try
         {
@@ -141,21 +128,21 @@ public class VehiclePageController
             data = FXCollections.observableArrayList();
             System.out.println("3");
             Statement st = connection.createStatement();
-             System.out.println("4");
-           ResultSet rs = st.executeQuery(sql);
+            System.out.println("4");
+            ResultSet rs = st.executeQuery(sql);
             System.out.println("5");
             System.out.println(rs.getString(1));
             while(rs.next())
             {
                 System.out.println(rs.getString(1));
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), 
-                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
-
         catch(SQLException e)
         {
-            System.out.println("Dosen't work");
+            System.out.println("Doesn't work");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory("vehicleType"));
@@ -173,9 +160,7 @@ public class VehiclePageController
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("lastServiceDate"));
         deliveryDate.setCellValueFactory(new PropertyValueFactory("deliveryDate"));
         returnDate.setCellValueFactory(new PropertyValueFactory("returnDate"));
-        
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
 }
-//
