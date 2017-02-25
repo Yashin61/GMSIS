@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
+<AnchorPane id="AnchorPane" onMouseMoved="#handle" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <Button layoutX="118.0" layoutY="61.0" mnemonicParsing="false" text="HOME" />
@@ -35,9 +35,9 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="firstname" layoutX="144.0" layoutY="206.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="206.0" />
+      <TextField fx:id="firstname" layoutX="144.0" layoutY="206.0" onMouseClicked="#handleNames" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="206.0" />
       <TextField fx:id="surname" layoutX="144.0" layoutY="260.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="260.0" />
-      <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
+      <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" onAction="#searchCustomer" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
       <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
       <TableView fx:id="dataTable" layoutX="336.0" layoutY="130.0" prefHeight="322.0" prefWidth="620.0">
         <columns>
@@ -66,7 +66,7 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="regNumber" layoutX="24.0" layoutY="374.0" prefHeight="26.0" prefWidth="291.0" />
+      <TextField fx:id="regNumber" layoutX="24.0" layoutY="374.0" onMouseClicked="#handleOther" prefHeight="26.0" prefWidth="291.0" />
       <Separator layoutX="70.0" layoutY="315.0" prefWidth="200.0" />
       <Label layoutX="154.0" layoutY="301.0" text="OR" textFill="#000000c1" />
    </children>

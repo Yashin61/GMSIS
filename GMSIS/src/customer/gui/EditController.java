@@ -133,9 +133,26 @@ public class EditController implements Initializable
                 System.out.println(e.getMessage());
                 
             }
+            close(connection);
             
         }
         System.out.println(customer_ID);
+    }
+    
+    public void close(Connection connection)
+    {
+        try
+        {
+            if(connection != null)
+            {
+                connection.close();
+                System.out.println("CLOSED");
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
     
     

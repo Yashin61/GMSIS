@@ -50,6 +50,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodRequests;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 
@@ -311,6 +313,8 @@ public class RealController implements Initializable
                 {
                     System.out.println(e.getMessage());
                 }
+                close(connection);
+                     
             }
             else
             {
@@ -407,10 +411,118 @@ public class RealController implements Initializable
         } 
     }
     
+    @FXML
+    private void searchCustomer(ActionEvent event)
+    {
+        if(firstname.getText() != null)
+        {
+            try
+            {
+                String sql = "select * from Customer_Accounts where Firstname = '" + firstname.getText() + "'" + "and Surname like '" + surname.getText() + "%'";
+                String sql2 = "select * from Vehicles where RegistrationNumber = '" + regNumber.getText() + "'";
+                PreparedStatement statement = null;
+                Connection connection = null;
+                CommonDatabase db = new CommonDatabase();
+                connection = db.getConnection();
+
+                statement = connection.prepareStatement(sql);
+                
+                ResultSet rs = statement.executeQuery();
+                data = FXCollections.observableArrayList();
+                while(rs.next())
+                {
+                    data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+                }
+                
+                PreparedStatement statement2 = connection.prepareStatement(sql2);
+                rs = statement2.executeQuery();
+                if(rs.next())
+                {
+                    String reg = rs.getString("CustomersID");
+                    sql2 = "select * from Customer_Accounts where ID = '" + reg + "'";
+                    statement2 = connection.prepareStatement(sql2);
+                    rs = statement2.executeQuery();
+                    if(rs.next())
+                    {
+                        data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+                    }
+                }
+                
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Doesnt Work");
+            }
+                    
+            customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        
+            first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        
+            sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        
+            adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        
+            post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        
+            mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        
+            ema.setCellValueFactory(new PropertyValueFactory("Email"));
+        
+            type.setCellValueFactory(new PropertyValueFactory("Account"));
+  
+  
+            dataTable.setItems(null);
+            dataTable.setItems(data);
+        }
+            
+        
+    }
+    
+    @FXML
+    public void handleNames(MouseEvent event)
+    {
+        regNumber.setDisable(true);
+        regNumber.setText("");
+    }
+    
+    @FXML
+    public void handleOther(MouseEvent event)
+    {
+        regNumber.setDisable(false);
+        firstname.setDisable(true);
+        surname.setDisable(true);
+        firstname.setText("");
+        surname.setText("");
+    }
+    
+    @FXML
+    public void handle(MouseEvent event)
+    {   
+        regNumber.setDisable(false);
+        firstname.setDisable(false);
+        surname.setDisable(false);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)  
     {
         
     }    
+    
+    public void close(Connection connection)
+    {
+        try
+        {
+            if(connection != null)
+            {
+                connection.close();
+                System.out.println("CLOSED");
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
     
 }
