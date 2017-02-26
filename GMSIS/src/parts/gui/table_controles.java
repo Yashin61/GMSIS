@@ -56,7 +56,6 @@ public class table_controles {
    for(TableColumn c : list)
    {
        if(c.getId().equals("id")){
-           System.out.println("W");
        c.setCellValueFactory(new PropertyValueFactory<Parts_Table, Integer >("ID"));
    }
         if(c.getId().equals("name")){

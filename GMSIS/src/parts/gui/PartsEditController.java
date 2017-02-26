@@ -6,6 +6,10 @@
 package parts.gui;
 import parts.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -95,17 +99,16 @@ public class PartsEditController implements Initializable {
     @FXML
     private Button Search_Parts_Using_ID;
     @FXML
-    private TableColumn<?, ?> Customer_ID;
+    private TableColumn<Customers_Parts_Edit, String> Reg_no;
     @FXML
-    private TableColumn<?, ?> Reg_no;
+    private TableColumn<Customers_Parts_Edit, Integer> Part_ID;
     @FXML
-    private TableColumn<?, ?> Part_ID;
+    private TableColumn<Customers_Parts_Edit, Integer> Booking_ID;
     @FXML
-    private TableColumn<?, ?> Booking_ID;
-    @FXML
-    private TableView<Customers_Parts_Edit> Customers_Parts_Edit;
+    private TableView<Customers_Parts_Edit> Customers_Parts_Editt;
     
     private static ObservableList<Customers_Parts_Edit> l;
+        private ObservableList<Customers_Parts_Edit> data;
     /**
      * Initializes the controller class.
      * 
@@ -130,7 +133,15 @@ public class PartsEditController implements Initializable {
 
     @FXML
     private void Search_ID(ActionEvent event) {
-        ObservableList<Customers_Parts_Edit> list=null;
+        
+        if(Search_ID_CheckBox.isSelected()){
+            ID_Search();
+        }
+        else
+        {
+            name_search();
+        }
+     /*   ObservableList<Customers_Parts_Edit> list=null;
         table_controles tb = new table_controles();
         tb.partstable(Customers_Parts_Edit);
         int i = Integer.parseInt(txt_Search_By_ID.getText());
@@ -138,15 +149,13 @@ public class PartsEditController implements Initializable {
         ConnectionToParts cn = new ConnectionToParts();
        ArrayList<Customers_Parts_Edit> p = cn.SearchCustomerparts(i);
        
-              System.out.println(p.get(0).getregNo());
+             // System.out.println(p.get(0).getregNo());
        
        for(int a = 0 ; a<= p.size() ; a++ ){
-              list = FXCollections.observableArrayList(new Customers_Parts_Edit(i,p.get(a).getregNo(),p.get(a).getpID(),p.get(a).getbID()));
+              //list = FXCollections.observableArrayList(new Customers_Parts_Edit(i,p.get(a).getregNo(),p.get(a).getpID(),p.get(a).getbID()));
        }
-       Customers_Parts_Edit.setItems(list);
-    }
-    @FXML
-    private void Search_using_Surname_Firstname(ActionEvent event) {
+       Customers_Parts_Edit.setItems(list);*/
+     
     }
     
     public void id_Search(boolean t, boolean f){
@@ -197,6 +206,80 @@ txt_colour_display.setText("");
         Parts newP=p.SeachByID();
         txt_ID_Name.setText(newP.Description());
         txt_ID_Cost.setText(newP.Cost());
+    }
+
+    private void ID_Search() { 
+    txt_Search_By_ID.getText();
+     ResultSet in = null;
+     ResultSet info = null;
+    ConnectionToParts conn = new ConnectionToParts();
+            String sqlRegno = "SELECT * FROM Vehicles WHERE CustomersID = ? ";
+        String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
+         Connection con=conn.connect();
+        try{
+            PreparedStatement s = con.prepareStatement(sqlRegno);
+            
+            s.setInt(1,Integer.parseInt(txt_Search_By_ID.getText()));
+           
+            in = s.executeQuery();
+            
+        PreparedStatement stat = con.prepareStatement(sql);
+       
+         stat.setString(1, in.getString(9));
+         
+       info = stat.executeQuery();
+       
+     
+         
+        // con.close();
+        
+        }
+        catch(SQLException e)
+        {
+            
+        }
+            
+        
+        try
+        {
+             
+            System.out.println("1");
+            String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
+            System.out.println("2");
+        PreparedStatement ko = con.prepareStatement(h);
+        System.out.println("3");
+        ko.setString(1,in.getString(9));
+        System.out.println("4");
+       ResultSet info1 = ko.executeQuery();
+            data = FXCollections.observableArrayList();
+               Part_ID.setCellValueFactory(new PropertyValueFactory("PartsID"));
+        
+        Booking_ID.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        
+        Reg_no.setCellValueFactory(new PropertyValueFactory("RegistrationNo"));
+        
+       
+            while(info.next())
+            {
+          System.out.println(info.getString(5));
+                data.add(new Customers_Parts_Edit(info.getString(1), info.getInt(2), info.getInt(3)));
+           
+            }
+                
+        Customers_Parts_Editt.setItems(null);
+        Customers_Parts_Editt.setItems(data);
+            
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("Doesn't work");
+        }
+        
+    }
+
+    private void name_search() {
+        
     }
     
     

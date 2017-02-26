@@ -40,14 +40,13 @@
       <TextField fx:id="surname" layoutX="144.0" layoutY="260.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="260.0" />
       <Button fx:id="search" layoutX="242.0" layoutY="424.0" mnemonicParsing="false" onAction="#search_customer" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
       <Button fx:id="clear" layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clear" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
-      <TableView fx:id="dataTable" layoutX="536.0" layoutY="131.0" prefHeight="322.0" prefWidth="419.0">
+      <TableView fx:id="dataTable" layoutX="536.0" layoutY="131.0" prefHeight="322.0" prefWidth="420.0">
         <columns>
-          <TableColumn fx:id="customerid" minWidth="5.0" prefWidth="76.0" text="Customer ID" />
-          <TableColumn fx:id="regno" prefWidth="101.0" text="Registration No." />
-            <TableColumn fx:id="parts" minWidth="8.0" prefWidth="55.0" text="Parts ID" />
-            <TableColumn fx:id="booking" prefWidth="73.0" text="Booking ID" />
-            <TableColumn fx:id="installed" prefWidth="58.0" text="Installed" />
-            <TableColumn fx:id="expire" minWidth="0.0" prefWidth="55.0" text="Expire" />
+            <TableColumn fx:id="parts" minWidth="8.0" prefWidth="57.0" text="Parts ID" />
+            <TableColumn fx:id="booking" prefWidth="76.0" text="Booking ID" />
+            <TableColumn fx:id="REgistrationNumber" prefWidth="101.0" text="Registration No." />
+            <TableColumn fx:id="expire" minWidth="0.0" prefWidth="90.0" text="Expire" />
+            <TableColumn fx:id="installed" prefWidth="98.0" text="Installed" />
         </columns>
       </TableView>
       <Button fx:id="Add_Parts" layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#Add_Parts" prefHeight="26.0" prefWidth="123.0" text="VIEW ALL PARTS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
@@ -65,48 +64,52 @@
       <TextField fx:id="regNumber" layoutX="24.0" layoutY="374.0" prefHeight="26.0" prefWidth="291.0" />
       <Separator layoutX="70.0" layoutY="315.0" prefWidth="200.0" />
       <Label layoutX="154.0" layoutY="301.0" text="OR" textFill="#000000c1" />
-      <Label layoutX="341.0" layoutY="186.0" text="Address:">
+      <Label layoutX="341.0" layoutY="142.0" text="Address:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="341.0" layoutY="230.0" text="Postcode:">
+      <Label layoutX="341.0" layoutY="186.0" text="Postcode:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="341.0" layoutY="274.0" text="Phone:">
+      <Label layoutX="341.0" layoutY="230.0" text="Phone:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="341.0" layoutY="318.0" text="Email:">
+      <Label layoutX="341.0" layoutY="274.0" text="Email:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="email" layoutX="340.0" layoutY="339.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="email" layoutX="340.0" layoutY="295.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
       <Separator layoutX="327.0" layoutY="141.0" orientation="VERTICAL" prefHeight="311.0" prefWidth="6.0" />
-      <Label fx:id="address" layoutX="340.0" layoutY="207.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="address" layoutX="340.0" layoutY="163.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="postcode" layoutX="340.0" layoutY="251.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="postcode" layoutX="340.0" layoutY="207.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="phone" layoutX="340.0" layoutY="295.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
+      <Label fx:id="phone" layoutX="340.0" layoutY="251.0" style="-fx-background-color: Silver; -fx-border-color: black; -fx-pref-width: 190;">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="Parts" layoutX="361.0" layoutY="384.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="Parts" layoutX="361.0" layoutY="324.0" prefWidth="150.0" />
       <Button fx:id="add_choice" layoutX="391.0" layoutY="424.0" mnemonicParsing="false" onAction="#Add_Choice" prefHeight="28.0" prefWidth="86.0" text="ADD DATES" />
+      <TextField fx:id="instal" layoutX="382.0" layoutY="360.0" onAction="#AddDate" promptText="DD / MM / YYY" />
+      <TextField fx:id="txtexpire" layoutX="382.0" layoutY="392.0" promptText="DD / MM / YYY" />
+      <Label layoutX="332.0" layoutY="364.0" text="Installed:" />
+      <Label layoutX="332.0" layoutY="396.0" text="Expire:" />
    </children>
 </AnchorPane>

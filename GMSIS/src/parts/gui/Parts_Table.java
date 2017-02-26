@@ -76,7 +76,7 @@ public class Parts_Table {
            public StringProperty getCostt(){
     return cost;
         }
-                 public int getID(){
+                 public Integer getID(){
         return id.get();
     }
       public String getName(){

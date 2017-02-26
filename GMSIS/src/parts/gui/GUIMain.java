@@ -23,7 +23,7 @@ public class GUIMain extends Application{
     public void start(Stage stage) throws Exception {
        Parent root = FXMLLoader.load(getClass().getResource("PartsPage.fxml"));
         Scene scene = new Scene(root, 400, 264);
-        stage.setTitle("Welcome to GM-SIS");
+        stage.setTitle("GMSIS");
         stage.setScene(scene);
         stage.show();
     } 

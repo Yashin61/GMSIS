@@ -5,6 +5,8 @@
  */
 package parts.gui;
 
+import common.CommonDatabase;
+import customer.logic.allCustomers;
 import parts.*;
 
 import java.net.URL;
@@ -12,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +33,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 /**
  * FXML Controller class
  *
@@ -64,10 +70,6 @@ public class PartsPageController implements Initializable {
     @FXML
     private TableColumn<Customers_Parts_Edit, String> installed;
     @FXML
-    private TableColumn<Customers_Parts_Edit, Integer> customerid;
-    @FXML
-    private TableColumn<Customers_Parts_Edit, Integer> regno;
-    @FXML
     private TableColumn<Customers_Parts_Edit, Integer> parts;
     @FXML
     private TableColumn<Customers_Parts_Edit, String> expire;
@@ -77,41 +79,23 @@ public class PartsPageController implements Initializable {
     private ChoiceBox<String> Parts;
     @FXML
     private Button add_choice;
+    @FXML
+    private TextField instal;
+    @FXML
+    private TextField txtexpire;
 
-    
-    
+    private String reg = "";
+    @FXML
+    private TableColumn<Customers_Parts_Edit, String> REgistrationNumber;
+     private ObservableList<Customers_Parts_Edit> data;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-Date date = new Date();
-System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
-         ConnectionToParts conn = new ConnectionToParts();
-        String sql = "SELECT * FROM Parts ";
-         Connection con=conn.connect();
-        try{
-        PreparedStatement stat = con.prepareStatement(sql);
-   
-       ResultSet info = stat.executeQuery();
-       boolean i=true;
-         while(info.next()){
-             Parts.getItems().add(info.getString(2));
-             if(i){
-                 Parts.setValue(info.getString(2));
-                 i=false;
-             }
-         }
-         
-         con.close();
         
-        }
-        catch(SQLException e)
-        {
-            
-        }
+    
         
         
     }    
@@ -159,7 +143,11 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
   regNumber.clear();
      firstname.clear();
    surname.clear();
-        
+   Parts.getItems().clear();
+    instal.setText("");
+      txtexpire.setText("");
+      dataTable.setItems(null);
+      
     }
 
     @FXML
@@ -172,7 +160,6 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
         }
        
         if(regNumber.getText() !=null){
-             System.out.println("1");
             int i=Integer.parseInt(regNumber.getText());
                  reg_no(i);
                      
@@ -181,8 +168,42 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
         catch(NumberFormatException e){
             
         }
+            ConnectionToParts conn = new ConnectionToParts();
+            String sqlRegno = "SELECT * FROM Vehicles WHERE CustomersID = ? ";
+        String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
+         Connection con=conn.connect();
+        try{
+            PreparedStatement s = con.prepareStatement(sqlRegno);
+            
+            s.setInt(1,Integer.parseInt(regNumber.getText()));
+           
+            ResultSet in = s.executeQuery();
+            
+        PreparedStatement stat = con.prepareStatement(sql);
        
+         stat.setString(1, in.getString(9));
+         reg=in.getString(9);
+       ResultSet info = stat.executeQuery();
        
+       boolean i=true;
+         while(info.next()){
+             
+             Parts.getItems().add(Integer.toString(info.getInt(2)));
+             if(i){
+                 Parts.setValue(Integer.toString(info.getInt(2)));
+                 i=false;
+             }
+         }
+         
+         con.close();
+        
+        }
+        catch(SQLException e)
+        {
+            
+        }
+       date();
+       update_table();
         
     }
     
@@ -191,12 +212,12 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
         String sql = "SELECT * FROM Customer_Accounts WHERE Firstname = ? AND Surname = ? ";
          Connection con=conn.connect();
         try{
-            System.out.println("2");
+            
         PreparedStatement stat = con.prepareStatement(sql);
-         System.out.println("3");
+        
         stat.setString(1,f);
          stat.setString(2,s);
-          System.out.println("4");
+         
        ResultSet info = stat.executeQuery();
        regNumber.setText(info.getString(1));
         address.setText(info.getString(4));colour(address,false);
@@ -220,7 +241,7 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
      stat.setInt(1,r);
        ResultSet info = stat.executeQuery();
        firstname.setText(info.getString(2));
-         firstname.setText(info.getString(3));
+         surname.setText(info.getString(3));
         address.setText(info.getString(4));colour(address,false);
         email.setText(info.getString(7));colour(email,false);
         postcode.setText(info.getString(5));colour(postcode,false);
@@ -249,9 +270,93 @@ System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
     @FXML
     private void Add_Choice(ActionEvent event) {
+         ConnectionToParts conn = new ConnectionToParts();
+        String sql = "UPDATE PartsUsed SET ExpireDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
+        String sql2 = "UPDATE PartsUsed SET InstallationDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
+         
+        Connection con=conn.connect();
+        try{
+        PreparedStatement stat = con.prepareStatement(sql);
+         stat.setString(1,txtexpire.getText());
+           stat.setString(2,reg);
+     stat.setInt(3,Integer.parseInt(Parts.getValue()));
+       stat.executeUpdate();
+       PreparedStatement st = con.prepareStatement(sql2);
+         st.setString(1,instal.getText());
+           st.setString(2,reg);
+     st.setInt(3,Integer.parseInt(Parts.getValue()));
+       st.executeUpdate();
+       con.close();
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        update_table();
+    }
+
+    @FXML
+    private void AddDate(ActionEvent event) {
         
-        System.out.println(Parts.getValue());
     }
             
+           public void date(){
+                DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+Date date = new Date();
+         String d = dateFormat.format(date);
+       instal.setText(d);
+       txtexpire.setText(d);
+           } 
+           
+           public void update_table(){
+               
+                ConnectionToParts db = new ConnectionToParts();
+        Connection con= db.connect();
+        
+        try
+        {
             
+            System.out.println("1");
+            String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
+             System.out.println("2");
+        PreparedStatement stat = con.prepareStatement(sql);
+        stat.setString(1,reg);
+        System.out.println("3");
+       ResultSet info = stat.executeQuery();
+             System.out.println("4");
+            data = FXCollections.observableArrayList();
+           System.out.println("5");
+               parts.setCellValueFactory(new PropertyValueFactory("PartsID"));
+        
+        booking.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        
+        REgistrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNo"));
+        
+        expire.setCellValueFactory(new PropertyValueFactory("expire"));
+        
+        installed.setCellValueFactory(new PropertyValueFactory("installed"));
+            
+            while(info.next())
+            {
+          System.out.println(info.getString(5));
+                data.add(new Customers_Parts_Edit(info.getString(1), info.getInt(2), info.getInt(3), info.getString(4), info.getString(5)));
+           
+            }
+            
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work");
+        }
+        
+        
+    
+        
+       
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+               
+               
+           }
+                   
 }
