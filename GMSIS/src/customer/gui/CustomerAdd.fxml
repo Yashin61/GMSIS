@@ -37,7 +37,7 @@
       </Label>
       <TextField fx:id="firstname" layoutX="113.0" layoutY="124.0" prefHeight="26.0" prefWidth="200.0" />
       <TextField fx:id="surname" layoutX="113.0" layoutY="174.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="340.0" />
-      <Button layoutX="576.0" layoutY="321.0" mnemonicParsing="false" onAction="#add" text="ADD" />
+      <Button layoutX="576.0" layoutY="321.0" mnemonicParsing="false" onAction="#addCustomer" text="ADD" />
       <Button layoutX="506.0" layoutY="321.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
       <Label layoutX="26.0" layoutY="227.0" text="Address: " AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="227.0">
          <font>

@@ -52,11 +52,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodRequests;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 
 public class RealController implements Initializable 
 {
+    @FXML
+    private AnchorPane rootPane;
     /****** For Edit Page **********/
     
     @FXML
@@ -508,6 +511,88 @@ public class RealController implements Initializable
     {
         
     }    
+    
+    @FXML
+    private void change2Home(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/gui/Template.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void change2Vehicle(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void change2Bookings(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void change2Parts(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void change2Specialist(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    public void addCustomer(ActionEvent event)
+    {
+        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() || address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
+        {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Missing Fields");
+            alert.setHeaderText("Missing Fields");
+            alert.setContentText("Fill in all the details");
+            alert.showAndWait();
+        }
+        else
+        {
+            String account_type = "private";
+            if(business_type.isSelected())
+            {
+                account_type = "business";
+            }
+
+            customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
+            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            //acc.addCustomer(sql);
+            PreparedStatement statement = null;
+            Connection connection = null;
+            CommonDatabase db = new CommonDatabase();
+            connection = db.getConnection();
+            try
+            {
+                statement = connection.prepareStatement(sql);
+                statement.setString(2, acc.getFirstname());         
+                statement.setString(3, acc.getSurname());
+                statement.setString(4, acc.getAddress());
+                statement.setString(5, acc.getPostcode());
+                statement.setString(6, acc.getPhone());
+                statement.setString(7, acc.getEmail());
+                statement.setString(8, acc.getAccount());
+                statement.execute();   
+            }
+            catch(SQLException ex)
+            {
+                ex.getMessage();
+            }
+            close(connection);
+            clearDetails(event);
+        }
+    }
     
     public void close(Connection connection)
     {
