@@ -149,7 +149,7 @@ public class ConnectionToParts {
        System.out.println(info.getString(ID));
         while(info.next()){
             
-            p.add(new Customers_Parts_Edit(info.getInt("Registration Number"),info.getInt("PartsID"),info.getInt("BookingID")));
+           // p.add(new Customers_Parts_Edit(info.getInt("Registration Number"),info.getInt("PartsID"),info.getInt("BookingID")));
         }
          con.close();
         }
