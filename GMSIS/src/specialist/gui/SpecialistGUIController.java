@@ -21,9 +21,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import common.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.swing.JOptionPane;
 import specialist.logic.theSPC;
 
 /**
@@ -33,7 +41,7 @@ import specialist.logic.theSPC;
  */
 public class SpecialistGUIController implements Initializable {
 
-    @FXML
+   @FXML
     private AnchorPane rootPane;
     @FXML
     private TextField spcId;
@@ -46,34 +54,62 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private TextField spcEmail;
     @FXML
-    private TableView<?> dataTable;
+    private TableView<theSPC> dataTable;
     @FXML
-    private TableColumn<?, ?> tableSpcId;
+    private TableColumn<theSPC, Integer> tableSpcId;
     @FXML
-    private TableColumn<?, ?> tableSpcName;
+    private TableColumn<theSPC, String> tableSpcName; 
     @FXML
-    private TableColumn<?, ?> tableSpcAddress;
+    private TableColumn<theSPC, String> tableSpcAddress;
     @FXML
-    private TableColumn<?, ?> tableSpcPhone;
+    private TableColumn<theSPC, String> tableSpcPhone;
     @FXML
-    private TableColumn<?, ?> tableSpcEmail;
+    private TableColumn<theSPC, String> tableSpcEmail;
+    @FXML
+    private ObservableList<theSPC> allSPC;
+    
+    
+    @FXML
+    private void showData(ActionEvent event) throws IOException
+    {
+        Connection connect = null;
+        Statement stmt = null;
 
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allSPC = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
+            while(set.next()){
+                System.out.println(set.getInt(1)+ set.getString(2)+ set.getString(3)+ set.getString(4)+ set.getString(5));
+                allSPC.add(new theSPC(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        tableSpcId.setCellValueFactory(new PropertyValueFactory("SPCId"));
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SPCname"));
+        tableSpcAddress.setCellValueFactory(new PropertyValueFactory("SPCaddress"));
+        tableSpcPhone.setCellValueFactory(new PropertyValueFactory("SPCphone"));
+        tableSpcEmail.setCellValueFactory(new PropertyValueFactory("SPCemail"));
+
+        dataTable.setItems(allSPC);
+    }
 
     @FXML
-    private void clearSearchAddEdit(ActionEvent event)
+    private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
         spcId.clear();
         spcName.clear();
         spcAddress.clear();
         spcPhone.clear();
         spcEmail.clear();
-    }
-    
-    @FXML
-    private void specificSpcPage(ActionEvent event) throws IOException
-    {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcRepairer.fxml"));
-        rootPane.getChildren().setAll(pane);
     }
     
     @FXML
@@ -105,7 +141,7 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void addSpcButton(ActionEvent event) throws IOException
+    private void addSpcButton(ActionEvent event) 
     {
         String id = spcId.getText();
         String name = spcName.getText();
@@ -132,7 +168,7 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void updateSpcButton(ActionEvent event) throws IOException
+    private void updateSpcButton(ActionEvent event) 
     {
         //get all the texts first
         String id = spcId.getText();
@@ -143,12 +179,12 @@ public class SpecialistGUIController implements Initializable {
         String[] data = {id,name,address,phone,email};
         if(!(spcId.getText().equals("") || spcName.getText().equals("") || spcAddress.getText().equals("") || spcPhone.getText().equals("") || spcEmail.getText().equals("")))
         {
-            System.out.println("It works");
             for(int i=1; i<5; i++)
             {
                 SpecialistDB a= new SpecialistDB();
                 a.editSPC(id,data[i],i);
-            }            
+            }     
+            JOptionPane.showMessageDialog(null, "SPC list has been updated");
         }
         else
         {
@@ -156,34 +192,8 @@ public class SpecialistGUIController implements Initializable {
         }
     }
     
-    @FXML
-    private void deleteSPCButton(ActionEvent event) throws IOException
-    {
-        //get the selection. from there the name and id
-        //then delete it using the method in specialistdb
-    }
-    
-    @FXML
-    private void showData(ActionEvent event) throws IOException
-    {
-        
-        tableSpcId.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableSpcName.setCellValueFactory(new PropertyValueFactory<>("price"));
-        tableSpcAddress.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        dataTable = new TableView<>();
-        //dataTable.setItems(getproduct());
-        //dataTable.getColumns().addAll(tableSpcId,tableSpcName,tableSpcAddress);
-    }
-    
-    public ObservableList<theSPC> getproduct()
-    {
-        ObservableList<theSPC> products = FXCollections.observableArrayList();
-        SpecialistDB data = new SpecialistDB();
-        data.getSPC();
-        //products.add(new theSPC());
-        return products;
-    }
-    
+    //get products
+ 
     /**
      * Initializes the controller class.
      */
