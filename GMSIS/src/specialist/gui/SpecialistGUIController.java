@@ -103,6 +103,17 @@ public class SpecialistGUIController implements Initializable {
     }
 
     @FXML
+    public void deleteSPCButton(ActionEvent event) throws IOException
+    {
+        //ObservableList<theSPC> spcSelected, allSPC;
+        //allSPC = dataTable.getItems();
+        //spcSelected = dataTable.getSelectionModel().getSelectedItems();
+        int row = dataTable.getSelectionModel().getSelectedIndex();
+        SpecialistDB a = new SpecialistDB();
+        a.deleteSPC(row+1);
+    }
+        
+    @FXML
     private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
         spcId.clear();
