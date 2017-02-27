@@ -29,7 +29,7 @@ public class SpecialistDB
     private Object[] cols;
     private int rowsLength;
     private String[] SPCList;
-    String Recordurl = "jdbc:sqlite:src/spcpage/TestRecords.db";
+    String Recordurl = "jdbc:sqlite:src/common/Records.db";
     
     public void addSPC(String name, String address, String phone, String email)
     {
@@ -96,7 +96,6 @@ public class SpecialistDB
     
     public void deleteSPC(Object id)
     {
-
         Connection connect = null;
         Statement stmt = null;
 
@@ -107,7 +106,7 @@ public class SpecialistDB
             String sql = "DELETE FROM SPC WHERE SPCId = " + id + ";";
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "SPC has been deleted."); 
+            JOptionPane.showMessageDialog(null, "SPC has been deleted. \n Refresh the page to see changes."); 
 
             stmt.close();
             connect.close();
