@@ -31,13 +31,13 @@
             <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
          </font>
       </Label>
-      <Button layoutX="235.0" layoutY="543.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="543.0" />
-      <Button layoutX="362.0" layoutY="543.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="362.0" AnchorPane.topAnchor="543.0" />
+      <Button layoutX="235.0" layoutY="543.0" mnemonicParsing="false" onAction="#searchVehRegNum" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="543.0" />
+      <Button fx:id="clearButton" layoutX="362.0" layoutY="543.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="362.0" AnchorPane.topAnchor="543.0" />
       <ScrollPane layoutX="-1.0" layoutY="125.0" prefHeight="306.0" prefWidth="1085.0">
          <content>
             <TableView fx:id="dataTable" prefHeight="329.0" prefWidth="1226.0">
               <columns>
-                  <TableColumn fx:id="vt" text="Vehicle Type" />
+                <TableColumn fx:id="vehicleType" prefWidth="51.0" text="VehicleType" />
                   <TableColumn fx:id="make" prefWidth="51.0" text="Make" />
                   <TableColumn fx:id="model" prefWidth="70.0" text="Model" />
                   <TableColumn fx:id="year" prefWidth="67.0" text="Year" />
@@ -59,11 +59,11 @@
             </TableView>
          </content>
       </ScrollPane>
-      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteCustomer" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleButton" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteVehicle" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#openAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleButton" text="VIEW ALL DETAILS" AnchorPane.rightAnchor="409.0" />
+      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" text="VIEW ALL DETAILS" AnchorPane.rightAnchor="409.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/Car.png" />
@@ -75,6 +75,9 @@
          </font>
       </Label>
       <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" />
-      <ChoiceBox fx:id="VehicleType" layoutX="924.0" layoutY="517.0" prefWidth="150.0" />
+      <CheckBox fx:id="actionCar" layoutX="584.0" layoutY="504.0" mnemonicParsing="false" onAction="#Car" text="Car" />
+      <CheckBox fx:id="actionVan" layoutX="681.0" layoutY="504.0" mnemonicParsing="false" onAction="#Van" text="Van" />
+      <CheckBox fx:id="actionTruck" layoutX="783.0" layoutY="504.0" mnemonicParsing="false" onAction="#Truck" text="Truck" />
+      
    </children>
 </AnchorPane>
