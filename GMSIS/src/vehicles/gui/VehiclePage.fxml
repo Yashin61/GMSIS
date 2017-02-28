@@ -37,7 +37,7 @@
          <content>
             <TableView fx:id="dataTable" prefHeight="329.0" prefWidth="1226.0">
               <columns>
-                <TableColumn fx:id="vehicleType" prefWidth="51.0" text="VehicleType" />
+                  <TableColumn fx:id="vehicleType" prefWidth="51.0" text="VehicleType" />
                   <TableColumn fx:id="make" prefWidth="51.0" text="Make" />
                   <TableColumn fx:id="model" prefWidth="70.0" text="Model" />
                   <TableColumn fx:id="year" prefWidth="67.0" text="Year" />
@@ -78,6 +78,5 @@
       <CheckBox fx:id="actionCar" layoutX="584.0" layoutY="504.0" mnemonicParsing="false" onAction="#Car" text="Car" />
       <CheckBox fx:id="actionVan" layoutX="681.0" layoutY="504.0" mnemonicParsing="false" onAction="#Van" text="Van" />
       <CheckBox fx:id="actionTruck" layoutX="783.0" layoutY="504.0" mnemonicParsing="false" onAction="#Truck" text="Truck" />
-      
    </children>
 </AnchorPane>

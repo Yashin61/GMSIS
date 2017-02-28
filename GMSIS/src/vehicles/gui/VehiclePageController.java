@@ -31,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class VehiclePageController
 {
     Pane pane;
+    
     @FXML
     private TableView<Vehicle> dataTable;
     @FXML
@@ -74,24 +75,12 @@ public class VehiclePageController
     private CheckBox actionTruck;
     @FXML
     private Button clearButton;
-    @FXML
-    /*private ChoiceBox<String> VehicleType;
-    
-    //@Override
-    public void initialize()
-    {
-        VehicleType.getItems().add("Car");
-        VehicleType.getItems().add("Van");
-        VehicleType.getItems().add("Truck");
-        VehicleType.setValue("Car");
-     
-    }
-    @FXML */
+
     public void handleButton() throws IOException
     {
         CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-         System.out.println("Works");
+        //System.out.println("Works!");
         
         try
         {
@@ -105,11 +94,11 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work");
+            System.out.println("Doesn't work!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-       make.setCellValueFactory(new PropertyValueFactory("Make"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
         engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
@@ -123,43 +112,40 @@ public class VehiclePageController
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
         deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
         returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
+        
         dataTable.setItems(null);
         dataTable.setItems(data);
-        
-        
         actionCar.setSelected(false);
         actionVan.setSelected(false);
         actionTruck.setSelected(false);
-        
     }
     
     @FXML
-    private void clearDetails(ActionEvent event) {
-        
+    private void clearDetails(ActionEvent event)
+    {
         if(actionCar.isSelected()|| actionVan.isSelected()|| actionTruck.isSelected())
+        {}
+        else
         {
-             
-        }
-        else{
             dataTable.setItems(null);
             regNumber.setText("");
         }
-       
-              
-         
-        
     }
+    
     @FXML
-    private void openEditPage(ActionEvent event) {
-    }
+    private void openEditPage(ActionEvent event)
+    {}
+    
     @FXML
-    private void openAddPage(ActionEvent event) {
-    }
+    private void openAddPage(ActionEvent event)
+    {}
+    
     @FXML
-    private void deleteVehicle(ActionEvent event) {
+    private void deleteVehicle(ActionEvent event)
+    {
         CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-        System.out.println("Works");
+        System.out.println("Works2!");
         
         try
         {
@@ -179,15 +165,67 @@ public class VehiclePageController
                 System.out.println(rs.getString(1));
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work");
+            System.out.println("Doesn't work2!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory("VehicleType"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
+        model.setCellValueFactory(new PropertyValueFactory("Model"));
+        year.setCellValueFactory(new PropertyValueFactory("Year"));
+        engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
+        fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
+        milage.setCellValueFactory(new PropertyValueFactory("Milage"));
+        colour.setCellValueFactory(new PropertyValueFactory("Colour"));
+        registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
+        customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
+        warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
+        MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
+        lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
+        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
+        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
+        
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+    }
+
+    @FXML
+    private void Car(ActionEvent event)
+    {
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = db.getConnection();
+        System.out.println("Works3!");
+        String choice="";
+        if(actionCar.isSelected())
+        {
+            choice="Car";
+            actionVan.setSelected(false);
+            actionTruck.setSelected(false);
+        }
+         
+        try
+        {
+            connection = db.getConnection();
+            data = FXCollections.observableArrayList();
+            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+            s.setString(1,choice);
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work3!");
+        }
+        
+        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
         make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
@@ -207,20 +245,21 @@ public class VehiclePageController
     }
 
     @FXML
-   
-    private void Car(ActionEvent event) {
-              CommonDatabase db = new CommonDatabase();
+    private void Van(ActionEvent event)
+    {
+        CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-         System.out.println("Works");
+        System.out.println("Works4!");
         String choice="";
-         if(actionCar.isSelected()){
-             choice="Car";
-             actionVan.setSelected(false);
-             actionTruck.setSelected(false);
+        if(actionVan.isSelected())
+        {
+            choice="Van";
+            actionCar.setSelected(false);
+            actionTruck.setSelected(false);
          }
-      
     
-         try{
+        try
+        {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
@@ -233,12 +272,11 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work");
+            System.out.println("Doesn't work4!");
         }
-         
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-       make.setCellValueFactory(new PropertyValueFactory("Make"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
         engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
@@ -254,25 +292,24 @@ public class VehiclePageController
         returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
-        
-        
-        
     }
 
     @FXML
-    private void Van(ActionEvent event) {
-                   CommonDatabase db = new CommonDatabase();
+    private void Truck(ActionEvent event)
+    {
+        CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-         System.out.println("Works");
+        System.out.println("Works5!");
         String choice="";
-       
-        if(actionVan.isSelected()){
-             choice="Van";
-             actionCar.setSelected(false);
-             actionTruck.setSelected(false);
+        if(actionTruck.isSelected())
+        {
+            choice="Truck";
+            actionCar.setSelected(false);
+            actionVan.setSelected(false);
          }
     
-         try{
+         try
+         {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
@@ -285,63 +322,11 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work");
+            System.out.println("Doesn't work5!");
         }
-         
-        
-        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-       make.setCellValueFactory(new PropertyValueFactory("Make"));
-        model.setCellValueFactory(new PropertyValueFactory("Model"));
-        year.setCellValueFactory(new PropertyValueFactory("Year"));
-        engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
-        fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
-        milage.setCellValueFactory(new PropertyValueFactory("Milage"));
-        colour.setCellValueFactory(new PropertyValueFactory("Colour"));
-        registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
-        customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
-        warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
-        MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
-        lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
-        dataTable.setItems(null);
-        dataTable.setItems(data);
-        
-        
-    }
 
-    @FXML
-    private void Truck(ActionEvent event) {
-                   CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
-         System.out.println("Works");
-        String choice="";
-       
-      if(actionTruck.isSelected()){
-             choice="Truck";
-             actionCar.setSelected(false);
-             actionVan.setSelected(false);
-         }
-    
-         try{
-            connection = db.getConnection();
-            data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-            s.setString(1,choice);
-            ResultSet rs = s.executeQuery();
-            while(rs.next())
-            {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
-            }
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Doesn't work");
-        }
-         
-        
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-       make.setCellValueFactory(new PropertyValueFactory("Make"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
         engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
@@ -357,17 +342,16 @@ public class VehiclePageController
         returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
-        
-        
     }
 
     @FXML
     private void searchVehRegNum(ActionEvent event) {
-          CommonDatabase db = new CommonDatabase();
+        CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
-         System.out.println("Works");
+        System.out.println("Works6!");
        
-         try{
+        try
+        {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber=?");
@@ -380,12 +364,11 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work");
+            System.out.println("Doesn't work6!");
         }
-         
-        
+
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-       make.setCellValueFactory(new PropertyValueFactory("Make"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
         engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
@@ -402,7 +385,4 @@ public class VehiclePageController
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
- 
-        
-    
 }
