@@ -34,6 +34,4 @@ public class VehicleTable {
         }
         return conn;
     }
-
-    
 }

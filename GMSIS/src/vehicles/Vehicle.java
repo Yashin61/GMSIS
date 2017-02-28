@@ -50,15 +50,6 @@ public class Vehicle
     public StringProperty getVehicleType1() {
         return vehicleType;
     }
-    
-      public String getVehicleType() {
-        return vehicleType.get();
-    }
-      
-       public void setVehicleType(String i) {
-        vehicleType.set(i);
-    }
-
     public StringProperty getMake1() {
         return make;
     }
@@ -102,7 +93,9 @@ public class Vehicle
         return returnDate;
     }
     
-  
+    public String getVehicleType() {
+        return vehicleType.get();
+    }
     public String getMake() {
         return make.get();
     }
@@ -146,58 +139,48 @@ public class Vehicle
         return returnDate.get();
     }
     
-   
+    public void setVehicleType(String i) {
+        vehicleType.set(i);
+    }
     public void setMake(String i) {
         make.set(i);
     }
-
     public void setModel(Integer i) {
         model.set(i);
     }
     public void setYear(Integer i) {
         year.set(i);
     }
-
     public void setEngineSize(String i) {
         engineSize.set(i);
     }
-
     public void setFuelType(String i) {
         fuelType.set(i);
     }
-
     public void setMilage(Integer i) {
         milage.set(i);
     }
-
     public void setColour(String i) {
         colour.set(i);
     }
-
     public void setRegistrationNumber(String i) {
         registrationNumber.set(i);
     }
-
     public void setCustomerID(Integer i) {
         customerID.set(i);
     }
-
     public void setWarrantyID(Integer i) {
         warrantyID.set(i);
     }
-
     public void setMOTRenewalDate(String i) {
         MOTRenewalDate.set(i);
     }
-
     public void setLastServiceDate(String i) {
         lastServiceDate.set(i);
     }
-
     public void setDeliveryDate(String i) {
         deliveryDate.set(i);
     }
-
     public void setReturnDate(String i) {
         returnDate.set(i);
     }
