@@ -134,100 +134,18 @@ public class RealController implements Initializable
     private Button noButton;
 
     
-    @FXML
-    private void add(ActionEvent evt)
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb)  
     {
-        if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
-        { 
-            openMissing();
-            //clearDetails(evt);
-        }
-        else
-        {
-            String account_type = "private";
-            if(business_type.isSelected())
-            {
-                account_type = "business";
-            }
-
-            customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            acc.addCustomer(sql);
-            clearDetails(evt);
-        }
-    }
+        //display();
+    }    
     
+    
+    
+    // clear method for the add page
     @FXML
-    private void searchEdit(ActionEvent evt)
-    {
-        if(ID.getText() == null){}
-        else
-        {
-            firstname.setVisible(true);
-            surname.setVisible(true);
-            address.setVisible(true);
-            postcode.setVisible(true);
-            phone.setVisible(true);
-            email.setVisible(true);
-            try
-            {
-                String sql = "select * from Customer_Accounts where ID = ?";
-                PreparedStatement statement = null;
-                Connection connection = null;
-                CommonDatabase db = new CommonDatabase();
-                connection = db.getConnection();
-
-                statement = connection.prepareStatement(sql);
-                statement.setString(1, ID.getText());
-                
-                ResultSet rs = statement.executeQuery();
-                if(rs.next())
-                {
-                    String fName = rs.getString("Firstname");
-                    firstname.setText(fName);
-                    String sName = rs.getString("Surname");
-                    surname.setText(sName);
-                    String adr = rs.getString("Address");
-                    address.setText(adr);
-                    String pCode = rs.getString("Postcode");
-                    postcode.setText(pCode);
-                    String number = rs.getString("Phone");
-                    phone.setText(number);
-                    String emailAdr = rs.getString("Email");
-                    email.setText(emailAdr);
-                    
-                }
-                else
-                {
-                    clearDetails(evt);
-                }
-            }
-            catch(SQLException e)
-            {
-                System.out.println("There is no customer account with this id");
-            }
-        }
-    }
-    
-    @FXML
-    private void edit(ActionEvent evt)
-    {
-        if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
-        { 
-            System.out.println("Some fields are empty");
-        }
-        else
-        {
-            int id = Integer.parseInt(ID.getText());
-            String sql = "UPDATE Customer_Accounts SET ID = '"+id+"', Firstname= '"+firstname.getText()+"', Surname= '"+surname.getText()+"', Address= '"+address.getText()+"', Postcode= '"+postcode.getText()+"', Phone= '"+phone.getText()+"', Email= "+email.getText()+" WHERE ID= "+ id + "; ";
-            customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), "private");
-            acc.editCustomer(sql, id);   
-        }
-    }
-    
-    
-    @FXML
-    private void clearDetails(ActionEvent event)
+    public void clearDetails(ActionEvent event)
     {
         firstname.setText(null);
         surname.setText(null);
@@ -237,30 +155,36 @@ public class RealController implements Initializable
         email.setText(null);
     }
     
+    // opens the add page 
     @FXML
     private void openAddPage(ActionEvent event) throws IOException
     {
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
-            stage.show();
-        } 
-        catch(Exception e) 
-        {
-           e.printStackTrace();
-        }
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));  
+        stage.show();
     }
     
+    @FXML
+    private void openAdd(ActionEvent event) throws IOException
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RealAddPage.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));  
+        stage.show();
+    }
+    
+    
+    // opens the edit page
     @FXML
     private void openEditPage(ActionEvent event) throws IOException
     {
         allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
         if(cust == null)
         {
-            System.out.println("No customer account selected");
+            noChosen();
         }
         else
         {
@@ -277,13 +201,26 @@ public class RealController implements Initializable
     }
     
     
+    // alert box when no account has been selected
+    @FXML
+    private void noChosen()
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText("No account selected");
+        alert.setContentText("Please select a customer account");
+        alert.showAndWait();
+    }
+    
+
+    // method to delete the chosen customer account
     @FXML
     private void deleteCustomer(ActionEvent event)
     {
         allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
         if(cust == null)
         {
-            System.out.println("No customer account selected");
+            noChosen();
         }
         else
         {
@@ -324,13 +261,19 @@ public class RealController implements Initializable
                 alert.close();
             }
         }
-       
+        display();
     }
     
     
-  
+    // displays all the customers in the table view
     @FXML
     private void displayCustomers(ActionEvent event)
+    {
+        display();
+    }
+    
+    @FXML
+    public void display()
     {
         CommonDatabase db = new CommonDatabase();
         Connection connection = null;
@@ -350,70 +293,88 @@ public class RealController implements Initializable
         {
             System.out.println("Doesn't work");
         }
-        
-        
+
         customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
-        
         first.setCellValueFactory(new PropertyValueFactory("Firstname"));
-        
         sur.setCellValueFactory(new PropertyValueFactory("Surname"));
-        
         adr.setCellValueFactory(new PropertyValueFactory("Address"));
-        
         post.setCellValueFactory(new PropertyValueFactory("Postcode"));
-        
         mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
-        
         ema.setCellValueFactory(new PropertyValueFactory("Email"));
-        
         type.setCellValueFactory(new PropertyValueFactory("Account"));
-  
-  
         dataTable.setItems(null);
         dataTable.setItems(data);
-                
     }
+               
     
-    @FXML
-    public void openMissing()
-    {
-        try
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Missing.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Missing fields");
-            stage.setScene(new Scene(root1));  
-            stage.show();
-        } 
-        catch(Exception e) 
-        {
-           e.printStackTrace();
-        }
-    }
     
     @FXML 
-    private void openViewAll(ActionEvent event) throws IOException
+    private void viewVehicle(ActionEvent event) throws IOException
     {
         allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
         if(cust == null)
         {
-            System.out.println("No customer account selected");
+            noChosen();
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewingDetails.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewVehicles.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             viewController controller=fxmlLoader.<viewController>getController();
-            controller.setCustomer(cust);
+            controller.setCustomer(cust, "Vehicles");
             Stage stage = new Stage();
-            stage.setTitle("View All Details");
+            stage.setTitle("View Vehicles");
             stage.setScene(new Scene(root1));
             stage.show();
             
         } 
     }
     
+    @FXML 
+    private void viewBookings(ActionEvent event) throws IOException
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            noChosen();
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            viewController controller=fxmlLoader.<viewController>getController();
+            controller.setCustomer(cust, "Bookings");
+            Stage stage = new Stage();
+            stage.setTitle("View Bookings");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
+    }
+    
+    @FXML 
+    private void viewParts(ActionEvent event) throws IOException
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            noChosen();
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            viewController controller=fxmlLoader.<viewController>getController();
+            controller.setCustomer(cust, "Parts");
+            Stage stage = new Stage();
+            stage.setTitle("View Parts");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
+    }
+    
+    // search customer by full firstname and partial surname or by vehicle registration number
     @FXML
     private void searchCustomer(ActionEvent event)
     {
@@ -458,22 +419,13 @@ public class RealController implements Initializable
             }
                     
             customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
-        
             first.setCellValueFactory(new PropertyValueFactory("Firstname"));
-        
             sur.setCellValueFactory(new PropertyValueFactory("Surname"));
-        
             adr.setCellValueFactory(new PropertyValueFactory("Address"));
-        
             post.setCellValueFactory(new PropertyValueFactory("Postcode"));
-        
             mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
-        
             ema.setCellValueFactory(new PropertyValueFactory("Email"));
-        
             type.setCellValueFactory(new PropertyValueFactory("Account"));
-  
-  
             dataTable.setItems(null);
             dataTable.setItems(data);
         }
@@ -481,13 +433,15 @@ public class RealController implements Initializable
         
     }
     
+    
+    // search functions to hide
     @FXML
     public void handleNames(MouseEvent event)
     {
         regNumber.setDisable(true);
         regNumber.setText("");
     }
-    
+     // search functions to hide
     @FXML
     public void handleOther(MouseEvent event)
     {
@@ -497,7 +451,7 @@ public class RealController implements Initializable
         firstname.setText("");
         surname.setText("");
     }
-    
+     // search functions to hide
     @FXML
     public void handle(MouseEvent event)
     {   
@@ -506,19 +460,16 @@ public class RealController implements Initializable
         surname.setDisable(false);
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb)  
-    {
-        
-    }    
     
+    // switch to home page 
     @FXML
     private void change2Home(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/gui/Template.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/src/common/Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
+    // switch to vehicle page
     @FXML
     private void change2Vehicle(ActionEvent event) throws IOException
     {
@@ -526,6 +477,7 @@ public class RealController implements Initializable
         rootPane.getChildren().setAll(pane);
     }
     
+    // switch to bookings page
     @FXML
     private void change2Bookings(ActionEvent event) throws IOException
     {
@@ -533,6 +485,7 @@ public class RealController implements Initializable
         rootPane.getChildren().setAll(pane);
     }
     
+    // switch to parts page
     @FXML
     private void change2Parts(ActionEvent event) throws IOException
     {
@@ -540,6 +493,7 @@ public class RealController implements Initializable
         rootPane.getChildren().setAll(pane);
     }
     
+    // switch to specialist page
     @FXML
     private void change2Specialist(ActionEvent event) throws IOException
     {
@@ -548,15 +502,22 @@ public class RealController implements Initializable
     }
     
     @FXML
+    public void printMissing()
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Missing Fields");
+        alert.setHeaderText("Missing Fields");
+        alert.setContentText("Fill in all the details");
+        alert.showAndWait();
+    }
+    
+    // method to add a new customer
+    @FXML
     public void addCustomer(ActionEvent event)
     {
         if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() || address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
         {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Missing Fields");
-            alert.setHeaderText("Missing Fields");
-            alert.setContentText("Fill in all the details");
-            alert.showAndWait();
+            printMissing();
         }
         else
         {
@@ -568,7 +529,6 @@ public class RealController implements Initializable
 
             customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
             String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            //acc.addCustomer(sql);
             PreparedStatement statement = null;
             Connection connection = null;
             CommonDatabase db = new CommonDatabase();
@@ -583,7 +543,7 @@ public class RealController implements Initializable
                 statement.setString(6, acc.getPhone());
                 statement.setString(7, acc.getEmail());
                 statement.setString(8, acc.getAccount());
-                statement.execute();   
+                statement.execute(); 
             }
             catch(SQLException ex)
             {
@@ -591,9 +551,30 @@ public class RealController implements Initializable
             }
             close(connection);
             clearDetails(event);
+            infoGiven(acc.getFirstname(), "add");
         }
     }
     
+    
+    @FXML
+    public void infoGiven(String name, String type)
+    {
+        
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText("COMPLETED");
+        if(type == "add")
+        {
+            alert.setContentText("Customer " + name + " has been successfully added");
+        }
+        else
+        {
+            alert.setContentText("Customer Account " + name + " has been successfully edited");
+        }
+        alert.showAndWait();
+    }
+    
+    // common method to close the database connection
     public void close(Connection connection)
     {
         try

@@ -8,6 +8,7 @@ package customer.gui;
 import common.CommonDatabase;
 import customer.logic.allCustomers;
 import customer.logic.customers;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,10 +16,14 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -26,6 +31,10 @@ import javafx.scene.control.ToggleGroup;
  */
 public class EditController implements Initializable
 {
+    
+    
+    @FXML
+    private AnchorPane rootPane;
     
     @FXML
     private TextField firstname;
@@ -87,15 +96,16 @@ public class EditController implements Initializable
     }
     
     @FXML
-    private void edit(ActionEvent evt)
+    private void edit(ActionEvent evt) throws IOException
     {
         CommonDatabase db = new CommonDatabase();
         Connection connection = null;
         PreparedStatement statement = null;
         
-        if(firstname.getText() == null || surname.getText() == null || address.getText() == null|| postcode.getText() == null || phone.getText() == null || email.getText() == null)
+        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() || address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
         { 
-            System.out.println("Some fields are empty");
+            RealController controller = new RealController();
+            controller.printMissing();
         }
         else
         {
@@ -134,9 +144,23 @@ public class EditController implements Initializable
                 
             }
             close(connection);
-            
+            RealController controller = new RealController();
+            controller.infoGiven(firstname.getText(), "edit");
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.close();
         }
         System.out.println(customer_ID);
+    }
+    
+    @FXML
+    private void clear(ActionEvent event)
+    {
+        firstname.setText(null);
+        surname.setText(null);
+        address.setText(null);
+        postcode.setText(null);
+        phone.setText(null);
+        email.setText(null);
     }
     
     public void close(Connection connection)
