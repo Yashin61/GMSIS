@@ -50,6 +50,15 @@ public class Vehicle
     public StringProperty getVehicleType1() {
         return vehicleType;
     }
+    
+      public String getVehicleType() {
+        return vehicleType.get();
+    }
+      
+       public void setVehicleType(String i) {
+        vehicleType.set(i);
+    }
+
     public StringProperty getMake1() {
         return make;
     }
@@ -93,56 +102,51 @@ public class Vehicle
         return returnDate;
     }
     
-    public String getVehicleType2() {
-        return vehicleType.get();
-    }
-    public String getMake2() {
+  
+    public String getMake() {
         return make.get();
     }
-    public int getModel2() {
+    public int getModel() {
         return model.get();
     }
-    public int getYear2() {
+    public int getYear() {
         return year.get();
     }
-    public String getEngineSize2() {
+    public String getEngineSize() {
         return engineSize.get();
     }
-    public String getFuelType2() {
+    public String getFuelType() {
         return fuelType.get();
     }
-    public int getMilage2() {
+    public int getMilage() {
         return milage.get();
     }
-    public String getColour2() {
+    public String getColour() {
         return colour.get();
     }
-    public String getRegistrationNumber2() {
+    public String getRegistrationNumber() {
         return registrationNumber.get();
     }
-    public int getCustomerID2() {
+    public int getCustomerID() {
         return customerID.get();
     }
-    public int getWarrantyID2() {
+    public int getWarrantyID() {
         return warrantyID.get();
     }
-    public String getMOTRenewalDate2() {
+    public String getMOTRenewalDate() {
         return MOTRenewalDate.get();
     }
-    public String getLastServiceDate2() {
+    public String getLastServiceDate() {
         return lastServiceDate.get();
     }
-    public String getDeliveryDate2() {
+    public String getDeliveryDate() {
         return deliveryDate.get();
     }
-    public String getReturnDate2() {
+    public String getReturnDate() {
         return returnDate.get();
     }
     
-    public void setVehicleType(String i) {
-        vehicleType.set(i);
-    }
-
+   
     public void setMake(String i) {
         make.set(i);
     }
