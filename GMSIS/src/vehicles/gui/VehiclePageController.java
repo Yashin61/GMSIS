@@ -16,17 +16,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
@@ -39,7 +45,7 @@ public class VehiclePageController
     @FXML
     private TableColumn<Vehicle, String> make;
     @FXML
-    private TableColumn<Vehicle, Integer> model;
+    private TableColumn<Vehicle, String> model;
     @FXML
     private TableColumn<Vehicle, Integer> year;
     @FXML
@@ -75,6 +81,8 @@ public class VehiclePageController
     private CheckBox actionTruck;
     @FXML
     private Button clearButton;
+    @FXML
+    private CheckBox actionWarranty;
 
     @FXML
     public void handleButton() throws IOException
@@ -90,7 +98,10 @@ public class VehiclePageController
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Vehicles");
             while(rs.next())
             {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
@@ -145,7 +156,58 @@ public class VehiclePageController
     @FXML
     private void deleteVehicle(ActionEvent event)
     {
-        CommonDatabase db = new CommonDatabase();
+        
+        
+        
+        
+        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
+        /*if(veh == null)
+        {
+            noChosen();
+        }*/
+        //else
+        //{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Do you want to continue deleting the selected vehicle?");
+            ButtonType yes = new ButtonType("YES");
+            ButtonType no = new ButtonType("NO");
+            alert.getButtonTypes().setAll(yes, no);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == yes)
+            {
+                String vehType = veh.getVehicleType();
+                String sql = "DELETE FROM Vehicles WHERE VehicleType = ?";
+                CommonDatabase db = new CommonDatabase();
+                Connection connection = null;
+
+                try
+                {
+                    connection = db.getConnection();
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    statement.setString(1, vehType);
+                    statement.executeUpdate();
+                }
+                catch(SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+                //close(connection);
+                     
+            }
+            else
+            {
+                alert.close();
+            }
+        //}
+        //display();
+    }
+    
+        
+        
+        
+        
+        /*CommonDatabase db = new CommonDatabase();
         Connection connection = db.getConnection();
         System.out.println("Works2!");
         
@@ -165,7 +227,7 @@ public class VehiclePageController
             while(rs.next())
             {
                 //System.out.println(rs.getString(1));
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), 
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
                         rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
@@ -196,6 +258,8 @@ public class VehiclePageController
         dataTable.setItems(data);
     }
 
+*/
+
     @FXML
     private void Car(ActionEvent event)
     {
@@ -219,7 +283,10 @@ public class VehiclePageController
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
@@ -269,7 +336,10 @@ public class VehiclePageController
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
@@ -319,7 +389,10 @@ public class VehiclePageController
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
@@ -357,16 +430,83 @@ public class VehiclePageController
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber=?");
+            
+            
+            
+            //PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber LIKE * regNumber.getText() * OR RegistrationNumber LIKE * regNumber.getText().*  ");
+            //////////////////////////////////////////////////////////////////////////////////////////////
+            
+            
+            
             s.setString(1,regNumber.getText());
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
             }
         }
         catch(SQLException e)
         {
+            //JOptionPane.showMessageDialog(null, "Not a valid Registration Number format!");
+                //return;
+            //e.printStackTrace();
             System.out.println("Doesn't work6!");
+        }
+
+        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
+        make.setCellValueFactory(new PropertyValueFactory("Make"));
+        model.setCellValueFactory(new PropertyValueFactory("Model"));
+        year.setCellValueFactory(new PropertyValueFactory("Year"));
+        engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
+        fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
+        milage.setCellValueFactory(new PropertyValueFactory("Milage"));
+        colour.setCellValueFactory(new PropertyValueFactory("Colour"));
+        registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
+        customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
+        warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
+        MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
+        lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
+        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
+        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+    }
+
+    @FXML
+    private void Warranty(ActionEvent event) {
+        
+        CommonDatabase db = new CommonDatabase();
+        Connection connection = db.getConnection();
+        System.out.println("Works7!");
+        //String choice="";
+        if(actionTruck.isSelected())
+        {
+//            choice="Truck";
+//            actionCar.setSelected(false);
+//            actionVan.setSelected(false);
+         }
+    
+         try
+         {
+            connection = db.getConnection();
+            data = FXCollections.observableArrayList();
+            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
+            //s.setString(1,choice);
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work7!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
