@@ -11,7 +11,7 @@ public class Vehicle
 {
     private StringProperty vehicleType;
     private StringProperty make;
-    private IntegerProperty model;
+    private StringProperty model;
     private IntegerProperty year;
     private StringProperty engineSize;
     private StringProperty fuelType;
@@ -25,14 +25,14 @@ public class Vehicle
     private StringProperty deliveryDate;
     private StringProperty returnDate;
     
-    public Vehicle(String vehicleTypeX, String makeX, int modelX, int yearX, String engineSizeX, 
+    public Vehicle(String vehicleTypeX, String makeX, String modelX, int yearX, String engineSizeX, 
             String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
             int customerIDX, int warrantyIDX, String MOTRenewalDateX, 
             String lastServiceDateX, String deliveryDateX, String returnDateX)
     {
         vehicleType=new SimpleStringProperty(vehicleTypeX);
         make=new SimpleStringProperty(makeX);
-        model=new SimpleIntegerProperty(modelX);
+        model=new SimpleStringProperty(modelX);
         year=new SimpleIntegerProperty(yearX);
         engineSize=new SimpleStringProperty(engineSizeX);
         fuelType=new SimpleStringProperty(fuelTypeX);
@@ -53,7 +53,7 @@ public class Vehicle
     public StringProperty getMake1() {
         return make;
     }
-    public IntegerProperty getModel1() {
+    public StringProperty getModel1() {
         return model;
     }
     public IntegerProperty getYear1() {
@@ -99,7 +99,7 @@ public class Vehicle
     public String getMake() {
         return make.get();
     }
-    public int getModel() {
+    public String getModel() {
         return model.get();
     }
     public int getYear() {
@@ -145,7 +145,7 @@ public class Vehicle
     public void setMake(String i) {
         make.set(i);
     }
-    public void setModel(Integer i) {
+    public void setModel(String i) {
         model.set(i);
     }
     public void setYear(Integer i) {
