@@ -21,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -51,20 +52,17 @@ public class PartsAddController implements Initializable {
     private CheckBox Update_CurrentPart;
     @FXML
     private CheckBox add_Quantity;
-    @FXML
-    private Label lbl_Search_ID_ID;
+   // private Label lbl_Search_ID_ID;
     @FXML
     private Label lbl_Search_ID_Name;
     @FXML
     private Label lbl_Search_ID_Description;
-    @FXML
-    private TextField txt_ID_Search_ID;
+   // private TextField txt_ID_Search_ID;
     @FXML
     private Label lbl_data_Name;
     @FXML
     private Label lbl_data_Description;
-    @FXML
-    private Button Search_Part_by_ID_btn;
+   // private Button Search_Part_by_ID_btn;
     @FXML
     private Label lbl_Search_ID_QTY;
     @FXML
@@ -98,9 +96,7 @@ public class PartsAddController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-           table_controles tb = new table_controles();
-        tb.parts_d_table(parts_table);
-      l = tb.getParts(parts_table);
+           updateTable();
     }    
 
     @FXML
@@ -110,10 +106,10 @@ public class PartsAddController implements Initializable {
            Visibility_New_Parts(true);
            add_Quantity.setSelected(false);
            Update_CurrentPart.setSelected(false);
-           lbl_Search_ID_ID.setVisible(false);
-                   txt_ID_Search_ID.setVisible(false);
-                   Search_Part_by_ID_btn.setVisible(false);
-                   lbl_Search_ID_ID.setVisible(false);
+           //lbl_Search_ID_ID.setVisible(false);
+                   //txt_ID_Search_ID.setVisible(false);
+                  // Search_Part_by_ID_btn.setVisible(false);
+                  // lbl_Search_ID_ID.setVisible(false);
         }
     }
     @FXML
@@ -123,9 +119,9 @@ public class PartsAddController implements Initializable {
            Visibility_New_Parts(true);
            add_Quantity.setSelected(false);
            New_Part_Select.setSelected(false);
-            txt_ID_Search_ID.setVisible(true);
-                   Search_Part_by_ID_btn.setVisible(true);
-                   lbl_Search_ID_ID.setVisible(true);
+           // txt_ID_Search_ID.setVisible(true);
+                   //Search_Part_by_ID_btn.setVisible(true);
+                   //lbl_Search_ID_ID.setVisible(true);
         }
     }
     @FXML
@@ -135,22 +131,21 @@ public class PartsAddController implements Initializable {
            Visibility_New_Parts(false);
                    New_Part_Select.setSelected(false); 
            Update_CurrentPart.setSelected(false);
-           lbl_Search_ID_ID.setVisible(true);
-           txt_ID_Search_ID.setVisible(true);
-           Search_Part_by_ID_btn.setVisible(true);
+         //  lbl_Search_ID_ID.setVisible(false);
+         //  txt_ID_Search_ID.setVisible(false);
+         //  Search_Part_by_ID_btn.setVisible(true);
         }
         
     }
 
     
-    @FXML
     public void Search_Part(ActionEvent event) {
-         Parts pa = new Parts(Integer.parseInt(txt_ID_Search_ID.getText()));
+        /* Parts pa = new Parts(Integer.parseInt(txt_ID_Search_ID.getText()));
         Parts newP=pa.SeachByID();
       lbl_data_Name.setText(newP.name());
         lbl_data_Description.setText(newP.Description());
         
-        txt_Search_ID_QTY.setText(Integer.toString(newP.qty()));
+        txt_Search_ID_QTY.setText(Integer.toString(newP.qty()));*/
        
         table_controles tb = new table_controles();
         tb.parts_d_table(parts_table);
@@ -190,12 +185,36 @@ lbl_Search_ID_QTY.setVisible(t);
     @FXML
    public void Clear_Add_Page(ActionEvent event) {
             txt_Search_ID_QTY.clear();
-            txt_ID_Search_ID.clear();
+           // txt_ID_Search_ID.clear();
              txt_New_Part_Name.clear();
     txt_New_Part_Description.clear();
     txt_New_Part_Cost.clear();
     txt_New_Part_Quantity.clear();
     lbl_data_Name.setText("");
     lbl_data_Description.setText("");
+    }
+   
+   public void updateTable(){
+       table_controles tb = new table_controles();
+        tb.parts_d_table(parts_table);
+      l = tb.getParts(parts_table);
+   }
+
+    @FXML
+    private void data(MouseEvent event) {
+        
+        if(event.getClickCount()==2){
+            lbl_data_Name .setText( parts_table.getSelectionModel().getSelectedItem().getName());
+            lbl_data_Description.setText( parts_table.getSelectionModel().getSelectedItem().getDescription());
+                    txt_Search_ID_QTY.setText(Integer.toString(parts_table.getSelectionModel().getSelectedItem().getQTY()));
+             txt_New_Part_Name .setText( parts_table.getSelectionModel().getSelectedItem().getName());
+    txt_New_Part_Description.setText( parts_table.getSelectionModel().getSelectedItem().getDescription());
+    txt_New_Part_Cost.setText(parts_table.getSelectionModel().getSelectedItem().getCost());
+            
+    txt_New_Part_Quantity.setText(Integer.toString(parts_table.getSelectionModel().getSelectedItem().getQTY()));
+            
+                    
+            
+        }
     }
 }

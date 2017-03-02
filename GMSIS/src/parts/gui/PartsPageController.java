@@ -95,7 +95,7 @@ public class PartsPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-    
+    System.out.println("d");
         
         
     }    
@@ -147,7 +147,7 @@ public class PartsPageController implements Initializable {
     instal.setText("");
       txtexpire.setText("");
       dataTable.setItems(null);
-      
+      //colour()
     }
 
     @FXML
@@ -187,7 +187,6 @@ public class PartsPageController implements Initializable {
        
        boolean i=true;
          while(info.next()){
-             
              Parts.getItems().add(Integer.toString(info.getInt(2)));
              if(i){
                  Parts.setValue(Integer.toString(info.getInt(2)));
@@ -264,7 +263,7 @@ public class PartsPageController implements Initializable {
       l.setStyle("-fx-background-color:White");
       return;
         }
-        l.setStyle("-fx-background-color:Grey");
+        l.setStyle("-fx-background-color:Silver");
     }
     
 

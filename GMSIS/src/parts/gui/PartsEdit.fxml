@@ -58,7 +58,6 @@
       <Label layoutX="421.0" layoutY="232.0" text="ID:" />
       <TextField fx:id="Search_ID_txt" layoutX="477.0" layoutY="228.0" />
       <Button fx:id="Search_Parts_Using_ID" layoutX="519.0" layoutY="257.0" mnemonicParsing="false" onAction="#Search_ID_Parts" text="Search Part By ID" />
-      <Label fx:id="txt_ID_Name" layoutX="417.0" layoutY="257.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 95; -fx-pref-height: 50;" wrapText="true" />
       <Label fx:id="txt_ID_Cost" layoutX="555.0" layoutY="288.0" prefWidth="60.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 70;" />
       <Label layoutX="521.0" layoutY="289.0" text="Cost:" />
       <Button fx:id="btn_delete_By_Part_ID" layoutX="520.0" layoutY="329.0" mnemonicParsing="false" onAction="#DeletePartByID" text="Delete By Part ID" />
@@ -69,6 +68,7 @@
       <TextField fx:id="Add_ID_Part" layoutX="451.0" layoutY="372.0" prefHeight="25.0" prefWidth="60.0" />
       <Separator prefWidth="200.0" />
       <Separator layoutX="417.0" layoutY="317.0" prefHeight="3.0" prefWidth="209.0" />
+      <Label fx:id="txt_ID_Name" layoutX="418.0" layoutY="259.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: Silver; -fx-pref-width: 95; -fx-pref-height: 50;" wrapText="true" />
       
    </children>
 </AnchorPane>
