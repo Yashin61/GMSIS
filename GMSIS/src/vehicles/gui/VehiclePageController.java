@@ -385,7 +385,7 @@ public class VehiclePageController
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-            s.setString(1,choice);
+            //s.setString(1,choice);
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
@@ -429,19 +429,26 @@ public class VehiclePageController
         {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber=?");
+            //PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber=?");
+            
+            //PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber=? LIKE '% "+ regNumber.getText()+ "%';");
             
             
+            //SELECT * FROM TABLENAME WHERE TABLECOLUMN LIKE '%input%'
             
             //PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE RegistrationNumber LIKE * regNumber.getText() * OR RegistrationNumber LIKE * regNumber.getText().*  ");
             //////////////////////////////////////////////////////////////////////////////////////////////
             
+            String sql = ("SELECT * FROM Vehicles WHERE RegistrationNumber LIKE '%A%';");
             
+            Statement stmt  = connection.createStatement();
+            ResultSet rs    = stmt.executeQuery(sql);
             
-            s.setString(1,regNumber.getText());
-            ResultSet rs = s.executeQuery();
+            //s.setString(1,regNumber.getText());
+            //ResultSet rs = s.executeQuery();
             while(rs.next())
             {
+                System.out.println(rs.getString(1));
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
