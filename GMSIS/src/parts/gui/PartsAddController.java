@@ -89,6 +89,7 @@ public class PartsAddController implements Initializable {
     @FXML
     private TableColumn<Parts_Table, Integer> qty;
 
+          ConnectionToParts conn;
     /**
      * Initializes the controller class.
      * 
@@ -96,6 +97,8 @@ public class PartsAddController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+          conn = new ConnectionToParts();
            updateTable();
     }    
 

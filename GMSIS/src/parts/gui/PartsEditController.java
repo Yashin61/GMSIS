@@ -111,6 +111,8 @@ public class PartsEditController implements Initializable {
     private static ObservableList<Customers_Parts_Edit> l;
     private ObservableList<Customers_Parts_Edit> data;
     private int Booking;
+    
+          ConnectionToParts conn;
     /**
      * Initializes the controller class.
      *
@@ -119,6 +121,7 @@ public class PartsEditController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 
+          conn = new ConnectionToParts();
     }
 
     @FXML
@@ -170,7 +173,7 @@ public class PartsEditController implements Initializable {
 
     @FXML
     private void DeletePartByID(ActionEvent event) {
-        ConnectionToParts conn = new ConnectionToParts();
+       
          Connection con = conn.connect();
         Parts p=null;
        
@@ -227,7 +230,7 @@ Delete_ID_Part.setText("");
     private void Add_Parts_By_ID(ActionEvent event) {
         
         
-          ConnectionToParts conn = new ConnectionToParts();
+          
          Connection con = conn.connect();
         Parts p=null;
        
@@ -265,7 +268,7 @@ Delete_ID_Part.setText("");
  
        
 Delete_ID_Part.setText("");
-        
+        Add_ID_Part.setText("");
           con.close();     
         }
         catch(SQLException e)
@@ -311,7 +314,7 @@ Delete_ID_Part.setText("");
         ResultSet in = null;
         ResultSet info = null;
         ResultSet cu = null;
-        ConnectionToParts conn = new ConnectionToParts();
+      
         String sqlRegno = "SELECT * FROM Vehicles WHERE CustomersID = ? ";
         String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
         String cust = "SELECT * FROM Customer_Accounts WHERE ID = ?";
