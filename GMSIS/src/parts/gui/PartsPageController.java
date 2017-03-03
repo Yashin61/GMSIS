@@ -88,14 +88,16 @@ public class PartsPageController implements Initializable {
     @FXML
     private TableColumn<Customers_Parts_Edit, String> REgistrationNumber;
      private ObservableList<Customers_Parts_Edit> data;
+     
+          ConnectionToParts conn = new ConnectionToParts();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-    
+
+         conn = new ConnectionToParts();
         
         
     }    
@@ -147,7 +149,7 @@ public class PartsPageController implements Initializable {
     instal.setText("");
       txtexpire.setText("");
       dataTable.setItems(null);
-      
+      //colour()
     }
 
     @FXML
@@ -168,7 +170,7 @@ public class PartsPageController implements Initializable {
         catch(NumberFormatException e){
             
         }
-            ConnectionToParts conn = new ConnectionToParts();
+          
             String sqlRegno = "SELECT * FROM Vehicles WHERE CustomersID = ? ";
         String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
          Connection con=conn.connect();
@@ -187,7 +189,6 @@ public class PartsPageController implements Initializable {
        
        boolean i=true;
          while(info.next()){
-             
              Parts.getItems().add(Integer.toString(info.getInt(2)));
              if(i){
                  Parts.setValue(Integer.toString(info.getInt(2)));
@@ -208,7 +209,7 @@ public class PartsPageController implements Initializable {
     }
     
     public void first_sur(String f, String s){
-        ConnectionToParts conn = new ConnectionToParts();
+     
         String sql = "SELECT * FROM Customer_Accounts WHERE Firstname = ? AND Surname = ? ";
          Connection con=conn.connect();
         try{
@@ -233,7 +234,7 @@ public class PartsPageController implements Initializable {
     }
     
     public void reg_no(int r){
-                ConnectionToParts conn = new ConnectionToParts();
+            
         String sql = "SELECT * FROM Customer_Accounts WHERE ID = ? ";
          Connection con=conn.connect();
         try{
@@ -264,13 +265,12 @@ public class PartsPageController implements Initializable {
       l.setStyle("-fx-background-color:White");
       return;
         }
-        l.setStyle("-fx-background-color:Grey");
+        l.setStyle("-fx-background-color:Silver");
     }
     
 
     @FXML
     private void Add_Choice(ActionEvent event) {
-         ConnectionToParts conn = new ConnectionToParts();
         String sql = "UPDATE PartsUsed SET ExpireDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
         String sql2 = "UPDATE PartsUsed SET InstallationDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
          
@@ -310,8 +310,8 @@ Date date = new Date();
            
            public void update_table(){
                
-                ConnectionToParts db = new ConnectionToParts();
-        Connection con= db.connect();
+         
+        Connection con= conn.connect();
         
         try
         {
