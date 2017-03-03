@@ -67,10 +67,6 @@ public class VehiclePageController
     @FXML
     private TableColumn<Vehicle, String> lastServiceDate;
     @FXML
-    private TableColumn<Vehicle, String> deliveryDate;
-    @FXML
-    private TableColumn<Vehicle, String> returnDate;
-    @FXML
     private TextField regNumber;
     private ObservableList<Vehicle> data;
     @FXML
@@ -101,12 +97,12 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work1!");
+            System.out.println("Dosen't work1!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -122,8 +118,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         
         dataTable.setItems(null);
         dataTable.setItems(data);
@@ -214,7 +208,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work4!");
+            System.out.println("Dosen't work4!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory("VehicleType"));
@@ -230,8 +224,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         
         dataTable.setItems(null);
         dataTable.setItems(data);
@@ -265,12 +257,12 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work5!");
+            System.out.println("Dosen't work5!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -286,8 +278,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
@@ -318,13 +308,13 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         
         catch(SQLException e)
         {
-            System.out.println("Doesn't work6!");
+            System.out.println("Dosen't work6!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -340,8 +330,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);        
     }
@@ -372,12 +360,12 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work7!");
+            System.out.println("Dosen't work7!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -393,8 +381,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
@@ -424,12 +410,12 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work8!");
+            System.out.println("Dosen't work8!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -445,8 +431,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
@@ -454,7 +438,7 @@ public class VehiclePageController
     @FXML
     private void searchVehRegNum(ActionEvent event) {
         CommonDatabase db = new CommonDatabase();
-                   // connection = db.getConnection();
+//        connection = db.getConnection();
         System.out.println("Works9!");
        
         try
@@ -470,7 +454,7 @@ public class VehiclePageController
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
@@ -478,7 +462,7 @@ public class VehiclePageController
             //JOptionPane.showMessageDialog(null, "Not a valid Registration Number format!");
                 //return;
             //e.printStackTrace();
-            System.out.println("Doesn't work9!");
+            System.out.println("Dosen't work9!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -494,8 +478,6 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        deliveryDate.setCellValueFactory(new PropertyValueFactory("DeliveryDate"));
-        returnDate.setCellValueFactory(new PropertyValueFactory("ReturnDate"));
         dataTable.setItems(null);
         dataTable.setItems(data);
     }
@@ -510,5 +492,9 @@ public class VehiclePageController
             dataTable.setItems(null);
         }
         regNumber.setText("");
+    }
+
+    @FXML
+    private void handleButton2(ActionEvent event) {
     }
 }
