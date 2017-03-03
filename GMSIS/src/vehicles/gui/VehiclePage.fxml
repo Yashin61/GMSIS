@@ -79,10 +79,11 @@
       <CheckBox fx:id="actionCar" layoutX="582.0" layoutY="549.0" mnemonicParsing="false" onAction="#Car" text="Car" />
       <CheckBox fx:id="actionVan" layoutX="645.0" layoutY="549.0" mnemonicParsing="false" onAction="#Van" text="Van" />
       <CheckBox fx:id="actionTruck" layoutX="703.0" layoutY="549.0" mnemonicParsing="false" onAction="#Truck" text="Truck" />
-      <Label layoutX="573.0" layoutY="517.0" prefHeight="25.0" prefWidth="194.0" text="VIEW ALL VEHICLES BY TYPE">
+      <Label layoutX="573.0" layoutY="517.0" prefHeight="25.0" prefWidth="255.0" text="View All Vehicles by Type or Warranty">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
+      <CheckBox fx:id="actionWarranty" layoutX="769.0" layoutY="549.0" mnemonicParsing="false" onAction="#Warranty" text="Warranty" />
    </children>
 </AnchorPane>
