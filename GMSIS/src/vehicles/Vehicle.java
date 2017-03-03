@@ -22,13 +22,11 @@ public class Vehicle
     private IntegerProperty warrantyID;
     private StringProperty MOTRenewalDate;
     private StringProperty lastServiceDate;
-    private StringProperty deliveryDate;
-    private StringProperty returnDate;
     
     public Vehicle(String vehicleTypeX, String makeX, String modelX, int yearX, String engineSizeX, 
             String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
             int customerIDX, int warrantyIDX, String MOTRenewalDateX, 
-            String lastServiceDateX, String deliveryDateX, String returnDateX)
+            String lastServiceDateX)
     {
         vehicleType=new SimpleStringProperty(vehicleTypeX);
         make=new SimpleStringProperty(makeX);
@@ -43,8 +41,6 @@ public class Vehicle
         warrantyID=new SimpleIntegerProperty(warrantyIDX);
         MOTRenewalDate=new SimpleStringProperty(MOTRenewalDateX);
         lastServiceDate=new SimpleStringProperty(lastServiceDateX);
-        deliveryDate=new SimpleStringProperty(deliveryDateX);
-        returnDate=new SimpleStringProperty(returnDateX);
     }
 
     public StringProperty getVehicleType1() {
@@ -86,12 +82,6 @@ public class Vehicle
     public StringProperty getLastServiceDate1() {
         return lastServiceDate;
     }
-    public StringProperty getDeliveryDate1() {
-        return deliveryDate;
-    }
-    public StringProperty getReturnDate1() {
-        return returnDate;
-    }
     
     public String getVehicleType() {
         return vehicleType.get();
@@ -132,12 +122,6 @@ public class Vehicle
     public String getLastServiceDate() {
         return lastServiceDate.get();
     }
-    public String getDeliveryDate() {
-        return deliveryDate.get();
-    }
-    public String getReturnDate() {
-        return returnDate.get();
-    }
     
     public void setVehicleType(String i) {
         vehicleType.set(i);
@@ -177,11 +161,5 @@ public class Vehicle
     }
     public void setLastServiceDate(String i) {
         lastServiceDate.set(i);
-    }
-    public void setDeliveryDate(String i) {
-        deliveryDate.set(i);
-    }
-    public void setReturnDate(String i) {
-        returnDate.set(i);
     }
 }
