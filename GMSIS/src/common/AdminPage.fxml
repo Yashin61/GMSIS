@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
+   <children>
+      <ImageView fitHeight="141.0" fitWidth="118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="406.0" layoutY="51.0" text="ADMIN ACCESS" textFill="#463d3d">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TableView fx:id="dataTable" layoutX="319.0" layoutY="135.0" prefHeight="300.0" prefWidth="628.0" AnchorPane.rightAnchor="24.0">
+        <columns>
+          <TableColumn fx:id="table_id" prefWidth="98.0" text="ID" />
+          <TableColumn fx:id="table_firstname" prefWidth="123.0" text="Firstname" />
+          <TableColumn fx:id="table_surname" prefWidth="127.0" text="Surname" />
+          <TableColumn fx:id="table_password" prefWidth="140.0" text="Password" />
+          <TableColumn fx:id="table_wage" prefWidth="139.0" text="Hourly Wage" />
+        </columns>
+      </TableView>
+      <Button layoutX="260.0" layoutY="376.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
+      <Label layoutX="29.0" layoutY="142.0" text="ADD  USER">
+         <font>
+            <Font name="Apple Braille" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="207.0" text="Firstname: " AnchorPane.leftAnchor="28.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="248.0" text="Surname: " AnchorPane.leftAnchor="28.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="289.0" text="Password:" AnchorPane.leftAnchor="28.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="328.0" text="Hourly Wage: " AnchorPane.leftAnchor="28.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstname" layoutX="134.0" layoutY="204.0" prefHeight="26.0" prefWidth="172.0" />
+      <TextField fx:id="surname" layoutX="134.0" layoutY="245.0" prefHeight="26.0" prefWidth="172.0" />
+      <TextField fx:id="password" layoutX="135.0" layoutY="286.0" prefHeight="26.0" prefWidth="172.0" />
+      <TextField fx:id="hourlyWage" layoutX="135.0" layoutY="325.0" prefHeight="26.0" prefWidth="172.0" />
+      <Button layoutX="190.0" layoutY="376.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
+      <Button layoutX="744.0" layoutY="447.0" mnemonicParsing="false" onAction="#openEdit" text="EDIT" AnchorPane.rightAnchor="187.0" />
+      <Button layoutX="798.0" layoutY="447.0" mnemonicParsing="false" onAction="#deleteUser" text="DELETE" AnchorPane.rightAnchor="110.0" />
+      <Separator layoutX="26.0" layoutY="472.0" prefHeight="27.0" prefWidth="927.0" />
+      <Button layoutX="873.0" layoutY="447.0" mnemonicParsing="false" onAction="#displayUsers" text="VIEW ALL" AnchorPane.rightAnchor="24.0" />
+      <Label layoutX="26.0" layoutY="449.0" text="SEARCH  USER">
+         <font>
+            <Font name="Apple Braille" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="518.0" text="System User ID: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="id" layoutX="167.0" layoutY="515.0" prefHeight="26.0" prefWidth="172.0" />
+      <Button layoutX="354.0" layoutY="515.0" mnemonicParsing="false" onAction="#searchUser" text="SEARCH" />
+      <Button layoutX="437.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
+   </children>
+</AnchorPane>
