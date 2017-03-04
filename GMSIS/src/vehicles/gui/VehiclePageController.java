@@ -36,8 +36,7 @@ import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
-    Pane pane;
-    
+//    Pane pane;
     @FXML
     private TableView<Vehicle> dataTable;
     @FXML
@@ -80,18 +79,20 @@ public class VehiclePageController
     @FXML
     private Button clearButton;
     
+    CommonDatabase db;
+    Connection con;
+    
     @FXML
     public void handleButton() throws IOException
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         System.out.println("Works1!");
         
         try
         {
-            connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Vehicles");
+            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles");
             while(rs.next())
             {
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
@@ -102,7 +103,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Dosen't work1!");
+            System.out.println("Doesn't work1!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -118,12 +119,33 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        
         dataTable.setItems(null);
         dataTable.setItems(data);
         actionCar.setSelected(false);
         actionVan.setSelected(false);
         actionTruck.setSelected(false);
+    }
+    
+    @FXML
+    private void handleButton2(ActionEvent event) {
+        db = new CommonDatabase();
+        con=db.getConnection();
+        System.out.println("Works10!");
+        Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
+        String sql="SELECT * FROM Warranty WHERE WarrantyID=?";
+        
+        try
+        {
+            PreparedStatement stmt=con.prepareStatement(sql);
+            stmt.setString(1, veh.getRegistrationNumber());
+//            Result set=stmt.executeQuery();
+            
+        }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
+            System.out.println("Doesn't work10!");
+        }
     }
     
     @FXML
@@ -137,81 +159,49 @@ public class VehiclePageController
     @FXML
     private void deleteVehicle(ActionEvent event)
     {
-        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
-        /*if(veh == null)
+        db = new CommonDatabase();
+        Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
+        String sql="DELETE FROM Vehicles WHERE RegistrationNumber=?";
+        try
         {
-            noChosen();
-        }*/
-        //else
-        //{
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setContentText("Do you want to continue deleting the selected vehicle?");
-            ButtonType yes = new ButtonType("YES");
-            ButtonType no = new ButtonType("NO");
-            alert.getButtonTypes().setAll(yes, no);
-            Optional<ButtonType> result = alert.showAndWait();
-            if(result.get() == yes)
-            {
-                String vehType = veh.getVehicleType();
-                String sql = "DELETE FROM Vehicles WHERE VehicleType = ?";
-                CommonDatabase db = new CommonDatabase();
-                Connection connection = null;
-
-                try
-                {
-                    connection = db.getConnection();
-                    PreparedStatement statement = connection.prepareStatement(sql);
-                    statement.setString(1, vehType);
-                    statement.executeUpdate();
-                }
-                catch(SQLException e)
-                {
-                    System.out.println(e.getMessage());
-                }
-                //close(connection);
-                     
-            }
-            else
-            {
-                //alert.close();
-            }
-        //}
-        //display();
+            con=db.getConnection();
+            PreparedStatement stmt=con.prepareStatement(sql);
+            stmt.setString(1, veh.getRegistrationNumber());
+            stmt.execute();
+            JOptionPane.showMessageDialog(null, "The entery is now deleted!");
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("Doesn't work4!");
+        }
+        update();
     }
-
-        /*CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
-        System.out.println("Works4!");
+    
+    public void update()
+    {
+        db = new CommonDatabase();
+        con = db.getConnection();
+        System.out.println("Works11!");
         
         try
         {
-            String sql = "SELECT * FROM Vehicles";
-            //System.out.println("1");
-            connection = db.getConnection();
-            //System.out.println("2");
             data = FXCollections.observableArrayList();
-            //System.out.println("3");
-            Statement st = connection.createStatement();
-            //System.out.println("4");
-            ResultSet rs = st.executeQuery(sql);
-            //System.out.println("5");
-            //System.out.println(rs.getString(1));
+            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles");
             while(rs.next())
             {
-                //System.out.println(rs.getString(1));
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
+                        rs.getString(12), rs.getString(13)));
             }
         }
         catch(SQLException e)
         {
-            System.out.println("Dosen't work4!");
+            System.out.println("Doesn't work11!");
         }
         
-        vehicleType.setCellValueFactory(new PropertyValueFactory("VehicleType"));
+        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
         make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
@@ -224,18 +214,18 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        
         dataTable.setItems(null);
         dataTable.setItems(data);
+        actionCar.setSelected(false);
+        actionVan.setSelected(false);
+        actionTruck.setSelected(false);
     }
-
-*/
 
     @FXML
     private void car(ActionEvent event)
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         System.out.println("Works5!");
         String choice="";
         if(actionCar.isSelected())
@@ -243,13 +233,13 @@ public class VehiclePageController
             choice="Car";
             actionVan.setSelected(false);
             actionTruck.setSelected(false);
+            actionWarranty.setSelected(false);
         }
         
         try
         {
-            connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
             s.setString(1,choice);
             ResultSet rs = s.executeQuery();
             while(rs.next())
@@ -262,7 +252,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Dosen't work5!");
+            System.out.println("Doesn't work5!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -285,8 +275,8 @@ public class VehiclePageController
     @FXML
     private void van(ActionEvent event)
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         System.out.println("Works6!");
         String choice="";
         if(actionVan.isSelected())
@@ -294,13 +284,13 @@ public class VehiclePageController
             choice="Van";
             actionCar.setSelected(false);
             actionTruck.setSelected(false);
+            actionWarranty.setSelected(false);
         }
         
         try
         {
-            connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
             s.setString(1,choice);
             ResultSet rs = s.executeQuery();
             while(rs.next())
@@ -314,7 +304,7 @@ public class VehiclePageController
         
         catch(SQLException e)
         {
-            System.out.println("Dosen't work6!");
+            System.out.println("Doesn't work6!");
         }
         
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -337,8 +327,8 @@ public class VehiclePageController
     @FXML
     private void truck(ActionEvent event)
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
+        db = new CommonDatabase();
+        Connection con = db.getConnection();
         System.out.println("Works7!");
         String choice="";
         if(actionTruck.isSelected())
@@ -346,13 +336,13 @@ public class VehiclePageController
             choice="Truck";
             actionCar.setSelected(false);
             actionVan.setSelected(false);
+            actionWarranty.setSelected(false);
          }
     
          try
          {
-            connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
             s.setString(1,choice);
             ResultSet rs = s.executeQuery();
             while(rs.next())
@@ -365,7 +355,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Dosen't work7!");
+            System.out.println("Doesn't work7!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -387,23 +377,20 @@ public class VehiclePageController
 
     @FXML
     private void warranty(ActionEvent event) {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         System.out.println("Works8!");
-//        String choice="";
-        if(actionTruck.isSelected())
+        if(actionWarranty.isSelected())
         {
-//            choice="Truck";
-//            actionCar.setSelected(false);
-//            actionVan.setSelected(false);
+            actionCar.setSelected(false);
+            actionVan.setSelected(false);
+            actionTruck.setSelected(false);
          }
     
          try
          {
-            connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            PreparedStatement s=connection.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
-//            s.setString(1,choice);
+            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
             ResultSet rs = s.executeQuery();
             while(rs.next())
             {
@@ -415,7 +402,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Dosen't work8!");
+            System.out.println("Doesn't work8!");
         }
 
         vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
@@ -437,64 +424,60 @@ public class VehiclePageController
     
     @FXML
     private void searchVehRegNum(ActionEvent event) {
-        CommonDatabase db = new CommonDatabase();
-//        connection = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         System.out.println("Works9!");
        
-        try
+        if(!regNumber.getText().equals(""))
         {
-            data = FXCollections.observableArrayList();
-            Connection connection = db.getConnection();
-            String sql = "SELECT * FROM Vehicles WHERE RegistrationNumber LIKE '" + regNumber.getText() + "%'";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            while(rs.next())
+            try
             {
-                System.out.println(rs.getString(1));
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13)));
+                data = FXCollections.observableArrayList();
+                String sql = "SELECT * FROM Vehicles WHERE RegistrationNumber LIKE '" + regNumber.getText() + "%'";
+                PreparedStatement statement = con.prepareStatement(sql);
+                ResultSet rs = statement.executeQuery();
+                while(rs.next())
+                {
+                    System.out.println(rs.getString(1));
+                    data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+                            rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+                            rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+                            rs.getString(12), rs.getString(13)));
+                }
             }
-        }
-        catch(SQLException e)
-        {
-            //JOptionPane.showMessageDialog(null, "Not a valid Registration Number format!");
-                //return;
-            //e.printStackTrace();
-            System.out.println("Dosen't work9!");
-        }
+            catch(SQLException e)
+            {
+                System.out.println("Doesn't work9!");
+            }
 
-        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
-        make.setCellValueFactory(new PropertyValueFactory("Make"));
-        model.setCellValueFactory(new PropertyValueFactory("Model"));
-        year.setCellValueFactory(new PropertyValueFactory("Year"));
-        engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
-        fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
-        milage.setCellValueFactory(new PropertyValueFactory("Milage"));
-        colour.setCellValueFactory(new PropertyValueFactory("Colour"));
-        registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
-        customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
-        warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
-        MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
-        lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
-        dataTable.setItems(null);
-        dataTable.setItems(data);
+            vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
+            make.setCellValueFactory(new PropertyValueFactory("Make"));
+            model.setCellValueFactory(new PropertyValueFactory("Model"));
+            year.setCellValueFactory(new PropertyValueFactory("Year"));
+            engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
+            fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
+            milage.setCellValueFactory(new PropertyValueFactory("Milage"));
+            colour.setCellValueFactory(new PropertyValueFactory("Colour"));
+            registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
+            customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
+            warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
+            MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
+            lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
+            dataTable.setItems(null);
+            dataTable.setItems(data);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Type the Registration Number in the Given Format!");
+        }
     }
 
     @FXML
     private void clearDetails(ActionEvent event)
     {
-        if(actionCar.isSelected() || actionVan.isSelected() || actionTruck.isSelected())
-        {}
-        else
+        if(!regNumber.getText().equals(""))
         {
-            dataTable.setItems(null);
+            regNumber.setText("");
         }
-        regNumber.setText("");
-    }
-
-    @FXML
-    private void handleButton2(ActionEvent event) {
     }
 }
