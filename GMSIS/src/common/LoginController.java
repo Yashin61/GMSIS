@@ -100,6 +100,13 @@ public class LoginController implements Initializable {
     }
     
     @FXML
+    private void spcPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
     public void adminLoginPage(ActionEvent event) throws IOException{
         try
         {
@@ -136,8 +143,8 @@ public class LoginController implements Initializable {
             if(flag)
             {
                 System.out.println("You are now a admin");
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-                rootPane.getChildren().setAll(pane);
+                //AnchorPane pane = FXMLLoader.load(getClass().getResource(".fxml"));
+                //rootPane.getChildren().setAll(pane);
             }
             else
             {
