@@ -530,14 +530,11 @@ public class VehiclePageController
     @FXML
     private void clearDetails(ActionEvent event)
     {
-        if(flag)
+        regNumber.setText("");
+        if(flag && flag2)
         {
             dataTable.setItems(null);
             flag=false;
-            if(!regNumber.getText().equals(""))
-            {
-                regNumber.setText("");
-            }
         }
     }
 }
