@@ -17,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,10 +93,10 @@ public class LoginController implements Initializable {
             set.close();
             connect.close();
 
-          }catch(SQLException e)
-          {
-              JOptionPane.showMessageDialog(null, "Login cannot be located");   
-          } 
+        }catch(SQLException e)
+        {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
+        } 
     }
     
     @FXML
@@ -120,7 +122,7 @@ public class LoginController implements Initializable {
         try
         {
             //Connect to database 
-            connect = DriverManager.getConnection("jdbc:sqlite:src/spcpage/TestRecords.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             ResultSet set = stmt.executeQuery("SELECT * FROM Login WHERE Id = 1");
             boolean flag = false;
