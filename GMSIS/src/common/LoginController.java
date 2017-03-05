@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
         try
         {
             //Connect to database 
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/tRecords.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             ResultSet set = stmt.executeQuery("SELECT * FROM Login");
             boolean flag = false;
