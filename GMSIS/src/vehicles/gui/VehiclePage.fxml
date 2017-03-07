@@ -55,11 +55,11 @@
              
             </TableView>
        
-      <Button layoutX="247.0" layoutY="366.0" mnemonicParsing="false" onAction="#handleButton" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="682.0" AnchorPane.topAnchor="366.0" />
+      <Button layoutX="247.0" layoutY="366.0" mnemonicParsing="false" onAction="#getVehicleDetails" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="682.0" AnchorPane.topAnchor="366.0" />
       <Button layoutX="527.0" layoutY="367.0" mnemonicParsing="false" onAction="#deleteVehicle" text="DELETE" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="601.0" layoutY="367.0" mnemonicParsing="false" onAction="#openEditPage" prefHeight="25.0" prefWidth="50.0" text="EDIT" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="674.0" layoutY="367.0" mnemonicParsing="false" onAction="#openAddPage" prefHeight="25.0" prefWidth="50.0" text="ADD" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="367.0" />
-      <Button layoutX="848.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleButton2" prefHeight="26.0" prefWidth="171.0" text="VIEW WARRANTY DETAILS" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="367.0" />
+      <Button layoutX="848.0" layoutY="367.0" mnemonicParsing="false" onAction="#getWarrantyDetails" prefHeight="26.0" prefWidth="171.0" text="VIEW WARRANTY DETAILS" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="367.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/gui/Car.png" />
@@ -71,23 +71,23 @@
          </font>
       </Label>
       <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" promptText="ie. AB12 CDE" />
-      <CheckBox fx:id="actionCar" layoutX="544.0" layoutY="408.0" mnemonicParsing="false" onAction="#car" text="Car" />
-      <CheckBox fx:id="actionVan" layoutX="544.0" layoutY="444.0" mnemonicParsing="false" onAction="#van" text="Van" />
-      <CheckBox fx:id="actionTruck" layoutX="545.0" layoutY="479.0" mnemonicParsing="false" onAction="#truck" text="Truck" />
+      <CheckBox fx:id="car" layoutX="544.0" layoutY="408.0" mnemonicParsing="false" onAction="#actionCar" text="Car" />
+      <CheckBox fx:id="van" layoutX="544.0" layoutY="444.0" mnemonicParsing="false" onAction="#actionVan" text="Van" />
+      <CheckBox fx:id="truck" layoutX="545.0" layoutY="479.0" mnemonicParsing="false" onAction="#actionTruck" text="Truck" />
       <Label layoutX="237.0" layoutY="438.0" prefHeight="30.0" prefWidth="217.0" text="View All Vehicles by Type or Warranty">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <CheckBox fx:id="actionWarranty" layoutX="618.0" layoutY="444.0" mnemonicParsing="false" onAction="#warranty" text="Warranty" />
+      <CheckBox fx:id="warranty" layoutX="618.0" layoutY="444.0" mnemonicParsing="false" onAction="#actionWarranty" text="Warranty" />
       <GridPane layoutX="792.0" layoutY="408.0">
          <children>
-            <TextField fx:id="address11" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
+            <TextField fx:id="expDate" editable="false" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
             <Label text="Expiry Date" />
             <Label text="Company Name" GridPane.rowIndex="1" />
             <Label text="Company Address" GridPane.rowIndex="2" />
-            <TextField fx:id="address111" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="address112" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="compName" editable="false" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="compName1" editable="false" layoutX="110.0" layoutY="42.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

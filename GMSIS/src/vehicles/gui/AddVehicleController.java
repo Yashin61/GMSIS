@@ -15,19 +15,13 @@ public class AddVehicleController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private TextField address11;
-    @FXML
     private TextField address111;
     @FXML
     private TextField address112;
     @FXML
-    private TextField address113;
-    @FXML
     private TextField address1131;
     @FXML
     private TextField address11311;
-    @FXML
-    private TextField address113112;
     @FXML
     private TextField address1131121;
     @FXML
