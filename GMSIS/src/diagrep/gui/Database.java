@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diagrep;
+package diagrep.gui;
 
+import diagrep.*;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,10 +43,12 @@ public class Database {
                 System.out.println(rs.getInt("BookingID") +  "\t" + 
                                    rs.getString("RegistrationNumber") + "\t" +
                                    rs.getString("BookingType") + "\t" +
+                                   rs.getInt("MechanicID") + "\t" +
                                    rs.getString("BookingDate") + "\t" +
                                    rs.getString("BookingTime") + "\t" +
                                    rs.getString("RepairTime") + "\t" +
                                    rs.getFloat("Bill"));
+                conn.close();
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

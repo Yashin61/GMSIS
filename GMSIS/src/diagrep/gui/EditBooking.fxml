@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="EditBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.EditBookingController">
+<AnchorPane id="AnchorPane" fx:id="EditBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.Controller">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
@@ -85,9 +85,9 @@
       <TextField fx:id="BookingDate" layoutX="650.0" layoutY="360.0" />
       <TextField fx:id="BookingTime" layoutX="650.0" layoutY="410.0" />
       <TextField fx:id="RepairTime" layoutX="650.0" layoutY="460.0" />
-      <Button fx:id="Clear_Button" layoutX="735.0" layoutY="520.0" mnemonicParsing="false" onAction="#clearPage" prefWidth="70.0" text="Clear" />
+      <Button fx:id="Clear_Button" layoutX="735.0" layoutY="520.0" mnemonicParsing="false" onAction="#EclearPage" prefWidth="70.0" text="Clear" />
       <Button fx:id="Submit_Button" layoutX="835.0" layoutY="520.0" mnemonicParsing="false" onAction="#submitDetails" prefWidth="70.0" text="Submit" />
-      <Button fx:id="Back_Button" layoutX="500.0" layoutY="520.0" mnemonicParsing="false" onAction="#openBookingDetails" prefWidth="70.0" text="Back" />
+      <Button fx:id="Back_Button" layoutX="500.0" layoutY="520.0" mnemonicParsing="false" onAction="#EopenBookingDetails" prefWidth="70.0" text="Back" />
       <Button fx:id="Delete_Button" layoutX="830.0" layoutY="326.0" mnemonicParsing="false" onAction="#deleteBooking" text="Delete Booking" AnchorPane.rightAnchor="20.0" />
    </children>
 </AnchorPane>

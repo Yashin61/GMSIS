@@ -5,7 +5,7 @@
  */
 package diagrep.gui;
 
-import java.io.IOException;
+import diagrep.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,15 +16,17 @@ import javafx.stage.Stage;
  *
  * @author Mustakim
  */
-public class DiagRepMain extends Application {
+public class DiagnosisAndRepair extends Application {
     
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage stage) throws Exception {
+        Parent root;
+        root = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
         
-        Parent root = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));        
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**

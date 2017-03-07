@@ -8,7 +8,7 @@ package diagrep;
 
 /**
  *
- * @author Nandhini
+ * @author Mustakim
  */
 
 import javafx.application.Application;
