@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class table_controles {
     
+    ConnectionToParts c = new ConnectionToParts();
     
   
     
@@ -80,7 +81,6 @@ public class table_controles {
    }
       }
          public ObservableList<Parts_Table> getParts(TableView<Parts_Table> parts_table){
-    ConnectionToParts c = new ConnectionToParts();
      Connection con = c.connect();
        
        
@@ -101,6 +101,7 @@ public class table_controles {
         }
      parts_table.setItems(null);
          parts_table.setItems(p);
+         con.close();
         }
         catch(SQLException e){
             
