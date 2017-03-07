@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
     @FXML
     private void spcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
