@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package common;
 
 import customer.gui.EditController;
@@ -36,7 +37,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Nandhini
+ * @author Nandhini Manoharan
  */
 public class AdminController implements Initializable 
 {
@@ -103,7 +104,6 @@ public class AdminController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-         //display();
     }
     
     @FXML
@@ -112,14 +112,15 @@ public class AdminController implements Initializable
         if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  password.getText().trim().isEmpty() || hourlyWage.getText().trim().isEmpty())
         {
             printMissing();
+            //clearDetails(event);
         }
         else
         {
             
-            boolean check = checkUnique(password.getText());
-            System.out.println(check);
+            //boolean check = checkUnique(password.getText());
+            //System.out.println(check);
             boolean integerOr = checkInteger(hourlyWage.getText());
-            if(check == true && integerOr == true)
+            if(integerOr == true)
             {
                 System.out.println("HELLO");
                 CommonDatabase db = new CommonDatabase();
@@ -134,6 +135,7 @@ public class AdminController implements Initializable
                     stmt.setString(4, password.getText());
                     stmt.setInt(5, Integer.parseInt(hourlyWage.getText()));
                     stmt.execute(); 
+                   
                 }
                 catch(SQLException e)
                 {
@@ -142,14 +144,12 @@ public class AdminController implements Initializable
                 close(conn);
                 infoGiven(firstname.getText(), "add");
                 clearDetails(event);
+                display();
             }
             else if(integerOr == false)
             {
                 printIncorrect();
-            }
-            else
-            {
-                printNotUnique();
+                //clearDetails(event);
             }
         }
     }
@@ -166,6 +166,7 @@ public class AdminController implements Initializable
         }
         return true;
     }
+    
     @FXML
     public void printNotUnique()
     {
@@ -192,6 +193,7 @@ public class AdminController implements Initializable
         }
         else
         {
+            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             AdminController controller=fxmlLoader.<AdminController>getController();
@@ -199,30 +201,31 @@ public class AdminController implements Initializable
             Stage stage = new Stage();
             stage.setTitle("Edit User");
             stage.setScene(new Scene(root1));
-            stage.show();   
+            stage.showAndWait(); 
+            display();
+            
             
         }
     } 
     
     
     @FXML
-    private void editUser(ActionEvent event)
-    {
-        CommonDatabase db = new CommonDatabase();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        
+    private void editUser(ActionEvent event) throws IOException
+    {   
         if(firstnameE.getText().trim().isEmpty() || surnameE.getText().trim().isEmpty() ||  passwordE.getText().trim().isEmpty() || hourlyWageE.getText().trim().isEmpty())
         { 
             printMissing();
         }
         else
         {
-            boolean check = checkUnique(passwordE.getText());
+            //boolean check = checkUnique(passwordE.getText());
          
             boolean integerOr = checkInteger(hourlyWageE.getText());
-            if(check == true && integerOr == true)
+            if(integerOr == true)
             {
+                CommonDatabase db = new CommonDatabase();
+                Connection connection = null;
+                PreparedStatement statement = null;
                 String sql = "UPDATE Employees SET Firstname = ? , " + "Surname = ? , "  + "Password = ? , "  + "Hourly_Wage = ? " + "WHERE ID = ?";
 
                 try
@@ -235,7 +238,7 @@ public class AdminController implements Initializable
                     statement.setString(3, passwordE.getText());
                     statement.setInt(4, Integer.parseInt(hourlyWageE.getText()));
                     statement.setInt(5, user_ID);
-                    statement.executeUpdate();   
+                    statement.executeUpdate();  
                     System.out.println("DONE");
                 }
                 catch(SQLException e)    
@@ -244,17 +247,18 @@ public class AdminController implements Initializable
 
                 }
                 close(connection);
+                
                 infoGiven(firstnameE.getText(), "edit");
                 Stage stage = (Stage) editPane.getScene().getWindow();
+                
                 stage.close();
+                System.out.println("Hello");
+                //firstname.setText("HELLO");
+                
             }
             else if(integerOr == false)
             {
                 printIncorrect();
-            }
-            else
-            {
-                printNotUnique();
             }
         }
     }
@@ -330,23 +334,22 @@ public class AdminController implements Initializable
             {
                 data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
             }
- 
                
         }
         catch(SQLException e)
         {
             System.out.println("Doesnt Work");
         }
-                    
+           
         table_id.setCellValueFactory(new PropertyValueFactory("ID"));
         table_firstname.setCellValueFactory(new PropertyValueFactory("Firstname"));
         table_surname.setCellValueFactory(new PropertyValueFactory("Surname"));
         table_password.setCellValueFactory(new PropertyValueFactory("Password"));
         table_wage.setCellValueFactory(new PropertyValueFactory("Hourly_Wage"));
-
+        close(connection);  
         dataTable.setItems(null);
         dataTable.setItems(data);
-        close(connection);
+        
     }
             
     @FXML
@@ -372,14 +375,16 @@ public class AdminController implements Initializable
         hourlyWageE.setText(String.valueOf(user.getHourly_Wage()));
     }
             
-    @FXML
+    /*@FXML
     public boolean checkUnique(String passWord)
     {
         boolean check = true;
+        
+        Connection conn = null;
         try
         {
             CommonDatabase db = new CommonDatabase();
-            Connection conn = db.getConnection();
+            conn = db.getConnection();
             ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Employees");
             
             while(rs.next())
@@ -389,14 +394,16 @@ public class AdminController implements Initializable
                     return false;
                 }
             }
+            rs.close();
         }
         catch(SQLException e)
         {
             System.out.println(e.getMessage());
         }
+        close(conn);
         return check;
         
-    }
+    }*/
     
     @FXML
     public void display()
@@ -433,11 +440,11 @@ public class AdminController implements Initializable
     @FXML
     private void clearDetails(ActionEvent event)
     {
-        firstname.setText(null);
-        surname.setText(null);
-        password.setText(null);
-        hourlyWage.setText(null);
-        id.setText(null);
+        firstname.setText("");
+        surname.setText("");
+        password.setText("");
+        hourlyWage.setText("");
+        id.setText("");
     }
     
     @FXML
