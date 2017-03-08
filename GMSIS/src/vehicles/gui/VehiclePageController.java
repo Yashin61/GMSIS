@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -33,7 +34,6 @@ public class VehiclePageController
 //    Pane pane;
     @FXML
     private TableView<Vehicle> dataTable;
-    @FXML
     private TableView<Warranty> dataTable2;
     @FXML
     private TableColumn<Vehicle, String> vehicleType;
@@ -86,6 +86,7 @@ public class VehiclePageController
     boolean flag=false;
     @FXML
     private TextField compName1;
+    private AnchorPane rootPane;
     
     private void setTableValue()
     {
@@ -488,5 +489,41 @@ public class VehiclePageController
             JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
             System.out.println("Doesn't work10!");
         }
+    }
+    
+    // Connection with other pages
+    @FXML
+    private void spcPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void homePage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void custAccPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void diagRepBkPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void partsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
+        rootPane.getChildren().setAll(pane);
     }
 }
