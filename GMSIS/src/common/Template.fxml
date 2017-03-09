@@ -11,10 +11,10 @@
    <children>
       <Separator layoutX="13.0" layoutY="71.0" prefHeight="35.0" prefWidth="950.0" />
       <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="HOME" />
-      <Button layoutX="161.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
-      <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
-      <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
-      <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
+      <Button layoutX="161.0" layoutY="61.0" mnemonicParsing="false" onAction="#customerPage" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" onAction="#diagPage" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
+      <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" onAction="#vehiclePage" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
+      <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" onAction="#partsPage" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
       <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" onAction="#spcPage" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
       <Button layoutX="188.0" layoutY="400.0" mnemonicParsing="false" onAction="#adminLoginPage" prefHeight="100.0" prefWidth="175.0" text="Admin Access">
          <font>

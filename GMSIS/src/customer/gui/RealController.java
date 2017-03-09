@@ -58,10 +58,15 @@ import javafx.scene.layout.Pane;
 
 public class RealController implements Initializable 
 {
+    // the main root pane
     @FXML
     private AnchorPane rootPane;
-    /****** For Edit Page **********/
     
+    // the root page for add page
+    @FXML
+    private AnchorPane addPane;
+    
+    // 
     @FXML
     private TextField ID;
 
@@ -93,6 +98,7 @@ public class RealController implements Initializable
     @FXML
     private RadioButton business_type; 
     
+    // table view
     @FXML
     private TableView<allCustomers> dataTable;
 
@@ -127,6 +133,7 @@ public class RealController implements Initializable
     private ObservableList<allCustomers> data;
     
     
+    // buttons for delete page
     @FXML
     private Button yesButton;
 
@@ -155,17 +162,8 @@ public class RealController implements Initializable
         email.setText(null);
     }
     
-    // opens the add page 
-    @FXML
-    private void openAddPage(ActionEvent event) throws IOException
-    {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root1));  
-        stage.show();
-    }
     
+    // opens the add page
     @FXML
     private void openAdd(ActionEvent event) throws IOException
     {
@@ -173,7 +171,8 @@ public class RealController implements Initializable
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));  
-        stage.show();
+        stage.showAndWait();
+        display();
     }
     
     
@@ -195,7 +194,8 @@ public class RealController implements Initializable
             Stage stage = new Stage();
             stage.setTitle("Edit Customer");
             stage.setScene(new Scene(root1));
-            stage.show();
+            stage.showAndWait();
+            display();
             
         } 
     }
@@ -272,6 +272,8 @@ public class RealController implements Initializable
         display();
     }
     
+    
+    // helper method for diplaying all the customers
     @FXML
     public void display()
     {
@@ -308,6 +310,8 @@ public class RealController implements Initializable
                
     
     
+    
+    // opens view Vehicles page
     @FXML 
     private void viewVehicle(ActionEvent event) throws IOException
     {
@@ -330,6 +334,7 @@ public class RealController implements Initializable
         } 
     }
     
+    // opens view bookings page
     @FXML 
     private void viewBookings(ActionEvent event) throws IOException
     {
@@ -352,6 +357,8 @@ public class RealController implements Initializable
         } 
     }
     
+    
+    // opens view parts page
     @FXML 
     private void viewParts(ActionEvent event) throws IOException
     {
@@ -441,6 +448,7 @@ public class RealController implements Initializable
         regNumber.setDisable(true);
         regNumber.setText("");
     }
+    
      // search functions to hide
     @FXML
     public void handleOther(MouseEvent event)
@@ -451,6 +459,7 @@ public class RealController implements Initializable
         firstname.setText("");
         surname.setText("");
     }
+    
      // search functions to hide
     @FXML
     public void handle(MouseEvent event)
@@ -459,6 +468,7 @@ public class RealController implements Initializable
         firstname.setDisable(false);
         surname.setDisable(false);
     }
+    
     
     
     // switch to home page 
@@ -501,6 +511,8 @@ public class RealController implements Initializable
         rootPane.getChildren().setAll(pane);
     }
     
+    
+    // printing missing fields alert box
     @FXML
     public void printMissing()
     {
@@ -552,10 +564,14 @@ public class RealController implements Initializable
             close(connection);
             clearDetails(event);
             infoGiven(acc.getFirstname(), "add");
+            Stage stage = (Stage) addPane.getScene().getWindow();
+            stage.close();
+           
         }
     }
     
     
+    // summary for add and edit method
     @FXML
     public void infoGiven(String name, String type)
     {
@@ -573,6 +589,7 @@ public class RealController implements Initializable
         }
         alert.showAndWait();
     }
+    
     
     // common method to close the database connection
     public void close(Connection connection)
