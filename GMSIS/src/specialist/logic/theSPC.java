@@ -24,34 +24,58 @@ public class theSPC
     
     public theSPC(Integer id, String name, String address, String phone, String email)
     {
-        SPCid = new SimpleIntegerProperty(id);
-        SPCname = new SimpleStringProperty(name);
-        SPCaddress = new SimpleStringProperty(address);
-        SPCphone = new SimpleStringProperty(phone);
-        SPCemail = new SimpleStringProperty(email);
+        this.SPCid = new SimpleIntegerProperty(id);
+        this.SPCname = new SimpleStringProperty(name);
+        this.SPCaddress = new SimpleStringProperty(address);
+        this.SPCphone = new SimpleStringProperty(phone);
+        this.SPCemail = new SimpleStringProperty(email);
         
     }
 
-    public IntegerProperty getSPCid() {
-        return SPCid;
+    public int getSPCid() {
+        return SPCid.get();
     }
 
-    public StringProperty getSPCname() {
-        return SPCname;
+    public String getSPCname() {
+        return SPCname.get();
     }
 
-    public StringProperty getSPCaddress() {
-        return SPCaddress;
+    public String getSPCaddress() {
+        return SPCaddress.get();
     }
 
-    public StringProperty getSPCphone() {
-        return SPCphone;
+    public String getSPCphone() {
+        return SPCphone.get();
     }
 
-    public StringProperty getSPCemail() {
-        return SPCemail;
+    public String getSPCemail() {
+        return SPCemail.get();
     }
     
+    public IntegerProperty idProperty()
+    {
+        return SPCid;
+    }
+    
+    public StringProperty nameProperty()
+    {
+        return SPCname;
+    }
+    
+    public StringProperty addressProperty()
+    {
+        return SPCaddress;
+    }
+    
+    public StringProperty phoneProperty()
+    {
+        return SPCphone;
+    }
+    
+    public StringProperty emailProperty()
+    {
+        return SPCemail;
+    }
     public void setSPCid(Integer id)
     {
         SPCid.set(id);
@@ -75,5 +99,9 @@ public class theSPC
     public void setSPCemail(String email)
     {
         SPCemail.set(email);
+    }
+
+    private static class StringPoperty {
+        public StringPoperty() {}
     }
 }

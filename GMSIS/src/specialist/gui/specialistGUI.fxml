@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
    <children>
       <Separator layoutX="13.0" layoutY="71.0" prefHeight="35.0" prefWidth="950.0" />
-      <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="HOME" />
+      <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" onAction="#home" prefHeight="25.0" prefWidth="143.0" text="HOME" />
       <Button layoutX="161.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
       <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
       <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
