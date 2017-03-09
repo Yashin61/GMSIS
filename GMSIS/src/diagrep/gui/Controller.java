@@ -6,10 +6,7 @@
 package diagrep.gui;
 
 
-import diagrep.*;
 import com.jfoenix.controls.JFXDatePicker;
-import diagrep.gui.BookingTable;
-import diagrep.gui.Database;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,21 +18,21 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Mustakim
@@ -133,8 +130,39 @@ public class Controller implements Initializable {
     private Button Clear_Button;
     @FXML
     private Button Delete_Button;
+    @FXML
+    private Button ShowE;
+    @FXML
+    private TableView<BookingTableE> BookingE; 
+    @FXML
+    private TableColumn<BookingTableE, Integer> BIDE;
+    @FXML
+    private TableColumn<BookingTableE, String> RegE;
+    @FXML
+    private TableColumn<BookingTableE, String> ToBE;
+    @FXML
+    private TableColumn<BookingTableE, Integer> MIDE;
+    @FXML
+    private TableColumn<BookingTableE, String> BDE;
+    @FXML
+    private TableColumn<BookingTableE, String> BTE;
+    @FXML
+    private TableColumn<BookingTableE, String> RepDurE;
+    @FXML
+    private TableColumn<BookingTableE, Double> BE;
+    @FXML
+    private ObservableList<BookingTableE> allBookingsE;
+    @FXML
+    private RadioButton CFN;
+    @FXML
+    private RadioButton CSN;
+    @FXML
+    private RadioButton RN;
+    @FXML
+    private RadioButton M;
     
     
+    // OPEN ADDBOOKING FROM BOOKINGDETAILS
     @FXML
     private void openAddBooking(ActionEvent event) throws IOException {
         try
@@ -153,6 +181,7 @@ public class Controller implements Initializable {
         }
     }
 
+    // OPEN EDITBOOKING FROM BOOKINGDETAILS
     @FXML
     private void openEditBooking(ActionEvent event) {
         try
@@ -167,6 +196,7 @@ public class Controller implements Initializable {
     
     }
     
+    // CLEAR ADDBOOKINGS PAGE
     @FXML
     private void AclearPage(ActionEvent event) {
         CustomerName.setText(null);
@@ -183,10 +213,12 @@ public class Controller implements Initializable {
         
     }
 
+    // SUBMIT DETAILS INTO DATABASE ON ADDBOOKINGS PAGE
     @FXML
     private void submitDetails(ActionEvent event) {
     }
 
+    // OPEN BOOKINGDETAILS FROM ADDBOOKING
     @FXML
     private void AopenBookingDetails(ActionEvent event) {
         try
@@ -200,6 +232,7 @@ public class Controller implements Initializable {
         }
     }
     
+    // CLEAR EDITBOOKINGS PAGE
     @FXML
     private void EclearPage(ActionEvent event) {
         RegNo.setText(null);
@@ -211,6 +244,7 @@ public class Controller implements Initializable {
         RepairTime.setText(null);
     }
     
+    // OPEN BOOKINGDETAILS FROM EDITBOOKING
     @FXML
     private void EopenBookingDetails(ActionEvent event) {
         try
@@ -224,6 +258,7 @@ public class Controller implements Initializable {
         }
     }
     
+    // SHOW BOOKINGS ON BOOKINGDETAILS PAGE
     @FXML
     private void ShowBookings(ActionEvent event) {
         Connection connect = null;
@@ -231,7 +266,7 @@ public class Controller implements Initializable {
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/diagrep/gui/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             allBookings = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
@@ -258,10 +293,182 @@ public class Controller implements Initializable {
 
         Booking.setItems(allBookings);
     }
+    // SHOW BOOKINGS ON EDITBOOKINGS PAGE
+    @FXML
+    private void ShowBookingsE(ActionEvent event) {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allBookingsE = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
+            while(set.next()){
+                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+        MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+        BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+        BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+        RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+        BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+        BookingE.setItems(allBookingsE);
+    }
     
-    
+    // SEARCH BOOKINGS ON EDITBOOKINGS PAGE
     @FXML
     private void searchBookings(ActionEvent event) {
+            Connection connect = null;
+            PreparedStatement stmt = null;
+            // SEARCH USING CUSTOMER FIRST NAME
+            if(CFN.isSelected()) {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE Firstname like '" + Search_Bar.getText() + "%'";
+                    stmt = connect.prepareStatement(sql);
+                    allBookingsE = FXCollections.observableArrayList();
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next()){
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }
+                catch(SQLException e)
+                {
+                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+                BookingE.setItems(allBookingsE);
+        }
+            // SEARCH USING CUSTOMER SURNAME
+            else if(CSN.isSelected()) {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE Surname like '" + Search_Bar.getText() + "%'";
+                    stmt = connect.prepareStatement(sql);
+                    allBookingsE = FXCollections.observableArrayList();
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next()){
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }
+                catch(SQLException e)
+                {
+                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+                BookingE.setItems(allBookingsE);
+        }
+            // SEARCH USING VEHICLE REGISTRATION NUMBER
+            else if(RN.isSelected()) {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    String sql = "SELECT * FROM Booking WHERE RegistrationNumber like '" + Search_Bar.getText() + "%'";
+                    stmt = connect.prepareStatement(sql);
+                    allBookingsE = FXCollections.observableArrayList();
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next()){
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }
+                catch(SQLException e)
+                {
+                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+                BookingE.setItems(allBookingsE);
+        }
+            // SEARCH USING VEHICLE MANUFACTURER
+            else if(M.isSelected()) {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    String sql = "SELECT * FROM Booking INNER JOIN Vehicles ON Booking.RegistrationNumber = Vehicles.RegistrationNumber WHERE Make like '" + Search_Bar.getText() + "%'";
+                    stmt = connect.prepareStatement(sql);
+                    allBookingsE = FXCollections.observableArrayList();
+                    ResultSet set = stmt.executeQuery();
+                    while(set.next()){
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }
+                catch(SQLException e)
+                {
+                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+                BookingE.setItems(allBookingsE);
+        }
+            else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Pick Search Type");
+                alert.setHeaderText("Search Type left unselected");
+                alert.setContentText("Select a Search Type");
+                alert.showAndWait();
+            }
     }
 
     @FXML
@@ -270,7 +477,7 @@ public class Controller implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //TODO
     }       
     
 }
