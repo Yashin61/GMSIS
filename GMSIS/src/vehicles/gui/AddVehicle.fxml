@@ -47,22 +47,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="address11" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
             <Label text="Make" />
             <Label text="Model" GridPane.rowIndex="1" />
             <Label text="Year" GridPane.rowIndex="2" />
             <Label text="Engine Size" GridPane.rowIndex="3" />
-            <TextField fx:id="address111" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="address112" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="address113" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Fuel Type" GridPane.rowIndex="4" />
             <Label text="Milage" GridPane.rowIndex="5" />
-            <TextField fx:id="address1131" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="address11311" layoutX="110.0" layoutY="132.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label layoutX="10.0" layoutY="167.0" text="Colour" GridPane.rowIndex="6" />
-            <TextField fx:id="address113112" layoutX="110.0" layoutY="162.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label layoutX="10.0" layoutY="197.0" text="Reg. Number" GridPane.rowIndex="7" />
             <TextField fx:id="address1131121" layoutX="110.0" layoutY="192.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" />
+            <ChoiceBox layoutX="110.0" layoutY="13.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox layoutX="10.0" layoutY="13.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox layoutX="110.0" layoutY="103.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox layoutX="110.0" layoutY="103.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <RadioButton layoutX="241.0" layoutY="107.0" mnemonicParsing="false" text="Car" />

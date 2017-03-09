@@ -9,42 +9,75 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import vehicles.*;
 
 public class EditVehicleController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private TextField address11;
+    private TextField make;
     @FXML
-    private TextField address111;
+    private TextField model;
     @FXML
-    private TextField address112;
+    private TextField year;
     @FXML
-    private TextField address113;
+    private TextField engineSize;
     @FXML
-    private TextField address1131;
+    private TextField fuelType;
     @FXML
-    private TextField address11311;
+    private TextField milage;
     @FXML
-    private TextField address113112;
+    private TextField colour;
     @FXML
-    private TextField address1131121;
+    private TextField regNumber;
     @FXML
-    private TextField address1111;
+    private TextField motRenDate;
     @FXML
-    private TextField address1121;
+    private TextField lastServiceDate;
     @FXML
-    private TextField address113111;
+    private TextField customerID;
     @FXML
-    private TextField address1131111;
-
+    private TextField warrantyID;
+    @FXML
+    private TextField expiryDate;
+    @FXML
+    private TextField companyName;
+    @FXML
+    private TextField companyAddress;
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }   
+    public void initialize(URL url, ResourceBundle rb)
+    {}
+    
+    public void setAllFields(Vehicle veh, Warranty war)
+    {
+        make.setText(veh.getMake());
+        model.setText(veh.getModel());
+        year.setText(Integer.toString(veh.getYear()));
+        engineSize.setText(veh.getEngineSize());
+        fuelType.setText(veh.getFuelType());
+        milage.setText(Integer.toString(veh.getMilage()));
+        colour.setText(veh.getColour());
+        regNumber.setText(veh.getRegistrationNumber());
+        customerID.setText(Integer.toString(veh.getCustomerID()));
+        warrantyID.setText(Integer.toString(war.getWarrantyID()));
+        motRenDate.setText(veh.getMOTRenewalDate());
+        lastServiceDate.setText(veh.getLastServiceDate());
+        expiryDate.setText(war.getExpiryDate());
+        companyName.setText(war.getName());
+        companyAddress.setText(war.getAddress());
+    }    
+
+    @FXML
+    private void cancel(ActionEvent event) {
+    }
 
     @FXML
     private void edit(ActionEvent event) {
+    }
+    
+    @FXML
+    private void clear(ActionEvent event) {
     }
 }

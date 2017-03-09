@@ -72,6 +72,11 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void showData(ActionEvent event) throws IOException
     {
+        showData2();
+    }
+
+    public void showData2()
+    {
         Connection connect = null;
         Statement stmt = null;
 
@@ -82,7 +87,6 @@ public class SpecialistGUIController implements Initializable {
             allSPC = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
             while(set.next()){
-                System.out.println(set.getInt(1)+ set.getString(2)+ set.getString(3)+ set.getString(4)+ set.getString(5));
                 allSPC.add(new theSPC(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
             }
             stmt.close();
@@ -93,16 +97,14 @@ public class SpecialistGUIController implements Initializable {
             Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
         }
         
-        tableSpcId.setCellValueFactory(new PropertyValueFactory("SPCId"));
+        tableSpcId.setCellValueFactory(new PropertyValueFactory("SPCid"));
         tableSpcName.setCellValueFactory(new PropertyValueFactory("SPCname"));
         tableSpcAddress.setCellValueFactory(new PropertyValueFactory("SPCaddress"));
         tableSpcPhone.setCellValueFactory(new PropertyValueFactory("SPCphone"));
         tableSpcEmail.setCellValueFactory(new PropertyValueFactory("SPCemail"));
-
+       
         dataTable.setItems(allSPC);
     }
-
-    @FXML
     public void deleteSPCButton(ActionEvent event) throws IOException
     {
         //ObservableList<theSPC> spcSelected, allSPC;
@@ -112,7 +114,7 @@ public class SpecialistGUIController implements Initializable {
         SpecialistDB a = new SpecialistDB();
         a.deleteSPC(row+1);
     }
-        
+
     @FXML
     private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
@@ -124,9 +126,16 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
+    private void home(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
     private void spcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
         rootPane.getChildren().setAll(pane);
     }
     
@@ -203,7 +212,6 @@ public class SpecialistGUIController implements Initializable {
         }
     }
     
-    //get products
  
     /**
      * Initializes the controller class.

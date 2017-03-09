@@ -5,42 +5,34 @@
  */
 package specialist;
 
-import java.util.Calendar;
-import java.util.List;
+import java.sql.Connection;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  *
  * @author prashant
  */
-public class Main 
+public class Main extends Application
 {
-    private int id;
-    private String name, address, phone;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        primaryStage.setTitle("GMSIS Login");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     
-    public int getID(){
-        return this.id;
+    public static void main(String[] args)
+    {
+        launch(args);
     }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public void setName(String n){
-        this.name = n;
-    }
-
-    public String getAddress(){
-        return this.address;
-    }
-
-    public void setAddress(String a){
-        this.address = a;
-    } 
-
-    public String getPhone(){
-        return this.phone;
-    }
-
-    public void setPhone(String p){
-        this.phone = p;
-    }
+  
 }
