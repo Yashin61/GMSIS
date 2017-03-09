@@ -72,6 +72,11 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void showData(ActionEvent event) throws IOException
     {
+        showData2();
+    }
+
+    public void showData2()
+    {
         Connection connect = null;
         Statement stmt = null;
 
@@ -97,10 +102,9 @@ public class SpecialistGUIController implements Initializable {
         tableSpcAddress.setCellValueFactory(new PropertyValueFactory("SPCaddress"));
         tableSpcPhone.setCellValueFactory(new PropertyValueFactory("SPCphone"));
         tableSpcEmail.setCellValueFactory(new PropertyValueFactory("SPCemail"));
-
+       
         dataTable.setItems(allSPC);
     }
-
     public void deleteSPCButton(ActionEvent event) throws IOException
     {
         //ObservableList<theSPC> spcSelected, allSPC;
