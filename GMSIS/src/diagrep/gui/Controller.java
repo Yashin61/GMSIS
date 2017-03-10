@@ -32,14 +32,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JOptionPane;
 /**
  *
  * @author Mustakim
  */
 public class Controller implements Initializable {
     
-    /*******BOOKING DETAILS*******/
+    /************** BOOKING DETAILS **************/
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -69,7 +68,7 @@ public class Controller implements Initializable {
     @FXML
     private ObservableList<BookingTable> allBookings;
     
-    /*******ADD BOOKING*******/
+    /************** ADD BOOKING **************/
     @FXML
     private AnchorPane AddBooking;
     @FXML
@@ -79,7 +78,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField Mechanic;
     @FXML
-    private TextField Part1ID;
+     private TextField Part1ID;
     @FXML
     private TextField Part5ID;
     @FXML
@@ -104,8 +103,16 @@ public class Controller implements Initializable {
     private TextField CustomerName;
     @FXML
     private TextField Vehicle;
+    /*@FXML
+    private TableView<CustomerTable> CustomerTable;
+    @FXML
+    private TableColumn<CustomerTable, String> CustFN;
+    @FXML
+    private TableColumn<CustomerTable, String> CustSN;
+    @FXML
+    private ObservableList<CustomerTable> allCustomers;*/
     
-    /*******EDIT BOOKING*******/
+    /************** EDIT BOOKING **************/
     @FXML
     private AnchorPane EditBooking;
     @FXML
@@ -161,17 +168,17 @@ public class Controller implements Initializable {
     @FXML
     private RadioButton M;
     
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        //TODO
+    }  
     
+    /*************** BOOKING DETAILS ***************/ 
     // OPEN ADDBOOKING FROM BOOKINGDETAILS
     @FXML
     private void openAddBooking(ActionEvent event) throws IOException {
         try
         {
-            /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddBooking.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
-            stage.show();*/
             AnchorPane pane = FXMLLoader.load(getClass().getResource("AddBooking.fxml"));
             rootPane.getChildren().setAll(pane);
         } 
@@ -194,68 +201,6 @@ public class Controller implements Initializable {
            e.printStackTrace();
         }
     
-    }
-    
-    // CLEAR ADDBOOKINGS PAGE
-    @FXML
-    private void AclearPage(ActionEvent event) {
-        CustomerName.setText(null);
-        Vehicle.setText(null);
-        Mechanic.setText(null);
-        Mileage.setText(null);
-        Part1ID.setText(null);
-        Part2ID.setText(null);
-        Part3ID.setText(null);
-        Part4ID.setText(null);
-        Part5ID.setText(null); 
-        Date.setValue(null);
-        Time.setValue(null);
-        
-    }
-
-    // SUBMIT DETAILS INTO DATABASE ON ADDBOOKINGS PAGE
-    @FXML
-    private void submitDetails(ActionEvent event) {
-    }
-
-    // OPEN BOOKINGDETAILS FROM ADDBOOKING
-    @FXML
-    private void AopenBookingDetails(ActionEvent event) {
-        try
-        {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
-            AddBooking.getChildren().setAll(pane);
-        } 
-        catch(Exception e) 
-        {
-           e.printStackTrace();
-        }
-    }
-    
-    // CLEAR EDITBOOKINGS PAGE
-    @FXML
-    private void EclearPage(ActionEvent event) {
-        RegNo.setText(null);
-        BookingType.setText(null);
-        MechanicID.setText(null);
-        Bill.setText(null);
-        BookingDate.setText(null);
-        BookingTime.setText(null);
-        RepairTime.setText(null);
-    }
-    
-    // OPEN BOOKINGDETAILS FROM EDITBOOKING
-    @FXML
-    private void EopenBookingDetails(ActionEvent event) {
-        try
-        {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
-            EditBooking.getChildren().setAll(pane);
-        } 
-        catch(Exception e) 
-        {
-           e.printStackTrace();
-        }
     }
     
     // SHOW BOOKINGS ON BOOKINGDETAILS PAGE
@@ -293,6 +238,71 @@ public class Controller implements Initializable {
 
         Booking.setItems(allBookings);
     }
+    
+    /*************** ADD BOOKINGS ***************/ 
+    // CLEAR ADDBOOKINGS PAGE
+    @FXML
+    private void AclearPage(ActionEvent event) {
+        CustomerName.setText(null);
+        Vehicle.setText(null);
+        Mechanic.setText(null);
+        Mileage.setText(null);
+        Part1ID.setText(null);
+        Part2ID.setText(null);
+        Part3ID.setText(null);
+        Part4ID.setText(null);
+        Part5ID.setText(null); 
+        Date.setValue(null);
+        Time.setValue(null);
+        
+    }
+
+    // SUBMIT DETAILS INTO DATABASE ON ADDBOOKINGS PAGE
+    @FXML
+    private void submitDetails(ActionEvent event) {
+    }
+
+    // OPEN BOOKINGDETAILS FROM ADDBOOKING
+    @FXML
+    private void AopenBookingDetails(ActionEvent event) {
+        try
+        {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
+            AddBooking.getChildren().setAll(pane);
+        } 
+        catch(Exception e) 
+        {
+           e.printStackTrace();
+        }
+    }
+    
+    /*************** EDIT BOOKINGS ***************/ 
+    // CLEAR EDITBOOKINGS PAGE
+    @FXML
+    private void EclearPage(ActionEvent event) {
+        RegNo.setText(null);
+        BookingType.setText(null);
+        MechanicID.setText(null);
+        Bill.setText(null);
+        BookingDate.setText(null);
+        BookingTime.setText(null);
+        RepairTime.setText(null);
+    }
+    
+    // OPEN BOOKINGDETAILS FROM EDITBOOKING
+    @FXML
+    private void EopenBookingDetails(ActionEvent event) {
+        try
+        {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
+            EditBooking.getChildren().setAll(pane);
+        } 
+        catch(Exception e) 
+        {
+           e.printStackTrace();
+        }
+    }
+    
     // SHOW BOOKINGS ON EDITBOOKINGS PAGE
     @FXML
     private void ShowBookingsE(ActionEvent event) {
@@ -471,13 +481,36 @@ public class Controller implements Initializable {
             }
     }
 
+    /*@FXML
+    private void ShowCustomers(ActionEvent event) {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allCustomers = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM Customer_Accounts");
+            while(set.next()){
+                allCustomers.add(new CustomerTable(set.getString(1), set.getString(2))); 
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        CustFN.setCellValueFactory(new PropertyValueFactory("CustFN"));
+        CustSN.setCellValueFactory(new PropertyValueFactory("CustSN"));
+
+        CustomerTable.setItems(allCustomers);
+    }*/
+    
     @FXML
     private void deleteBooking(ActionEvent event) {
-    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //TODO
-    }       
-    
+    }         
 }
