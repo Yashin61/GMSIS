@@ -29,9 +29,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 /**
  *
  * @author Mustakim
@@ -167,6 +169,8 @@ public class Controller implements Initializable {
     private RadioButton RN;
     @FXML
     private RadioButton M;
+    @FXML
+    private Button Submit_Button_E;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -513,4 +517,42 @@ public class Controller implements Initializable {
     @FXML
     private void deleteBooking(ActionEvent event) {
     }         
+    
+    @FXML
+    private void EditDetails(MouseEvent event) {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
+        
+        // SET REGISTRATION NUMBER TEXTFIELD
+        String setReg = book.getRegNumber();
+        RegNo.setText(setReg);
+        
+        // SET TYPE OF BOOKING TEXTFIELD
+        String setToB = book.getBookingType();
+        BookingType.setText(setToB);
+        
+        // SET MECHANIC ID TEXTFIELD
+        String setMID = Integer.toString(book.getMechanicID());
+        MechanicID.setText(setMID);
+        
+        // SET BILL TEXTFIELD
+        String setBill = Double.toString(book.getBill());
+        Bill.setText(setBill);
+        
+        // SET BOOKING DATE TEXTFIELD
+        String setBD = book.getBookingDate();
+        BookingDate.setText(setReg);
+        
+        // SET BOOKING TIME TEXTFIELD
+        String setBT = book.getBookingTime();
+        BookingTime.setText(setBT);
+        
+        // SET REPAIR DURATION TEXTFIELD
+        String setRepDur = book.getRepairTime();
+        RepairTime.setText(setRepDur);
+    }
+    
+    @FXML
+    private void submitDetailsE(ActionEvent event) {
+        
+    }
 }
