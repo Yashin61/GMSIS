@@ -22,11 +22,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
@@ -514,10 +516,60 @@ public class Controller implements Initializable {
         CustomerTable.setItems(allCustomers);
     }*/
     
+    // DELETE ENTRY FROM DATABASE
     @FXML
     private void deleteBooking(ActionEvent event) {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
+        
+        if(book == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Select Booking");
+            alert.setHeaderText("No Booking Selected");
+            alert.setContentText("Please select a booking from the table");
+            alert.showAndWait();
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Do you want to continue deleting the account?");
+            
+            ButtonType yes = new ButtonType("YES");
+            ButtonType no = new ButtonType("NO");
+            alert.getButtonTypes().setAll(yes, no);
+            
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if(result.get() == yes)
+            {
+                int BookID = book.getBookingID();
+                String sql = "DELETE FROM Booking WHERE BookingID = ?";
+                Connection connect = null;
+                PreparedStatement stmt = null;
+                try
+                {
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.prepareStatement(sql);
+                    stmt.setInt(1, BookID);
+                    stmt.executeUpdate(); 
+                    connect.close();
+                }
+                catch(SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
+            else
+            {
+                alert.close();
+            }
+            
+            
+        }
     }         
     
+    // ENTERS INFORMATION INTO TEXTBOX FROM TABLE
     @FXML
     private void EditDetails(MouseEvent event) {
         BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
@@ -551,8 +603,78 @@ public class Controller implements Initializable {
         RepairTime.setText(setRepDur);
     }
     
+    // UPDATE DATABASE WITH VALUES IN TEXTFIELDS
     @FXML
-    private void submitDetailsE(ActionEvent event) {
+    private void submitDetailsE(ActionEvent event) throws SQLException {
+        Connection connect = null;
+        PreparedStatement stmt = null;
+        Statement stmte = null;
         
+        // IF TEXTFIELDS ARE EMPTY, PRINT ERROR MESSAGE
+        if(RegNo.getText().trim().isEmpty() || BookingType.getText().trim().isEmpty() || MechanicID.getText().trim().isEmpty() || Bill.getText().trim().isEmpty() || BookingDate.getText().trim().isEmpty() || BookingTime.getText().trim().isEmpty() || RepairTime.getText().trim().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please enter in all pieces of information");
+            alert.showAndWait();
+        }
+        
+        // ELSE UPDATE THE TABLE
+        else
+        {
+            String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , " + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , " + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
+            
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.prepareStatement(sql);
+
+            stmt.setString(1, RegNo.getText());         
+            stmt.setString(2, BookingType.getText());
+            stmt.setString(3, MechanicID.getText());
+            stmt.setString(4, BookingDate.getText());
+            stmt.setString(5, BookingTime.getText());
+            stmt.setString(6, RepairTime.getText());
+            stmt.setString(7, Bill.getText());
+            
+            BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
+            int getBID = book.getBookingID();
+            
+            stmt.setInt(8, getBID);
+            
+            stmt.executeUpdate();
+            
+            stmt.close();
+            connect.close();
+            
+            // SHOW THE UPDATED TABLE
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmte = connect.createStatement();
+                allBookingsE = FXCollections.observableArrayList();
+                ResultSet set = stmte.executeQuery("SELECT * FROM Booking");
+                while(set.next()){
+                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+            }
+                stmte.close();
+                set.close();
+                connect.close();
+            }
+            catch(SQLException e)
+            {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+            }
+        
+                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
+                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
+                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+                BookingE.setItems(allBookingsE);
+        }
     }
 }
