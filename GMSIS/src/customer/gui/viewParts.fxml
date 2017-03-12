@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -19,8 +19,7 @@
             <Font name="Apple Braille" size="22.0" />
          </font>
       </Label>
-      <Accordion fx:id="mainFrame" layoutX="164.0" layoutY="116.0" prefHeight="310.0" prefWidth="560.0" />
-      <Label fx:id="NameLabel" layoutX="41.0" layoutY="322.0" prefHeight="24.0" prefWidth="186.0" textAlignment="CENTER" textFill="#000000af">
+      <Label fx:id="NameLabel" layoutX="14.0" layoutY="322.0" prefHeight="24.0" prefWidth="186.0" textAlignment="CENTER" textFill="#000000af">
          <font>
             <Font name="Apple Braille" size="19.0" />
          </font>
@@ -30,10 +29,11 @@
             <Image url="@../person.png" />
          </image>
       </ImageView>
-      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Parts used" textFill="#d30b0b" visible="false">
+      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Vehicles owned by this Customer" textFill="#d30b0b" visible="false">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
+      <ListView fx:id="allParts" layoutX="204.0" layoutY="102.0" prefHeight="325.0" prefWidth="505.0" />
    </children>
 </AnchorPane>
