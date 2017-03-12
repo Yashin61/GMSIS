@@ -12,7 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +57,10 @@ public class viewController implements Initializable
     @FXML
     private Accordion mainFrame;
      
+    @FXML
+    private Label todayDate;
+
+    
     @FXML
     private ListView<String> allParts = new ListView<String>();
     
@@ -125,7 +133,11 @@ public class viewController implements Initializable
     {
         CommonDatabase db = new CommonDatabase();
         Connection conn = null;
-        
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        Date dateobj = new Date();
+        String dateT = df.format(dateobj);
+        todayDate.setText("Today's Date: " + df.format(dateobj));
+        todayDate.setVisible(true);
         try
         {
             conn = db.getConnection();
@@ -140,8 +152,24 @@ public class viewController implements Initializable
                 do
                 {
                     String payment;
+                    String status =rs.getString("BookingDate") + " - " +  "PAST";
+                    DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy"); 
+                    String d = rs.getString("BookingDate").replace("-", "/");
+                    Date dateBooking = new Date();
+                    try
+                    {
+                        dateBooking = df.parse(d);
+                    }
+                    catch(ParseException e)
+                    {
+                        System.out.println("DATE ERROR");
+                    }
+                    if(dateobj.before(dateBooking))
+                    {
+                        status = rs.getString("BookingDate") + " - " +  "FUTURE";
+                    }
                     System.out.println(rs.getString("RegistrationNumber"));
-                    TitledPane pane = new TitledPane(rs.getString("RegistrationNumber"), Pane);
+                    TitledPane pane = new TitledPane(status, Pane);
                     if(rs.getInt("WarrantyID") != 0)
                     {
                         payment = "OUTSTANDING";
@@ -150,7 +178,7 @@ public class viewController implements Initializable
                     {
                         payment = "SETTLED";
                     }
-                    pane.setContent(new Label("Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n" + "Date: " + rs.getString("BookingDate") + "\n" + "Time: " + rs.getString("BookingTime") + "\n" + "Bill: " + rs.getDouble("Bill") + "\n" + "Payment Status: "  + payment));
+                    pane.setContent(new Label("Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n" + "Bill: " + rs.getDouble("Bill") + "\n" + "Payment Status: "  + payment));
                     mainFrame.getPanes().add(pane); 
                 }
                 while(rs.next());
