@@ -21,15 +21,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import common.*;
+import customer.gui.EditController;
+import customer.logic.allCustomers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.JOptionPane;
 import specialist.logic.theSPC;
@@ -110,9 +116,29 @@ public class SpecialistGUIController implements Initializable {
         //ObservableList<theSPC> spcSelected, allSPC;
         //allSPC = dataTable.getItems();
         //spcSelected = dataTable.getSelectionModel().getSelectedItems();
-        int row = dataTable.getSelectionModel().getSelectedIndex();
-        SpecialistDB a = new SpecialistDB();
-        a.deleteSPC(row+1);
+        theSPC spc = dataTable.getSelectionModel().getSelectedItem();
+        if(spc == null)
+        {
+            JOptionPane.showMessageDialog(null,"Please select a SPC");
+        }
+        else
+        {
+            //int row = dataTable.getSelectionModel().getSelectedIndex();
+            int row = spc.getSPCid();
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Please Confirm");
+            alert.setContentText("Are you sure you want to delete the SPC?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                // if the user chooses to proceed
+                SpecialistDB a = new SpecialistDB();
+                a.deleteSPC(row);
+            } 
+            else { /* the user closes the confirmation dialog*/}
+        }
+        
     }
 
     @FXML
@@ -163,12 +189,11 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void addSpcButton(ActionEvent event) 
     {
-        String id = spcId.getText();
         String name = spcName.getText();
         String address = spcAddress.getText();
         String phone = spcPhone.getText();
         String email = spcEmail.getText();
-        if(!(id.equals("") || name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
+        if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
         {
             System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
@@ -183,8 +208,23 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void spcEditPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
-        rootPane.getChildren().setAll(pane);
+        theSPC spc = dataTable.getSelectionModel().getSelectedItem();
+        if(spc == null)
+        {
+            JOptionPane.showMessageDialog(null,"Please select a SPC");
+        }
+        else
+        {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
+            rootPane.getChildren().setAll(pane);
+            spcId.setText(""+spc.getSPCid());
+            spcName.setText(spc.getSPCname());
+            spcAddress.setText(spc.getSPCaddress());
+            spcPhone.setText(spc.getSPCphone());
+            spcEmail.setText(spc.getSPCemail());      
+            pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
+            rootPane.getChildren().setAll(pane);
+        } 
     }
     
     @FXML
@@ -212,7 +252,6 @@ public class SpecialistGUIController implements Initializable {
         }
     }
     
- 
     /**
      * Initializes the controller class.
      */
