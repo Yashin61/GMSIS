@@ -49,6 +49,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputMethodRequests;
 import javafx.scene.input.MouseEvent;
@@ -132,6 +133,10 @@ public class RealController implements Initializable
     @FXML
     private ObservableList<allCustomers> data;
     
+    @FXML
+    private CheckBox private_c;
+    @FXML
+    private CheckBox business_c;
     
     // buttons for delete page
     @FXML
@@ -145,7 +150,6 @@ public class RealController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)  
     {
-        //display();
     }    
     
     
@@ -306,6 +310,8 @@ public class RealController implements Initializable
         type.setCellValueFactory(new PropertyValueFactory("Account"));
         dataTable.setItems(null);
         dataTable.setItems(data);
+        business_c.setSelected(false);
+        private_c.setSelected(false);
     }
                
     
@@ -382,7 +388,7 @@ public class RealController implements Initializable
     }
     
     // search customer by full firstname and partial surname or by vehicle registration number
-    @FXML
+    /*@FXML
     private void searchCustomer(ActionEvent event)
     {
         if(firstname.getText() != null)
@@ -436,10 +442,168 @@ public class RealController implements Initializable
             dataTable.setItems(null);
             dataTable.setItems(data);
         }
-            
+    }*/
+    
+    @FXML
+    private void searchCustomer(ActionEvent event)
+    {
+        String account_type = "";
+        if(business_c.isSelected())
+        {
+            account_type = "business";
+        }
+        else if(private_c.isSelected())
+        {
+            account_type = "private";
+        }
         
+        String sql ="select * from Customer_Accounts where Firstname = '" + firstname.getText() + "'" + "and Surname like '" + surname.getText() + "%'";
+        if(!firstname.getText().equals(""))
+        {
+            System.out.println("Customer Details");
+            if(account_type != "")
+            {
+                sql = "select * from Customer_Accounts where Firstname = '" + firstname.getText() + "'" + "and Account = '" + account_type + "' " + "and Surname like '" + surname.getText() + "%'";
+            }
+ 
+            try
+            {
+                Connection connection = null;
+                CommonDatabase db = new CommonDatabase();
+                connection = db.getConnection();
+
+                PreparedStatement statement = connection.prepareStatement(sql);
+
+                ResultSet rs = statement.executeQuery();
+                data = FXCollections.observableArrayList();
+                while(rs.next())
+                {
+                    data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+                }
+            
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Error");
+            }
+            
+        }
+        else if(!regNumber.getText().equals(""))
+        {
+            System.out.println("Vehicle Details");
+            sql ="SELECT Vehicles.RegistrationNumber, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address, Customer_Accounts.Email, Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Account FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomersID = Customer_Accounts.ID WHERE Vehicles.RegistrationNumber = '" + regNumber.getText() + "' ";
+            try
+            {
+                Connection connection = null;
+                CommonDatabase db = new CommonDatabase();
+                connection = db.getConnection();
+
+                PreparedStatement statement = connection.prepareStatement(sql);
+
+                ResultSet rs = statement.executeQuery();
+                data = FXCollections.observableArrayList();
+                while(rs.next())
+                {
+                    data.add(new allCustomers(rs.getInt("ID"), rs.getString("Firstname"), rs.getString("Surname"), rs.getString("Address"), rs.getString("Postcode"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Account")));
+                }
+            
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Error");
+            }
+        
+        }
+        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        ema.setCellValueFactory(new PropertyValueFactory("Email"));
+        type.setCellValueFactory(new PropertyValueFactory("Account"));
+        dataTable.setItems(null);
+        dataTable.setItems(data);
     }
     
+    @FXML
+    private void searchPrivateCustomer(ActionEvent event)
+    {
+        Connection conn = new CommonDatabase().getConnection();
+        if(private_c.isSelected())
+        {
+            business_c.setSelected(false);
+        }
+        else if(!private_c.isSelected())
+        {
+            display();
+        }
+            
+        try
+        {
+            data = FXCollections.observableArrayList();
+            PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'private'");
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
+                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
+                        rs.getString(8)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work8!");
+        }
+
+        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        ema.setCellValueFactory(new PropertyValueFactory("Email"));
+        type.setCellValueFactory(new PropertyValueFactory("Account"));
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+    }
+
+    @FXML
+    private void serachBusinessCustomer(ActionEvent event)
+    {
+        Connection conn = new CommonDatabase().getConnection();
+        if(business_c.isSelected())
+        {
+            private_c.setSelected(false);
+        }
+        try
+        {
+            data = FXCollections.observableArrayList();
+            PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'business'");
+            ResultSet rs = s.executeQuery();
+            while(rs.next())
+            {
+                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
+                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
+                        rs.getString(8)));
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Doesn't work8!");
+        }
+
+        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+        adr.setCellValueFactory(new PropertyValueFactory("Address"));
+        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+        ema.setCellValueFactory(new PropertyValueFactory("Email"));
+        type.setCellValueFactory(new PropertyValueFactory("Account"));
+        dataTable.setItems(null);
+        dataTable.setItems(data);
+    } 
     
     // search functions to hide
     @FXML
@@ -570,6 +734,16 @@ public class RealController implements Initializable
         }
     }
     
+    @FXML
+    private void clearSearch(ActionEvent event)
+    {
+        business_c.setSelected(false);
+        private_c.setSelected(false);
+        firstname.setText("");
+        surname.setText("");
+        regNumber.setText("");
+        display();
+    }
     
     // summary for add and edit method
     @FXML
