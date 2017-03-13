@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpcMainPageController">
    <children>
       <Separator layoutX="13.0" layoutY="71.0" prefHeight="35.0" prefWidth="950.0" />
       <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" onAction="#home" prefHeight="25.0" prefWidth="143.0" text="HOME" />
@@ -24,7 +24,7 @@
       <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
       <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
       <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
-      <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" onAction="#spcPage" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
+      <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
       <Label layoutX="29.0" layoutY="131.0" prefHeight="34.0" prefWidth="164.0" text="Search for SPC">
          <font>
             <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
@@ -40,19 +40,20 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcId" layoutX="15.0" layoutY="310.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="310.0" />
-      <TextField fx:id="spcName" layoutX="15.0" layoutY="385.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="385.0" />
+      <TextField fx:id="custName" layoutX="15.0" layoutY="310.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="310.0" />
+      <TextField fx:id="vechRegistration" layoutX="15.0" layoutY="385.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="385.0" />
       <Button layoutX="112.0" layoutY="440.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="112.0" AnchorPane.topAnchor="440.0" />
       <Button layoutX="15.0" layoutY="440.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="440.0" />
-      <SplitPane dividerPositions="0.41152815013404825" layoutX="210.0" layoutY="105.0" prefHeight="397.0" prefWidth="748.0">
+      <SplitPane dividerPositions="0.4865951742627346" layoutX="210.0" layoutY="105.0" prefHeight="397.0" prefWidth="748.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="352.0">
                <children>
                   <TableView fx:id="dataTable" layoutY="-21.0" prefHeight="395.0" prefWidth="408.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="tableSpcId" prefWidth="77.0" text="SPC" />
-                        <TableColumn fx:id="tableSpcAddress" prefWidth="104.0" text="Customer" />
-                        <TableColumn fx:id="tableSpcName1" prefWidth="122.0" text="Registration No" />
+                      <TableColumn fx:id="tableSpcName" prefWidth="54.408203125" text="SPC" />
+                        <TableColumn fx:id="tableCustomerName" prefWidth="91.51669311523438" text="Customer" />
+                        <TableColumn fx:id="tableRegistrationNo" prefWidth="104.11788940429688" text="Registration No" />
+                        <TableColumn fx:id="tableWorkOn" prefWidth="103.71914672851562" text="Work On" />
                     </columns>
                   </TableView>
                </children>
@@ -82,21 +83,21 @@
                         <Label prefHeight="34.0" prefWidth="130.0" text="Registration No" GridPane.rowIndex="2" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Id" GridPane.rowIndex="3" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Name" GridPane.rowIndex="4" />
-                        <Label prefHeight="34.0" prefWidth="130.0" text="Customer Account Type" GridPane.rowIndex="5" />
+                        <Label prefHeight="34.0" prefWidth="130.0" text="Customer Type" GridPane.rowIndex="5" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Phone" GridPane.rowIndex="6" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Email" GridPane.rowIndex="7" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Address" GridPane.rowIndex="8" />
                         <Label prefHeight="34.0" prefWidth="130.0" text="Customer Postcode" GridPane.rowIndex="9" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Label prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label fx:id="theSpcName" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" />
+                        <Label fx:id="theVehicleName" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="theRegistrationNo" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="theCustomerId" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="theCustomerName" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="theCustomerType" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="theCustomerPhone" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="theCustomerEmail" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label fx:id="theCustomerAddress" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label fx:id="theCustomerPostcode" prefHeight="31.0" prefWidth="237.0" text="SPC name" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                      </children>
                   </GridPane>
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="72.0" text="Details:" />
@@ -104,16 +105,25 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <ListView layoutX="48.0" layoutY="172.0" prefHeight="83.0" prefWidth="100.0" />
-      <ButtonBar layoutX="215.0" layoutY="526.0" prefHeight="40.0" prefWidth="725.0">
+      <ListView fx:id="spcList" layoutX="25.0" layoutY="166.0" prefHeight="113.0" prefWidth="151.0" />
+      <ButtonBar layoutX="211.0" layoutY="504.0" prefHeight="40.0" prefWidth="725.0">
         <buttons>
           <Button mnemonicParsing="false" text="View Outstanding" />
-            <Button mnemonicParsing="false" text="Add Booking" />
-            <Button mnemonicParsing="false" text="Edit Booking" />
-            <Button mnemonicParsing="false" text="Delete Booking" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="View Repairs done" />
+            <Button mnemonicParsing="false" text="View Parts" />
+            <Button mnemonicParsing="false" text="View Vehicles" />
+            <Button mnemonicParsing="false" text="View Details" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Returned Items" />
         </buttons>
       </ButtonBar>
-      <JFXButton layoutX="21.0" layoutY="534.0" text="SPC list" />
+      <JFXButton layoutX="21.0" layoutY="534.0" onAction="#spcAdmin" text="SPC list" />
+      <ButtonBar layoutX="209.0" layoutY="540.0" prefHeight="40.0" prefWidth="725.0">
+         <buttons>
+            <Button mnemonicParsing="false" text="Add Booking" />
+            <Button mnemonicParsing="false" text="Edit Booking" />
+            <Button layoutX="211.0" mnemonicParsing="false" text="Delete Booking" />
+            <Button mnemonicParsing="false" text="Delete Booking" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="View Repairs done" />
+         </buttons>
+      </ButtonBar>
    </children>
 </AnchorPane>

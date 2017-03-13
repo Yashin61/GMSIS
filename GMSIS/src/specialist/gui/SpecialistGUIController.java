@@ -78,9 +78,11 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void showData(ActionEvent event) throws IOException
     {
+        //used to make sure the event is handled
         showData2();
     }
 
+    //this function gets the data from the database and displays it to the user as a table
     public void showData2()
     {
         Connection connect = null;
@@ -111,6 +113,8 @@ public class SpecialistGUIController implements Initializable {
        
         dataTable.setItems(allSPC);
     }
+    
+    //used to delete an item / row from the table
     public void deleteSPCButton(ActionEvent event) throws IOException
     {
         //ObservableList<theSPC> spcSelected, allSPC;
@@ -161,7 +165,7 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void spcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcMainPage.fxml" ));
         rootPane.getChildren().setAll(pane);
     }
     
@@ -195,7 +199,7 @@ public class SpecialistGUIController implements Initializable {
         String email = spcEmail.getText();
         if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
         {
-            System.out.println("It works");
+            //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
             a.addSPC(name,address,phone,email);
         }
@@ -257,7 +261,7 @@ public class SpecialistGUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // makes sure the table already shows the list of SPCs
         showData2();
     }    
     
