@@ -533,39 +533,40 @@ public class RealController implements Initializable
         if(private_c.isSelected())
         {
             business_c.setSelected(false);
+            
+            try
+            {
+                data = FXCollections.observableArrayList();
+                PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'private'");
+                ResultSet rs = s.executeQuery();
+                while(rs.next())
+                {
+                    data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
+                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
+                            rs.getString(8)));
+                }
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Doesn't work8!");
+            }
+
+            customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+            first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+            sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+            adr.setCellValueFactory(new PropertyValueFactory("Address"));
+            post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+            mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+            ema.setCellValueFactory(new PropertyValueFactory("Email"));
+            type.setCellValueFactory(new PropertyValueFactory("Account"));
+            dataTable.setItems(null);
+            dataTable.setItems(data);
         }
-        else if(!private_c.isSelected())
+        else
         {
+            clearSearch(event);
             display();
         }
-            
-        try
-        {
-            data = FXCollections.observableArrayList();
-            PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'private'");
-            ResultSet rs = s.executeQuery();
-            while(rs.next())
-            {
-                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
-                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
-                        rs.getString(8)));
-            }
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Doesn't work8!");
-        }
-
-        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
-        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
-        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
-        adr.setCellValueFactory(new PropertyValueFactory("Address"));
-        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
-        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
-        ema.setCellValueFactory(new PropertyValueFactory("Email"));
-        type.setCellValueFactory(new PropertyValueFactory("Account"));
-        dataTable.setItems(null);
-        dataTable.setItems(data);
     }
 
     @FXML
@@ -575,34 +576,40 @@ public class RealController implements Initializable
         if(business_c.isSelected())
         {
             private_c.setSelected(false);
-        }
-        try
-        {
-            data = FXCollections.observableArrayList();
-            PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'business'");
-            ResultSet rs = s.executeQuery();
-            while(rs.next())
+        
+            try
             {
-                data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
-                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
-                        rs.getString(8)));
+                data = FXCollections.observableArrayList();
+                PreparedStatement s=conn.prepareStatement("SELECT * FROM Customer_Accounts WHERE Account = 'business'");
+                ResultSet rs = s.executeQuery();
+                while(rs.next())
+                {
+                    data.add(new allCustomers(rs.getInt(1), rs.getString(2), rs.getString(3), 
+                            rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), 
+                            rs.getString(8)));
+                }
             }
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Doesn't work8!");
-        }
+            catch(SQLException e)
+            {
+                System.out.println("Doesn't work8!");
+            }
 
-        customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
-        first.setCellValueFactory(new PropertyValueFactory("Firstname"));
-        sur.setCellValueFactory(new PropertyValueFactory("Surname"));
-        adr.setCellValueFactory(new PropertyValueFactory("Address"));
-        post.setCellValueFactory(new PropertyValueFactory("Postcode"));
-        mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
-        ema.setCellValueFactory(new PropertyValueFactory("Email"));
-        type.setCellValueFactory(new PropertyValueFactory("Account"));
-        dataTable.setItems(null);
-        dataTable.setItems(data);
+            customer_ID.setCellValueFactory(new PropertyValueFactory("ID"));
+            first.setCellValueFactory(new PropertyValueFactory("Firstname"));
+            sur.setCellValueFactory(new PropertyValueFactory("Surname"));
+            adr.setCellValueFactory(new PropertyValueFactory("Address"));
+            post.setCellValueFactory(new PropertyValueFactory("Postcode"));
+            mobile.setCellValueFactory(new PropertyValueFactory("Phone"));
+            ema.setCellValueFactory(new PropertyValueFactory("Email"));
+            type.setCellValueFactory(new PropertyValueFactory("Account"));
+            dataTable.setItems(null);
+            dataTable.setItems(data);
+        }
+        else
+        {
+            clearSearch(event);
+            display();
+        }
     } 
     
     // search functions to hide

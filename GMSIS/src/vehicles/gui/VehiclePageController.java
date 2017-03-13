@@ -4,6 +4,7 @@ package vehicles.gui;
 
 import vehicles.*;
 import common.CommonDatabase;
+import customer.logic.allCustomers;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -463,34 +464,6 @@ public class VehiclePageController
         }
     }
     
-    @FXML
-    private void getWarrantyDetails(ActionEvent event) {
-//        db = new CommonDatabase();
-//        con=db.getConnection();
-        System.out.println("Works10!");
-        Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
-        String sql="SELECT * FROM Warranty WHERE WarrantyID=?";
-        
-        try
-        {
-            PreparedStatement stmt=con.prepareStatement(sql);
-            stmt.setString(1, veh.getRegistrationNumber());
-            ResultSet rs =stmt.executeQuery();
-            
-            
-            //expDate.setText(rs.gget);
-            compName.setText("def");
-            compAddress.setText("ghi");
-            
-            
-        }
-        catch(SQLException e)
-        {
-            JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
-            System.out.println("Doesn't work10!");
-        }
-    }
-    
     // Connection with other pages
     @FXML
     private void spcPage(ActionEvent event) throws IOException
@@ -525,5 +498,61 @@ public class VehiclePageController
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
         rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void getWarrantyDetails(ActionEvent event) {
+//        db = new CommonDatabase();
+//        con=db.getConnection();
+        System.out.println("Works10!");
+        Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
+        String sql="SELECT * FROM Warranty WHERE WarrantyID=?";
+        
+        try
+        {
+            PreparedStatement stmt=con.prepareStatement(sql);
+            stmt.setString(1, veh.getRegistrationNumber());
+            ResultSet rs =stmt.executeQuery();
+            
+            
+            //expDate.setText(rs.gget);
+            compName.setText("def");
+            compAddress.setText("ghi");
+            
+            
+        }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
+            System.out.println("Doesn't work10!");
+        }
+    }
+
+    @FXML
+    private void viewParts(ActionEvent event)
+    {
+        
+    }
+
+    @FXML
+    private void viewBookings(ActionEvent event) throws IOException
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            noChosen();
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ViewController controller=fxmlLoader.<ViewController>getController();
+            controller.setCustomer(cust, "Bookings");
+            Stage stage = new Stage();
+            stage.setTitle("View Bookings");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
     }
 }
