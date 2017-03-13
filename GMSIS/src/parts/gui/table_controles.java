@@ -72,8 +72,17 @@ public class table_controles {
   
    }
           if(c.getId().equals("qty")){
-               System.out.println("y");
         c.setCellValueFactory(new PropertyValueFactory<Parts_Table, Integer >("QTY"));
+        
+  
+   }
+           if(c.getId().equals("make")){
+        c.setCellValueFactory(new PropertyValueFactory<Parts_Table, Integer >("make"));
+        
+  
+   }
+            if(c.getId().equals("model")){
+        c.setCellValueFactory(new PropertyValueFactory<Parts_Table, Integer >("model"));
         
   
    }

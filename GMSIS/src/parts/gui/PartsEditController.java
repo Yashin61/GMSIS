@@ -32,6 +32,7 @@ import javafx.scene.control.ChoiceBox;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -117,6 +118,12 @@ public class PartsEditController implements Initializable {
     @FXML
     private ChoiceBox<String> regNo;
     int bookingID = 0;
+    @FXML
+    private ChoiceBox<String> Booking_Dates;
+    @FXML
+    private Label lbl_type_of_booking;
+    @FXML
+    private ChoiceBox<String> BookingIDchouce;
     /**
      * Initializes the controller class.
      *
@@ -191,14 +198,15 @@ public class PartsEditController implements Initializable {
             Delete_ID_Part.setText("");
             return;
         }
+       
       
-      
-        String sql = "DELETE FROM PartsUsed WHERE PartsID=? AND RegistrationNumber = ?";
+        String sql = "DELETE FROM PartsUsed WHERE PartsID=? AND RegistrationNumber = ? AND BookingID = ?";
         try { 
             con = conn.connect();
             PreparedStatement stat = con.prepareStatement(sql);
             stat.setInt(1, Integer.parseInt(Delete_ID_Part.getText()));
             stat.setString(2, regNo.getValue());
+            stat.setString(3, BookingIDchouce.getValue());
             stat.execute();
             String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
             PreparedStatement ko = con.prepareStatement(h);
@@ -219,6 +227,17 @@ public class PartsEditController implements Initializable {
 
             Customers_Parts_Editt.setItems(null);
             Customers_Parts_Editt.setItems(data);
+            String parts = "SELECT * FROM Parts WHERE ID = ?";
+            PreparedStatement partsd = con.prepareStatement(parts);
+            partsd.setInt(1,Integer.parseInt(Delete_ID_Part.getText()));
+            ResultSet infos = partsd.executeQuery();
+            String sqlupdate = "UPDATE Parts SET Quantity = ? WHERE ID = ?  ";
+             System.out.println(infos.getInt(6));
+            PreparedStatement state = con.prepareStatement(sqlupdate);
+            state.setInt(1,infos.getInt(6)+1);
+            state.setInt(2,Integer.parseInt(Delete_ID_Part.getText()));
+            state.executeUpdate();
+             JOptionPane.showMessageDialog(null, "You have deleted the part with the ID " + Delete_ID_Part.getText() + " called " + infos.getString(2) + ".");
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,6 +245,7 @@ public class PartsEditController implements Initializable {
         }
 
         Delete_ID_Part.setText("");
+       Add_ID_Part.setText("");
     }
 
     @FXML
@@ -249,7 +269,7 @@ public class PartsEditController implements Initializable {
             PreparedStatement stat = con.prepareStatement(sql);
             stat.setString(1, regNo.getValue());
             stat.setInt(2, Integer.parseInt(Add_ID_Part.getText()));
-            stat.setInt(3, bookingID);
+            stat.setInt(3, Integer.parseInt(BookingIDchouce.getValue()));
             stat.execute();
 
             String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
@@ -271,7 +291,13 @@ public class PartsEditController implements Initializable {
 
             Customers_Parts_Editt.setItems(null);
             Customers_Parts_Editt.setItems(data);
-
+            
+             String parts = "SELECT * FROM Parts WHERE ID = ?";
+            PreparedStatement partsd = con.prepareStatement(parts);
+            partsd.setInt(1,Integer.parseInt(Add_ID_Part.getText()));
+            ResultSet infos = partsd.executeQuery();
+JOptionPane.showMessageDialog(null, "You have deleted the part with the ID " + Add_ID_Part.getText() + " called " + infos.getString(2) + ".");
+           
             Delete_ID_Part.setText("");
             Add_ID_Part.setText("");
             con.close();
@@ -298,6 +324,10 @@ public class PartsEditController implements Initializable {
         txt_Make_display.setText("");
        regNo.getItems().clear();
         Customers_Parts_Editt.setItems(null);
+        Booking_Dates.getItems().clear();
+        lbl_type_of_booking.setText("");
+        BookingIDchouce.getItems().clear();
+        
     }
 
     @FXML
@@ -317,29 +347,22 @@ public class PartsEditController implements Initializable {
         ResultSet in = null;
         ResultSet info = null;
         ResultSet cu = null;
-        
-            Customers_Parts_Editt.setItems(null);
-        String sqlRegno = "SELECT * FROM Vehicles WHERE CustomersID = ? ";
+        int i = 0;
+            regNo.getItems().clear();
+        String sqlRegno = "SELECT * FROM Vehicles WHERE RegistrationNumber LIKE '%" + txt_Search_By_ID.getText() + "%' ";
      //   String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
         String cust = "SELECT * FROM Customer_Accounts WHERE ID = ?";
         con = conn.connect();
         try {
-            PreparedStatement a = con.prepareStatement(cust);
-
-            a.setInt(1, Integer.parseInt((txt_Search_By_ID.getText())));
-
-            cu = a.executeQuery();
-            txt_firstname_display.setText(cu.getString(2));
-            txt_firstname_display.setStyle("-fx-background-color:White");
-            txt_Surname_display.setText(cu.getString(3));
-            txt_Surname_display.setStyle("-fx-background-color:White"); 
+          
             PreparedStatement s = con.prepareStatement(sqlRegno);
 
-            s.setInt(1, Integer.parseInt(txt_Search_By_ID.getText()));
-
+           
+            
             in = s.executeQuery();
              boolean t=true;
-            regNo.getItems().clear();
+             System.out.println(in.getString(9));
+            //regNo.getItems().clear();
             while(in.next()){
             regNo.getItems().add(in.getString(9));
             if(t){
@@ -348,13 +371,6 @@ public class PartsEditController implements Initializable {
             }
             }
             
-             in = s.executeQuery();
-           txt_Make_display.setText(in.getString(2));
-            txt_Make_display.setStyle("-fx-background-color:White");
-            txt_model_display.setText(in.getString(3));
-            txt_model_display.setStyle("-fx-background-color:White");
-            txt_colour_display.setText(in.getString(8));
-            txt_colour_display.setStyle("-fx-background-color:White");
            
             con.close();
         } catch (SQLException e) {
@@ -366,6 +382,7 @@ public class PartsEditController implements Initializable {
     
     public void hi(){
           ResultSet info = null;
+           ResultSet cu = null;
 if(booking()){
         String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
         
@@ -391,6 +408,51 @@ if(booking()){
 
             Customers_Parts_Editt.setItems(null);
             Customers_Parts_Editt.setItems(data);
+            
+              String sqlRegno = "SELECT * FROM Vehicles WHERE RegistrationNumber = '"+ regNo.getValue() +"' ";
+    
+              PreparedStatement s = con.prepareStatement(sqlRegno);
+
+            ResultSet in = s.executeQuery();
+           txt_Make_display.setText(in.getString(2));
+            txt_Make_display.setStyle("-fx-background-color:White");
+            txt_model_display.setText(in.getString(3));
+            txt_model_display.setStyle("-fx-background-color:White");
+            txt_colour_display.setText(in.getString(8));
+            txt_colour_display.setStyle("-fx-background-color:White");
+            
+             String cust = "SELECT * FROM Customer_Accounts WHERE ID = ?";
+       
+            
+              PreparedStatement a = con.prepareStatement(cust);
+
+            a.setInt(1, in.getInt(10));
+
+            cu = a.executeQuery();
+            txt_firstname_display.setText(cu.getString(2));
+            txt_firstname_display.setStyle("-fx-background-color:White");
+            txt_Surname_display.setText(cu.getString(3));
+            txt_Surname_display.setStyle("-fx-background-color:White"); 
+                  BookingIDchouce.getItems().clear();
+            String booking = "SELECT * FROM Booking WHERE RegistrationNumber = ?";
+       
+            
+              PreparedStatement bookingsinfo = con.prepareStatement(booking);
+
+            bookingsinfo.setString(1, regNo.getValue());
+
+            ResultSet book = bookingsinfo.executeQuery();
+            
+            boolean b = true;
+            while(book.next()){
+            
+                BookingIDchouce.getItems().add(Integer.toString(book.getInt("BookingID")));
+                if(b){
+                     BookingIDchouce.setValue(Integer.toString(book.getInt("BookingID")));
+                     b=false;
+                }
+            }
+            
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -453,9 +515,6 @@ return false;
         
     }
     public boolean withdrawPart(int partID){
-       
-        
-        
         String h = "SELECT * FROM Parts WHERE ID = ?";
         String sql = "UPDATE Parts SET Quantity = ? WHERE ID = ?  ";
          con = conn.connect();
@@ -490,20 +549,48 @@ return false;
         con = conn.connect();
         String sql = "SELECT * FROM Booking WHERE RegistrationNumber = ?";
         Customers_Parts_Editt.setItems(null);
+        Booking_Dates.getItems().clear();
         try{
             PreparedStatement ko = con.prepareStatement(sql);
             ko.setString(1, regNo.getValue());
             ResultSet info = ko.executeQuery();
             bookingID = info.getInt(1);
-            
-            
+            boolean t = true;
+            while(info.next()){
+            Booking_Dates.getItems().add(info.getString(5) + " at " + info.getString(6));
+            if(t){
+            Booking_Dates.setValue(info.getString(5) + " at " + info.getString(6));
+            t=false;
+            }
+            }
+           
             con.close();
             return true;
         }
         catch(SQLException e){
+            e.printStackTrace();
             return false;
         }
+    }
+
+    @FXML
+    private void showBookingType(MouseEvent event) {
+              con = conn.connect(); 
+        if (event.getClickCount() == 2) {
         
-        
+        String sql = "SELECT * FROM Booking WHERE RegistrationNumber = ? AND BookingID = ?";
+        try{
+            PreparedStatement ko = con.prepareStatement(sql);
+            ko.setString(1,Customers_Parts_Editt.getSelectionModel().getSelectedItem().getRegistrationNo());
+            ko.setInt(2,Customers_Parts_Editt.getSelectionModel().getSelectedItem().getBookingID());
+            ResultSet info = ko.executeQuery();
+            lbl_type_of_booking.setText(info.getString(3));
+            lbl_type_of_booking.setStyle("-fx-background-color:White"); 
+            con.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+      }
     }
 }
