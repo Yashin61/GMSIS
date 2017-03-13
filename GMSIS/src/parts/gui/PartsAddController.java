@@ -69,7 +69,7 @@ public class PartsAddController implements Initializable {
     private Label lbl_data_Name;
     @FXML
     private Label lbl_data_Description;
-     private Button Search_Part_by_ID_btn;
+    private Button Search_Part_by_ID_btn;
     @FXML
     private Label lbl_Search_ID_QTY;
     @FXML
@@ -107,6 +107,20 @@ public class PartsAddController implements Initializable {
     @FXML
     private Label lbl_Search_ID;
     private ObservableList<Parts_Table> data;
+    @FXML
+    private TableColumn<Parts_Table, String> model;
+    @FXML
+    private TableColumn<Parts_Table, String> make;
+    @FXML
+    private TextField model_txt;
+    @FXML
+    private TextField make_txt;
+    @FXML
+    private Label model_lbl;
+    @FXML
+    private Label make_lbl;
+    @FXML
+    private Button Delete;
 
     /**
      * Initializes the controller class.
@@ -130,7 +144,12 @@ public class PartsAddController implements Initializable {
             lbl_Search_ID.setVisible(false);
             txt_ID_Search.setVisible(false);
             Search_Part_by_ID.setVisible(false);
+            model_txt.setVisible(true);
+            make_txt.setVisible(true);
+            model_lbl.setVisible(true);
+            make_lbl.setVisible(true);
         }
+            updateTable();
     }
 
     @FXML
@@ -143,7 +162,12 @@ public class PartsAddController implements Initializable {
             txt_ID_Search.setVisible(true);
             Search_Part_by_ID.setVisible(true);
             lbl_Search_ID.setVisible(true);
+            model_txt.setVisible(true);
+            make_txt.setVisible(true);
+            model_lbl.setVisible(true);
+            make_lbl.setVisible(true);
         }
+            updateTable();
     }
 
     @FXML
@@ -153,10 +177,18 @@ public class PartsAddController implements Initializable {
             Visibility_New_Parts(false);
             New_Part_Select.setSelected(false);
             Update_CurrentPart.setSelected(false);
+            lbl_Search_ID.setVisible(true);
+            txt_ID_Search.setVisible(true);
+            Search_Part_by_ID.setVisible(true);
+            model_txt.setVisible(false);
+            make_txt.setVisible(false);
+            model_lbl.setVisible(false);
+            make_lbl.setVisible(false);
             lbl_Search_ID.setVisible(false);
-           txt_ID_Search.setVisible(false);
-             Search_Part_by_ID.setVisible(false);
+            txt_ID_Search.setVisible(false);
+            Search_Part_by_ID.setVisible(false);
         }
+            updateTable();
 
     }
 
@@ -204,14 +236,17 @@ public class PartsAddController implements Initializable {
     @FXML
     public void Clear_Add_Page(ActionEvent event) {
         txt_Search_ID_QTY.clear();
-         txt_ID_Search.clear();
+        txt_ID_Search.clear();
         txt_New_Part_Name.clear();
         txt_New_Part_Description.clear();
         txt_New_Part_Cost.clear();
         txt_New_Part_Quantity.clear();
         lbl_data_Name.setText("");
         lbl_data_Description.setText("");
-         updateTable();
+        make_txt.clear();
+       model_txt.clear();
+        
+        updateTable();
     }
 
     public void updateTable() {
@@ -233,6 +268,8 @@ public class PartsAddController implements Initializable {
             txt_New_Part_Name.setText(parts_table.getSelectionModel().getSelectedItem().getName());
             txt_New_Part_Description.setText(parts_table.getSelectionModel().getSelectedItem().getDescription());
             txt_New_Part_Cost.setText(parts_table.getSelectionModel().getSelectedItem().getCost());
+            make_txt.setText(parts_table.getSelectionModel().getSelectedItem().getMake());
+            model_txt.setText(parts_table.getSelectionModel().getSelectedItem().getModel());
 
             txt_New_Part_Quantity.setText(Integer.toString(parts_table.getSelectionModel().getSelectedItem().getQTY()));
 
@@ -241,17 +278,15 @@ public class PartsAddController implements Initializable {
 
     @FXML
     private void updateQTYparts(ActionEvent event) {
-      
+
         String sql = "UPDATE Parts SET Quantity = ? WHERE ID = ? ";
-        if(currentQTY>=10)
-        {
+        if (currentQTY >= 10) {
             JOptionPane.showMessageDialog(null, "The current quantity is already equal to 10, trying to add more will exceed the maximum limit.");
             txt_Search_ID_QTY.setText("");
             return;
         }
-       int new_total=currentQTY+Integer.parseInt(txt_Search_ID_QTY.getText());
-         if(new_total>10)
-        {
+        int new_total = currentQTY + Integer.parseInt(txt_Search_ID_QTY.getText());
+        if (new_total > 10) {
             JOptionPane.showMessageDialog(null, "The new total " + new_total + " will exceed the maximum limit.");
             txt_Search_ID_QTY.setText("");
             return;
@@ -274,39 +309,87 @@ public class PartsAddController implements Initializable {
     @FXML
     private void search_p(ActionEvent event) {
         con = conn.connect();
-    String sql = "SELECT * FROM Parts WHERE Name LIKE '" + txt_ID_Search.getText() + "%' OR Description Like '" + txt_ID_Search.getText() + "%'";
-    
-    try{
-        PreparedStatement st = con.prepareStatement(sql);
-        ResultSet rs = st.executeQuery();
-       
-         data = FXCollections.observableArrayList();
-           
-   
-     
-   
-        id.setCellValueFactory(new PropertyValueFactory("ID"));
-   name.setCellValueFactory(new PropertyValueFactory("name"));
-  description.setCellValueFactory(new PropertyValueFactory("description"));
-  
-cost.setCellValueFactory(new PropertyValueFactory("cost"));
-  
-   qty.setCellValueFactory(new PropertyValueFactory("QTY"));
-        while (rs.next()) {
-                data.add(new Parts_Table(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5),rs.getInt(6),rs.getString(7)));
+        String sql = "SELECT * FROM Parts WHERE Name LIKE '" + txt_ID_Search.getText() + "%' OR Description Like '" + txt_ID_Search.getText() + "%'";
+
+        try {
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            data = FXCollections.observableArrayList();
+
+            id.setCellValueFactory(new PropertyValueFactory("ID"));
+            name.setCellValueFactory(new PropertyValueFactory("name"));
+            description.setCellValueFactory(new PropertyValueFactory("description"));
+
+            cost.setCellValueFactory(new PropertyValueFactory("cost"));
+
+            qty.setCellValueFactory(new PropertyValueFactory("QTY"));
+            while (rs.next()) {
+                data.add(new Parts_Table(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7)));
 
             }
-    parts_table.setItems(null);
-         parts_table.setItems(data);
-          
-        
-        
-        
-        con.close();
-    }catch (SQLException e){
-        e.printStackTrace();
+            parts_table.setItems(null);
+            parts_table.setItems(data);
+
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    @FXML
+    private void add_qty_update(ActionEvent event) {
+        con = conn.connect();
+        String sql = "";
+        PreparedStatement stat = null;
+
+        try {
+            if (Update_CurrentPart.isSelected()) {
+                sql = "UPDATE Parts SET Name = '" + txt_New_Part_Name.getText() + "', Model = '" + model_txt.getText() + "' , Make = '" + make_txt.getText() + "' , Description = '" + txt_New_Part_Description.getText() + "' , Cost = '" + txt_New_Part_Cost.getText() + "' , Quantity = '" + txt_New_Part_Quantity.getText() + "' WHERE ID = " + ChosenID;
+                stat = con.prepareStatement(sql);
+               /* stat.setString(1, );
+                stat.setString(2, );
+                stat.setString(3, );
+                stat.setString(4, );
+                stat.setString(5, );
+                stat.setInt(6, Integer.parseInt());
+                stat.setInt(7, );*/
+                stat.executeUpdate();
+            } else if (New_Part_Select.isSelected()) {
+                sql = "INSERT INTO Parts (Name,Model,Make,Description,Cost,Quantity) VALUES (?,?,?,?,?,?)";
+                stat = con.prepareStatement(sql);
+                stat.setString(1, txt_New_Part_Name.getText());
+                stat.setString(2, model_txt.getText());
+                stat.setString(3, make_txt.getText());
+                stat.setString(4, txt_New_Part_Description.getText());
+                stat.setString(5, txt_New_Part_Cost.getText());
+                stat.setInt(6, Integer.parseInt(txt_New_Part_Quantity.getText()));
+               
+                stat.executeUpdate();
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        updateTable();
     }
-    
-    
+
+    @FXML
+    private void DeletePartCompletely(ActionEvent event) {
+          con = conn.connect(); 
+          String sql = "DELETE FROM Parts WHERE ID = ? ";
+          try{
+               PreparedStatement stat = con.prepareStatement(sql);
+                stat.setInt(1,parts_table.getSelectionModel().getSelectedItem().getID() );
+                stat.executeUpdate();
+                con.close();
+          }
+          catch(SQLException e){
+              
+          }
+         updateTable();
+        
+    }
+
 }
