@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -74,6 +75,8 @@ public class VehiclePageController
     private CheckBox truck;
     @FXML
     private CheckBox warranty;
+    @FXML
+    private Button addVeh;
     @FXML
     private Button clearButton;
     @FXML
@@ -163,9 +166,25 @@ public class VehiclePageController
     }
     
     @FXML
-    private void openAddPage(ActionEvent event)
-    {}
-    
+    private void openAddPage(ActionEvent event) throws IOException
+    {
+        Stage stage;
+        Parent root;
+        if(event.getSource() == addVeh)
+        {
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle("window");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(addVeh.getScene().getWindow());
+            stage.showAndWait();
+            dataTable.setItems(data);
+        }
+        else
+        {}
+    }
+
     @FXML
     private void deleteVehicle(ActionEvent event)
     {
