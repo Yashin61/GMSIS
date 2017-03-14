@@ -34,6 +34,8 @@ public class VehiclePageController
 {
 //    Pane pane;
     @FXML
+    private AnchorPane mainAnchor;
+    @FXML
     private TableView<Vehicle> dataTable;
     private TableView<Warranty> dataTable2;
     @FXML
@@ -469,35 +471,35 @@ public class VehiclePageController
     private void spcPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void homePage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void custAccPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void diagRepBkPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void partsPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
@@ -537,8 +539,8 @@ public class VehiclePageController
     @FXML
     private void viewBookings(ActionEvent event) throws IOException
     {
-        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
-        if(cust == null)
+        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
+        if(veh == null)
         {
             noChosen();
         }
@@ -547,7 +549,7 @@ public class VehiclePageController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setCustomer(cust, "Bookings");
+            controller.setVehicle(veh);
             Stage stage = new Stage();
             stage.setTitle("View Bookings");
             stage.setScene(new Scene(root1));

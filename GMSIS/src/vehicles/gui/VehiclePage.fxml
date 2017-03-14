@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="602.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehiclePageController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchor" prefHeight="602.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehiclePageController">
    <children>
       <Button layoutX="118.0" layoutY="61.0" mnemonicParsing="false" onAction="#homePage" text="HOME" />
       <Button layoutX="248.0" layoutY="61.0" mnemonicParsing="false" onAction="#custAccPage" text="CUSTOMER ACCOUNTS" />
