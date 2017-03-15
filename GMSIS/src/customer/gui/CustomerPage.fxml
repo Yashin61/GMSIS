@@ -79,5 +79,7 @@
       </Label>
       <CheckBox fx:id="private_c" layoutX="147.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchPrivateCustomer" text="Private" />
       <CheckBox fx:id="business_c" layoutX="239.0" layoutY="200.0" mnemonicParsing="false" onAction="#serachBusinessCustomer" text="Business" />
+      <Button layoutX="271.0" layoutY="498.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="26.0" prefWidth="108.0" text="ADD VEHICLE" AnchorPane.leftAnchor="274.0" />
+      <Button layoutX="146.0" layoutY="498.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="ADD BOOKING" />
    </children>
 </AnchorPane>

@@ -101,7 +101,7 @@ public class viewController implements Initializable
         try
         {
             conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Customer_Accounts.ID, Vehicles.RegistrationNumber, Vehicles.Make, Vehicles.Model, Vehicles.Colour, Vehicles.VehicleType FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomersID WHERE Customer_Accounts.ID = '" + c.getID() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery( "SELECT Customer_Accounts.ID, Vehicles.RegistrationNumber, Vehicles.Make, Vehicles.Model, Vehicles.Colour, Vehicles.VehicleType FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomerID WHERE Customer_Accounts.ID = '" + c.getID() + "' ");
             if(!rs.next())
             {
                 none.setVisible(true);
@@ -141,7 +141,7 @@ public class viewController implements Initializable
         try
         {
             conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomersID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomersID = '" + c.getID() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + c.getID() + "' ");
             if(!rs.next())
             {
                 none.setVisible(true);
@@ -206,7 +206,7 @@ public class viewController implements Initializable
         try
         {
             Connection conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomersID = '" + c.getID() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomerID = '" + c.getID() + "' ");
             if(!rs.isBeforeFirst())
             {
                 allParts.setVisible(false);
