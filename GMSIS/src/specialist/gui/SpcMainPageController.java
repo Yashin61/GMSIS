@@ -100,6 +100,7 @@ public class SpcMainPageController implements Initializable {
     @FXML
     private ObservableList<SpcBookings> allSPCBooking;
 
+    //adding a comment to commit and push again as github not working properly
     @FXML
     private void Reset(ActionEvent event) {
         custName.clear();
