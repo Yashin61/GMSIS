@@ -172,22 +172,20 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void spcAddPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("addSPC.fxml"));
-        rootPane.getChildren().setAll(pane);
-        /*
-         try
+       /* theSPC spc = dataTable.getSelectionModel().getSelectedItem();
+        if(spc == null)
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
+            JOptionPane.showMessageDialog(null,"Please select a SPC");
+        }
+        else
+        {*/
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addSPC.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
-            stage.show();
-        } 
-        catch(Exception e) 
-        {
-           e.printStackTrace();
-        }
-        */
+            stage.setTitle("Add SPC");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+       // } 
     }
     
     @FXML

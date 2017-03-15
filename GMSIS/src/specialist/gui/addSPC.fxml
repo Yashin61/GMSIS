@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="430.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="430.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.AddSPCController">
     <children>
       <Separator layoutX="115.0" layoutY="80.0" prefHeight="3.0" prefWidth="460.0" />
       <Label layoutX="224.0" layoutY="40.0" prefHeight="55.0" prefWidth="355.0" text="Add Specialist Repair">
@@ -15,7 +15,7 @@
             <Font name="Apple Braille" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="36.0" layoutY="300.0" mnemonicParsing="false" onAction="#spcPage" text="BACK" />
+      <Button layoutX="36.0" layoutY="300.0" mnemonicParsing="false" text="BACK" />
       <Label layoutX="33.0" layoutY="130.0" text="NAME:">
          <font>
             <Font name="Apple Braille" size="15.0" />
