@@ -271,6 +271,15 @@ public class AddVehicleController implements Initializable {
         stage.close();
     }
     
+    
+    
+    // This is a method for the customer module to access
+    
+    public void setCustomerID(int id)
+    {
+        cstIDTemp.setValue(id);
+    }
+    
 //    private ArrayList removeDuplicates(ArrayList<String> temp)
 //    {
 //        Set<String> hs = new HashSet<>();
