@@ -172,6 +172,8 @@ public class ViewController implements Initializable
         }
     }
     
+    
+//    
 //    public void viewVehicles2(allCustomers c)
 //    {
 //        CommonDatabase db = new CommonDatabase();
