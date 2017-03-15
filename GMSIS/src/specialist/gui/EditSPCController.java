@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import specialist.logic.SpecialistDB;
 import specialist.logic.theSPC;
@@ -88,6 +89,8 @@ public class EditSPCController implements Initializable {
                 a.editSPC(id,data[i],i);
             }     
             JOptionPane.showMessageDialog(null, "SPC list has been updated");
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.close();
         }
         else
         {

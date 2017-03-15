@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import specialist.logic.SpecialistDB;
 
 /**
@@ -45,6 +46,8 @@ public class AddSPCController implements Initializable {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
             a.addSPC(name,address,phone,email);
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.close();
         }
         else
         {
