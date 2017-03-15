@@ -15,17 +15,17 @@ public class Vehicle
     private IntegerProperty year;
     private StringProperty engineSize;
     private StringProperty fuelType;
-    private IntegerProperty milage;
+    private IntegerProperty mileage;
     private StringProperty colour;
     private StringProperty registrationNumber;
     private IntegerProperty customerID;
     private IntegerProperty warrantyID;
-    private StringProperty MOTRenewalDate;
+    private StringProperty motRenewalDate;
     private StringProperty lastServiceDate;
     
     public Vehicle(String vehicleTypeX, String makeX, String modelX, int yearX, String engineSizeX, 
-            String fuelTypeX, int milageX, String colourX, String registrationNumberX, 
-            int customerIDX, int warrantyIDX, String MOTRenewalDateX, 
+            String fuelTypeX, int mileageX, String colourX, String registrationNumberX, 
+            int customerIDX, int warrantyIDX, String motRenewalDateX, 
             String lastServiceDateX)
     {
         vehicleType=new SimpleStringProperty(vehicleTypeX);
@@ -34,12 +34,12 @@ public class Vehicle
         year=new SimpleIntegerProperty(yearX);
         engineSize=new SimpleStringProperty(engineSizeX);
         fuelType=new SimpleStringProperty(fuelTypeX);
-        milage=new SimpleIntegerProperty(milageX);
+        mileage=new SimpleIntegerProperty(mileageX);
         colour=new SimpleStringProperty(colourX);
         registrationNumber=new SimpleStringProperty(registrationNumberX);
         customerID=new SimpleIntegerProperty(customerIDX);
         warrantyID=new SimpleIntegerProperty(warrantyIDX);
-        MOTRenewalDate=new SimpleStringProperty(MOTRenewalDateX);
+        motRenewalDate=new SimpleStringProperty(motRenewalDateX);
         lastServiceDate=new SimpleStringProperty(lastServiceDateX);
     }
 
@@ -61,8 +61,8 @@ public class Vehicle
     public StringProperty getFuelType1() {
         return fuelType;
     }
-    public IntegerProperty getMilage1() {
-        return milage;
+    public IntegerProperty getMileage1() {
+        return mileage;
     }
     public StringProperty getColour1() {
         return colour;
@@ -77,7 +77,7 @@ public class Vehicle
         return warrantyID;
     }
     public StringProperty getMOTRenewalDate1() {
-        return MOTRenewalDate;
+        return motRenewalDate;
     }
     public StringProperty getLastServiceDate1() {
         return lastServiceDate;
@@ -101,8 +101,8 @@ public class Vehicle
     public String getFuelType() {
         return fuelType.get();
     }
-    public int getMilage() {
-        return milage.get();
+    public int getMileage() {
+        return mileage.get();
     }
     public String getColour() {
         return colour.get();
@@ -117,7 +117,7 @@ public class Vehicle
         return warrantyID.get();
     }
     public String getMOTRenewalDate() {
-        return MOTRenewalDate.get();
+        return motRenewalDate.get();
     }
     public String getLastServiceDate() {
         return lastServiceDate.get();
@@ -141,8 +141,8 @@ public class Vehicle
     public void setFuelType(String i) {
         fuelType.set(i);
     }
-    public void setMilage(Integer i) {
-        milage.set(i);
+    public void setMileage(Integer i) {
+        mileage.set(i);
     }
     public void setColour(String i) {
         colour.set(i);
@@ -157,10 +157,9 @@ public class Vehicle
         warrantyID.set(i);
     }
     public void setMOTRenewalDate(String i) {
-        MOTRenewalDate.set(i);
+        motRenewalDate.set(i);
     }
     public void setLastServiceDate(String i) {
         lastServiceDate.set(i);
     }
 }
-//

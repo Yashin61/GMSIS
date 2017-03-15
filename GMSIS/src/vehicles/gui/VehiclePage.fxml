@@ -44,7 +44,7 @@
                   <TableColumn fx:id="year" minWidth="0.0" prefWidth="58.0" text="Year" />
                   <TableColumn fx:id="engineSize" minWidth="0.0" prefWidth="89.0" text="Engine Size" />
                   <TableColumn fx:id="fuelType" prefWidth="88.0" text="Fuel Type" />
-                  <TableColumn fx:id="milage" prefWidth="76.0" text="Milage" />
+                  <TableColumn fx:id="mileage" prefWidth="76.0" text="Mileage" />
                   <TableColumn fx:id="colour" prefWidth="85.0" text="Colour" />
                   <TableColumn fx:id="registrationNumber" prefWidth="132.0" text="Registration Number" />
                   <TableColumn fx:id="customerID" minWidth="0.0" text="Customer ID" />
@@ -59,7 +59,7 @@
       <Button layoutX="527.0" layoutY="367.0" mnemonicParsing="false" onAction="#deleteVehicle" text="DELETE" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="601.0" layoutY="367.0" mnemonicParsing="false" onAction="#openEditPage" prefHeight="25.0" prefWidth="50.0" text="EDIT" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="367.0" />
       <Button fx:id="addVeh" layoutX="674.0" layoutY="367.0" mnemonicParsing="false" onAction="#openAddPage" prefHeight="25.0" prefWidth="50.0" text="ADD" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="367.0" />
-      <Button layoutX="848.0" layoutY="367.0" mnemonicParsing="false" onAction="#getWarrantyDetails" prefHeight="26.0" prefWidth="171.0" text="VIEW WARRANTY DETAILS" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="367.0" />
+      <Button layoutX="848.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewWarranty" prefHeight="26.0" prefWidth="171.0" text="VIEW WARRANTY DETAILS" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="367.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/gui/Car.png" />
