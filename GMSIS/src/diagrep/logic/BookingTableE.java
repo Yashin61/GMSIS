@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diagrep.gui;
+package diagrep.logic;
 
 import diagrep.*;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,7 +17,7 @@ import javafx.beans.property.DoubleProperty;
  *
  * @author Mustakim
  */
-public class BookingTable {
+public class BookingTableE {
     private final IntegerProperty BookingID;
     private final StringProperty RegNumber;
     private final StringProperty BookingType;
@@ -27,7 +27,7 @@ public class BookingTable {
     private final StringProperty RepairTime;
     private final DoubleProperty Bill; 
     
-    public BookingTable(Integer BookingID, String RegNumber, String BookingType, Integer MechanicID, String BookingDate, String BookingTime, String RepairTime, Double Bill){
+    public BookingTableE(Integer BookingID, String RegNumber, String BookingType, Integer MechanicID, String BookingDate, String BookingTime, String RepairTime, Double Bill){
         this.BookingID = new SimpleIntegerProperty(BookingID);
         this.RegNumber = new SimpleStringProperty(RegNumber);
         this.BookingType = new SimpleStringProperty(BookingType);

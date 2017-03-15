@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diagrep.gui;
+package diagrep.logic;
 
-import diagrep.*;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ import java.sql.Statement;
  *
  * @author Mustakim
  */
-public class Database {
+public class Database1 {
 
     /**
      * @param args the command line arguments
@@ -43,12 +42,10 @@ public class Database {
                 System.out.println(rs.getInt("BookingID") +  "\t" + 
                                    rs.getString("RegistrationNumber") + "\t" +
                                    rs.getString("BookingType") + "\t" +
-                                   rs.getInt("MechanicID") + "\t" +
                                    rs.getString("BookingDate") + "\t" +
                                    rs.getString("BookingTime") + "\t" +
                                    rs.getString("RepairTime") + "\t" +
                                    rs.getFloat("Bill"));
-                conn.close();
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -60,7 +57,7 @@ public class Database {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Database app = new Database();
+        Database1 app = new Database1();
         app.selectBooking();
     }
 }

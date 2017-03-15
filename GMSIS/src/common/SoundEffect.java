@@ -15,7 +15,7 @@ public class SoundEffect
 	try
 	{
             Clip clip=AudioSystem.getClip();
-	    AudioInputStream inputStream=AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("@HelloSound.wav"));
+	    AudioInputStream inputStream=AudioSystem.getAudioInputStream(Main.class.getResourceAsStream("HelloSound.wav"));
 	    clip.open(inputStream);
 	    clip.start();
 	}

@@ -5,7 +5,9 @@
  */
 package diagrep.gui;
 
-
+import diagrep.logic.BookingTableE;
+import diagrep.logic.BookingTable;
+import diagrep.logic.Database;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +33,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
