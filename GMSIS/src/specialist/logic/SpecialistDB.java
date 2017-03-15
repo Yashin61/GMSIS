@@ -82,8 +82,6 @@ public class SpecialistDB
                     String sql = "UPDATE SPC SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE SPCId = " + newid + " ;";
 
                     stmt.executeUpdate(sql);
-                    JOptionPane.showMessageDialog(null, "SPC list has been updated");
-
                     stmt.close();
                     connect.close();
                 }catch(NumberFormatException e){System.out.println("Error in converting the id");}
@@ -106,7 +104,7 @@ public class SpecialistDB
             String sql = "DELETE FROM SPC WHERE SPCId = " + id + ";";
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "SPC has been deleted. \n Refresh the page to see changes."); 
+            JOptionPane.showMessageDialog(null, "SPC has been deleted."); 
 
             stmt.close();
             connect.close();
@@ -148,8 +146,9 @@ public class SpecialistDB
           return SPCList;
     }
     
+    /*
     public static void main(String[] args) {
         SpecialistDB app = new SpecialistDB();
         System.out.print(Arrays.toString(app.getSPC()));
-    }
+    }*/
 }
