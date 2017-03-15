@@ -98,6 +98,7 @@ public class AddVehicleController implements Initializable {
         fTypeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> fType=newValue);
         clTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cl=newValue);
         cstIDTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cstID=newValue);
+        
     }
 
     private ObservableList<String> filling1() throws SQLException  // think of making aall in one method, possibly linkedlist?!
@@ -271,6 +272,13 @@ public class AddVehicleController implements Initializable {
         temp.addAll(hs);
         return temp;
     }
+    
+    // Method for customer module to access
+    public void setCustomerID(int id)
+    {
+       cstIDTemp.setValue(id); 
+    }
+    
     
 //    private ArrayList removeDuplicates(ArrayList<String> array)
 //    {
