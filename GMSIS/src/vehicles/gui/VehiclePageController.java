@@ -27,12 +27,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
 //    Pane pane;
+    @FXML
+    private AnchorPane mainAnchor;
     @FXML
     private TableView<Vehicle> dataTable;
     private TableView<Warranty> dataTable2;
@@ -72,6 +75,8 @@ public class VehiclePageController
     private CheckBox truck;
     @FXML
     private CheckBox warranty;
+    @FXML
+    private Button addVeh;
     @FXML
     private Button clearButton;
     @FXML
@@ -161,9 +166,25 @@ public class VehiclePageController
     }
     
     @FXML
-    private void openAddPage(ActionEvent event)
-    {}
-    
+    private void openAddPage(ActionEvent event) throws IOException
+    {
+        Stage stage;
+        Parent root;
+        if(event.getSource() == addVeh)
+        {
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle("window");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(addVeh.getScene().getWindow());
+            stage.showAndWait();
+            dataTable.setItems(data);
+        }
+        else
+        {}
+    }
+
     @FXML
     private void deleteVehicle(ActionEvent event)
     {
@@ -469,35 +490,35 @@ public class VehiclePageController
     private void spcPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void homePage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void custAccPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void diagRepBkPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
     private void partsPage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
-        rootPane.getChildren().setAll(pane);
+        mainAnchor.getChildren().setAll(pane);
     }
 
     @FXML
@@ -537,8 +558,8 @@ public class VehiclePageController
     @FXML
     private void viewBookings(ActionEvent event) throws IOException
     {
-        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
-        if(cust == null)
+        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
+        if(veh == null)
         {
             noChosen();
         }
@@ -547,7 +568,7 @@ public class VehiclePageController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setCustomer(cust, "Bookings");
+            controller.setVehicle(veh);
             Stage stage = new Stage();
             stage.setTitle("View Bookings");
             stage.setScene(new Scene(root1));

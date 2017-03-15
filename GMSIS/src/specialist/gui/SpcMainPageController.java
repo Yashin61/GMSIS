@@ -101,8 +101,10 @@ public class SpcMainPageController implements Initializable {
     private ObservableList<SpcBookings> allSPCBooking;
 
     @FXML
-    void clearSearchAddEdit(ActionEvent event) {
-
+    private void Reset(ActionEvent event) {
+        custName.clear();
+        vechRegistration.clear();
+        showData2();
     }
     
     @FXML
@@ -122,9 +124,10 @@ public class SpcMainPageController implements Initializable {
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             allSPCBooking= FXCollections.observableArrayList();
-            ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
+            ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking");
             while(set.next()){
-                //allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
+                allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                        set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
             }
             stmt.close();
             set.close();
@@ -136,7 +139,7 @@ public class SpcMainPageController implements Initializable {
         
         tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
-        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SpcPartID"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
         tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
        
         dataTable.setItems(allSPCBooking);
@@ -157,18 +160,18 @@ public class SpcMainPageController implements Initializable {
     }
     
     @FXML
-    private void setDetails(theSPC spc){
+    private void setDetails(SpcBookings spc){
         if(spc != null)
         {
-            theSpcName.setText(spc.getSPCname());
+            theSpcName.setText(spc.getSpcBookingName());
             Connection connect = null;
             Statement stmt = null;
             try
             {
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.createStatement();
-                ResultSet set = stmt.executeQuery( "SELECT SPCBooking.RegistrationNumber, Vehicles.RegistrationNumber, Vehicles.Model, Vehicles.VehicleType "
-                        + "FROM SPCBooking INNER JOIN Vehicles ON SPCBooking.RegistrationNumber = Vehicles.RegistrationNumber WHERE SPCBooking.ID = '" + spc.getSPCid()+ "' ");
+                ResultSet set = stmt.executeQuery("SELECT SPCBooking.RegistrationNumber, Vehicles.RegistrationNumber, Vehicles.Model, Vehicles.VehicleType "
+                        + "FROM SPCBooking INNER JOIN Vehicles ON SPCBooking.RegistrationNumber = Vehicles.RegistrationNumber WHERE SPCBooking.ID = '" + spc.getSpcBookingId()+ "' ");
                 while(set.next())
                 {
                     theVehicleName.setText(set.getString("Model") + set.getString("VehicleType"));
@@ -186,13 +189,11 @@ public class SpcMainPageController implements Initializable {
             {
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.createStatement();
-                ResultSet set = stmt.executeQuery( "SELECT SPCBooking.CustomerID, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address,"
+                ResultSet set = stmt.executeQuery("SELECT SPCBooking.CustomerID, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address,"
                         + " Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Email, Customer_Accounts.Account "
-                        + "FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID WHERE SPCBooking.ID = '" + spc.getSPCid()+ "' ");
+                        + "FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID WHERE SPCBooking.ID = '" + spc.getSpcBookingId()+ "' ");
                 while(set.next())
                 {
-                    theVehicleName.setText(set.getString("Model") + set.getString("VehicleType"));
-                    theRegistrationNo.setText(set.getString("RegistrationNumber"));
                     theCustomerId.setText(set.getString("ID"));
                     theCustomerName.setText(set.getString("Firstname")+" "+set.getString("Surname"));
                     theCustomerType.setText(set.getString("Account"));
@@ -237,6 +238,8 @@ public class SpcMainPageController implements Initializable {
             spcList.getItems().add(lbl);
         }
         showData2();
+        setDetails(null);
+        dataTable.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> setDetails(newValue));
     }    
-    
 }

@@ -25,7 +25,7 @@
       <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
       <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
       <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
-      <Label layoutX="29.0" layoutY="131.0" prefHeight="34.0" prefWidth="164.0" text="Search for SPC">
+      <Label layoutX="17.0" layoutY="131.0" prefHeight="34.0" prefWidth="164.0" text="Search for SPC">
          <font>
             <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
          </font>
@@ -43,7 +43,7 @@
       <TextField fx:id="custName" layoutX="15.0" layoutY="310.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="310.0" />
       <TextField fx:id="vechRegistration" layoutX="15.0" layoutY="385.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="385.0" />
       <Button layoutX="112.0" layoutY="440.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="112.0" AnchorPane.topAnchor="440.0" />
-      <Button layoutX="15.0" layoutY="440.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="440.0" />
+      <Button layoutX="15.0" layoutY="440.0" mnemonicParsing="false" onAction="#Reset" prefHeight="28.0" prefWidth="67.0" text="RESET" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="440.0" />
       <SplitPane dividerPositions="0.4865951742627346" layoutX="210.0" layoutY="105.0" prefHeight="397.0" prefWidth="748.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="352.0">

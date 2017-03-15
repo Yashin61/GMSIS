@@ -219,15 +219,14 @@ public class SpecialistGUIController implements Initializable {
         }
         else
         {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
-            rootPane.getChildren().setAll(pane);
-            spcId.setText(""+spc.getSPCid());
-            spcName.setText(spc.getSPCname());
-            spcAddress.setText(spc.getSPCaddress());
-            spcPhone.setText(spc.getSPCphone());
-            spcEmail.setText(spc.getSPCemail());      
-            pane = FXMLLoader.load(getClass().getResource("editSPC.fxml"));
-            rootPane.getChildren().setAll(pane);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editSPC.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            EditSPCController Econtroller = fxmlLoader.<EditSPCController>getController();
+            Econtroller.setAllFields(spc);
+            Stage stage = new Stage();
+            stage.setTitle("Edit SPC");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
         } 
     }
     

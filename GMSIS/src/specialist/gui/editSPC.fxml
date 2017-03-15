@@ -7,53 +7,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="430.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.EditSPCController">
    <children>
-      <Separator layoutX="13.0" layoutY="71.0" prefHeight="35.0" prefWidth="950.0" />
-      <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" onAction="#home" prefHeight="25.0" prefWidth="143.0" text="HOME" />
-      <Button layoutX="161.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
-      <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
-      <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
-      <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
-      <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" onAction="#spcPage" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
-      <Separator layoutX="260.0" layoutY="150.0" prefHeight="3.0" prefWidth="460.0" />
-      <Label layoutX="370.0" layoutY="106.0" prefHeight="55.0" prefWidth="249.0" text="Edit Specialist Repair">
+      <Separator layoutX="115.0" layoutY="80.0" prefHeight="3.0" prefWidth="460.0" />
+      <Label layoutX="168.0" layoutY="40.0" prefHeight="55.0" prefWidth="355.0" text="Edit Specialist Repair Center">
          <font>
             <Font name="Apple Braille" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="190.0" layoutY="411.0" mnemonicParsing="false" onAction="#spcPage" text="BACK" />
-      <Label layoutX="187.0" layoutY="217.0" text="SPC ID:">
+      <Button layoutX="36.0" layoutY="300.0" mnemonicParsing="false" text="BACK" />
+      <Label layoutX="33.0" layoutY="130.0" text="SPC ID:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="187.0" layoutY="267.0" text="ADDRESS:">
+      <Label layoutX="33.0" layoutY="180.0" text="ADDRESS:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcId" layoutX="275.0" layoutY="214.0" prefHeight="26.0" prefWidth="200.0" />
-      <TextField fx:id="spcAddress" layoutX="275.0" layoutY="264.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button layoutX="725.0" layoutY="411.0" mnemonicParsing="false" onAction="#updateSpcButton" text="UPDATE" />
-      <Button layoutX="655.0" layoutY="411.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" text="CLEAR" />
-      <Label layoutX="188.0" layoutY="317.0" text="EMAIL:">
+      <TextField fx:id="spcId" layoutX="121.0" layoutY="130.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="spcAddress" layoutX="121.0" layoutY="180.0" prefHeight="26.0" prefWidth="200.0" />
+      <Button layoutX="571.0" layoutY="300.0" mnemonicParsing="false" onAction="#updateSpcButton" text="UPDATE" />
+      <Button layoutX="501.0" layoutY="300.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" text="CLEAR" />
+      <Label layoutX="33.0" layoutY="230.0" text="EMAIL:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcEmail" layoutX="275.0" layoutY="314.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="499.0" layoutY="217.0" text="NAME:">
+      <TextField fx:id="spcEmail" layoutX="121.0" layoutY="230.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="345.0" layoutY="130.0" text="NAME:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcName" layoutX="584.0" layoutY="214.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="499.0" layoutY="267.0" text="Phone_NO:">
+      <TextField fx:id="spcName" layoutX="430.0" layoutY="130.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="345.0" layoutY="180.0" text="Phone_NO:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcPhone" layoutX="584.0" layoutY="264.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="spcPhone" layoutX="430.0" layoutY="180.0" prefHeight="26.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
