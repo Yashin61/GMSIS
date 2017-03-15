@@ -141,6 +141,7 @@ public class SpecialistGUIController implements Initializable {
                 a.deleteSPC(row);
             } 
             else { /* the user closes the confirmation dialog*/}
+            showData2();
         }
         
     }
@@ -185,6 +186,7 @@ public class SpecialistGUIController implements Initializable {
             stage.setTitle("Add SPC");
             stage.setScene(new Scene(root1));
             stage.showAndWait();
+            showData2();
        // } 
     }
     
@@ -225,6 +227,7 @@ public class SpecialistGUIController implements Initializable {
             stage.setTitle("Edit SPC");
             stage.setScene(new Scene(root1));
             stage.showAndWait();
+            showData2();
         } 
     }
     
@@ -246,6 +249,8 @@ public class SpecialistGUIController implements Initializable {
                 a.editSPC(id,data[i],i);
             }     
             JOptionPane.showMessageDialog(null, "SPC list has been updated");
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.close();
         }
         else
         {
