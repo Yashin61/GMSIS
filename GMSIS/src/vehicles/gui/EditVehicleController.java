@@ -26,7 +26,7 @@ public class EditVehicleController implements Initializable {
     @FXML
     private TextField fuelType;
     @FXML
-    private TextField milage;
+    private TextField mileage;
     @FXML
     private TextField colour;
     @FXML
@@ -57,7 +57,7 @@ public class EditVehicleController implements Initializable {
         year.setText(Integer.toString(veh.getYear()));
         engineSize.setText(veh.getEngineSize());
         fuelType.setText(veh.getFuelType());
-        milage.setText(Integer.toString(veh.getMilage()));
+        mileage.setText(Integer.toString(veh.getMileage()));
         colour.setText(veh.getColour());
         regNumber.setText(veh.getRegistrationNumber());
         customerID.setText(Integer.toString(veh.getCustomerID()));

@@ -4,7 +4,6 @@ package vehicles.gui;
 
 import vehicles.*;
 import common.CommonDatabase;
-import customer.logic.allCustomers;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,19 +12,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
+//import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+//import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -52,7 +53,7 @@ public class VehiclePageController
     @FXML
     private TableColumn<Vehicle, String> fuelType;
     @FXML
-    private TableColumn<Vehicle, Integer> milage;
+    private TableColumn<Vehicle, Integer> mileage;
     @FXML
     private TableColumn<Vehicle, String> colour;
     @FXML
@@ -62,7 +63,7 @@ public class VehiclePageController
     @FXML
     private TableColumn<Vehicle, Integer> warrantyID;
     @FXML
-    private TableColumn<Vehicle, String> MOTRenewalDate;
+    private TableColumn<Vehicle, String> motRenewalDate;
     @FXML
     private TableColumn<Vehicle, String> lastServiceDate;
     @FXML
@@ -83,31 +84,46 @@ public class VehiclePageController
     private TextField expDate;
     @FXML
     private TextField compName;
-    private TextField compAddress;
-    
-    private ObservableList<Vehicle> data;  // Dynamic array of Vehicle
-    private ObservableList<Warranty> data2;
-    CommonDatabase db=new CommonDatabase();;
-    Connection con=db.getConnection();
-    boolean flag=false;
     @FXML
     private TextField compName1;
+    @FXML
+    private TextField compAddress;
+    @FXML
     private AnchorPane rootPane;
+    private ObservableList<Vehicle> data;  // Dynamic array of Vehicle
+    private ObservableList<Warranty> data2;
+    boolean flag=false;
+    CommonDatabase db=new CommonDatabase();;
+    Connection con=db.getConnection();
+    
+    // Deselects selected row
+    @FXML
+    public void initialize()
+    {
+        mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                dataTable.getSelectionModel().clearSelection();
+            }
+        });
+    }
     
     private void setTableValue()
     {
-        vehicleType.setCellValueFactory(new PropertyValueFactory<>("VehicleType"));
+        vehicleType.setCellValueFactory(new PropertyValueFactory("VehicleType"));
         make.setCellValueFactory(new PropertyValueFactory("Make"));
         model.setCellValueFactory(new PropertyValueFactory("Model"));
         year.setCellValueFactory(new PropertyValueFactory("Year"));
         engineSize.setCellValueFactory(new PropertyValueFactory("EngineSize"));
         fuelType.setCellValueFactory(new PropertyValueFactory("FuelType"));
-        milage.setCellValueFactory(new PropertyValueFactory("Milage"));
+        mileage.setCellValueFactory(new PropertyValueFactory("Mileage"));
         colour.setCellValueFactory(new PropertyValueFactory("Colour"));
         registrationNumber.setCellValueFactory(new PropertyValueFactory("RegistrationNumber"));
         customerID.setCellValueFactory(new PropertyValueFactory("CustomerID"));
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
-        MOTRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
+//        motRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
     }
     
@@ -116,7 +132,7 @@ public class VehiclePageController
     {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works1!");
+//        System.out.println("Works1!");
         
         try
         {
@@ -132,7 +148,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work1!");
+//            System.out.println("Doesn't work1!");
         }
         
         setTableValue();
@@ -181,8 +197,8 @@ public class VehiclePageController
             stage.showAndWait();
             dataTable.setItems(data);
         }
-        else
-        {}
+//        else
+//        {}
     }
 
     @FXML
@@ -196,14 +212,15 @@ public class VehiclePageController
         }
         else
         {
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("ATTENTION");
-            alert.setContentText("Do you want to continue deleting the selected vehicle?");
-            ButtonType yes=new ButtonType("YES");
-            ButtonType no=new ButtonType("NO");
-            alert.getButtonTypes().setAll(yes, no);
-            Optional<ButtonType> result=alert.showAndWait();
-            if(result.get()==yes)
+//            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setHeaderText("ATTENTION");
+//            alert.setContentText("Do you want to continue deleting the selected vehicle?");
+//            ButtonType yes=new ButtonType("YES");
+//            ButtonType no=new ButtonType("NO");
+//            alert.getButtonTypes().setAll(yes, no);
+//            Optional<ButtonType> ans=alert.showAndWait();
+//            if(ans.get()==yes)
+            if(JOptionPane.showConfirmDialog(null, "Do you want to continue deleting the selected vehicle?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             {
                 String sql="DELETE FROM Vehicles WHERE RegistrationNumber=?";
                 con=null;
@@ -219,7 +236,7 @@ public class VehiclePageController
                 catch(SQLException e)
                 {
                     e.printStackTrace();
-                    System.out.println("Doesn't work4!");
+//                    System.out.println("Doesn't work4!");
                 }
                 update();
             }
@@ -228,18 +245,19 @@ public class VehiclePageController
     
     private void noChosen()
     {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("");
-        alert.setHeaderText("ATTENTION");
-        alert.setContentText("First select a vehicle from the table!");
-        alert.showAndWait();
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("");
+//        alert.setHeaderText("ATTENTION");
+//        alert.setContentText("First select a vehicle from the table!");
+//        alert.showAndWait();
+        JOptionPane.showMessageDialog(null, "First select a vehicle from the table!");
     }
     
     public void update()
     {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works11!");
+//        System.out.println("Works11!");
         
         try
         {
@@ -255,7 +273,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work11!");
+//            System.out.println("Doesn't work11!");
         }
         
         setTableValue();
@@ -271,7 +289,7 @@ public class VehiclePageController
     {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works5!");
+//        System.out.println("Works5!");
         String choice="";
         if(car.isSelected())
         {
@@ -297,7 +315,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work5!");
+//            System.out.println("Doesn't work5!");
         }
         
         setTableValue();
@@ -310,7 +328,7 @@ public class VehiclePageController
     {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works6!");
+//        System.out.println("Works6!");
         String choice="";
         if(van.isSelected())
         {
@@ -337,7 +355,7 @@ public class VehiclePageController
         
         catch(SQLException e)
         {
-            System.out.println("Doesn't work6!");
+//            System.out.println("Doesn't work6!");
         }
         
         setTableValue();
@@ -350,7 +368,7 @@ public class VehiclePageController
     {
 //        db = new CommonDatabase();
 //        Connection con = db.getConnection();
-        System.out.println("Works7!");
+//        System.out.println("Works7!");
         String choice="";
         if(truck.isSelected())
         {
@@ -376,7 +394,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work7!");
+//            System.out.println("Doesn't work7!");
         }
 
         setTableValue();
@@ -388,7 +406,7 @@ public class VehiclePageController
     private void actionWarranty(ActionEvent event) {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works8!");
+//        System.out.println("Works8!");
         if(warranty.isSelected())
         {
             car.setSelected(false);
@@ -411,7 +429,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-            System.out.println("Doesn't work8!");
+//            System.out.println("Doesn't work8!");
         }
 
         setTableValue();
@@ -426,10 +444,11 @@ public class VehiclePageController
 //    }
     
     @FXML
-    private void searchVehRegNum(ActionEvent event) {
+    private void searchVehRegNum(ActionEvent event)
+    {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
-        System.out.println("Works9!");
+//        System.out.println("Works9!");
         if(!regNumber.getText().equals(""))
         {
             try
@@ -453,7 +472,7 @@ public class VehiclePageController
             catch(SQLException e)
             {
 //                JOptionPane.showMessageDialog(null, "No data were found!");
-                System.out.println("Doesn't work9!");
+//                System.out.println("Doesn't work9!");
             }
             
             setTableValue();
@@ -522,10 +541,10 @@ public class VehiclePageController
     }
 
     @FXML
-    private void getWarrantyDetails(ActionEvent event) {
+    private void viewWarranty(ActionEvent event) {
 //        db = new CommonDatabase();
 //        con=db.getConnection();
-        System.out.println("Works10!");
+//        System.out.println("Works10!");
         Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
         String sql="SELECT * FROM Warranty WHERE WarrantyID=?";
         
@@ -545,14 +564,8 @@ public class VehiclePageController
         catch(SQLException e)
         {
             JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
-            System.out.println("Doesn't work10!");
+//            System.out.println("Doesn't work10!");
         }
-    }
-
-    @FXML
-    private void viewParts(ActionEvent event)
-    {
-        
     }
 
     @FXML
@@ -574,6 +587,29 @@ public class VehiclePageController
             stage.setScene(new Scene(root1));
             stage.show();
             
+        }
+    }
+    
+    @FXML
+    private void viewParts(ActionEvent event) throws IOException  
+    {
+        Vehicle vehicleObject = dataTable.getSelectionModel().getSelectedItem();
+        
+        if(vehicleObject == null)
+        {
+            noChosen();
+        }
+        else
+        {
+            System.out.println(vehicleObject.getRegistrationNumber());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ViewController controller=fxmlLoader.<ViewController>getController();
+            controller.setVehicle(vehicleObject);
+            Stage stage = new Stage();
+            stage.setTitle("View Parts");
+            stage.setScene(new Scene(root1));
+            stage.show(); 
         } 
     }
 }

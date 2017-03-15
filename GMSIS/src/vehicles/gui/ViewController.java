@@ -3,7 +3,7 @@
 package vehicles.gui;
 
 import common.CommonDatabase;
-import customer.logic.allCustomers;
+//import customer.logic.allCustomers;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,18 +28,14 @@ import vehicles.Vehicle;
 public class ViewController implements Initializable
 {
     private static Vehicle veh;
-    
     @FXML
     private AnchorPane Pane;
-    @FXML
     private Accordion mainFrame;
     @FXML
-    private Label NameLabel;
-    @FXML
     private Label none;
-    @FXML
     private Label todayDate;
-    private ListView<?> allParts;
+    @FXML
+    private ListView<String> allParts;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -47,26 +43,73 @@ public class ViewController implements Initializable
     
     public void setVehicle(Vehicle v)
     {
-        veh = v;
-        //ArrayList<String> regNo = new ArrayList<String>();
-        //NameLabel.setText(c.getFirstname() + " " + c.getSurname());
-        /*if(type == "Vehicles")
-        //{
-            viewVehicles2(c);
-        }
-        else if(type == "Bookings")
-        {
-            viewBookings2(c);
-        }
-        else
-        {
-            viewParts2(c);
-        }*/
-        viewBookings(v);
-        
+//        System.out.println(v.getRegistrationNumber() + " 2");
+        viewParts(v);
     }
     
-    @FXML
+    // This is the real version of the view Parts Method
+    private void viewParts(Vehicle v)
+    {
+//        System.out.println("It goes to the right method");
+        CommonDatabase db = new CommonDatabase();
+        ObservableList<String> data = FXCollections.observableArrayList();
+        
+        try
+        {
+            Connection conn = db.getConnection();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM PartsUsed WHERE RegistrationNumber = '" + v.getRegistrationNumber() + "' ");
+            if(!rs.isBeforeFirst())
+            {
+//                System.out.println("Goes through the if statement");
+                allParts.setVisible(false);
+                none.setVisible(true);
+            }
+            else
+            {
+//                System.out.println("Goes through the else statement");
+                ArrayList<Integer> partsIDs = new ArrayList<Integer>();
+                String answer = "";
+                data.add("Re"+v.getRegistrationNumber());
+                while(rs.next())
+                {
+                    partsIDs.add(rs.getInt("PartsID"));
+                }
+                removeDuplicates(partsIDs);
+                for(int i=0; i<partsIDs.size(); i++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(i) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer +  "Parts ID: "+ rs.getInt("ID") + "\nName: " + rs.getString("Name") + "Cost: \n"+ rs.getString("Cost") + "\n\n"; 
+                    }
+                }
+//                System.out.println(answer);
+                data.add(answer);
+                allParts.setItems(data);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("SQL Error");
+        }
+    }
+    
+    private void removeDuplicates(ArrayList<Integer> array)
+    {
+        for(int i=0; i<array.size(); i++)
+        {
+            for(int j = i+1; j<array.size(); j++)
+            {
+                if(array.get(j) == array.get(i))
+                {
+                    array.remove(j);
+                    j--;   
+                }
+            }
+        }
+//        System.out.println(array);
+    }
+    
     private void viewBookings(Vehicle v)
     {
         CommonDatabase db = new CommonDatabase();
@@ -79,7 +122,7 @@ public class ViewController implements Initializable
         try
         {
             conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomersID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomersID = '" + v.getCustomerID1() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + v.getCustomerID1() + "' ");
             if(!rs.next())
             {
                 none.setVisible(true);
@@ -106,7 +149,7 @@ public class ViewController implements Initializable
                     {
                         status = rs.getString("BookingDate") + " - " +  "FUTURE";
                     }
-                    System.out.println(rs.getString("RegistrationNumber"));
+//                    System.out.println(rs.getString("RegistrationNumber"));
                     TitledPane pane = new TitledPane(status, Pane);
                     if(rs.getInt("WarrantyID") != 0)
                     {
@@ -125,7 +168,7 @@ public class ViewController implements Initializable
         catch(SQLException e)
         {
             e.getMessage();
-            System.out.println("HELLO");
+//            System.out.println("HELLO");
         }
     }
     
@@ -136,7 +179,7 @@ public class ViewController implements Initializable
 //        try
 //        {
 //            conn = db.getConnection();
-//            ResultSet rs = conn.createStatement().executeQuery( "SELECT Customer_Accounts.ID, Vehicles.RegistrationNumber, Vehicles.Make, Vehicles.Model, Vehicles.Colour, Vehicles.VehicleType FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomersID WHERE Customer_Accounts.ID = '" + c.getID() + "' ");
+//            ResultSet rs = conn.createStatement().executeQuery( "SELECT Customer_Accounts.ID, Vehicles.RegistrationNumber, Vehicles.Make, Vehicles.Model, Vehicles.Colour, Vehicles.VehicleType FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomerID WHERE Customer_Accounts.ID = '" + c.getID() + "' ");
 //            if(!rs.next())
 //            {
 //                none.setVisible(true);
@@ -173,7 +216,7 @@ public class ViewController implements Initializable
 //        try
 //        {
 //            conn = db.getConnection();
-//            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomersID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomersID = '" + c.getID() + "' ");
+//            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + c.getID() + "' ");
 //            if(!rs.next())
 //            {
 //                none.setVisible(true);
@@ -237,7 +280,7 @@ public class ViewController implements Initializable
 //        try
 //        {
 //            Connection conn = db.getConnection();
-//            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomersID = '" + c.getID() + "' ");
+//            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomerID = '" + c.getID() + "' ");
 //            if(!rs.isBeforeFirst())
 //            {
 //                allParts.setVisible(false);
