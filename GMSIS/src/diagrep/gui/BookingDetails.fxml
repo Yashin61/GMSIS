@@ -43,6 +43,8 @@
       </TableView>
       <Button fx:id="Add_Button" layoutX="860.0" layoutY="600.0" mnemonicParsing="false" onAction="#openAddBooking" prefWidth="70.0" text="ADD" />
       <Button fx:id="Edit_Button" layoutX="870.0" layoutY="600.0" mnemonicParsing="false" onAction="#openEditBooking" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="78.0" />
-      <Button fx:id="Show" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" onAction="#ShowBookings" prefWidth="70.0" text="SHOW" AnchorPane.leftAnchor="78.0" />
+      <Button fx:id="Show" layoutX="90.0" layoutY="600.0" mnemonicParsing="false" onAction="#ShowBookings" text="View All Bookings" AnchorPane.leftAnchor="78.0" />
+      <Button layoutX="215.0" layoutY="600.0" mnemonicParsing="false" onAction="#ShowPastBookings" text="View Past Bookings" />
+      <Button layoutX="365.0" layoutY="600.0" mnemonicParsing="false" onAction="#ShowFutureBookings" text="View Future Bookings" />
   </children>
 </AnchorPane>
