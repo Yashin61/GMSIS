@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -68,13 +67,15 @@ public class AddVehicleController implements Initializable {
     private ComboBox<Integer> cstIDTemp;
     @FXML
     private ComboBox<String> fTypeTemp;
+    @FXML
+    private ToggleGroup vehType;
     private static String make;
     private static String model;
     private static String engSize;
     private static String fType;
     private static String cl;
     private static int cstID;
-    CommonDatabase db=new CommonDatabase();;
+    CommonDatabase db=new CommonDatabase();
     Connection con=db.getConnection();
     
     @Override
@@ -98,84 +99,83 @@ public class AddVehicleController implements Initializable {
         fTypeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> fType=newValue);
         clTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cl=newValue);
         cstIDTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cstID=newValue);
-        
     }
 
     private ObservableList<String> filling1() throws SQLException  // think of making aall in one method, possibly linkedlist?!
     {
         ArrayList<String> makeList =new ArrayList<>();
-        String query = "SELECT Make FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT Make FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             makeList.add(rs.getString("Make"));
         }
-        makeList = removeDuplicates(makeList);
+//        makeList = removeDuplicates(makeList);
         return FXCollections.observableArrayList(makeList);
     }
     
     private ObservableList<String> filling2() throws SQLException
     {
         ArrayList<String> modelList =new ArrayList<>();
-        String query = "SELECT Model FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT Model FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             modelList.add(rs.getString("Model"));
         }
-        modelList = removeDuplicates(modelList);
+//        modelList = removeDuplicates(modelList);
         return FXCollections.observableArrayList(modelList);
     }
     
     private ObservableList<String> filling3() throws SQLException
     {
         ArrayList<String> engSizeList =new ArrayList<>();
-        String query = "SELECT EngineSize FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT EngineSize FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             engSizeList.add(rs.getString("EngineSize"));
         }
-        engSizeList = removeDuplicates(engSizeList);
+//        engSizeList = removeDuplicates(engSizeList);
         return FXCollections.observableArrayList(engSizeList);
     }
     
     private ObservableList<String> filling4() throws SQLException
     {
         ArrayList<String> fTypeList =new ArrayList<>();
-        String query = "SELECT FuelType FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT FuelType FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             fTypeList.add(rs.getString("FuelType"));
         }
-        fTypeList = removeDuplicates(fTypeList);
+//        fTypeList = removeDuplicates(fTypeList);
         return FXCollections.observableArrayList(fTypeList);
     }
 
     private ObservableList<String> filling5() throws SQLException  // think of making aall in one method, possibly linkedlist?!
     {
         ArrayList<String> clList =new ArrayList<>();
-        String query = "SELECT Colour FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT Colour FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             clList.add(rs.getString("Colour"));
         }
-        clList = removeDuplicates(clList);
+//        clList = removeDuplicates(clList);
         return FXCollections.observableArrayList(clList);
     }
     
     private ObservableList<Integer> filling6() throws SQLException  // think of making aall in one method, possibly linkedlist?!
     {
         ArrayList<Integer> cstIDList =new ArrayList<>();
-        String query = "SELECT CustomerID FROM VehiclesTemplate";
+        String query = "SELECT DISTINCT CustomerID FROM VehiclesTemplate";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
             cstIDList.add(rs.getInt("CustomerID"));
         }
-        cstIDList = removeDuplicates2(cstIDList);
+//        cstIDList = removeDuplicates2(cstIDList);
         return FXCollections.observableArrayList(cstIDList);
     }
     
@@ -191,9 +191,9 @@ public class AddVehicleController implements Initializable {
         String cmpName = cmpNameTemp.getText();
         String cmpAddress = cmpAddressTemp.getText();
         String expDate = expDateTemp.getText();
-        String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String sql2 = "INSERT INTO Warranty(WarrantyID, Name, Address, ExpiryDate) VALUES(?,?,?,?)";
-//        if(!warrIDTemp.getText().equals("") && !expDateTemp.getText().equals(""))
+//        if(warrIDTemp.getText().equals("") && expDateTemp.getText().equals("") && cmpNameTemp.getText().equals("") && cmpAddressTemp.getText().equals(""))
         try
         {
             PreparedStatement stmt=con.prepareStatement(sql1);
@@ -208,6 +208,9 @@ public class AddVehicleController implements Initializable {
             stmt.setInt(9, cstID);
             stmt.setString(10, motRen);
             stmt.setString(11, lSrvDt);
+            stmt.setInt(12, warrID);
+            RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
+            stmt.setString(13, btnSelected.getText());
             stmt.executeUpdate();
         }
         catch(SQLException e)
@@ -246,6 +249,19 @@ public class AddVehicleController implements Initializable {
         fTypeTemp.getSelectionModel().clearSelection();
         clTemp.getSelectionModel().clearSelection();
         cstIDTemp.getSelectionModel().clearSelection();
+        vanTemp.setSelected(false);
+        truckTemp.setSelected(false);
+        carTemp.setSelected(false);
+    }
+    
+    private void addRadioButtons()
+    {
+//        ToggleGroup group = new ToggleGroup();
+//        
+//        carTemp.setToggleGroup(group);
+//        vanTemp.setToggleGroup(group);
+//        truckTemp.setToggleGroup(group);
+//        
     }
     
     @FXML
@@ -255,30 +271,23 @@ public class AddVehicleController implements Initializable {
         stage.close();
     }
     
-    private ArrayList removeDuplicates(ArrayList<String> temp)
-    {
-        Set<String> hs = new HashSet<>();
-        hs.addAll(temp);
-        temp.clear();
-        temp.addAll(hs);
-        return temp;
-    }
+//    private ArrayList removeDuplicates(ArrayList<String> temp)
+//    {
+//        Set<String> hs = new HashSet<>();
+//        hs.addAll(temp);
+//        temp.clear();
+//        temp.addAll(hs);
+//        return temp;
+//    }
     
-    private ArrayList removeDuplicates2(ArrayList<Integer> temp)  // how to make these 2 methods 1???
-    {
-        Set<Integer> hs = new HashSet<>();
-        hs.addAll(temp);
-        temp.clear();
-        temp.addAll(hs);
-        return temp;
-    }
-    
-    // Method for customer module to access
-    public void setCustomerID(int id)
-    {
-       cstIDTemp.setValue(id); 
-    }
-    
+//    private ArrayList removeDuplicates2(ArrayList<Integer> temp)  // how to make these 2 methods 1???
+//    {
+//        Set<Integer> hs = new HashSet<>();
+//        hs.addAll(temp);
+//        temp.clear();
+//        temp.addAll(hs);
+//        return temp;
+//    }
     
 //    private ArrayList removeDuplicates(ArrayList<String> array)
 //    {

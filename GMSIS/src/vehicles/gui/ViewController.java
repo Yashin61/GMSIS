@@ -69,7 +69,7 @@ public class ViewController implements Initializable
 //                System.out.println("Goes through the else statement");
                 ArrayList<Integer> partsIDs = new ArrayList<Integer>();
                 String answer = "";
-                data.add("Re"+v.getRegistrationNumber());
+                data.add("Registration Number: "+v.getRegistrationNumber());
                 while(rs.next())
                 {
                     partsIDs.add(rs.getInt("PartsID"));
@@ -172,8 +172,6 @@ public class ViewController implements Initializable
         }
     }
     
-    
-//    
 //    public void viewVehicles2(allCustomers c)
 //    {
 //        CommonDatabase db = new CommonDatabase();

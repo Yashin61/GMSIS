@@ -34,8 +34,6 @@
       </Label>
       <Button layoutX="235.0" layoutY="543.0" mnemonicParsing="false" onAction="#searchVehRegNum" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="543.0" />
       <Button fx:id="clearButton" layoutX="357.0" layoutY="543.0" mnemonicParsing="false" onAction="#clearDetails" prefHeight="28.0" prefWidth="72.0" text="CLEAR" AnchorPane.leftAnchor="357.0" AnchorPane.topAnchor="543.0" />
-     
-        
             <TableView fx:id="dataTable" layoutY="125.0" prefHeight="227.0" prefWidth="1104.0">
               <columns>
                   <TableColumn fx:id="vehicleType" prefWidth="82.0" text="VehicleType" />
@@ -49,12 +47,10 @@
                   <TableColumn fx:id="registrationNumber" prefWidth="132.0" text="Registration Number" />
                   <TableColumn fx:id="customerID" minWidth="0.0" text="Customer ID" />
                   <TableColumn fx:id="warrantyID" minWidth="0.0" prefWidth="76.0" text="Warranty ID" />
-                  <TableColumn fx:id="MOTRenewalDate" minWidth="0.0" prefWidth="115.0" text="MOT Renewal Date" />
+                  <TableColumn fx:id="motRenewalDate" minWidth="0.0" prefWidth="115.0" text="MOT Renewal Date" />
                   <TableColumn fx:id="lastServiceDate" prefWidth="103.0" text="Last Service Date" />
               </columns>
-             
             </TableView>
-       
       <Button layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#getVehicleDetails" prefHeight="26.0" prefWidth="125.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="965.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="527.0" layoutY="367.0" mnemonicParsing="false" onAction="#deleteVehicle" text="DELETE" AnchorPane.rightAnchor="518.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="601.0" layoutY="367.0" mnemonicParsing="false" onAction="#openEditPage" prefHeight="25.0" prefWidth="50.0" text="EDIT" AnchorPane.rightAnchor="449.0" AnchorPane.topAnchor="367.0" />
@@ -71,15 +67,11 @@
          </font>
       </Label>
       <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" promptText="ie. AB12 CDE" />
-      <CheckBox fx:id="car" layoutX="544.0" layoutY="408.0" mnemonicParsing="false" onAction="#actionCar" text="Car" />
-      <CheckBox fx:id="van" layoutX="544.0" layoutY="444.0" mnemonicParsing="false" onAction="#actionVan" text="Van" />
-      <CheckBox fx:id="truck" layoutX="545.0" layoutY="479.0" mnemonicParsing="false" onAction="#actionTruck" text="Truck" />
       <Label layoutX="237.0" layoutY="438.0" prefHeight="30.0" prefWidth="217.0" text="View All Vehicles by Type or Warranty">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <CheckBox fx:id="warranty" layoutX="618.0" layoutY="444.0" mnemonicParsing="false" onAction="#actionWarranty" text="Warranty" />
       <GridPane layoutX="792.0" layoutY="408.0">
          <children>
             <TextField fx:id="expDate" editable="false" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
@@ -101,5 +93,13 @@
       </GridPane>
       <Button layoutX="147.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewParts" prefHeight="26.0" prefWidth="116.0" text="VIEW PARTS" />
       <Button layoutX="262.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewBookings" prefHeight="26.0" prefWidth="116.0" text="VIEW BOOKINGS" />
+      <RadioButton fx:id="carType" layoutX="522.0" layoutY="535.0" mnemonicParsing="false" onAction="#actionVehType" text="Car">
+         <toggleGroup>
+            <ToggleGroup fx:id="vehType" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="vanType" layoutX="667.0" layoutY="534.0" mnemonicParsing="false" onAction="#actionVehType" text="Van" toggleGroup="$vehType" />
+      <RadioButton fx:id="truckType" layoutX="562.0" layoutY="509.0" mnemonicParsing="false" onAction="#actionVehType" text="Truck" toggleGroup="$vehType" />
+      <RadioButton fx:id="warranty" layoutX="543.0" layoutY="460.0" mnemonicParsing="false" onAction="#actionWarranty" text="Warranty" toggleGroup="$vehType" />
    </children>
 </AnchorPane>

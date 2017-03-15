@@ -100,6 +100,5 @@
       <Label layoutX="100.0" layoutY="107.0" prefHeight="17.0" prefWidth="73.0" text="Vehicle Type" />
       <RadioButton layoutX="328.0" layoutY="107.0" mnemonicParsing="false" text="Van" />
       <RadioButton layoutX="418.0" layoutY="107.0" mnemonicParsing="false" text="Truck" />
-      
    </children>
 </AnchorPane>
