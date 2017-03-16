@@ -23,13 +23,13 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="dataTable" layoutX="319.0" layoutY="135.0" prefHeight="300.0" prefWidth="628.0" AnchorPane.rightAnchor="24.0">
+      <TableView fx:id="dataTable" layoutX="307.0" layoutY="139.0" prefHeight="300.0" prefWidth="622.0" AnchorPane.rightAnchor="25.0">
         <columns>
-          <TableColumn fx:id="table_id" prefWidth="98.0" text="ID" />
-          <TableColumn fx:id="table_firstname" prefWidth="123.0" text="Firstname" />
-          <TableColumn fx:id="table_surname" prefWidth="127.0" text="Surname" />
-          <TableColumn fx:id="table_password" prefWidth="140.0" text="Password" />
-          <TableColumn fx:id="table_wage" prefWidth="139.0" text="Hourly Wage" />
+          <TableColumn fx:id="table_id" prefWidth="104.0" text="ID" />
+          <TableColumn fx:id="table_firstname" prefWidth="141.0" text="Firstname" />
+          <TableColumn fx:id="table_surname" prefWidth="122.0" text="Surname" />
+          <TableColumn fx:id="table_password" prefWidth="135.0" text="Password" />
+          <TableColumn fx:id="table_wage" prefWidth="119.0" text="Hourly Wage" />
         </columns>
       </TableView>
       <Button layoutX="260.0" layoutY="376.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
@@ -80,5 +80,6 @@
       <TextField fx:id="id" layoutX="167.0" layoutY="515.0" prefHeight="26.0" prefWidth="172.0" />
       <Button layoutX="354.0" layoutY="515.0" mnemonicParsing="false" onAction="#searchUser" text="SEARCH" />
       <Button layoutX="437.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
+      <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="BACK" />
    </children>
 </AnchorPane>

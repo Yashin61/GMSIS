@@ -9,6 +9,7 @@ package common;
 import customer.gui.EditController;
 import customer.gui.RealController;
 import customer.logic.allCustomers;
+import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -42,6 +43,8 @@ import javafx.stage.Stage;
 public class AdminController implements Initializable 
 {
     
+    @FXML
+    private AnchorPane rootPane;
     
     @FXML
     private TextField firstname;
@@ -90,6 +93,9 @@ public class AdminController implements Initializable
 
     @FXML
     private TableColumn<UserAccount, Integer> table_wage;
+    
+    @FXML
+    private TableColumn<UserAccount, String> table_type;
     
     @FXML
     private ObservableList<UserAccount> data;
@@ -332,7 +338,7 @@ public class AdminController implements Initializable
             data = FXCollections.observableArrayList();
             if(rs.next())
             {
-                data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
                
         }
@@ -346,6 +352,7 @@ public class AdminController implements Initializable
         table_surname.setCellValueFactory(new PropertyValueFactory("Surname"));
         table_password.setCellValueFactory(new PropertyValueFactory("Password"));
         table_wage.setCellValueFactory(new PropertyValueFactory("Hourly_Wage"));
+        
         close(connection);  
         dataTable.setItems(null);
         dataTable.setItems(data);
@@ -362,6 +369,21 @@ public class AdminController implements Initializable
         alert.showAndWait();
     }
     
+    @FXML
+    private void goBack(ActionEvent event) throws IOException
+    {
+        Stage stage3 = (Stage) rootPane.getScene().getWindow();
+        stage3.close();
+        //((Node)(event.getSource())).getScene().getWindow().hide();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        LoginController controller=fxmlLoader.<LoginController>getController();
+        controller.setLabel(controller.allID,controller.name);
+        Stage stage = new Stage();
+        Scene scene = new Scene(root1);
+        stage.setScene(scene);
+        stage.show();  
+    }
     
     @FXML
     private void setAllFields(UserAccount user)
@@ -416,10 +438,10 @@ public class AdminController implements Initializable
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             
-            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Employees");
+            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Employees WHERE UserType = 'USER'" );
             while(rs.next())
             {
-                data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
         }
         catch(SQLException e)

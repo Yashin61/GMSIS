@@ -24,8 +24,7 @@ public class UserAccount
     private final StringProperty password;
     private final IntegerProperty hourly_wage;
     
-    
-    public UserAccount(Integer ID, String fn, String sn, String pw, Integer hw)
+    public UserAccount(Integer ID, String fn, String sn, String pw, Integer hw, String ut)
     {
         this.id = new SimpleIntegerProperty(ID);
         this.firstname = new SimpleStringProperty(fn);
