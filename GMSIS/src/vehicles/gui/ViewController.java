@@ -31,12 +31,12 @@ public class ViewController implements Initializable
     private static Vehicle veh;
     @FXML
     private AnchorPane Pane;
-    private Accordion mainFrame;
+    private Accordion bkngs;
     @FXML
     private Label none;
-    private Label todayDate;
     @FXML
     private ListView<String> allParts;
+    private ListView<?> cstmrs;
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -89,12 +89,58 @@ public class ViewController implements Initializable
                     rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(i) + "' ");
                     if(rs != null)
                     {
-                        answer = answer +  "Parts ID: "+ rs.getInt("ID") + "\nName: " + rs.getString("Name") + "\nCost: £"+ rs.getString("Cost") + "\n\n"; 
+                        answer = answer +  "Part's ID: "+ rs.getInt("ID") + "\nPart's Name: " + rs.getString("Name") + "\nPrice: £"+ rs.getString("Cost") + "\n\n"; 
                     }
                 }
 //                System.out.println(answer);
                 data.add(answer);
                 allParts.setItems(data);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("SQL Error");
+        }
+    }
+    
+    private void viewCustomers(Vehicle v)
+    {
+//        System.out.println("It goes to the right method");
+        CommonDatabase db = new CommonDatabase();
+        ObservableList<String> data = FXCollections.observableArrayList();
+        
+        try
+        {
+            Connection conn = db.getConnection();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE RegistrationNumber = '" + v.getRegistrationNumber() + "' ");
+            if(!rs.isBeforeFirst())
+            {
+//                System.out.println("Goes through the if statement");
+                cstmrs.setVisible(false);
+                none.setVisible(true);
+            }
+            else
+            {
+//                System.out.println("Goes through the else statement");
+                ArrayList<Integer> cstmrsIDs = new ArrayList<Integer>();
+                String answer = "";
+                data.add("Registration Number: "+v.getRegistrationNumber());
+                while(rs.next())
+                {
+                    cstmrsIDs.add(rs.getInt("ID"));
+                }
+                removeDuplicates(cstmrsIDs);
+                for(int i=0; i<cstmrsIDs.size(); i++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE ID = '" + cstmrsIDs.get(i) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer +  "Customer's ID: "+ rs.getInt("ID") + "\nFirst Name: " + rs.getString("Firstname") + "\nSure Name: " + rs.getString("Surename") + "\nAddress: " + rs.getString("Address") + "\nPost Code: " + rs.getString("Postcode") + "\nPhone: " + rs.getInt("Phone") + "\nEmail: " + rs.getString("Email") + "\nAccount Type: " + rs.getString("Account") + "\n\n"; 
+                    }
+                }
+//                System.out.println(answer);
+                data.add(answer);
+//                cstmrs.setItems(data);
             }
         }
         catch(SQLException e)
@@ -155,7 +201,7 @@ public class ViewController implements Initializable
                         payment = "SETTLED";
                     }
                     pane.setContent(new Label("Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n" + "Bill: " + rs.getDouble("Bill") + "\n" + "Payment Status: "  + payment));
-                    mainFrame.getPanes().add(pane); 
+                    bkngs.getPanes().add(pane); 
                 }
                 while(rs.next());
             }

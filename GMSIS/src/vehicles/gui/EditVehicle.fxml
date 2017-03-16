@@ -16,20 +16,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="409.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.EditVehicleController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="408.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.EditVehicleController">
    <children>
-      <ImageView fitHeight="107.0" fitWidth="94.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="112.5" fitWidth="150.0" layoutX="-11.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
       <Button layoutX="622.0" layoutY="364.0" mnemonicParsing="false" onAction="#cancel" text="CANCEL" />
-      <Label layoutX="292.0" layoutY="26.0" prefHeight="55.0" prefWidth="114.0" text="Edit Vehicle">
+      <Label layoutX="299.0" layoutY="19.0" prefHeight="55.0" prefWidth="118.0" text="Edit Vehicle">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="542.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" text="UPDATE" AnchorPane.rightAnchor="111.0" />
+      <Button layoutX="543.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="60.0" text="EDIT" AnchorPane.rightAnchor="107.0" />
       <Button layoutX="462.0" layoutY="364.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="60.0" text="CLEAR" />
       <GridPane layoutX="100.0" layoutY="149.0">
         <columnConstraints>
@@ -65,23 +65,26 @@
             <TextField fx:id="regNumber" layoutX="110.0" layoutY="192.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
          </children>
       </GridPane>
-      <RadioButton layoutX="241.0" layoutY="107.0" mnemonicParsing="false" text="Car" />
+      <RadioButton fx:id="EdCar" layoutX="241.0" layoutY="107.0" mnemonicParsing="false" text="Car">
+         <toggleGroup>
+            <ToggleGroup fx:id="vehType" />
+         </toggleGroup></RadioButton>
       <GridPane layoutX="422.0" layoutY="149.0">
          <children>
-            <TextField fx:id="motRenDate" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
             <Label text="MOT Ren. Date" />
             <Label text="Last Service Date" GridPane.rowIndex="1" />
             <Label text="Customer ID" GridPane.rowIndex="2" />
             <Label text="Warranty ID" GridPane.rowIndex="3" />
-            <TextField fx:id="lastServiceDate" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="customerID" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="warrantyID" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Expiry Date" GridPane.rowIndex="4" />
             <Label text="Company Name" GridPane.rowIndex="5" />
-            <TextField fx:id="expiryDate" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="companyName" layoutX="110.0" layoutY="132.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label layoutX="10.0" layoutY="167.0" text="Company Address" GridPane.rowIndex="6" />
             <TextField fx:id="companyAddress" layoutX="110.0" layoutY="162.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <DatePicker fx:id="motRenDate" editable="false" GridPane.columnIndex="1" />
+            <DatePicker fx:id="lastServiceDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <DatePicker fx:id="expiryDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -98,7 +101,7 @@
          </rowConstraints>
       </GridPane>
       <Label layoutX="100.0" layoutY="107.0" prefHeight="17.0" prefWidth="73.0" text="Vehicle Type" />
-      <RadioButton layoutX="328.0" layoutY="107.0" mnemonicParsing="false" text="Van" />
-      <RadioButton layoutX="418.0" layoutY="107.0" mnemonicParsing="false" text="Truck" />
+      <RadioButton fx:id="EdVan" layoutX="358.0" layoutY="107.0" mnemonicParsing="false" text="Van" toggleGroup="$vehType" />
+      <RadioButton fx:id="EdTruck" layoutX="478.0" layoutY="107.0" mnemonicParsing="false" text="Truck" toggleGroup="$vehType" />
    </children>
 </AnchorPane>
