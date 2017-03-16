@@ -8,22 +8,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
-public class AddVehicleController implements Initializable {
+public class AddVehicleController implements Initializable
+{
 
     @FXML
     private AnchorPane rootPane;
@@ -44,7 +51,7 @@ public class AddVehicleController implements Initializable {
     @FXML
     private TextField warrIDTemp;
     @FXML
-    private TextField expDateTemp;
+    private DatePicker expDateTemp;
     @FXML
     private Button closeButton;
     @FXML
@@ -56,9 +63,9 @@ public class AddVehicleController implements Initializable {
     @FXML
     private ComboBox<String> clTemp;
     @FXML
-    private TextField motRenTemp;
+    private DatePicker motRenTemp;
     @FXML
-    private TextField lSrvDtTemp;
+    private DatePicker lSrvDtTemp;
     @FXML
     private TextField cmpNameTemp;
     @FXML
@@ -81,6 +88,14 @@ public class AddVehicleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+//        rootPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+//        {
+//            public void handle(MouseEvent event, ActionEvent ev)
+//            {
+//                vanTemp.getSelectionModel().clearSelection();
+//                
+//            }
+//        });
         try
         {
             makeTemp.setItems(filling1());
@@ -92,13 +107,56 @@ public class AddVehicleController implements Initializable {
         }
         catch(SQLException e)
         {}
-        
-        makeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> make=newValue);
-        modelTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> model=newValue);
-        engSizeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> engSize=newValue);
-        fTypeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> fType=newValue);
-        clTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cl=newValue);
-        cstIDTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cstID=newValue);
+        if(makeTemp.getSelectionModel().isEmpty())  // THINK ABOUT THIS!!!!!!!!!!!!
+        {
+            makeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> make=newValue);
+//            make = makeTemp.getSelectionModel().getSelectedItem();
+        }
+        else
+        {
+            makeTemp.getEditor().getText();
+        }
+        if(modelTemp.getSelectionModel().isEmpty())
+        {
+            modelTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> model=newValue);
+        }
+        else
+        {
+            modelTemp.getEditor().getText();
+        }
+        if(engSizeTemp.getSelectionModel().isEmpty())
+        {
+            engSizeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> engSize=newValue);
+        }
+        else
+        {
+            engSizeTemp.getEditor().getText();
+        }
+        if(fTypeTemp.getSelectionModel().isEmpty())
+        {
+            fTypeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> fType=newValue);
+        }
+        else
+        {
+            fTypeTemp.getEditor().getText();
+        }
+        if(clTemp.getSelectionModel().isEmpty())
+        {
+            clTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cl=newValue);
+        }
+        else
+        {
+            clTemp.getEditor().getText();
+
+        }
+        if(cstIDTemp.getSelectionModel().isEmpty())
+        {
+            cstIDTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cstID=newValue);
+        }
+        else
+        {
+            cstIDTemp.getEditor().getText();
+        }
     }
 
     private ObservableList<String> filling1() throws SQLException  // think of making aall in one method, possibly linkedlist?!
@@ -182,53 +240,101 @@ public class AddVehicleController implements Initializable {
     @FXML
     private void add(ActionEvent event)
     {
-        String regNum = regNumTemp.getText();
-        int year = Integer.parseInt(yearTemp.getText());
-        int mil = Integer.parseInt(milTemp.getText());
-        String motRen = motRenTemp.getText();
-        String lSrvDt = lSrvDtTemp.getText();
-        int warrID = Integer.parseInt(warrIDTemp.getText());
-        String cmpName = cmpNameTemp.getText();
-        String cmpAddress = cmpAddressTemp.getText();
-        String expDate = expDateTemp.getText();
-        String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        String sql2 = "INSERT INTO Warranty(WarrantyID, Name, Address, ExpiryDate) VALUES(?,?,?,?)";
-//        if(warrIDTemp.getText().equals("") && expDateTemp.getText().equals("") && cmpNameTemp.getText().equals("") && cmpAddressTemp.getText().equals(""))
-        try
+        if(!VehiclePageController.checkIfExists(regNumTemp.getText()))
         {
-            PreparedStatement stmt=con.prepareStatement(sql1);
-            stmt.setString(1, make);
-            stmt.setString(2, model);
-            stmt.setInt(3, year);
-            stmt.setString(4, engSize);
-            stmt.setString(5, fType);
-            stmt.setInt(6, mil);
-            stmt.setString(7, cl);
-            stmt.setString(8, regNum);
-            stmt.setInt(9, cstID);
-            stmt.setString(10, motRen);
-            stmt.setString(11, lSrvDt);
-            stmt.setInt(12, warrID);
-            RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
-            stmt.setString(13, btnSelected.getText());
-            stmt.executeUpdate();
+            String regNum = regNumTemp.getText();
+            int year = Integer.parseInt(yearTemp.getText());
+            int mil = Integer.parseInt(milTemp.getText());
+    //        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());  // It records the date with "/"
+            String motRen = toDate(motRenTemp).toString();
+    //        String lSrvDt = lSrvDtTemp.getConverter().toString(lSrvDtTemp.getValue());
+            String lSrvDt = toDate(lSrvDtTemp).toString();
+            int warrID = 0;
+            if(!warrIDTemp.getText().isEmpty())  // THINK about these ifs
+            {
+                warrID = Integer.parseInt(warrIDTemp.getText());
+            }
+            String cmpName = cmpNameTemp.getText();
+            String cmpAddress = cmpAddressTemp.getText();
+    //        String expDate = expDateTemp.getConverter().toString(expDateTemp.getValue());
+            String expDate = toDate(expDateTemp).toString();
+            String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql2 = "INSERT INTO Warranty(WarrantyID, Name, Address, ExpiryDate) VALUES(?,?,?,?)";
+    //        if(warrIDTemp.getText().equals("") && expDateTemp.getText().equals("") && cmpNameTemp.getText().equals("") && cmpAddressTemp.getText().equals(""))
+            if(warrID == 0)
+            {
+                try
+                {
+                    PreparedStatement stmt=con.prepareStatement(sql1);
+                    stmt.setString(1, make);
+                    stmt.setString(2, model);
+                    stmt.setInt(3, year);
+                    stmt.setString(4, engSize);
+                    stmt.setString(5, fType);
+                    stmt.setInt(6, mil);
+                    stmt.setString(7, cl);
+                    stmt.setString(8, regNum);
+                    stmt.setInt(9, cstID);
+                    stmt.setString(10, motRen);
+                    stmt.setString(11, lSrvDt);
+                    stmt.setNull(12, Types.NULL);
+                    RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
+                    stmt.setString(13, btnSelected.getText());
+                    stmt.executeUpdate();
+                }
+                catch(SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
+            else
+            {
+                try
+                {
+                    PreparedStatement stmt=con.prepareStatement(sql1);
+                    stmt.setString(1, make);
+                    stmt.setString(2, model);
+                    stmt.setInt(3, year);
+                    stmt.setString(4, engSize);
+                    stmt.setString(5, fType);
+                    stmt.setInt(6, mil);
+                    stmt.setString(7, cl);
+                    stmt.setString(8, regNum);
+                    stmt.setInt(9, cstID);
+                    stmt.setString(10, motRen);
+                    stmt.setString(11, lSrvDt);
+                    stmt.setInt(12, warrID);
+                    RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
+                    stmt.setString(13, btnSelected.getText());
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "The vehicle is now added!");
+                }
+                catch(SQLException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            if(warrID != 0)
+            {
+                try
+                {
+                    PreparedStatement stmt2=con.prepareStatement(sql2);
+                    stmt2.setInt(1, warrID);
+                    stmt2.setString(2, cmpName);
+                    stmt2.setString(3, cmpAddress);
+                    stmt2.setString(4, expDate);
+                    stmt2.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "The warranty details is now added!");
+                }
+                catch(SQLException e)
+                {}
+            }
         }
-        catch(SQLException e)
+        else
         {
-            System.out.println(e.getMessage());
+           JOptionPane.showMessageDialog(null, "The registration number entered already exists! Try again...");
         }
-        
-        try
-        {
-            PreparedStatement stmt2=con.prepareStatement(sql2);
-            stmt2.setInt(1, warrID);
-            stmt2.setString(2, cmpName);
-            stmt2.setString(3, cmpAddress);
-            stmt2.setString(4, expDate);
-            stmt2.executeUpdate();
-        }
-        catch(SQLException e)
-        {}
 //        update();
     } 
     
@@ -238,10 +344,10 @@ public class AddVehicleController implements Initializable {
         yearTemp.clear();
         milTemp.clear();
         regNumTemp.clear();
-        motRenTemp.clear();
-        lSrvDtTemp.clear();
+        motRenTemp.setValue(null);
+        lSrvDtTemp.setValue(null);
         warrIDTemp.clear();
-        expDateTemp.clear();
+        expDateTemp.setValue(null);
         cmpNameTemp.clear();
         cmpAddressTemp.clear();
         makeTemp.getSelectionModel().clearSelection();
@@ -266,6 +372,12 @@ public class AddVehicleController implements Initializable {
     public void setCustomerID(int id)
     {
         cstIDTemp.setValue(id);
+    }
+    
+    private Date toDate(DatePicker DatePickerObject)
+    {
+        java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
+        return sqlDate;
     }
     
 //    private ArrayList removeDuplicates(ArrayList<String> temp)

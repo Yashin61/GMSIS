@@ -21,7 +21,7 @@ public class Warranty
         address=new SimpleStringProperty(addressX);
         expiryDate=new SimpleStringProperty(expiryDateX);
     }
-    
+
     public IntegerProperty getWarrantyID1() {
         return warrantyID;
     }
