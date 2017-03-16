@@ -130,7 +130,7 @@ public class AdminController implements Initializable
             {
                 System.out.println("HELLO");
                 CommonDatabase db = new CommonDatabase();
-                String sql = "INSERT INTO Employees( ID, Firstname, Surname, Password, Hourly_Wage) VALUES(?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO Employees( ID, Firstname, Surname, Password, Hourly_Wage, UserType) VALUES(?, ?, ?, ?, ?, ?)";
                 Connection conn = db.getConnection();
                 
                 try
@@ -140,6 +140,7 @@ public class AdminController implements Initializable
                     stmt.setString(3, surname.getText());
                     stmt.setString(4, password.getText());
                     stmt.setInt(5, Integer.parseInt(hourlyWage.getText()));
+                    stmt.setString(6, "USER");
                     stmt.execute(); 
                    
                 }
