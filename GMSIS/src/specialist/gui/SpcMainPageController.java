@@ -5,7 +5,7 @@
  */
 package specialist.gui;
 
-import common.CommonDatabase;
+import com.jfoenix.controls.JFXCheckBox;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -27,12 +27,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
-import specialist.logic.theSPC;
 
 /**
  * FXML Controller class
@@ -45,11 +44,14 @@ public class SpcMainPageController implements Initializable {
     private AnchorPane rootPane;
 
     @FXML
-    private TextField custName;
+    private TextField searchSPC;
 
     @FXML
-    private TextField vechRegistration;
+    private JFXCheckBox custName;
 
+    @FXML
+    private JFXCheckBox vehiRegistration;
+    
     @FXML
     private TableView<SpcBookings> dataTable;
 
@@ -103,8 +105,9 @@ public class SpcMainPageController implements Initializable {
     //adding a comment to commit and push again as github not working properly
     @FXML
     private void Reset(ActionEvent event) {
-        custName.clear();
-        vechRegistration.clear();
+        custName.setSelected(false);
+        vehiRegistration.setSelected(false);
+        searchSPC.clear();
         showData2();
     }
     
@@ -225,6 +228,103 @@ public class SpcMainPageController implements Initializable {
             theCustomerPostcode.setText("");
         }
     }
+    
+    @FXML
+    private void searchSPCBooking(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        
+        if(custName.isSelected())
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+
+            dataTable.setItems(allSPCBooking);
+        }
+        else if(vehiRegistration.isSelected())
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE RegistrationNumber like '%" + searchSPC.getText() + "%'");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+
+            dataTable.setItems(allSPCBooking);
+        }
+        else if(custName.isSelected() && vehiRegistration.isSelected())
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON "
+                        + "SPCBooking.CustomerID = Customer_Accounts.ID WHERE Firstname like '%" + searchSPC.getText() + "%' "
+                                + "OR Surname like '%" + searchSPC.getText() +"%' "
+                                        + "OR RegistrationNumber like '%" + searchSPC.getText() + "%'");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+
+            dataTable.setItems(allSPCBooking);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Please select what you want to search");
+        }
+        
+    }
     /**
      * Initializes the controller class.
      */
@@ -240,7 +340,10 @@ public class SpcMainPageController implements Initializable {
         }
         showData2();
         setDetails(null);
+        
         dataTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> setDetails(newValue));
+        custName.setSelected(false);
+        vehiRegistration.setSelected(false);
     }    
 }
