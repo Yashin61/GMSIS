@@ -32,7 +32,6 @@ import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
-//    Pane pane;
     @FXML
     private AnchorPane mainAnchor;
     @FXML
@@ -190,14 +189,13 @@ public class VehiclePageController
             stage = new Stage();
             root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle("window");
+            stage.setResizable(false);
+            stage.setTitle("Add Vehicle");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(addVeh.getScene().getWindow());
-            stage.showAndWait();
+            stage.show();
             dataTable.setItems(data);
         }
-//        else
-//        {}
     }
 
     @FXML
@@ -470,8 +468,8 @@ public class VehiclePageController
     @FXML
     private void viewBookings(ActionEvent event) throws IOException
     {
-        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
-        if(veh == null)
+        Vehicle vehObject = dataTable.getSelectionModel().getSelectedItem();
+        if(vehObject == null)
         {
             noChosen();
         }
@@ -480,12 +478,13 @@ public class VehiclePageController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setVehicle(veh);
+            controller.setVehicle(vehObject);
             Stage stage = new Stage();
             stage.setTitle("View Bookings");
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
             stage.show();
-            
+            stage.showAndWait();
         }
         flag=false;
     }
@@ -493,24 +492,31 @@ public class VehiclePageController
     @FXML
     private void viewParts(ActionEvent event) throws IOException  
     {
-        Vehicle vehicleObject = dataTable.getSelectionModel().getSelectedItem();
-        
-        if(vehicleObject == null)
+        Vehicle vehObject = dataTable.getSelectionModel().getSelectedItem();
+        if(vehObject == null)
         {
             noChosen();
         }
         else
         {
-            System.out.println(vehicleObject.getRegistrationNumber());
+//            System.out.println(vehObject.getRegistrationNumber());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setVehicle(vehicleObject);
+            controller.setVehicle(vehObject);
             Stage stage = new Stage();
             stage.setTitle("View Parts");
             stage.setScene(new Scene(root1));
-            stage.show(); 
+            stage.setResizable(false);
+            stage.show();
         }
+        flag=false;
+    }
+    
+    @FXML
+    private void viewCustomers(ActionEvent event)
+    {
+        
         flag=false;
     }
     
