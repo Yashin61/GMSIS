@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package diagrep.gui;
+package diagrep;
 
-import diagrep.*;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +21,9 @@ public class DiagnosisAndRepair extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("BookingDetails.fxml"));
+        //System.out.println();
+        root = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        
         
         Scene scene = new Scene(root);
         

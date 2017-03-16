@@ -18,7 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,7 +32,6 @@ import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
-//    Pane pane;
     @FXML
     private AnchorPane mainAnchor;
     @FXML
@@ -67,9 +65,6 @@ public class VehiclePageController
     private TableColumn<Vehicle, String> lastServiceDate;
     @FXML
     private TextField regNumber;
-    private CheckBox car;
-    private CheckBox van;
-    private CheckBox truck;
     @FXML
     private RadioButton warranty;
     @FXML
@@ -127,6 +122,7 @@ public class VehiclePageController
         warrantyID.setCellValueFactory(new PropertyValueFactory("WarrantyID"));
         motRenewalDate.setCellValueFactory(new PropertyValueFactory("MOTRenewalDate"));
         lastServiceDate.setCellValueFactory(new PropertyValueFactory("LastServiceDate"));
+        flag=false;
     }
     
     @FXML
@@ -155,10 +151,10 @@ public class VehiclePageController
         
         setTableValue();
         dataTable.setItems(data);
-        flag=false;
-//        car.setSelected(false);
-//        van.setSelected(false);
-//        truck.setSelected(false);
+        carType.setSelected(false);
+        vanType.setSelected(false);
+        truckType.setSelected(false);
+        warranty.setSelected(false);
     }
     
     @FXML
@@ -193,14 +189,13 @@ public class VehiclePageController
             stage = new Stage();
             root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle("window");
+            stage.setResizable(false);
+            stage.setTitle("Add Vehicle");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(addVeh.getScene().getWindow());
-            stage.showAndWait();
+            stage.show();
             dataTable.setItems(data);
         }
-//        else
-//        {}
     }
 
     @FXML
@@ -255,7 +250,7 @@ public class VehiclePageController
         JOptionPane.showMessageDialog(null, "First select a vehicle from the table!");
     }
     
-    public void update()
+    void update()
     {
 //        db = new CommonDatabase();
 //        con = db.getConnection();
@@ -281,9 +276,10 @@ public class VehiclePageController
         setTableValue();
         dataTable.setItems(null);
         dataTable.setItems(data);
-//        car.setSelected(false);
-//        van.setSelected(false);
-//        truck.setSelected(false);
+        carType.setSelected(false);
+        vanType.setSelected(false);
+        truckType.setSelected(false);
+        warranty.setSelected(false);
     }
     
     @FXML
@@ -316,15 +312,8 @@ public class VehiclePageController
     @FXML
     private void actionWarranty(ActionEvent event)
     {
-        if(warranty.isSelected())
+        try
         {
-//            car.setSelected(false);
-//            van.setSelected(false);
-//            truck.setSelected(false);
-         }
-    
-         try
-         {
             data = FXCollections.observableArrayList();
             PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
             ResultSet rs = s.executeQuery();
@@ -344,157 +333,6 @@ public class VehiclePageController
         setTableValue();
         dataTable.setItems(data);
     }
-    
-//    private void actionCar(ActionEvent event)
-//    {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works5!");
-//        String choice="";
-//        if(car.isSelected())
-//        {
-//            choice="Car";
-//            van.setSelected(false);
-//            truck.setSelected(false);
-//            warranty.setSelected(false);
-//        }
-//        
-//        try
-//        {
-//            data = FXCollections.observableArrayList();
-//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-//            s.setString(1,choice);
-//            ResultSet rs = s.executeQuery();
-//            while(rs.next())
-//            {
-//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-//                        rs.getString(12), rs.getString(13)));
-//            }
-//        }
-//        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work5!");
-//        }
-//        
-//        setTableValue();
-//        dataTable.setItems(data);
-//        flag=false;
-//    }
-//
-//    private void actionVan(ActionEvent event)
-//    {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works6!");
-//        String choice="";
-//        if(van.isSelected())
-//        {
-//            choice="Van";
-//            car.setSelected(false);
-//            truck.setSelected(false);
-//            warranty.setSelected(false);
-//        }
-//        
-//        try
-//        {
-//            data = FXCollections.observableArrayList();
-//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-//            s.setString(1,choice);
-//            ResultSet rs = s.executeQuery();
-//            while(rs.next())
-//            {
-//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-//                        rs.getString(12), rs.getString(13)));
-//            }
-//        }
-//        
-//        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work6!");
-//        }
-//        
-//        setTableValue();
-//        dataTable.setItems(data);
-//        flag=false;
-//    }
-//
-//    @FXML
-//    private void actionTruck(ActionEvent event)
-//    {
-////        db = new CommonDatabase();
-////        Connection con = db.getConnection();
-////        System.out.println("Works7!");
-//        String choice="";
-//        if(truck.isSelected())
-//        {
-//            choice="Truck";
-//            car.setSelected(false);
-//            van.setSelected(false);
-//            warranty.setSelected(false);
-//        }
-//    
-//        try
-//        {
-//            data = FXCollections.observableArrayList();
-//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-//            s.setString(1,choice);
-//            ResultSet rs = s.executeQuery();
-//            while(rs.next())
-//            {
-//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-//                        rs.getString(12), rs.getString(13)));
-//            }
-//        }
-//        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work7!");
-//        }
-//
-//        setTableValue();
-//        dataTable.setItems(data);
-//        flag=false;
-//    }
-//
-//    @FXML
-//    private void actionWarranty(ActionEvent event) {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works8!");
-//        if(warranty.isSelected())
-//        {
-//            car.setSelected(false);
-//            van.setSelected(false);
-//            truck.setSelected(false);
-//         }
-//    
-//         try
-//         {
-//            data = FXCollections.observableArrayList();
-//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
-//            ResultSet rs = s.executeQuery();
-//            while(rs.next())
-//            {
-//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-//                        rs.getString(12), rs.getString(13)));
-//            }
-//        }
-//        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work8!");
-//        }
-//
-//        setTableValue();
-//        dataTable.setItems(data);
-//        flag=false;
-//    }
     
     @FXML
     private void searchVehRegNum(ActionEvent event)
@@ -534,14 +372,17 @@ public class VehiclePageController
                 dataTable.setItems(data);
                 flag=true;
             }
-//            car.setSelected(false);
-//            van.setSelected(false);
-//            truck.setSelected(false);
-//            warranty.setSelected(false);
+//            if(clearDetails(event))
+//            {
+//                flag=false;
+//            }
+            carType.setSelected(false);
+            vanType.setSelected(false);
+            truckType.setSelected(false);
+            warranty.setSelected(false);
         }
         else
         {
-//            JOptionPane.showMessageDialog(null, "Type the Registration Number in the Given Format!");
             JOptionPane.showMessageDialog(null, "You have not typed anything to search yet!");
         }
     }
@@ -555,6 +396,7 @@ public class VehiclePageController
             dataTable.setItems(null);
             flag=false;
         }
+//        return true;
     }
     
     // Connection with other pages
@@ -594,7 +436,8 @@ public class VehiclePageController
     }
 
     @FXML
-    private void viewWarranty(ActionEvent event) {
+    private void viewWarranty(ActionEvent event)
+    {
 //        db = new CommonDatabase();
 //        con=db.getConnection();
 //        System.out.println("Works10!");
@@ -619,13 +462,14 @@ public class VehiclePageController
             JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
 //            System.out.println("Doesn't work10!");
         }
+        flag=false;
     }
 
     @FXML
     private void viewBookings(ActionEvent event) throws IOException
     {
-        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
-        if(veh == null)
+        Vehicle vehObject = dataTable.getSelectionModel().getSelectedItem();
+        if(vehObject == null)
         {
             noChosen();
         }
@@ -634,35 +478,194 @@ public class VehiclePageController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setVehicle(veh);
+            controller.setVehicle(vehObject);
             Stage stage = new Stage();
             stage.setTitle("View Bookings");
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
             stage.show();
-            
+            stage.showAndWait();
         }
+        flag=false;
     }
     
     @FXML
     private void viewParts(ActionEvent event) throws IOException  
     {
-        Vehicle vehicleObject = dataTable.getSelectionModel().getSelectedItem();
-        
-        if(vehicleObject == null)
+        Vehicle vehObject = dataTable.getSelectionModel().getSelectedItem();
+        if(vehObject == null)
         {
             noChosen();
         }
         else
         {
-            System.out.println(vehicleObject.getRegistrationNumber());
+//            System.out.println(vehObject.getRegistrationNumber());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setVehicle(vehicleObject);
+            controller.setVehicle(vehObject);
             Stage stage = new Stage();
             stage.setTitle("View Parts");
             stage.setScene(new Scene(root1));
-            stage.show(); 
-        } 
+            stage.setResizable(false);
+            stage.show();
+        }
+        flag=false;
     }
+    
+    @FXML
+    private void viewCustomers(ActionEvent event)
+    {
+        
+        flag=false;
+    }
+    
+//    @FXML
+//    private void actionCar(ActionEvent event)
+//    {
+////        db = new CommonDatabase();
+////        con = db.getConnection();
+////        System.out.println("Works5!");
+//        String choice="";
+//        if(car.isSelected())
+//        {
+//            choice="Car";
+//            van.setSelected(false);
+//            truck.setSelected(false);
+//            warranty.setSelected(false);
+//        }
+//        
+//        try
+//        {
+//            data = FXCollections.observableArrayList();
+//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+//            s.setString(1,choice);
+//            ResultSet rs = s.executeQuery();
+//            while(rs.next())
+//            {
+//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+//                        rs.getString(12), rs.getString(13)));
+//            }
+//        }
+//        catch(SQLException e)
+//        {
+////            System.out.println("Doesn't work5!");
+//        }
+//        
+//        setTableValue();
+//        dataTable.setItems(data);
+//    }
+//
+//    @FXML
+//    private void actionVan(ActionEvent event)
+//    {
+////        db = new CommonDatabase();
+////        con = db.getConnection();
+////        System.out.println("Works6!");
+//        String choice="";
+//        if(van.isSelected())
+//        {
+//            choice="Van";
+//            car.setSelected(false);
+//            truck.setSelected(false);
+//            warranty.setSelected(false);
+//        }
+//        
+//        try
+//        {
+//            data = FXCollections.observableArrayList();
+//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+//            s.setString(1,choice);
+//            ResultSet rs = s.executeQuery();
+//            while(rs.next())
+//            {
+//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+//                        rs.getString(12), rs.getString(13)));
+//            }
+//        }
+//        
+//        catch(SQLException e)
+//        {
+////            System.out.println("Doesn't work6!");
+//        }
+//        
+//        setTableValue();
+//        dataTable.setItems(data);
+//    }
+//
+//    @FXML
+//    private void actionTruck(ActionEvent event)
+//    {
+////        db = new CommonDatabase();
+////        Connection con = db.getConnection();
+////        System.out.println("Works7!");
+//        String choice="";
+//        if(truck.isSelected())
+//        {
+//            choice="Truck";
+//            car.setSelected(false);
+//            van.setSelected(false);
+//            warranty.setSelected(false);
+//        }
+//    
+//        try
+//        {
+//            data = FXCollections.observableArrayList();
+//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
+//            s.setString(1,choice);
+//            ResultSet rs = s.executeQuery();
+//            while(rs.next())
+//            {
+//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+//                        rs.getString(12), rs.getString(13)));
+//            }
+//        }
+//        catch(SQLException e)
+//        {
+////            System.out.println("Doesn't work7!");
+//        }
+//
+//        setTableValue();
+//        dataTable.setItems(data);
+//    }
+//
+//    @FXML
+//    private void actionWarranty(ActionEvent event) {
+////        db = new CommonDatabase();
+////        con = db.getConnection();
+////        System.out.println("Works8!");
+//        if(warranty.isSelected())
+//        {
+//            car.setSelected(false);
+//            van.setSelected(false);
+//            truck.setSelected(false);
+//         }
+//    
+//         try
+//         {
+//            data = FXCollections.observableArrayList();
+//            PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE WarrantyID>1");
+//            ResultSet rs = s.executeQuery();
+//            while(rs.next())
+//            {
+//                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
+//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
+//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
+//                        rs.getString(12), rs.getString(13)));
+//            }
+//        }
+//        catch(SQLException e)
+//        {
+////            System.out.println("Doesn't work8!");
+//        }
+//
+//        setTableValue();
+//        dataTable.setItems(data);
+//    }
 }

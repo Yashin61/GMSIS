@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
@@ -12,23 +7,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.ViewController">
+<AnchorPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.ViewController">
    <children>
-      <ImageView fitHeight="91.0" fitWidth="74.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="112.5" fitWidth="150.0" layoutX="-11.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
-      <Label layoutX="281.0" layoutY="44.0" text="Parts">
+      <Label layoutX="328.0" layoutY="19.0" prefHeight="55.0" prefWidth="55.0" text="Parts">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Vehicles owned by this Customer" textFill="#d30b0b" visible="false">
+      <Label fx:id="none" layoutX="65.0" layoutY="186.0" prefHeight="68.0" prefWidth="499.0" text="No parts are owned by this vehicle!" visible="false">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="allParts" layoutX="43.0" layoutY="102.0" prefHeight="325.0" prefWidth="550.0" />
+      <ListView fx:id="allParts" layoutX="82.0" layoutY="83.0" prefHeight="302.0" prefWidth="547.0" />
    </children>
 </AnchorPane>

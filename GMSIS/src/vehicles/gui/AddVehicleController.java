@@ -229,6 +229,7 @@ public class AddVehicleController implements Initializable {
         }
         catch(SQLException e)
         {}
+//        update();
     } 
     
     @FXML
@@ -253,22 +254,18 @@ public class AddVehicleController implements Initializable {
         truckTemp.setSelected(false);
         carTemp.setSelected(false);
     }
-    
-    private void addRadioButtons()
-    {
-//        ToggleGroup group = new ToggleGroup();
-//        
-//        carTemp.setToggleGroup(group);
-//        vanTemp.setToggleGroup(group);
-//        truckTemp.setToggleGroup(group);
-//        
-    }
-    
+
     @FXML
     private void cancel(ActionEvent event)
     {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+    }
+
+    // This is a method for the customer module to access
+    public void setCustomerID(int id)
+    {
+        cstIDTemp.setValue(id);
     }
     
 //    private ArrayList removeDuplicates(ArrayList<String> temp)

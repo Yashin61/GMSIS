@@ -5,7 +5,9 @@
  */
 package diagrep.gui;
 
-
+import diagrep.logic.BookingTableE;
+import diagrep.logic.BookingTable;
+import diagrep.logic.Database;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +24,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +37,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -222,6 +227,106 @@ public class Controller implements Initializable {
             allBookings = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
             while(set.next()){
+                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
+        MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+        BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+        BT.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+        RepDur.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+        B.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+        Booking.setItems(allBookings);
+    }
+    
+    // SHOW PAST BOOKINGS ON BOOKINGDETAILS PAGE
+    @FXML
+    private void ShowPastBookings(ActionEvent event) throws ParseException {
+        Connection connect = null;
+        Statement stmt = null;
+        /*DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateobj = new Date();
+        String dateT = df.format(dateobj);
+        System.out.println(dateT);
+        
+        BookingTable book = Booking.getSelectionModel().getSelectedItem();
+        String setBD = book.getBookingDate();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        System.out.println(setBD);
+        Date date1 = format.parse(dateT);
+        Date date2 = format.parse(setBD);
+
+if (date1.compareTo(date2) >= 0) {
+    System.out.println("earlier");
+}*/
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allBookings = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
+            while(set.next()){
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                Date dateobj = new Date();
+                String date = set.getString(5);
+                Date date1 = format.parse(date);
+                if (date1.compareTo(dateobj) <= 0)
+                {
+                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                }
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
+        MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+        BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+        BT.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+        RepDur.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+        B.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+        Booking.setItems(allBookings);
+    }
+    
+    // SHOW FUTURE BOOKINGS ON BOOKINGDETAILS PAGE
+    @FXML
+    private void ShowFutureBookings(ActionEvent event) throws ParseException {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allBookings = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
+            while(set.next()){
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                Date dateobj = new Date();
+                String date = set.getString(5);
+                Date date1 = format.parse(date);
+                if (date1.compareTo(dateobj) >= 0)
                 allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
             }
             stmt.close();
