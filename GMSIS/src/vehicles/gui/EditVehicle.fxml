@@ -23,13 +23,13 @@
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
-      <Button layoutX="622.0" layoutY="364.0" mnemonicParsing="false" onAction="#cancel" text="CANCEL" />
+      <Button fx:id="closeButton" layoutX="622.0" layoutY="364.0" mnemonicParsing="false" onAction="#cancel" text="CANCEL" />
       <Label layoutX="299.0" layoutY="19.0" prefHeight="55.0" prefWidth="118.0" text="Edit Vehicle">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="543.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="60.0" text="EDIT" AnchorPane.rightAnchor="107.0" />
+      <Button fx:id="editTable" layoutX="532.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="60.0" text="EDIT" AnchorPane.rightAnchor="118.0" />
       <Button layoutX="462.0" layoutY="364.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="60.0" text="CLEAR" />
       <GridPane layoutX="100.0" layoutY="149.0">
         <columnConstraints>

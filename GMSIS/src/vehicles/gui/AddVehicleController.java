@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -86,6 +88,14 @@ public class AddVehicleController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+//        rootPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+//        {
+//            public void handle(MouseEvent event, ActionEvent ev)
+//            {
+//                vanTemp.getSelectionModel().clearSelection();
+//                
+//            }
+//        });
         try
         {
             makeTemp.setItems(filling1());

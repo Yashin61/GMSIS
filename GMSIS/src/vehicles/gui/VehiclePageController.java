@@ -89,6 +89,8 @@ public class VehiclePageController
     CommonDatabase db=new CommonDatabase();
     Connection con=db.getConnection();
     RadioButton btnSelected;
+    @FXML
+    private Button edVeh;
     
     // Deselects selected row when clicking on the skin
     public void initialize()
@@ -160,18 +162,32 @@ public class VehiclePageController
         if(veh==null)
         {
             noChosen();
+            return;
         }
-        else
+        Stage stage;
+        Parent root;
+        if(event.getSource() == edVeh)
         {
-            FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("EditVehicle.fxml"));
-            Parent root1=(Parent)fxmlLoader.load();
-            EditVehicleController controller=fxmlLoader.<EditVehicleController>getController();
-            controller.setAllFields(veh);
-            Stage stage=new Stage();
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("EditVehicle.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
             stage.setTitle("Edit Vehicle");
-            stage.setScene(new Scene(root1));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(edVeh.getScene().getWindow());
             stage.show();
-        } 
+        }
+//        else
+//        {
+//            FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("EditVehicle.fxml"));
+//            Parent root1=(Parent)fxmlLoader.load();
+//            EditVehicleController controller=fxmlLoader.<EditVehicleController>getController();
+//            controller.setAllFields(veh);
+//            Stage stage=new Stage();
+//            stage.setTitle("Edit Vehicle");
+//            stage.setScene(new Scene(root1));
+//            stage.show();
+//        }
     }
     
     @FXML

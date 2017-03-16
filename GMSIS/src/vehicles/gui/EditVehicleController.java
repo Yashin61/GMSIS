@@ -7,11 +7,13 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import vehicles.*;
 
 public class EditVehicleController implements Initializable
@@ -57,6 +59,10 @@ public class EditVehicleController implements Initializable
     private RadioButton EdVan;
     @FXML
     private RadioButton EdTruck;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private Button editTable;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -82,14 +88,38 @@ public class EditVehicleController implements Initializable
     }    
 
     @FXML
-    private void cancel(ActionEvent event) {
-    }
-
-    @FXML
-    private void edit(ActionEvent event) {
+    private void edit(ActionEvent event)
+    {
+        
     }
     
     @FXML
-    private void clear(ActionEvent event) {
+    private void cancel(ActionEvent event)
+    {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+    
+    @FXML
+    private void clear(ActionEvent event) // think about other possible way
+    {
+        make.clear();
+        model.clear();
+        year.clear();
+        motRenDate.setValue(null);
+        lastServiceDate.setValue(null);
+        engineSize.clear();
+        fuelType.clear();
+        colour.clear();
+        mileage.clear();
+        regNumber.clear();
+        customerID.clear();
+        warrantyID.clear();
+        companyName.clear();
+        companyAddress.clear();
+        expiryDate.setValue(null);
+        EdVan.setSelected(false);
+        EdTruck.setSelected(false);
+        EdCar.setSelected(false);
     }
 }
