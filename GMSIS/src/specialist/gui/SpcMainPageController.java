@@ -103,23 +103,30 @@ public class SpcMainPageController implements Initializable {
     @FXML
     private ObservableList<SpcBookings> allSPCBooking;
 
-    //adding a comment to commit and push again as github not working properly
+    @FXML
+    private void home(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void spcAdmin(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
+        rootPane.getChildren().setAll(pane);
+    }
+   
     @FXML
     private void Reset(ActionEvent event) {
         custName.setSelected(false);
         vehiRegistration.setSelected(false);
+        setSPCList();
         searchSPC.clear();
-        showData2();
+        showData();
     }
     
-    @FXML
-    private void showData(ActionEvent event) throws IOException
-    {
-        //used to make sure the event is handled
-        showData2();
-    }
-    
-    public void showData2()
+    public void showData()
     {
         Connection connect = null;
         Statement stmt = null;
@@ -149,19 +156,17 @@ public class SpcMainPageController implements Initializable {
        
         dataTable.setItems(allSPCBooking);
     }
-
+    
     @FXML
-    private void home(ActionEvent event) throws IOException
+    private void setSPCList()
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
-        rootPane.getChildren().setAll(pane);
-    }
-
-    @FXML
-    private void spcAdmin(ActionEvent event) throws IOException
-    {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
-        rootPane.getChildren().setAll(pane);
+        SpecialistDB a = new SpecialistDB();
+        String [] listOfSPC = a.getSPC();
+        for(int i=0; i<10; i++)
+        {
+            String lbl = listOfSPC[i];
+            spcList.getItems().add(lbl);
+        }
     }
     
     @FXML
@@ -253,6 +258,120 @@ public class SpcMainPageController implements Initializable {
         {
             Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
         }
+
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+        tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+        tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+
+        dataTable.setItems(allSPCBooking);
+    }
+    
+    @FXML
+    private void setTablePart(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String name = spcList.getSelectionModel().getSelectedItem();
+        if(name!=null)
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
+                        + "AND WorkOn = 'Part';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        else
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Part';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
+
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+        tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+        tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+
+        dataTable.setItems(allSPCBooking);
+    }
+    
+    @FXML
+    private void setTableVehicle(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String name = spcList.getSelectionModel().getSelectedItem();
+        if(name!=null)
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
+                        + "AND WorkOn = 'Vehicle';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        else
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Vehicle';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
 
         tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
@@ -364,17 +483,11 @@ public class SpcMainPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        SpecialistDB a = new SpecialistDB();
-        String [] listOfSPC = a.getSPC();
-        for(int i=0; i<10; i++)
-        {
-            String lbl = listOfSPC[i];
-            spcList.getItems().add(lbl);
-        }
+        setSPCList();
         spcList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         spcList.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> setTable(newValue));
-        showData2();
+        showData();
         setDetails(null);
         
         dataTable.getSelectionModel().selectedItemProperty().addListener(
