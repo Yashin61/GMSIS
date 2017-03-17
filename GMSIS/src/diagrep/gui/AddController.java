@@ -21,6 +21,7 @@ import customer.gui.*;
 import customer.logic.allCustomers;
 import diagrep.logic.BookingTable;
 import diagrep.logic.Database;
+import diagrep.logic.VehicleTable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,7 +33,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import vehicles.Vehicle;
 
 /**
  * FXML Controller class
@@ -41,24 +45,14 @@ import javafx.scene.control.TableView;
  */
 public class AddController implements Initializable {
 
-   @FXML
+    @FXML
     private AnchorPane AddBooking;
     @FXML
-    private JFXDatePicker Date;
+    private DatePicker Date;
     @FXML
-    private JFXDatePicker Time;
+    private ComboBox<String> Time;
     @FXML
-    private TextField Mechanic;
-    @FXML
-     private TextField Part1ID;
-    @FXML
-    private TextField Part5ID;
-    @FXML
-    private TextField Part4ID;
-    @FXML
-    private TextField Part3ID;
-    @FXML
-    private TextField Part2ID;
+    private ComboBox<String> Mechanic;
     @FXML
     private Button Clear;
     @FXML
@@ -66,15 +60,19 @@ public class AddController implements Initializable {
     @FXML
     private Button Back_Button;
     @FXML
-    private TextField Mileage;
-    @FXML
-    private TableColumn<?, ?> PartIDTable;
-    @FXML
-    private TableColumn<?, ?> PartNameTable;
-    @FXML
     private ComboBox<String> CustomerName;
     @FXML
-    private TextField Vehicle;
+    private TableView<VehicleTable> VehiclesA;
+    @FXML
+    private TableColumn<VehicleTable, String> MakeA;
+    @FXML
+    private TableColumn<VehicleTable, String> ModelA;
+    @FXML
+    private TableColumn<VehicleTable, String> RegNoA;
+    @FXML
+    private TableColumn<VehicleTable, Integer> MileageA;
+    @FXML
+    private ObservableList<VehicleTable> VehicleData;
 
     /**
      * Initializes the controller class.
@@ -83,6 +81,8 @@ public class AddController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
        try {
            CustomerName.setItems(CustomerFill());
+           Mechanic.setItems(MechanicFill());
+           Time.setItems(TimeFill());
        } catch (SQLException ex) {
            Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
        }
@@ -91,14 +91,7 @@ public class AddController implements Initializable {
     @FXML
     private void AclearPage(ActionEvent event) {
         CustomerName.setValue(null);
-        Vehicle.setText(null);
-        Mechanic.setText(null);
-        Mileage.setText(null);
-        Part1ID.setText(null);
-        Part2ID.setText(null);
-        Part3ID.setText(null);
-        Part4ID.setText(null);
-        Part5ID.setText(null); 
+        Mechanic.setValue(null);
         Date.setValue(null);
         Time.setValue(null);
     }
@@ -132,5 +125,57 @@ public class AddController implements Initializable {
         }
 
         return FXCollections.observableArrayList(CustomerList);
+    }
+    
+    private ObservableList<String> MechanicFill() throws SQLException
+    {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        ArrayList<String> MechanicList = new ArrayList<>();
+        String query = "SELECT ID FROM Employees WHERE UserType = 'USER'";
+        ResultSet rs = conn.createStatement().executeQuery(query);
+        while(rs.next())
+        {
+            MechanicList.add(rs.getString("ID"));
+        }
+
+        return FXCollections.observableArrayList(MechanicList);
+    }
+    
+    private ObservableList<String> TimeFill() throws SQLException
+    {
+        ObservableList<String> List = FXCollections.observableArrayList("9:00", "10:00", "11:00");
+
+        return FXCollections.observableArrayList(List);
+    }
+
+    @FXML
+    private void ShowVehicles(ActionEvent event) {
+        Connection connect = null;
+        Statement stmt = null;
+        
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            VehicleData = FXCollections.observableArrayList();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+CustomerName.getValue()+"'");
+            while(rs.next()){
+                VehicleData.add(new VehicleTable(rs.getString(2), rs.getString(3), rs.getString(9), rs.getInt(7), rs.getInt(10))); 
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        MakeA.setCellValueFactory(new PropertyValueFactory("Make"));
+        ModelA.setCellValueFactory(new PropertyValueFactory("Model"));
+        RegNoA.setCellValueFactory(new PropertyValueFactory("RegNo"));
+        MileageA.setCellValueFactory(new PropertyValueFactory("Mileage"));
+
+        VehiclesA.setItems(VehicleData);
     }
 }
