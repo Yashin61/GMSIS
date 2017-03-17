@@ -39,6 +39,7 @@ public class EditSPCController implements Initializable {
     @FXML
     private TextField spcPhone;
 
+    //clears all the details that has been inputted on the textbox
     @FXML
     private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
@@ -49,6 +50,7 @@ public class EditSPCController implements Initializable {
         spcEmail.clear();
     }
 
+    //sets the textfields already to the details of the spcBooking that the user wants to change
     @FXML
     public void setAllFields(theSPC spc)
     {
@@ -71,6 +73,7 @@ public class EditSPCController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
 
+    //the update button makes changes to the data stored in the database
     @FXML
     private void updateSpcButton(ActionEvent event) 
     {

@@ -34,6 +34,7 @@ public class AddSPCController implements Initializable {
     @FXML
     private TextField spcPhone;
 
+    //adds the details of the spc to the database
     @FXML
     private void addSpcButton(ActionEvent event) 
     {
@@ -55,6 +56,7 @@ public class AddSPCController implements Initializable {
         }
     }
 
+    //clears all the details that has been inputted on the textbox
     @FXML
     private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
