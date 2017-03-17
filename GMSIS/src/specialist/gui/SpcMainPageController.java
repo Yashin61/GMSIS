@@ -400,20 +400,41 @@ public class SpcMainPageController implements Initializable {
         SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
         if(spcBooking != null)
         {
-            try
-            {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                stmt = connect.createStatement();
-                ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
-                while(set.next()){
-                    
-                }
-                stmt.close();
-                set.close();
-                connect.close();
-            }catch(SQLException e)
+            if(spcBooking.getSpcWOn().equals("Vehicle"))
             {
-                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.createStatement();
+                    ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
+                    while(set.next()){
+                        System.out.println("Hello");
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }catch(SQLException e)
+                {
+                    Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+            else
+            {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.createStatement();
+                    ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSPCPartId() + "';");
+                    while(set.next()){
+                        System.out.println("Bye");
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }catch(SQLException e)
+                {
+                    Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+                }
             }
         }
         else
