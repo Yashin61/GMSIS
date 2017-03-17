@@ -27,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -74,34 +75,17 @@ public class AddController implements Initializable {
     private ComboBox<String> CustomerName;
     @FXML
     private TextField Vehicle;
-    //Customer DropDown
-    @FXML
-    private TableView<allCustomers> dataTable;
-    @FXML
-    private TableColumn<allCustomers, Integer> customer_ID;
-    @FXML
-    private TableColumn<allCustomers, String> first;
-    @FXML
-    private TableColumn<allCustomers, String> sur;
-    @FXML
-    private TableColumn<allCustomers, String> adr;
-    @FXML
-    private TableColumn<allCustomers, String> post;
-    @FXML
-    private TableColumn<allCustomers, String> mobile;
-    @FXML
-    private TableColumn<allCustomers, String> ema;
-    @FXML
-    private TableColumn<allCustomers, String> type;
-    @FXML
-    private ObservableList<allCustomers> data;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
+       try {
+           CustomerName.setItems(CustomerFill());
+       } catch (SQLException ex) {
+           Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }    
 
     @FXML
@@ -136,26 +120,17 @@ public class AddController implements Initializable {
         }
     }
     
-    @FXML
-    public void customerBox(ActionEvent event) {       
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-            Statement stmt = conn.createStatement();
-            data = FXCollections.observableArrayList();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer_Accounts");
-    
-            while(rs.next())
-            {
-                CustomerName.getItems().addAll(rs.getString(2));
-            }
-            
-            stmt.close();
-            rs.close();
-            conn.close();
-        }
-        catch(SQLException e)
+    private ObservableList<String> CustomerFill() throws SQLException
+    {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        ArrayList<String> CustomerList = new ArrayList<>();
+        String query = "SELECT Firstname FROM Customer_Accounts";
+        ResultSet rs = conn.createStatement().executeQuery(query);
+        while(rs.next())
         {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+            CustomerList.add(rs.getString("Firstname"));
         }
+
+        return FXCollections.observableArrayList(CustomerList);
     }
 }

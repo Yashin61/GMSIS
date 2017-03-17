@@ -67,7 +67,7 @@
       <TextField fx:id="Mileage" layoutX="200.0" layoutY="350.0" />
       <TextField fx:id="Vehicle" layoutX="200.0" layoutY="280.0" />
       <TextField fx:id="Mechanic" layoutX="200.0" layoutY="430.0" />
-      <ComboBox fx:id="CustomerName" layoutX="200.0" layoutY="180.0" onAction="#customerBox" prefHeight="26.0" prefWidth="163.0" />
+      <ComboBox fx:id="CustomerName" layoutX="200.0" layoutY="180.0" prefHeight="26.0" prefWidth="163.0" />
       <JFXComboBox />
    </children>
 </AnchorPane>
