@@ -117,6 +117,8 @@ public class SpcMainPageController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
    
+    
+    //resets all the choices that has been made
     @FXML
     private void Reset(ActionEvent event) {
         custName.setSelected(false);
@@ -126,6 +128,7 @@ public class SpcMainPageController implements Initializable {
         showData();
     }
     
+    //initailse / show the main spc booking table with all the data (unselect any selections)
     public void showData()
     {
         Connection connect = null;
@@ -157,6 +160,7 @@ public class SpcMainPageController implements Initializable {
         dataTable.setItems(allSPCBooking);
     }
     
+    //initialising the listview of the spc
     @FXML
     private void setSPCList()
     {
@@ -169,6 +173,7 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    //get the details of the spcBooking. like the customer (details) which is linked to the vehicle / parts
     @FXML
     private void setDetails(SpcBookings spc){
         if(spc != null)
@@ -176,6 +181,7 @@ public class SpcMainPageController implements Initializable {
             theSpcName.setText(spc.getSpcBookingName());
             Connection connect = null;
             Statement stmt = null;
+            //gets the basic information of the vehicle from the database
             try
             {
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
@@ -195,6 +201,7 @@ public class SpcMainPageController implements Initializable {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
             
+            //gets the details of the customers linked to the bookings / parts / vehicle
             try
             {
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
@@ -235,6 +242,7 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    //sets the spcBooking table according to the spc listed in the spc list view
     @FXML
     private void setTable(String name)
     {
@@ -267,6 +275,7 @@ public class SpcMainPageController implements Initializable {
         dataTable.setItems(allSPCBooking);
     }
     
+    //this function sets the booking table to only view the booking for parts / only parts that have been sent to SPC
     @FXML
     private void setTablePart(ActionEvent event)
     {
@@ -324,6 +333,7 @@ public class SpcMainPageController implements Initializable {
         dataTable.setItems(allSPCBooking);
     }
     
+    //this function sets the booking table to only view the booking for vehicle / only vehicle that have been sent to SPC
     @FXML
     private void setTableVehicle(ActionEvent event)
     {
@@ -381,6 +391,59 @@ public class SpcMainPageController implements Initializable {
         dataTable.setItems(allSPCBooking);
     }
     
+    //view the details for the specific vehicle / part listed as booking
+    @FXML
+    private void showPartVehicleDetails(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBooking != null)
+        {
+            if(spcBooking.getSpcWOn().equals("Vehicle"))
+            {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.createStatement();
+                    ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
+                    while(set.next()){
+                        System.out.println("Hello");
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }catch(SQLException e)
+                {
+                    Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+            else
+            {
+                try
+                {   
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.createStatement();
+                    ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSPCPartId() + "';");
+                    while(set.next()){
+                        System.out.println("Bye");
+                    }
+                    stmt.close();
+                    set.close();
+                    connect.close();
+                }catch(SQLException e)
+                {
+                    Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Please select what you want to search");
+        }
+    }
+    
+    //search for the spc / spcbooking by customer names or vehicle registration
     @FXML
     private void searchSPCBooking(ActionEvent event)
     {

@@ -74,7 +74,7 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private ObservableList<theSPC> allSPC;
     
-    
+    //view all the lists of spc - triggered by an actionlistener / button
     @FXML
     private void showData(ActionEvent event) throws IOException
     {
@@ -146,6 +146,7 @@ public class SpecialistGUIController implements Initializable {
         
     }
 
+    //clears all the textboxes / data that was selected
     @FXML
     private void clearSearchAddEdit(ActionEvent event) throws IOException
     {
