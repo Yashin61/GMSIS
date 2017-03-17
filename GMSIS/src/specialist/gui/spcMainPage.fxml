@@ -101,7 +101,7 @@
           <Button mnemonicParsing="false" text="View Outstanding" />
             <Button mnemonicParsing="false" onAction="#setTablePart" text="View Parts" />
             <Button mnemonicParsing="false" onAction="#setTableVehicle" text="View Vehicles" />
-            <Button mnemonicParsing="false" text="View Details" />
+            <Button mnemonicParsing="false" onAction="#showPartVehicleDetails" text="View Details" />
             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Returned Items" />
         </buttons>
       </ButtonBar>

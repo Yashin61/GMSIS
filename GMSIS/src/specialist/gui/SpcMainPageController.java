@@ -382,6 +382,36 @@ public class SpcMainPageController implements Initializable {
     }
     
     @FXML
+    private void showPartVehicleDetails(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBooking != null)
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
+                while(set.next()){
+                    
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Please select what you want to search");
+        }
+    }
+    
+    @FXML
     private void searchSPCBooking(ActionEvent event)
     {
         Connection connect = null;
