@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="AddBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.Controller">
+<AnchorPane id="AnchorPane" fx:id="AddBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.AddController">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
@@ -63,8 +65,9 @@
          </font>
       </Label>
       <TextField fx:id="Mileage" layoutX="200.0" layoutY="350.0" />
-      <TextField fx:id="CustomerName" layoutX="200.0" layoutY="180.0" />
       <TextField fx:id="Vehicle" layoutX="200.0" layoutY="280.0" />
       <TextField fx:id="Mechanic" layoutX="200.0" layoutY="430.0" />
+      <ComboBox fx:id="CustomerName" layoutX="200.0" layoutY="180.0" onAction="#customerBox" prefHeight="26.0" prefWidth="163.0" />
+      <JFXComboBox />
    </children>
 </AnchorPane>
