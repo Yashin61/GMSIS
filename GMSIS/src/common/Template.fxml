@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.LoginController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.TemplateController">
    <children>
       <Separator layoutX="14.0" layoutY="84.0" prefHeight="35.0" prefWidth="950.0" />
       <Button layoutX="105.0" layoutY="74.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="63.0" text="HOME" />
