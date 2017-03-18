@@ -15,17 +15,17 @@
 <AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.TemplateController">
    <children>
       <Separator layoutX="14.0" layoutY="84.0" prefHeight="35.0" prefWidth="950.0" />
-      <Button layoutX="188.0" layoutY="400.0" mnemonicParsing="false" onAction="#adminLoginPage" prefHeight="100.0" prefWidth="175.0" text="Admin Access">
+      <Button layoutX="188.0" layoutY="400.0" mnemonicParsing="false" onAction="#adminLoginPage" prefHeight="100.0" prefWidth="175.0" text="Admin Access" AnchorPane.leftAnchor="100.0">
          <font>
             <Font size="17.0" />
          </font>
       </Button>
-      <Button layoutX="688.0" layoutY="400.0" mnemonicParsing="false" onAction="#logOut" prefHeight="100.0" prefWidth="175.0" text="Log Out">
+      <Button layoutX="688.0" layoutY="400.0" mnemonicParsing="false" onAction="#logOut" prefHeight="100.0" prefWidth="175.0" text="Log Out" AnchorPane.rightAnchor="100.0">
          <font>
             <Font size="17.0" />
          </font>
       </Button>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="386.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="386.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="385.0">
          <image>
             <Image url="@Hello.gif" />
          </image></ImageView>

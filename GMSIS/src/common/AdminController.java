@@ -324,7 +324,7 @@ public class AdminController implements Initializable
         Connection connection = null;
         try
         {
-            String sql = "select * from Employees where ID = '" + id.getText()+ "' " ;
+            String sql = "select * from Employees where ID = '" + id.getText()+ "' AND UserType = 'USER'"  ;
                 
             PreparedStatement statement = null;
             
