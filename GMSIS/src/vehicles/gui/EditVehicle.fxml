@@ -65,7 +65,7 @@
             <TextField fx:id="regNumber" layoutX="110.0" layoutY="192.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
          </children>
       </GridPane>
-      <RadioButton fx:id="EdCar" layoutX="241.0" layoutY="107.0" mnemonicParsing="false" text="Car">
+      <RadioButton fx:id="edCar" layoutX="241.0" layoutY="107.0" mnemonicParsing="false" text="Car">
          <toggleGroup>
             <ToggleGroup fx:id="vehType" />
          </toggleGroup></RadioButton>
@@ -101,7 +101,7 @@
          </rowConstraints>
       </GridPane>
       <Label layoutX="100.0" layoutY="107.0" prefHeight="17.0" prefWidth="73.0" text="Vehicle Type" />
-      <RadioButton fx:id="EdVan" layoutX="358.0" layoutY="107.0" mnemonicParsing="false" text="Van" toggleGroup="$vehType" />
-      <RadioButton fx:id="EdTruck" layoutX="478.0" layoutY="107.0" mnemonicParsing="false" text="Truck" toggleGroup="$vehType" />
+      <RadioButton fx:id="edVan" layoutX="358.0" layoutY="107.0" mnemonicParsing="false" text="Van" toggleGroup="$vehType" />
+      <RadioButton fx:id="edTruck" layoutX="478.0" layoutY="107.0" mnemonicParsing="false" text="Truck" toggleGroup="$vehType" />
    </children>
 </AnchorPane>
