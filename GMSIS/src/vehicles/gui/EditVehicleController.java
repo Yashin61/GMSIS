@@ -164,6 +164,7 @@ public class EditVehicleController implements Initializable
                 ps2.executeUpdate();
             }
             viewVeh.fire();
+            JOptionPane.showMessageDialog(null, "The vehicle is now edited!");
             con.close();
         }
         catch(SQLException e)
