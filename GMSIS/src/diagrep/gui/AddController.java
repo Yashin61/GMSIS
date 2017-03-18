@@ -216,4 +216,10 @@ public class AddController implements Initializable {
         }
     }
     
+    // a method for the customer module to access
+    public void setCustomerID(String name, int ID)
+    {
+        CustomerName.setValue(name);
+    }
+    
 }
