@@ -5,7 +5,6 @@
  */
 package diagrep.gui;
 
-import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,16 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import customer.gui.*;
-import customer.logic.allCustomers;
-import diagrep.logic.BookingTable;
 import diagrep.logic.Database;
 import diagrep.logic.VehicleTable;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,11 +26,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import static java.util.Calendar.*;//DAY_OF_WEEK;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +37,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vehicles.Vehicle;
 
 /**
  * FXML Controller class
@@ -92,7 +82,6 @@ public class AddController implements Initializable {
        try {
            CustomerName.setItems(CustomerFill());
            Mechanic.setItems(MechanicFill());
-           BookingTime.setItems(TimeFillWeekDay());
        } catch (SQLException ex) {
            Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
        }
@@ -103,7 +92,7 @@ public class AddController implements Initializable {
         CustomerName.setValue(null);
         Mechanic.setValue(null);
         BookingDate.setValue(null);
-        BookingTime.setValue(null);
+        BookingTime.setItems(null);
     }
 
     @FXML
@@ -123,6 +112,7 @@ public class AddController implements Initializable {
         }
     }
     
+    //DISPLAY ALL CUSTOMERS
     private ObservableList<String> CustomerFill() throws SQLException
     {
         Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
@@ -137,6 +127,7 @@ public class AddController implements Initializable {
         return FXCollections.observableArrayList(CustomerList);
     }
     
+    //DISPLAY ALL MECHANICS
     private ObservableList<String> MechanicFill() throws SQLException
     {
         Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
@@ -151,13 +142,22 @@ public class AddController implements Initializable {
         return FXCollections.observableArrayList(MechanicList);
     }
     
+    //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKDAY
     private ObservableList<String> TimeFillWeekDay() throws SQLException
     {
         ObservableList<String> List = FXCollections.observableArrayList("9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm", "2:30 pm", "3:00 pm", "3:30 pm", "4:00 pm", "4:30 pm");
 
         return FXCollections.observableArrayList(List);
     }
-
+    
+    //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKEND
+    private ObservableList<String> TimeFillWeekEnd() throws SQLException
+    {
+        ObservableList<String> List = FXCollections.observableArrayList("9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am");
+        return FXCollections.observableArrayList(List);
+    }
+    
+    //DISPLAY VEHICLES FOR SELECTED CUSTOMER
     @FXML
     private void ShowVehicles(ActionEvent event) {
         Connection connect = null;
@@ -197,6 +197,7 @@ public class AddController implements Initializable {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date date1 = format.parse(date);
         Date dateobj = new Date();
+        //ALERT IF USER PICKS DATE IN THE PAST
         if (date1.before(dateobj))
                 {
                     BookingDate.setValue(null);
@@ -206,13 +207,39 @@ public class AddController implements Initializable {
                     alert.setContentText("Select A Date In The Future");
                     alert.showAndWait();
                 }
+        //DISPLAY OPENING TIMES FOR WEEKDAY IF DATE CHOSEN IS ON A WEEKDAY
         else
         {
-            //date1.getDay();
-            Calendar c = Calendar.getInstance();
-            c.setTime(date1);
-            int Day = c.get(Calendar.DAY_OF_WEEK);
-            System.out.println(Day);
+            LocalDate d = BookingDate.getValue();
+            System.out.println(d.getDayOfWeek().name());
+            String day = d.getDayOfWeek().name();
+            if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || day.equals("THURSDAY") || day.equals("FRIDAY"))
+            {
+                try {
+                    BookingTime.setItems(TimeFillWeekDay());
+                } catch (SQLException ex) {
+                    Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //DISPLAY OPENING TIMES FOR WEEKEND IF DATE CHOSEN IS ON A WEEKEND
+            else if(day.equals("SATURDAY"))
+            {
+                try {    
+                    BookingTime.setItems(TimeFillWeekEnd());
+                } catch (SQLException ex) {
+                    Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //ALERT IF USER PICKS DATE WHERE THE DAY IS SUNDAY
+            else
+            {
+                BookingDate.setValue(null);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid Date");
+                alert.setHeaderText("Garage Closed On Sunday");
+                alert.setContentText("Select Another Date");
+                alert.showAndWait();
+            }
         }
     }
     
