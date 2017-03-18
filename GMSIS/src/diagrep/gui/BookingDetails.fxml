@@ -18,12 +18,12 @@
          </font>
       </Label>
       <Separator layoutX="101.0" layoutY="81.0" prefHeight="35.0" prefWidth="872.0" />
-      <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" text="HOME" />
-      <Button layoutX="186.0" layoutY="71.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Home" text="HOME" />
+      <Button layoutX="186.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Customer" text="CUSTOMER ACCOUNTS" />
       <Button layoutX="495.0" layoutY="71.0" mnemonicParsing="false" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
-      <Button layoutX="355.0" layoutY="71.0" mnemonicParsing="false" text="VEHICLE RECORDS" />
-      <Button layoutX="748.0" layoutY="71.0" mnemonicParsing="false" text="PARTS" />
-      <Button layoutX="809.0" layoutY="71.0" mnemonicParsing="false" text="SPECIALIST REPAIRS" />
+      <Button layoutX="355.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Vehicle" text="VEHICLE RECORDS" />
+      <Button layoutX="748.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Parts" text="PARTS" />
+      <Button layoutX="809.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Specialist" text="SPECIALIST REPAIRS" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-4.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../customer/Car.png" />

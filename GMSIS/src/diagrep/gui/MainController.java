@@ -227,4 +227,43 @@ public class MainController implements Initializable {
         Booking.setItems(allBookings);
     }
     
+    // switch to home page 
+    @FXML
+    private void change2Home(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to vehicle page
+    @FXML
+    private void change2Vehicle(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to bookings page
+    @FXML
+    private void change2Customer(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to parts page
+    @FXML
+    private void change2Parts(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to specialist page
+    @FXML
+    private void change2Specialist(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
 }
