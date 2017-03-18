@@ -640,6 +640,17 @@ public class RealController implements Initializable
         alert.showAndWait();
     }
     
+    // prints if phone number is in wrong format
+    @FXML
+    public void printPhone()
+    {   
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Incorrect Fields");
+        alert.setHeaderText("Invalid Phone Number");
+        alert.setContentText("Please type in a valid phone number");
+        alert.showAndWait();
+    }
+    
     // method to add a new customer
     @FXML
     public void addCustomer(ActionEvent event)
@@ -655,35 +666,50 @@ public class RealController implements Initializable
             {
                 account_type = "business";
             }
-
-            customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-            String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = null;
-            Connection connection = null;
-            CommonDatabase db = new CommonDatabase();
-            connection = db.getConnection();
+            boolean flag = true;
             try
             {
-                statement = connection.prepareStatement(sql);
-                statement.setString(2, acc.getFirstname());         
-                statement.setString(3, acc.getSurname());
-                statement.setString(4, acc.getAddress());
-                statement.setString(5, acc.getPostcode());
-                statement.setString(6, acc.getPhone());
-                statement.setString(7, acc.getEmail());
-                statement.setString(8, acc.getAccount());
-                statement.execute(); 
+                int p = Integer.parseInt(phone.getText());
             }
-            catch(SQLException ex)
+            catch(NumberFormatException e)
             {
-                ex.getMessage();
+                flag = false;
+                phone.setText("");
+                printPhone();
             }
-            close(connection);
-            clearDetails(event);
-            infoGiven(acc.getFirstname(), "add");
-            Stage stage = (Stage) addPane.getScene().getWindow();
-            stage.close();
-           
+            if(flag)
+                {
+                customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
+                String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement statement = null;
+                Connection connection = null;
+                CommonDatabase db = new CommonDatabase();
+                connection = db.getConnection();
+                try
+                {
+                    statement = connection.prepareStatement(sql);
+                    statement.setString(2, acc.getFirstname());         
+                    statement.setString(3, acc.getSurname());
+                    statement.setString(4, acc.getAddress());
+                    statement.setString(5, acc.getPostcode());
+                    statement.setString(6, acc.getPhone());
+                    statement.setString(7, acc.getEmail());
+                    statement.setString(8, acc.getAccount());
+                    statement.execute(); 
+                }
+                catch(SQLException ex)
+                {
+                    ex.getMessage();
+                }
+                close(connection);
+                clearDetails(event);
+                infoGiven(acc.getFirstname(), "add");
+                Stage stage = (Stage) addPane.getScene().getWindow();
+                stage.close();
+            }
+            
+            
+            
         }
     }
     
