@@ -69,5 +69,10 @@
             <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="HOME" />
          </children>
       </GridPane>
+      <Label fx:id="user" layoutX="448.0" layoutY="330.0" prefHeight="16.0" prefWidth="69.0" textFill="#010011">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

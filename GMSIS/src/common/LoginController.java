@@ -104,7 +104,7 @@ public class LoginController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
                     TemplateController controller=fxmlLoader.<TemplateController>getController();
-                    controller.setLabel(String.valueOf(username), set.getString("Firstname") + " " + set.getString("Surname"));
+                    controller.setLabel(set.getString("UserType"), String.valueOf(username), set.getString("Firstname") + " " + set.getString("Surname"));
 
                     Stage stage = new Stage();
                     Scene scene = new Scene(root1);

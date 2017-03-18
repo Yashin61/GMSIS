@@ -51,19 +51,25 @@ public class TemplateController implements Initializable {
     @FXML
     private JFXRadioButton userAccount;
     @FXML
+    private Label user;
+    @FXML
     private Label welcomeLabel;
     @FXML
     private Label idLabel;
+    
+    public static String userType;
     public static String name;
     public static String allID;
     
     
     // sets the label(User ID and name) on the front page
     @FXML
-    public void setLabel(String id, String username)
+    public void setLabel(String userAccount, String id, String username)
     {
+        userType = userAccount;
         allID = id;
         name = username;
+        user.setText(userAccount);
         idLabel.setText(id);
         welcomeLabel.setText(username);
     }
@@ -198,9 +204,10 @@ public class TemplateController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+        System.out.println(userType);
         System.out.println(name);
         System.out.println(allID);
-        this.setLabel(allID, name);
+        this.setLabel(userType, allID, name);
     }    
     
 }
