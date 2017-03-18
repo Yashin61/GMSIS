@@ -13,6 +13,7 @@ package customer.gui;
 import common.CommonDatabase;
 import customer.logic.allCustomers;
 import customer.logic.customers;
+import diagrep.gui.AddController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -591,7 +592,7 @@ public class RealController implements Initializable
     @FXML
     private void change2Home(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/src/common/Template.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
@@ -732,6 +733,31 @@ public class RealController implements Initializable
             Parent root1 = (Parent) fxmlLoader.load();
             AddVehicleController controller=fxmlLoader.<AddVehicleController>getController();
             controller.setCustomerID(ID);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.showAndWait();
+            display();
+        }
+    }
+    
+    @FXML
+    private void addBooking(ActionEvent event) throws IOException
+    {
+        allCustomers cust = dataTable.getSelectionModel().getSelectedItem();
+        if(cust == null)
+        {
+            noChosen();
+        }
+        else
+        {
+            int ID = cust.getID();
+            String name = cust.getFirstname();
+            System.out.println(ID);
+            System.out.println(name);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/diagrep/gui/AddBooking.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            AddController controller=fxmlLoader.<AddController>getController();
+            controller.setCustomerID(name, ID);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.showAndWait();
