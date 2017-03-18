@@ -2,7 +2,14 @@
 
 package vehicles.gui;
 
+import common.CommonDatabase;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,11 +21,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import vehicles.*;
 
 public class EditVehicleController implements Initializable
 {
-
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -52,23 +59,28 @@ public class EditVehicleController implements Initializable
     @FXML
     private TextField companyAddress;
     @FXML
-    private RadioButton EdCar;
-    @FXML
     private ToggleGroup vehType;
-    @FXML
-    private RadioButton EdVan;
-    @FXML
-    private RadioButton EdTruck;
     @FXML
     private Button closeButton;
     @FXML
     private Button editTable;
+    @FXML
+    private RadioButton edCar;
+    @FXML
+    private RadioButton edVan;
+    @FXML
+    private RadioButton edTruck;
+    String type="";
+    boolean flag=false;
+    Button viewVeh;
+    CommonDatabase db=new CommonDatabase();
+    Connection con=db.getConnection();
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {}
     
-    public void setAllFields(Vehicle veh)
+    public void setAllFields(Vehicle veh) 
     {
         make.setText(veh.getMake());
         model.setText(veh.getModel());
@@ -80,17 +92,86 @@ public class EditVehicleController implements Initializable
         regNumber.setText(veh.getRegistrationNumber());
         customerID.setText(Integer.toString(veh.getCustomerID()));
         warrantyID.setText(Integer.toString(veh.getWarrantyID()));
-//        motRenDate.setText(veh.getMOTRenewalDate());
-//        lastServiceDate.setText(veh.getLastServiceDate());
-//        expiryDate.setText(war.getExpiryDate());
-//        companyName.setText(war.getName());
-//        companyAddress.setText(war.getAddress());
-    }    
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        motRenDate.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        lastServiceDate.setValue(LocalDate.parse(veh.getLastServiceDate(), formatter2));
+        if(veh.getWarrantyID()>0)
+        {
+            flag=true;
+            try
+            {
+                String sql = "SELECT * FROM Warranty WHERE WarrantyID = ?";
+                PreparedStatement p = con.prepareStatement(sql);
+                p.setInt(1, veh.getWarrantyID());
+                ResultSet info = p.executeQuery();
+                companyName.setText(info.getString(2));
+                companyAddress.setText(info.getString(3));
+                DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                expiryDate.setValue(LocalDate.parse(info.getString(4),formatter3));
+            }
+            catch(SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else if(veh.getWarrantyID()<0)
+        {
+            JOptionPane.showMessageDialog(null, "There are an inappropriate value(s)!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "The selected vehicle does not have warranty!");
+        }
+        if(veh.getVehicleType().equals("Car"))
+        {
+            edCar.setSelected(true);
+            type = "Car";
+        }
+        else if(veh.getVehicleType().equals("Van"))
+        {
+            edVan.setSelected(true);
+            type = "Van";
+        }
+        else if(veh.getVehicleType().equals("Truck"))
+        {
+            edTruck.setSelected(true);
+            type = "Truck";
+        }
+    }
 
     @FXML
     private void edit(ActionEvent event)
-    {
+    { 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
+                + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
+                + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
+                + "Colour = '" + colour.getText() + "', CustomerID = " + customerID.getText() + ", "
+                + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
+                + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = " + warrantyID.getText() + ", "
+                + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
         
+        try
+        {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+            if(flag)
+            {
+                String sql2 = "UPDATE Warranty SET Name = '" + companyName.getText() + "' , Address = '" + companyAddress.getText() + "' , "
+                        + "ExpiryDate = '" +expiryDate.getValue().format(formatter) + "' WHERE WarrantyID = " + warrantyID.getText();
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ps2.executeUpdate();
+            }
+            viewVeh.fire();
+            JOptionPane.showMessageDialog(null, "The vehicle is now edited!");
+            con.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("Fail!");
+        }
     }
     
     @FXML
@@ -118,8 +199,8 @@ public class EditVehicleController implements Initializable
         companyName.clear();
         companyAddress.clear();
         expiryDate.setValue(null);
-        EdVan.setSelected(false);
-        EdTruck.setSelected(false);
-        EdCar.setSelected(false);
+        edVan.setSelected(false);
+        edTruck.setSelected(false);
+        edCar.setSelected(false);
     }
 }

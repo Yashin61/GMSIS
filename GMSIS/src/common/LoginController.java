@@ -5,9 +5,7 @@
  */
 package common;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXRadioButton;
 import javafx.scene.control.Alert.AlertType;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
@@ -18,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,15 +23,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 /**
  * FXML Controller class
@@ -42,8 +35,8 @@ import javax.swing.JOptionPane;
  * @author prashant
  */
 
-public class LoginController implements Initializable {
-
+public class LoginController implements Initializable
+{
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -51,11 +44,10 @@ public class LoginController implements Initializable {
     @FXML
     private JFXPasswordField password;
 
-
-    
     // Checks if username and password is correct
     @FXML
-    public void dologin(ActionEvent event) throws IOException{
+    public void dologin(ActionEvent event) throws IOException
+    {
         
         int username = 0;
         boolean check = true;
@@ -104,13 +96,12 @@ public class LoginController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
                     TemplateController controller=fxmlLoader.<TemplateController>getController();
+                    SoundEffect.playOpening();
                     controller.setLabel(set.getString("UserType"), String.valueOf(username), set.getString("Firstname") + " " + set.getString("Surname"));
-
                     Stage stage = new Stage();
                     Scene scene = new Scene(root1);
                     stage.setScene(scene);
-                    stage.show();  
-
+                    stage.show();
                 }
                 else
                 {
@@ -119,12 +110,11 @@ public class LoginController implements Initializable {
                     user.clear();
                     password.clear();
                 }
-
                 stmt.close();
                 set.close();
                 connect.close();
-
-            }catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
             }
@@ -144,8 +134,5 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
-    {
-        
-    }    
-    
+    {}
 }

@@ -81,7 +81,7 @@
             <TextField fx:id="cmpNameTemp" layoutX="110.0" layoutY="132.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label layoutX="10.0" layoutY="167.0" text="Company Address" GridPane.rowIndex="6" />
             <TextField fx:id="cmpAddressTemp" layoutX="110.0" layoutY="162.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <ComboBox fx:id="cstIDTemp" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cstIDTemp" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <DatePicker fx:id="motRenTemp" editable="false" GridPane.columnIndex="1" />
             <DatePicker fx:id="lSrvDtTemp" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="expDateTemp" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />

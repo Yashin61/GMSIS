@@ -1,7 +1,6 @@
 
 package common;
 
-import java.sql.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,19 +16,13 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-                SoundEffect.playOpening();
-
         Scene scene = new Scene(root);
-        
         primaryStage.setTitle("GMSIS Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
     public static void main(String[] args)
     {
         launch(args);
-        
     }
-  
 }
