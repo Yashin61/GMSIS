@@ -147,21 +147,6 @@ public class MainController implements Initializable {
     private void ShowPastBookings(ActionEvent event) throws ParseException {
         Connection connect = null;
         Statement stmt = null;
-        /*DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Date dateobj = new Date();
-        String dateT = df.format(dateobj);
-        System.out.println(dateT);
-        
-        BookingTable book = Booking.getSelectionModel().getSelectedItem();
-        String setBD = book.getBookingDate();
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println(setBD);
-        Date date1 = format.parse(dateT);
-        Date date2 = format.parse(setBD);
-
-if (date1.compareTo(date2) >= 0) {
-    System.out.println("earlier");
-}*/
         try
         {   
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
