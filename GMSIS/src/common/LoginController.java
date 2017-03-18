@@ -57,72 +57,78 @@ public class LoginController implements Initializable {
     @FXML
     public void dologin(ActionEvent event) throws IOException{
         
-        
-        int username = Integer.parseInt(user.getText());
-        String passWord = password.getText();
-        Connection connect = null;
-        Statement stmt = null;    
-        PreparedStatement statement = null;
-        
+        int username = 0;
+        boolean check = true;
         try
         {
-            //Connect to database 
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-            stmt = connect.createStatement();
-            ResultSet set = stmt.executeQuery("SELECT * FROM Employees WHERE ID = '" + username + "' ");
-            //String sql = "UPDATE Employees SET Status = '"  + 1 + "' WHERE ID = '" + username + "' ";
-            //statement = connect.prepareStatement(sql);
-            //statement.executeUpdate();  
-            boolean flag = false;
-            if(set != null)
-            {              
-                if(passWord.equals(set.getString("Password")))
+            username = Integer.parseInt(user.getText());
+        }
+        catch(NumberFormatException e)
+        {
+            incorrectInfo();
+            check = false;
+        }
+        if(check)
+        {
+            String passWord = password.getText();
+            Connection connect = null;
+            Statement stmt = null;    
+            PreparedStatement statement = null;
+
+            try
+            {
+                //Connect to database 
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                ResultSet set = stmt.executeQuery("SELECT * FROM Employees WHERE ID = '" + username + "' "); 
+                boolean flag = false;
+                if(set != null)
+                {              
+                    if(passWord.equals(set.getString("Password")))
+                    {
+                        flag = true;
+                        user.clear();
+                        password.clear();
+                    }
+                }
+                else
                 {
-                    flag = true;
+                    System.out.println("Incorrect username or password");
                     user.clear();
                     password.clear();
                 }
-            }
-            else
-            {
-                System.out.println("Incorrect username or password");
-                user.clear();
-                password.clear();
-            }
-            if(flag)
-            {
-                Stage stage3 = (Stage) rootPane.getScene().getWindow();
-                stage3.close();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                TemplateController controller=fxmlLoader.<TemplateController>getController();
-                controller.setLabel(String.valueOf(username), set.getString("Firstname") + " " + set.getString("Surname"));
-                
-                Stage stage = new Stage();
-                Scene scene = new Scene(root1);
-                stage.setScene(scene);
-                stage.show();  
-                
-                
-                
-                
-            }
-            else
-            {
-                System.out.println("Incorrect username or password");
-                incorrectInfo();
-                user.clear();
-                password.clear();
-            }
-        
-            stmt.close();
-            set.close();
-            connect.close();
+                if(flag)
+                {
+                    Stage stage3 = (Stage) rootPane.getScene().getWindow();
+                    stage3.close();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    TemplateController controller=fxmlLoader.<TemplateController>getController();
+                    controller.setLabel(String.valueOf(username), set.getString("Firstname") + " " + set.getString("Surname"));
 
-        }catch(SQLException e)
-        {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
-        } 
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root1);
+                    stage.setScene(scene);
+                    stage.show();  
+
+                }
+                else
+                {
+                    System.out.println("Incorrect username or password");
+                    incorrectInfo();
+                    user.clear();
+                    password.clear();
+                }
+
+                stmt.close();
+                set.close();
+                connect.close();
+
+            }catch(SQLException e)
+            {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
+            }
+        }
     }
     
     // If username or password is incorrect, prints this message
