@@ -118,13 +118,11 @@ public class AdminController implements Initializable
         if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  password.getText().trim().isEmpty() || hourlyWage.getText().trim().isEmpty())
         {
             printMissing();
-            //clearDetails(event);
         }
         else
         {
             
-            //boolean check = checkUnique(password.getText());
-            //System.out.println(check);
+
             boolean integerOr = checkInteger(hourlyWage.getText());
             if(integerOr == true)
             {
@@ -326,7 +324,7 @@ public class AdminController implements Initializable
         Connection connection = null;
         try
         {
-            String sql = "select * from Employees where ID = '" + id.getText()+ "' " ;
+            String sql = "select * from Employees where ID = '" + id.getText()+ "' AND UserType = 'USER'"  ;
                 
             PreparedStatement statement = null;
             
@@ -373,17 +371,18 @@ public class AdminController implements Initializable
     @FXML
     private void goBack(ActionEvent event) throws IOException
     {
-        Stage stage3 = (Stage) rootPane.getScene().getWindow();
+        
+        /*Stage stage3 = (Stage) rootPane.getScene().getWindow();
         stage3.close();
-        //((Node)(event.getSource())).getScene().getWindow().hide();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
-        LoginController controller=fxmlLoader.<LoginController>getController();
-        controller.setLabel(controller.allID,controller.name);
+        
         Stage stage = new Stage();
         Scene scene = new Scene(root1);
         stage.setScene(scene);
-        stage.show();  
+        stage.show();  */
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("Template.fxml"));
+        rootPane.getChildren().setAll(pane);
     }
     
     @FXML
@@ -398,35 +397,7 @@ public class AdminController implements Initializable
         hourlyWageE.setText(String.valueOf(user.getHourly_Wage()));
     }
             
-    /*@FXML
-    public boolean checkUnique(String passWord)
-    {
-        boolean check = true;
-        
-        Connection conn = null;
-        try
-        {
-            CommonDatabase db = new CommonDatabase();
-            conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Employees");
-            
-            while(rs.next())
-            {
-                if(rs.getString(4).equals(passWord) && user_ID != rs.getInt(1))
-                {
-                    return false;
-                }
-            }
-            rs.close();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        close(conn);
-        return check;
-        
-    }*/
+    
     
     @FXML
     public void display()
