@@ -6,10 +6,6 @@
 
 package common;
 
-import customer.gui.EditController;
-import customer.gui.RealController;
-import customer.logic.allCustomers;
-import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
