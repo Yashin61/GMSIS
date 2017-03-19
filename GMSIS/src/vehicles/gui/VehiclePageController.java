@@ -127,7 +127,7 @@ public class VehiclePageController
     }
     
     @FXML
-    private void getVehicleDetails(ActionEvent event) throws IOException
+    public void getVehicleDetails(ActionEvent event) throws IOException
     {
         try
         {
