@@ -80,6 +80,6 @@
       <TextField fx:id="id" layoutX="167.0" layoutY="515.0" prefHeight="26.0" prefWidth="172.0" />
       <Button layoutX="354.0" layoutY="515.0" mnemonicParsing="false" onAction="#searchUser" text="SEARCH" />
       <Button layoutX="437.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
-      <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="BACK" />
+      <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="HOME" />
    </children>
 </AnchorPane>

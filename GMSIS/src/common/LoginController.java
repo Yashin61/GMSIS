@@ -105,6 +105,14 @@ public class LoginController implements Initializable
                     stage.setResizable(false);
 //                    stage.setTitle("Home Page");
                     stage.show();
+                    
+//                    scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+//                    @Override
+//                    public void handle(KeyEvent evt) {
+//                        if (evt.getCode().equals(KeyCode.ESCAPE)) {
+//                            stage.close();
+//                        }
+//                    }});
                 }
                 else
                 {
@@ -147,6 +155,15 @@ public class LoginController implements Initializable
         alert.setContentText("Try again");
         alert.showAndWait();
     }
+    
+//    private void voidEntry()
+//    {
+//        Alert alert = new Alert(AlertType.INFORMATION);
+//        alert.setTitle("");
+//        alert.setHeaderText("You have not typed anything to search yet!");
+//        alert.setContentText("Type the username and password...");
+//        alert.showAndWait();
+//    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 

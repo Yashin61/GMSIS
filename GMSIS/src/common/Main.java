@@ -20,7 +20,9 @@ public class Main extends Application
         primaryStage.setTitle("GMSIS Login");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
+    
     public static void main(String[] args)
     {
         launch(args);

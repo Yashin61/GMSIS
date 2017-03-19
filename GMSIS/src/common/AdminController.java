@@ -57,19 +57,14 @@ public class AdminController implements Initializable
     @FXML
     private TextField id;
     
-    @FXML
     private TextField idE;
     
-    @FXML
     private TextField firstnameE;
 
-    @FXML
     private TextField surnameE;
 
-    @FXML
     private TextField passwordE;
 
-    @FXML
     private TextField hourlyWageE;
 
     @FXML
@@ -90,16 +85,11 @@ public class AdminController implements Initializable
     @FXML
     private TableColumn<UserAccount, Integer> table_wage;
     
-    @FXML
-    private TableColumn<UserAccount, String> table_type;
     
-    @FXML
     private ObservableList<UserAccount> data;
     
-    @FXML
     private int user_ID = 0;
     
-    @FXML
     private AnchorPane editPane;
     
     
@@ -168,7 +158,6 @@ public class AdminController implements Initializable
         return true;
     }
     
-    @FXML
     public void printNotUnique()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -210,7 +199,6 @@ public class AdminController implements Initializable
     } 
     
     
-    @FXML
     private void editUser(ActionEvent event) throws IOException
     {   
         if(firstnameE.getText().trim().isEmpty() || surnameE.getText().trim().isEmpty() ||  passwordE.getText().trim().isEmpty() || hourlyWageE.getText().trim().isEmpty())
@@ -354,7 +342,6 @@ public class AdminController implements Initializable
         
     }
             
-    @FXML
     private void noChosen()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -381,7 +368,6 @@ public class AdminController implements Initializable
         rootPane.getChildren().setAll(pane);
     }
     
-    @FXML
     private void setAllFields(UserAccount user)
     {
         user_ID = user.getID();
@@ -395,7 +381,6 @@ public class AdminController implements Initializable
             
     
     
-    @FXML
     public void display()
     {
         CommonDatabase db = new CommonDatabase();
@@ -437,7 +422,6 @@ public class AdminController implements Initializable
         id.setText("");
     }
     
-    @FXML
     public void printMissing()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -447,7 +431,6 @@ public class AdminController implements Initializable
         alert.showAndWait();
     }
     
-    @FXML
     public void printIncorrect()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -457,7 +440,6 @@ public class AdminController implements Initializable
         alert.showAndWait();
     }
     
-    @FXML
     public void close(Connection connection)
     {
         try
@@ -474,7 +456,6 @@ public class AdminController implements Initializable
         }
     }
     
-    @FXML
     public void infoGiven(String name, String type)
     {
         
