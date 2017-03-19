@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -34,10 +36,12 @@ public class SpcBookings
     private final StringProperty SPCRNumber;
     private final IntegerProperty SpcCustomerID;
     private final StringProperty SpcCustomerName;
-    private final IntegerProperty SpcRepairID;
     private final StringProperty SpcWorkOn;
+    private final StringProperty SpcRepairType;
+    private final DoubleProperty SpcCost;
+    
      
-    public SpcBookings(Integer id, String name, String dDate, Integer arrived, String rDate, Integer returned, Integer parts, String rNumber, Integer cust, Integer repair, String workOn)
+    public SpcBookings(Integer id, String name, String dDate, Integer arrived, String rDate, Integer returned, Integer parts, String rNumber, Integer cust, String workOn, String type, Double cost)
     {
         this.SpcBookingid = new SimpleIntegerProperty(id);
         this.SpcBookingname = new SimpleStringProperty(name);
@@ -49,8 +53,9 @@ public class SpcBookings
         this.SPCRNumber = new SimpleStringProperty(rNumber);
         this.SpcCustomerID = new SimpleIntegerProperty(cust);
         this.SpcCustomerName = new SimpleStringProperty(getCustName(cust));
-        this.SpcRepairID = new SimpleIntegerProperty(repair);
-        this.SpcWorkOn = new SimpleStringProperty(workOn);      
+        this.SpcWorkOn = new SimpleStringProperty(workOn);   
+        this.SpcRepairType = new SimpleStringProperty(type);
+        this.SpcCost = new SimpleDoubleProperty(cost);
     }
 
     private String getCustName(Integer cust)
@@ -117,12 +122,16 @@ public class SpcBookings
         return SpcCustomerName.get();
     }
     
-    public int getSPCPartId(){
-        return SpcRepairID.get();
-    }
-    
     public String getSpcWOn() {
         return SpcWorkOn.get();
+    }
+    
+    public String getSpcType(){
+        return SpcRepairType.get();
+    }
+    
+    public Double getSpcCost(){
+        return SpcCost.get();
     }
     
     public IntegerProperty SpcBookingidProperty() {
@@ -165,12 +174,16 @@ public class SpcBookings
         return SpcCustomerName;
     }
 
-    public IntegerProperty SpcRepairIDProperty() {
-        return SpcRepairID;
-    }
-
     public StringProperty SpcWorkOnProperty() {
         return SpcWorkOn;
+    }
+    
+    public StringProperty SpcRepairTypeProperty() {
+    return SpcRepairType;
+    }
+
+    public DoubleProperty SpcCostProperty() {
+        return SpcCost;
     }
 
     public void setSpcBookingId(Integer id) {
@@ -211,10 +224,6 @@ public class SpcBookings
     
     public void setSpcPartId(Integer parts){
         SpcPartID.set(parts);
-    }
-    
-    public void setSpcRepairId(Integer repair){
-        SpcRepairID.set(repair);
     }
     
     public void setSpcWOn(String workOn) {

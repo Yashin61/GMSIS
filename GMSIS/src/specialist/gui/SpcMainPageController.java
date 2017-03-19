@@ -142,7 +142,8 @@ public class SpcMainPageController implements Initializable {
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking");
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                        set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
             }
             stmt.close();
             set.close();
@@ -257,7 +258,8 @@ public class SpcMainPageController implements Initializable {
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '" + name +"';");
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                        set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
             }
             stmt.close();
             set.close();
@@ -293,7 +295,8 @@ public class SpcMainPageController implements Initializable {
                         + "AND WorkOn = 'Part';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -313,7 +316,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Part';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -351,7 +355,8 @@ public class SpcMainPageController implements Initializable {
                         + "AND WorkOn = 'Vehicle';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -371,7 +376,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Vehicle';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -409,6 +415,17 @@ public class SpcMainPageController implements Initializable {
                     ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
                     while(set.next()){
                         System.out.println("Hello");
+                        String vehicle = "Vehicle type = "+set.getString("VehicleType")+"\n";
+                        String make = "Make = "+set.getString("Make")+"\n"
+                                +"Model = "+set.getString("Model")+"\n"
+                                +"Colour = "+set.getString("Colour")+"\n"
+                                +"Year = "+set.getString("Year")+"\n";
+                        String engSize = "Engine size = "+set.getString("EngineSize")+"\n"
+                                +"Fuel type = "+set.getString("FuelType")+"\n"
+                                +"Mileage = "+set.getString("Mileage")+"\n";
+                        String mot = "MOT renewal date = "+set.getString("MOTRenewalDate")+"\n"
+                                +"Last service date = "+set.getString("LastServiceDate")+"\n";
+                        System.out.println(vehicle+make+engSize+mot);
                     }
                     stmt.close();
                     set.close();
@@ -424,9 +441,11 @@ public class SpcMainPageController implements Initializable {
                 {   
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                     stmt = connect.createStatement();
-                    ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSPCPartId() + "';");
+                    ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSpcPartId() + "';");
                     while(set.next()){
                         System.out.println("Bye");
+                        
+                        
                     }
                     stmt.close();
                     set.close();
@@ -460,7 +479,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -487,7 +507,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE RegistrationNumber like '%" + searchSPC.getText() + "%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
@@ -517,7 +538,8 @@ public class SpcMainPageController implements Initializable {
                                         + "OR RegistrationNumber like '%" + searchSPC.getText() + "%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8), set.getInt(9), set.getInt(10), set.getString(11))); 
+                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
                 }
                 stmt.close();
                 set.close();
