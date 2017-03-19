@@ -70,11 +70,11 @@ public class EditVehicleController implements Initializable
     private RadioButton edVan;
     @FXML
     private RadioButton edTruck;
-    String type="";
-    boolean flag=false;
+    private String type="";
+    private boolean flag=false;
     Button viewVeh;
-    CommonDatabase db=new CommonDatabase();
-    Connection con=db.getConnection();
+    private CommonDatabase db=new CommonDatabase();
+    private Connection con=db.getConnection();
     
     @Override
     public void initialize(URL url, ResourceBundle rb)

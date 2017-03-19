@@ -80,9 +80,9 @@ public class AddVehicleController implements Initializable
     private static String fType;
     private static String cl;
     private static int cstID;
-    Button viewVeh;
-    CommonDatabase db=new CommonDatabase();
-    Connection con=db.getConnection();
+    Button viewVeh; // think why not private!
+    private CommonDatabase db=new CommonDatabase();
+    private Connection con=db.getConnection();
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -376,6 +376,7 @@ public class AddVehicleController implements Initializable
         return sqlDate;
     }
     
+//    I have used SELECT DISTINCT instead of using removeDuplicates method
 //    private ArrayList removeDuplicates(ArrayList<String> temp)
 //    {
 //        Set<String> hs = new HashSet<>();

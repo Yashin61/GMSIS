@@ -13,8 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -94,8 +92,8 @@ public class VehiclePageController
     private static ObservableList<Vehicle> data;  // Dynamic array of Vehicle
     private boolean flag=false;
     private boolean flag2=false;
-    CommonDatabase db=new CommonDatabase();
-    Connection con=db.getConnection();
+    private CommonDatabase db=new CommonDatabase();
+    private Connection con=db.getConnection();
     
     public void initialize()
     {
@@ -106,7 +104,6 @@ public class VehiclePageController
             public void handle(MouseEvent event)
             {
                 dataTable.getSelectionModel().clearSelection();
-//                clearWarranty();
             }
         });
     }
@@ -131,18 +128,14 @@ public class VehiclePageController
     
     @FXML
     private void getVehicleDetails() throws IOException
-    {
-//        db = new CommonDatabase();
-//        con = db.getConnection();
-//        System.out.println("Works1!");
-        
+    {        
         try
         {
             data = FXCollections.observableArrayList();
             ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles");
             while(rs.next())
             {
-//                System.out.println(rs.getInt(11));  It shows null if wsa getString(11)
+//                System.out.println(rs.getInt(11));  It shows null if was getString(11)
                 data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
@@ -151,7 +144,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-//            System.out.println("Doesn't work1!");
+            e.printStackTrace();
         }
         
         setTableValue();
@@ -190,7 +183,7 @@ public class VehiclePageController
                 }
                 catch(SQLException e) // how to do it within catch statement
                 {
-        //            JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
+//                    JOptionPane.showMessageDialog(null, "The selected vehicle does not have a warranty!");
                 }
             }
             else
@@ -217,7 +210,6 @@ public class VehiclePageController
         }
         else
         {
-//            System.out.println(vehObject.getRegistrationNumber());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
@@ -299,7 +291,7 @@ public class VehiclePageController
         }
         catch(SQLException e)
         {
-//            System.out.println("Doesn't work5!");
+            System.out.println(e.getMessage());
         }
         
         setTableValue();
@@ -323,9 +315,7 @@ public class VehiclePageController
             }
         }
         catch(SQLException e)
-        {
-//            System.out.println("Doesn't work8!");
-        }
+        {}
 
         setTableValue();
         dataTable.setItems(data);
@@ -355,10 +345,7 @@ public class VehiclePageController
                 }
             }
             catch(SQLException e)
-            {
-//                JOptionPane.showMessageDialog(null, "No data were found!");
-//                System.out.println("Doesn't work9!");
-            }
+            {}
             
             setTableValue();
             if(!data.isEmpty())
@@ -366,10 +353,6 @@ public class VehiclePageController
                 dataTable.setItems(data);
                 flag=true;
             }
-//            if(clearDetails(event))
-//            {
-//                flag=false;
-//            }
             carType.setSelected(false);
             vanType.setSelected(false);
             truckType.setSelected(false);
@@ -390,13 +373,11 @@ public class VehiclePageController
             dataTable.setItems(null);
             flag=false;
         }
-//        return true;
     }
     
     @FXML
     private void deleteVehicle(ActionEvent event)
     {
-//        db = new CommonDatabase();
         Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
         if(veh==null)
         {
@@ -404,15 +385,8 @@ public class VehiclePageController
         }
         else
         {
-//            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-//            alert.setHeaderText("ATTENTION");
-//            alert.setContentText("Do you want to continue deleting the selected vehicle?");
-//            ButtonType yes=new ButtonType("YES");
-//            ButtonType no=new ButtonType("NO");
-//            alert.getButtonTypes().setAll(yes, no);
-//            Optional<ButtonType> ans=alert.showAndWait();
-//            if(ans.get()==yes)
-            if(JOptionPane.showConfirmDialog(null, "Do you want to continue deleting the selected vehicle?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            if(JOptionPane.showConfirmDialog(null, "Do you want to continue deleting the selected vehicle?", 
+                    "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
             {
                 String sql="DELETE FROM Vehicles WHERE RegistrationNumber=?";
                 con=null;
@@ -428,7 +402,6 @@ public class VehiclePageController
                 catch(SQLException e)
                 {
                     e.printStackTrace();
-//                    System.out.println("Doesn't work4!");
                 }
                 update();
             }
@@ -448,15 +421,14 @@ public class VehiclePageController
         Parent root;
         if(event.getSource() == edVeh)
         {
-            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditVehicle.fxml"));
 //            fxmlLoader.setLocation(getClass().getResource("EditVehicle.fxml"));
             AnchorPane frame = (AnchorPane) fxmlLoader.load();
 //            EditVehicleController controller = (EditVehicleController) fxmlLoader.getController();
             EditVehicleController controller=fxmlLoader.<EditVehicleController>getController();
-            stage = new Stage();
             controller.setAllFields(veh);
             controller.viewVeh = viewVeh;
+            stage = new Stage();
             stage.setScene(new Scene(frame));
             stage.setResizable(false);
             stage.setTitle("Edit Vehicle");
@@ -498,23 +470,7 @@ public class VehiclePageController
     
     @FXML
     private void openAddPage(ActionEvent event) throws IOException
-    {
-//        The version without background update
-//        Stage stage;
-//        Parent root;
-//        if(event.getSource() == addVeh)
-//        {
-//            stage = new Stage();
-//            root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
-//            stage.setScene(new Scene(root));
-//            stage.setResizable(false);
-//            stage.setTitle("Add Vehicle");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.initOwner(addVeh.getScene().getWindow());
-//            stage.show();
-//            dataTable.setItems(data);
-//        }
-        
+    {        
         Stage stage;
         Parent root;
         if(event.getSource() == addVeh)
@@ -534,24 +490,31 @@ public class VehiclePageController
             getVehicleDetails();
 //            dataTable.setItems(data);
         }
+        
+//        The version without background update
+//        Stage stage;
+//        Parent root;
+//        if(event.getSource() == addVeh)
+//        {
+//            stage = new Stage();
+//            root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
+//            stage.setScene(new Scene(root));
+//            stage.setResizable(false);
+//            stage.setTitle("Add Vehicle");
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.initOwner(addVeh.getScene().getWindow());
+//            stage.show();
+//            dataTable.setItems(data);
+//        }
     }
     
     private void noChosen()
     {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("");
-//        alert.setHeaderText("ATTENTION");
-//        alert.setContentText("First select a vehicle from the table!");
-//        alert.showAndWait();
         JOptionPane.showMessageDialog(null, "First select a vehicle from the table!");
     }
     
     private void update()
     {
-//        db = new CommonDatabase();
-//        con = db.getConnection();
-//        System.out.println("Works11!");
-        
         try
         {
             data = FXCollections.observableArrayList();
@@ -565,9 +528,7 @@ public class VehiclePageController
             }
         }
         catch(SQLException e)
-        {
-//            System.out.println("Doesn't work11!");
-        }
+        {}
         
         setTableValue();
         dataTable.setItems(null);
@@ -637,20 +598,10 @@ public class VehiclePageController
         mainAnchor.getChildren().setAll(pane);
     }
     
-//    private void clearWarranty()
-//    {
-//        expDate.clear();
-//        compName.clear();
-//        compAddress.clear();
-//    }
-    
 //    Having choice boxes instead of radio buttons
 //    @FXML
 //    private void actionCar(ActionEvent event)
 //    {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works5!");
 //        String choice="";
 //        if(car.isSelected())
 //        {
@@ -675,9 +626,7 @@ public class VehiclePageController
 //            }
 //        }
 //        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work5!");
-//        }
+//        {}
 //        
 //        setTableValue();
 //        dataTable.setItems(data);
@@ -686,9 +635,6 @@ public class VehiclePageController
 //    @FXML
 //    private void actionVan(ActionEvent event)
 //    {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works6!");
 //        String choice="";
 //        if(van.isSelected())
 //        {
@@ -714,9 +660,7 @@ public class VehiclePageController
 //        }
 //        
 //        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work6!");
-//        }
+//        {}
 //        
 //        setTableValue();
 //        dataTable.setItems(data);
@@ -725,9 +669,6 @@ public class VehiclePageController
 //    @FXML
 //    private void actionTruck(ActionEvent event)
 //    {
-////        db = new CommonDatabase();
-////        Connection con = db.getConnection();
-////        System.out.println("Works7!");
 //        String choice="";
 //        if(truck.isSelected())
 //        {
@@ -752,19 +693,15 @@ public class VehiclePageController
 //            }
 //        }
 //        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work7!");
-//        }
+//        {}
 //
 //        setTableValue();
 //        dataTable.setItems(data);
 //    }
 //
 //    @FXML
-//    private void actionWarranty(ActionEvent event) {
-////        db = new CommonDatabase();
-////        con = db.getConnection();
-////        System.out.println("Works8!");
+//    private void actionWarranty(ActionEvent event)
+//    {
 //        if(warranty.isSelected())
 //        {
 //            car.setSelected(false);
@@ -786,9 +723,7 @@ public class VehiclePageController
 //            }
 //        }
 //        catch(SQLException e)
-//        {
-////            System.out.println("Doesn't work8!");
-//        }
+//        {}
 //
 //        setTableValue();
 //        dataTable.setItems(data);
