@@ -143,12 +143,12 @@ public class RealController implements Initializable
     @FXML
     public void clearDetails(ActionEvent event)
     {
-        firstname.setText(null);
-        surname.setText(null);
-        address.setText(null);
-        postcode.setText(null);
-        phone.setText(null);
-        email.setText(null);
+        firstname.setText("");
+        surname.setText("");
+        address.setText("");
+        postcode.setText("");
+        phone.setText("");
+        email.setText("");
     }
     
     
@@ -677,7 +677,7 @@ public class RealController implements Initializable
     @FXML
     public void addCustomer(ActionEvent event)
     {
-        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() || address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
+        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
         {
             printMissing();
         }
