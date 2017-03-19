@@ -821,6 +821,7 @@ public class RealController implements Initializable
             Parent root1 = (Parent) fxmlLoader.load();
             AddController controller=fxmlLoader.<AddController>getController();
             controller.setCustomerID(name, ID);
+            controller.ShowVehicles(event);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.showAndWait();
