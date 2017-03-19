@@ -67,6 +67,9 @@ public class SpcMainPageController implements Initializable {
 
     @FXML
     private TableColumn<SpcBookings, String> tableWorkOn;
+    
+    @FXML
+    private TableColumn<SpcBookings, String> tableReturned;
 
     @FXML
     private Label theSpcName;
@@ -100,16 +103,60 @@ public class SpcMainPageController implements Initializable {
 
     @FXML
     private ListView<String> spcList;
+    
     @FXML
     private ObservableList<SpcBookings> allSPCBooking;
+    
+    //not pushed to github so doing it again.
 
+    //switch to the homepage
     @FXML
-    private void home(ActionEvent event) throws IOException
+    private void homePage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-
+    
+    // switch to the customer page
+    @FXML
+    private void customerPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    // switch to the vehicle page
+    @FXML
+    private void vehiclePage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to the bookings page
+    @FXML
+    private void bookingsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to the parts page
+    @FXML
+    private void partsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/parts/gui/PartsPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to the specialists page
+    @FXML
+    private void specialistsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to the 2nd specialists page - only accessable by system administraters
     @FXML
     private void spcAdmin(ActionEvent event) throws IOException
     {
@@ -121,9 +168,9 @@ public class SpcMainPageController implements Initializable {
     //resets all the choices that has been made
     @FXML
     private void Reset(ActionEvent event) {
+        spcList.getSelectionModel().clearSelection();
         custName.setSelected(false);
         vehiRegistration.setSelected(false);
-        setSPCList();
         searchSPC.clear();
         showData();
     }
@@ -142,7 +189,7 @@ public class SpcMainPageController implements Initializable {
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking");
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
                             set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
             }
             stmt.close();
@@ -157,7 +204,7 @@ public class SpcMainPageController implements Initializable {
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
         tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
         tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-       
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
         dataTable.setItems(allSPCBooking);
     }
     
@@ -258,7 +305,7 @@ public class SpcMainPageController implements Initializable {
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '" + name +"';");
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
                             set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
             }
             stmt.close();
@@ -273,7 +320,67 @@ public class SpcMainPageController implements Initializable {
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
         tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
         tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
+        dataTable.setItems(allSPCBooking);
+    }
+    
+    //view the list of parts and vehicles at SPC outstanding
+    @FXML
+    private void showOutstanding(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String name = spcList.getSelectionModel().getSelectedItem();
+        if(name!=null)
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
+                        + "AND Returned = 'No';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        else
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE Returned = 'No';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
 
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+        tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+        tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
         dataTable.setItems(allSPCBooking);
     }
     
@@ -295,8 +402,8 @@ public class SpcMainPageController implements Initializable {
                         + "AND WorkOn = 'Part';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -316,8 +423,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Part';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -333,7 +440,7 @@ public class SpcMainPageController implements Initializable {
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
         tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
         tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
         dataTable.setItems(allSPCBooking);
     }
     
@@ -355,8 +462,8 @@ public class SpcMainPageController implements Initializable {
                         + "AND WorkOn = 'Vehicle';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -376,8 +483,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Vehicle';");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -393,10 +500,10 @@ public class SpcMainPageController implements Initializable {
         tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
         tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
         tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
         dataTable.setItems(allSPCBooking);
     }
-    
+
     //view the details for the specific vehicle / part listed as booking
     @FXML
     private void showPartVehicleDetails(ActionEvent event)
@@ -466,6 +573,64 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    @FXML
+    private void showReturned(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String name = spcList.getSelectionModel().getSelectedItem();
+        if(name!=null)
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
+                        + "AND Returned = 'Yes';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        else
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPCBooking= FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE Returned = 'Yes';");
+                while(set.next()){
+                    allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch(SQLException e)
+            {
+                Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
+
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+        tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+        tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
+        dataTable.setItems(allSPCBooking);
+    }
     //search for the spc / spcbooking by customer names or vehicle registration
     @FXML
     private void searchSPCBooking(ActionEvent event)
@@ -480,11 +645,12 @@ public class SpcMainPageController implements Initializable {
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
-                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID"
+                        + " WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -493,13 +659,6 @@ public class SpcMainPageController implements Initializable {
             {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
-
-            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
-            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
-            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
-            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-
-            dataTable.setItems(allSPCBooking);
         }
         else if(vehiRegistration.isSelected())
         {
@@ -511,8 +670,8 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE RegistrationNumber like '%" + searchSPC.getText() + "%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -521,13 +680,6 @@ public class SpcMainPageController implements Initializable {
             {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
-
-            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
-            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
-            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
-            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-
-            dataTable.setItems(allSPCBooking);
         }
         else if(custName.isSelected() && vehiRegistration.isSelected())
         {
@@ -539,11 +691,11 @@ public class SpcMainPageController implements Initializable {
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON "
                         + "SPCBooking.CustomerID = Customer_Accounts.ID WHERE Firstname like '%" + searchSPC.getText() + "%' "
                                 + "OR Surname like '%" + searchSPC.getText() +"%' "
-                                        + "OR RegistrationNumber like '%" + searchSPC.getText() + "%'");
+                                    + "OR RegistrationNumber like '%" + searchSPC.getText() + "%'");
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
-                            set.getInt(4), set.getString(5), set.getInt(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
                 }
                 stmt.close();
                 set.close();
@@ -552,19 +704,18 @@ public class SpcMainPageController implements Initializable {
             {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
-
-            tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
-            tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
-            tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
-            tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
-
-            dataTable.setItems(allSPCBooking);
         }
         else
         {
             JOptionPane.showMessageDialog(null,"Please select what you want to search");
         }
         
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));
+        tableCustomerName.setCellValueFactory(new PropertyValueFactory("SpcCustomerName"));
+        tableRegistrationNo.setCellValueFactory(new PropertyValueFactory("SPCRNumber"));
+        tableWorkOn.setCellValueFactory(new PropertyValueFactory("SpcWorkOn"));
+        tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
+        dataTable.setItems(allSPCBooking);
     }
     /**
      * Initializes the controller class.
