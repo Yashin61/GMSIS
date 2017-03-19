@@ -24,14 +24,15 @@ import javafx.collections.FXCollections;
  *
  * @author prashant
  */
+
 public class SpcBookings 
 {
     private final IntegerProperty SpcBookingid;
     private final StringProperty SpcBookingname;
     private final StringProperty SpcDeliveryDate;
-    private final IntegerProperty SpcArrived;
+    private final StringProperty SpcArrived;
     private final StringProperty SpcReturnDate;
-    private final IntegerProperty SpcReturned;
+    private final StringProperty SpcReturned;
     private final IntegerProperty SpcPartID;
     private final StringProperty SPCRNumber;
     private final IntegerProperty SpcCustomerID;
@@ -41,14 +42,14 @@ public class SpcBookings
     private final DoubleProperty SpcCost;
     
      
-    public SpcBookings(Integer id, String name, String dDate, Integer arrived, String rDate, Integer returned, Integer parts, String rNumber, Integer cust, String workOn, String type, Double cost)
+    public SpcBookings(Integer id, String name, String dDate, String arrived, String rDate, String returned, Integer parts, String rNumber, Integer cust, String workOn, String type, Double cost)
     {
         this.SpcBookingid = new SimpleIntegerProperty(id);
         this.SpcBookingname = new SimpleStringProperty(name);
         this.SpcDeliveryDate = new SimpleStringProperty(dDate);
-        this.SpcArrived = new SimpleIntegerProperty(arrived);
+        this.SpcArrived = new SimpleStringProperty(arrived);
         this.SpcReturnDate = new SimpleStringProperty(rDate);
-        this.SpcReturned = new SimpleIntegerProperty(returned);
+        this.SpcReturned = new SimpleStringProperty(returned);
         this.SpcPartID = new SimpleIntegerProperty(parts);
         this.SPCRNumber = new SimpleStringProperty(rNumber);
         this.SpcCustomerID = new SimpleIntegerProperty(cust);
@@ -94,7 +95,7 @@ public class SpcBookings
         return SpcDeliveryDate.get();
     }
     
-    public int getSpcArrive() {
+    public String getSpcArrive() {
         return SpcArrived.get();
     }
 
@@ -102,7 +103,7 @@ public class SpcBookings
         return SpcReturnDate.get();
     }
 
-    public int getSpcReturn() {
+    public String getSpcReturn() {
         return SpcReturned.get();
     }
     
@@ -146,7 +147,7 @@ public class SpcBookings
         return SpcDeliveryDate;
     }
 
-    public IntegerProperty SpcArrivedProperty() {
+    public StringProperty SpcArrivedProperty() {
         return SpcArrived;
     }
 
@@ -154,7 +155,7 @@ public class SpcBookings
         return SpcReturnDate;
     }
 
-    public IntegerProperty SpcReturnedProperty() {
+    public StringProperty SpcReturnedProperty() {
         return SpcReturned;
     }
 
@@ -198,7 +199,7 @@ public class SpcBookings
         SpcDeliveryDate.set(dDate);
     }
     
-    public void setSpcArrive(Integer arrived) {
+    public void setSpcArrive(String arrived) {
         SpcArrived.set(arrived);
     }
 
@@ -206,7 +207,7 @@ public class SpcBookings
         SpcReturnDate.set(rDate);
     }
 
-    public void setSpcReturn(Integer returned) {
+    public void setSpcReturn(String returned) {
         SpcReturned.set(returned);
     }
 
