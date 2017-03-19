@@ -126,14 +126,14 @@ public class LoginController implements Initializable
     
     // Works by pressing Enter
     @FXML
-    public void onEnter(ActionEvent e) throws IOException
+    private void onEnter(ActionEvent e) throws IOException
     {
         checkEntry(e);
     }
     
     // Works by pressing Login
     @FXML
-    public void dologin(ActionEvent e) throws IOException
+    private void dologin(ActionEvent e) throws IOException
     {
         checkEntry(e);
     }
