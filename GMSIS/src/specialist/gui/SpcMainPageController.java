@@ -425,7 +425,7 @@ public class SpcMainPageController implements Initializable {
                                 +"Mileage = "+set.getString("Mileage")+"\n";
                         String mot = "MOT renewal date = "+set.getString("MOTRenewalDate")+"\n"
                                 +"Last service date = "+set.getString("LastServiceDate")+"\n";
-                        System.out.println(vehicle+make+engSize+mot);
+                        JOptionPane.showMessageDialog(null,vehicle+make+engSize+mot);
                     }
                     stmt.close();
                     set.close();
@@ -444,8 +444,12 @@ public class SpcMainPageController implements Initializable {
                     ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSpcPartId() + "';");
                     while(set.next()){
                         System.out.println("Bye");
-                        
-                        
+                        String partId = "Part ID = "+set.getString("ID")+"\n";
+                        String part = "Part ="+set.getString("Name")+"\n"
+                                +"Model = "+set.getString("Model")+"\n"
+                                +"Make = "+set.getString("Make")+"\n"
+                                +"Description = "+set.getString("Description")+"\n";
+                        JOptionPane.showMessageDialog(null,partId+part);
                     }
                     stmt.close();
                     set.close();
