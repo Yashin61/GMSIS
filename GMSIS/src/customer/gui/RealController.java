@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package customer.gui;
 
 /**
  *
- * @author Nandhini
- */
+ * @author Nandhini Manoharan
+ */ 
 
 import common.CommonDatabase;
 import customer.logic.allCustomers;
@@ -22,41 +17,31 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import java.sql.*;
-import javax.swing.JOptionPane;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Optional;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-
-import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodRequests;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import vehicles.gui.AddVehicleController;
+import vehicles.gui.VehiclePageController;
 
 
 public class RealController implements Initializable 
@@ -154,8 +139,6 @@ public class RealController implements Initializable
     {
     }    
     
-    
-    
     // clear method for the add page
     @FXML
     public void clearDetails(ActionEvent event)
@@ -242,25 +225,18 @@ public class RealController implements Initializable
             
             if(result.get() == yes)
             {
-            
-                int cust_id = cust.getID();
-                String sql = "DELETE FROM Customer_Accounts WHERE ID = ?";
-                CommonDatabase db = new CommonDatabase();
-                Connection connection = null;
-
                 try
                 {
-                    connection = db.getConnection();
-                    PreparedStatement statement = connection.prepareStatement(sql);
-                    statement.setInt(1, cust_id);
-                    statement.executeUpdate();
+                    int cust_id = cust.getID();
+                    deleteC(cust.getID());
+                    deleteV(cust.getID());
+                    deleteB(cust.getID());
                 }
                 catch(SQLException e)
                 {
-                    System.out.println(e.getMessage());
+                    System.out.println("DELETE METHOD DOESNT WORK");
                 }
-                close(connection);
-                     
+                
             }
             else
             {
@@ -268,6 +244,52 @@ public class RealController implements Initializable
             }
         }
         display();
+    }
+    
+    private void deleteC(int id) throws SQLException
+    {      
+        Connection conn = new CommonDatabase().getConnection();
+        String sql = "DELETE FROM Customer_Accounts WHERE ID = '" + id + "' ";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.executeUpdate();
+        close(conn);
+    }
+    
+    private void deleteV(int id) throws SQLException
+    {        
+        Connection conn = new CommonDatabase().getConnection();
+        
+        String sql = "DELETE FROM Vehicles WHERE CustomerID = '" + id + "' ";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.executeUpdate();
+        
+      
+        close(conn);
+    }
+    
+    private void deleteB(int id) throws SQLException
+    {       
+        Connection conn = new CommonDatabase().getConnection();
+        
+        
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Booking WHERE CustomerID = '" + id + "' ");
+        ArrayList<Integer> bookings = new ArrayList<Integer>();
+        while(rs.next())
+        {
+            bookings.add(rs.getInt("BookingID"));
+        }
+        System.out.println(bookings);
+        for(int i = 0; i < bookings.size(); i++)
+        {
+            String sql = "DELETE FROM Booking  WHERE BookingID = '" + bookings.get(i) + "' " ;
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.executeUpdate();
+            sql = "DELETE FROM PartsUsed  WHERE BookingID = '" + bookings.get(i) + "' " ;
+            PreparedStatement statement2 = conn.prepareStatement(sql);
+            statement2.executeUpdate();
+        }
+       
+        close(conn);
     }
     
     
@@ -353,7 +375,7 @@ public class RealController implements Initializable
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Bookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             viewController controller=fxmlLoader.<viewController>getController();
             controller.setCustomer(cust, "Bookings");
@@ -389,7 +411,7 @@ public class RealController implements Initializable
         } 
     }
  
-    
+    // searhc for a customer
     @FXML
     private void searchCustomer(ActionEvent event)
     {
@@ -661,24 +683,16 @@ public class RealController implements Initializable
         }
         else
         {
+            int phoneNumber = 0;
+            boolean check = checkForString(phone.getText());
             String account_type = "private";
             if(business_type.isSelected())
             {
                 account_type = "business";
             }
-            boolean flag = true;
-            try
+            
+            if(check)
             {
-                int p = Integer.parseInt(phone.getText());
-            }
-            catch(NumberFormatException e)
-            {
-                flag = false;
-                phone.setText("");
-                printPhone();
-            }
-            if(flag)
-                {
                 customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
                 String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement statement = null;
@@ -707,10 +721,25 @@ public class RealController implements Initializable
                 Stage stage = (Stage) addPane.getScene().getWindow();
                 stage.close();
             }
-            
-            
-            
+            else
+            {
+                printPhone();
+                phone.setText("");
+            }
         }
+    }
+    
+    
+    private boolean checkForString(String number)
+    {
+        for(int i=0; i<number.length(); i++)
+        {
+            if(!Character.isDigit(number.charAt(i)))
+            {
+                return false;
+            }
+        }
+        return true;
     }
     
     @FXML
@@ -755,13 +784,21 @@ public class RealController implements Initializable
         {
             int ID = cust.getID();
             System.out.println(ID);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/vehicles/gui/AddVehicle.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            AddVehicleController controller=fxmlLoader.<AddVehicleController>getController();
-            controller.setCustomerID(ID);
+            VehiclePageController controller = fxmlLoader.<VehiclePageController>getController();
+            controller.getVehicleDetails(event);
             Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+            ((Node)(event.getSource())).getScene().getWindow().hide();       
+            fxmlLoader = new FXMLLoader(getClass().getResource("/vehicles/gui/AddVehicle.fxml"));
+            root1 = (Parent) fxmlLoader.load();
+            AddVehicleController controller2=fxmlLoader.<AddVehicleController>getController();  
+            controller2.setCustomerID(ID);
+            stage = new Stage();
             stage.setScene(new Scene(root1));  
-            stage.showAndWait();
+            stage.show();
             display();
         }
     }
@@ -809,3 +846,4 @@ public class RealController implements Initializable
     }
     
 }
+

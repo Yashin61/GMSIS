@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.viewController">
+   <children>
+      <ImageView fitHeight="83.0" fitWidth="63.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="276.0" layoutY="46.0" text="BOOKINGS">
+         <font>
+            <Font name="Apple Braille" size="22.0" />
+         </font>
+      </Label>
+      <ListView fx:id="bookingsView" layoutX="24.0" layoutY="105.0" prefHeight="394.0" prefWidth="313.0" />
+      <AnchorPane layoutX="371.0" layoutY="227.0" prefHeight="131.0" prefWidth="313.0" style="-fx-border-color: grey;">
+         <children>
+            <Label fx:id="statusLabel" layoutX="21.0" layoutY="49.0" prefHeight="35.0" prefWidth="79.0" text="Status:" visible="false" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="realStatus" layoutX="103.0" layoutY="27.0" prefHeight="24.0" prefWidth="209.0" textFill="#6b0a0a" AnchorPane.topAnchor="29.0">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label fx:id="instructions" layoutX="380.0" layoutY="198.0" prefHeight="35.0" prefWidth="295.0" text="Click the below button to settle the bill" visible="false" AnchorPane.topAnchor="288.0" />
+      <Button fx:id="settleButton" layoutX="380.0" layoutY="205.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="79.0" text="SETTLE" visible="false" AnchorPane.topAnchor="320.0" />
+   </children>
+</AnchorPane>

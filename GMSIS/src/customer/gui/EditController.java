@@ -109,45 +109,53 @@ public class EditController implements Initializable
         }
         else
         {
-            
-            String sql = "UPDATE Customer_Accounts SET Firstname = ? , " + "Surname = ? , " + "Address = ? , " + "Postcode = ? , " + "Phone = ? , " + "Email = ? , " + "Account = ? " + "WHERE ID = ?";
-               
-            try
+            boolean check = checkForString(phone.getText());
+            if(check)
             {
-                connection = db.getConnection();
-                statement = connection.prepareStatement(sql);
-                
-                statement.setString(1, firstname.getText());         
-                statement.setString(2, surname.getText());
-                statement.setString(3, address.getText());
-                statement.setString(4, postcode.getText());
-                statement.setString(5, phone.getText());
-                statement.setString(6, email.getText());
-                
-                if(private_type.isSelected())
+                String sql = "UPDATE Customer_Accounts SET Firstname = ? , " + "Surname = ? , " + "Address = ? , " + "Postcode = ? , " + "Phone = ? , " + "Email = ? , " + "Account = ? " + "WHERE ID = ?";
+               
+                try
                 {
-                    account = "private";
+                    connection = db.getConnection();
+                    statement = connection.prepareStatement(sql);
+
+                    statement.setString(1, firstname.getText());         
+                    statement.setString(2, surname.getText());
+                    statement.setString(3, address.getText());
+                    statement.setString(4, postcode.getText());
+                    statement.setString(5, phone.getText());
+                    statement.setString(6, email.getText());
+
+                    if(private_type.isSelected())
+                    {
+                        account = "private";
+                    }
+                    else
+                    {
+                        account = "business";
+                    }
+                    statement.setString(7, account);
+                    statement.setInt(8, customer_ID);
+                    statement.executeUpdate();   
+                    System.out.println("DONE");
+
                 }
-                else
-                {
-                    account = "business";
+                catch(SQLException e)    
+                {   
+                    System.out.println(e.getMessage());
+
                 }
-                statement.setString(7, account);
-                statement.setInt(8, customer_ID);
-                statement.executeUpdate();   
-                System.out.println("DONE");
-                
+                close(connection);
+                RealController controller = new RealController();
+                controller.infoGiven(firstname.getText(), "edit");
+                Stage stage = (Stage) rootPane.getScene().getWindow();
+                stage.close();
             }
-            catch(SQLException e)    
-            {   
-                System.out.println(e.getMessage());
-                
+            else
+            {
+                printPhone();
+                phone.setText("");
             }
-            close(connection);
-            RealController controller = new RealController();
-            controller.infoGiven(firstname.getText(), "edit");
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.close();
         }
         System.out.println(customer_ID);
     }
@@ -161,6 +169,28 @@ public class EditController implements Initializable
         postcode.setText(null);
         phone.setText(null);
         email.setText(null);
+    }
+    
+    private boolean checkForString(String number)
+    {
+        for(int i=0; i<number.length(); i++)
+        {
+            if(!Character.isDigit(number.charAt(i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    @FXML
+    public void printPhone()
+    {   
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect Fields");
+        alert.setHeaderText("Invalid Phone Number");
+        alert.setContentText("Please type in a valid phone number");
+        alert.showAndWait();
     }
     
     public void close(Connection connection)
