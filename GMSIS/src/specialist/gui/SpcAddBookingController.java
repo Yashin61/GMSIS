@@ -7,15 +7,27 @@ package specialist.gui;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
+import diagrep.logic.Database;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import specialist.logic.SpcBookingTables;
 import specialist.logic.SpecialistDB;
 
 /**
@@ -25,55 +37,114 @@ import specialist.logic.SpecialistDB;
  */
 public class SpcAddBookingController implements Initializable {
 
-     @FXML
+    @FXML
     private AnchorPane AddBooking;
 
     @FXML
-    private JFXDatePicker Date;
+    private JFXDatePicker bookingDate;
 
     @FXML
-    private JFXDatePicker Date1;
+    private JFXListView<String> spcList;
 
     @FXML
-    private TableColumn<?, ?> PartIDTable;
+    private ComboBox<String> custName;
 
     @FXML
-    private TableColumn<?, ?> PartNameTable;
+    private TableView<SpcBookingTables> vehicleList;
 
     @FXML
-    private TextField Part1ID;
+    private TableColumn<SpcBookingTables, String> tableVehicleMake;
 
     @FXML
-    private TextField Part5ID;
+    private TableColumn<SpcBookingTables, String> tableVehicleModel;
 
     @FXML
-    private TextField Part4ID;
+    private TableColumn<SpcBookingTables, String> tableVehicleReg;
 
     @FXML
-    private TextField Part3ID;
+    private TableColumn<SpcBookingTables, Integer> tableVehicleMileage;
 
     @FXML
-    private TextField Part2ID;
+    private ComboBox<String> repairType;
 
     @FXML
-    private Button Clear;
+    private TableView<SpcBookingTables> partList;
 
     @FXML
-    private Button Submit_Button;
+    private TableColumn<SpcBookingTables, Integer> tablePartId;
 
     @FXML
-    private Button Back_Button;
+    private TableColumn<SpcBookingTables, String> tablePartName;
 
     @FXML
-    private TextField Mileage;
+    private ComboBox<String> repairOn;
 
     @FXML
-    private TextField CustomerName;
+    private ObservableList<String> customerList;
+    
+    @FXML
+    private ObservableList<SpcBookingTables> vehicleData;
+    
+    //show all the customers on the combo box
+    private ObservableList<String> customerFill()
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();         
+            customerList = FXCollections.observableArrayList();
+            ResultSet rs = stmt.executeQuery("SELECT Firstname, Surname FROM Customer_Accounts");
+            while(rs.next()){
+                customerList.add(rs.getString("Firstname")/*+" "+rs.getString("Surname")*/);
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        return customerList;
+    }
+    
+    @FXML
+    private void bookingCheck(ActionEvent event) {
+
+    }
 
     @FXML
-    private TextField Vehicle;
-     @FXML
-    private JFXListView<Label> spcList;
+    private void displayVehicles(ActionEvent event) {
+        Connection connect = null;
+        Statement stmt = null;
+        
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            vehicleData = FXCollections.observableArrayList();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+custName.getValue()+"'");
+            while(rs.next()){
+                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"))); 
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        System.out.println(vehicleData);
+        tableVehicleMake.setCellValueFactory(new PropertyValueFactory("make"));
+        tableVehicleModel.setCellValueFactory(new PropertyValueFactory("model"));
+        tableVehicleReg.setCellValueFactory(new PropertyValueFactory("regNo"));
+        tableVehicleMileage.setCellValueFactory(new PropertyValueFactory("mileage"));
+        vehicleList.setItems(vehicleData);
+    }
     
     /**
      * Initializes the controller class.
@@ -81,13 +152,15 @@ public class SpcAddBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        custName.setItems(customerFill());
         SpecialistDB a = new SpecialistDB();
         String [] listOfSPC = a.getSPC();
         for(int i=0; i<10; i++)
         {
-            Label lbl = new Label(listOfSPC[i]);
+            String lbl = listOfSPC[i];
             spcList.getItems().add(lbl);
         }
     }    
     
 }
+
