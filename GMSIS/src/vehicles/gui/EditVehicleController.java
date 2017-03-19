@@ -2,6 +2,7 @@
 
 package vehicles.gui;
 
+import vehicles.*;
 import common.CommonDatabase;
 import java.net.URL;
 import java.sql.Connection;
@@ -22,7 +23,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import vehicles.*;
 
 public class EditVehicleController implements Initializable
 {

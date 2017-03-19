@@ -62,7 +62,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" promptText="ie. AB12 CDE" />
+      <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" prefHeight="26.0" prefWidth="194.0" promptText="ie. AB12 CDE" onAction="#onEnter"/>
       <Label layoutX="21.0" layoutY="425.0" prefHeight="30.0" prefWidth="217.0" text="View All Vehicles by Type or Warranty">
          <font>
             <Font name="System Bold" size="12.0" />

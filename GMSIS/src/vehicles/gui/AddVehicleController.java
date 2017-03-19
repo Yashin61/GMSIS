@@ -2,6 +2,7 @@
 
 package vehicles.gui;
 
+import static vehicles.gui.VehiclePageController.checkIfExists;
 import common.CommonDatabase;
 import java.net.URL;
 import java.sql.Connection;
@@ -26,7 +27,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import static vehicles.gui.VehiclePageController.checkIfExists;
 
 public class AddVehicleController implements Initializable
 {
@@ -81,11 +81,12 @@ public class AddVehicleController implements Initializable
     private static String cl;
     private static int cstID;
     Button viewVeh; // think why not private!
+    private boolean ckeckAdded=false;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
     
     @Override
-    public void initialize(URL url, ResourceBundle rb)
+    public void initialize(URL url, ResourceBundle rb) // it is public, so, does not it effect other classes, even in other packages?
     {
         try
         {
@@ -288,6 +289,7 @@ public class AddVehicleController implements Initializable
                 RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
                 stmt.setString(13, btnSelected.getText());
                 stmt.executeUpdate();
+                ckeckAdded=true;
                 JOptionPane.showMessageDialog(null, "The vehicle is now added!");
                 JOptionPane.showMessageDialog(null, "No warranty details is added!");
             }
@@ -316,6 +318,7 @@ public class AddVehicleController implements Initializable
                 RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
                 stmt.setString(13, btnSelected.getText());
                 stmt.executeUpdate();
+                ckeckAdded=true;
                 JOptionPane.showMessageDialog(null, "The vehicle is now added!");
                 PreparedStatement stmt2=con.prepareStatement(sql2);
                 stmt2.setInt(1, warrID);
@@ -323,6 +326,7 @@ public class AddVehicleController implements Initializable
                 stmt2.setString(3, cmpAddress);
                 stmt2.setString(4, expDate);
                 stmt2.executeUpdate();
+                ckeckAdded=true;
                 JOptionPane.showMessageDialog(null, "The warranty details is now added!");
             }
             catch(SQLException e)

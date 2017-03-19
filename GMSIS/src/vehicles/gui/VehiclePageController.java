@@ -127,8 +127,8 @@ public class VehiclePageController
     }
     
     @FXML
-    private void getVehicleDetails() throws IOException
-    {        
+    private void getVehicleDetails(ActionEvent event) throws IOException
+    {
         try
         {
             data = FXCollections.observableArrayList();
@@ -321,8 +321,7 @@ public class VehiclePageController
         dataTable.setItems(data);
     }
     
-    @FXML
-    private void searchVehRegNum(ActionEvent event)
+    private void searchEntry(ActionEvent event)
     {
         if(!regNumber.getText().equals(""))
         {
@@ -363,7 +362,19 @@ public class VehiclePageController
             JOptionPane.showMessageDialog(null, "You have not typed anything to search yet!");
         }
     }
-
+    
+    @FXML
+    private void searchVehRegNum(ActionEvent event)
+    {
+        searchEntry(event);
+    }
+    
+    @FXML
+    private void onEnter(ActionEvent event)
+    {
+        searchEntry(event);
+    }
+    
     @FXML
     private void clearDetails(ActionEvent event)
     {
@@ -376,7 +387,7 @@ public class VehiclePageController
     }
     
     @FXML
-    private void deleteVehicle(ActionEvent event)
+    private void deleteVehicle(ActionEvent event) throws IOException
     {
         Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
         if(veh==null)
@@ -403,7 +414,7 @@ public class VehiclePageController
                 {
                     e.printStackTrace();
                 }
-                update();
+                getVehicleDetails(event);
             }
         }
     }
@@ -435,7 +446,7 @@ public class VehiclePageController
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(edVeh.getScene().getWindow());
             stage.showAndWait();
-            getVehicleDetails();
+            getVehicleDetails(event);
 //            dataTable.setItems(data);
         }
         
@@ -487,8 +498,10 @@ public class VehiclePageController
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(addVeh.getScene().getWindow());
             stage.showAndWait();
-            getVehicleDetails();
-//            dataTable.setItems(data);
+//            if(AddVehicleController.ckeckAdded)
+//            {
+                getVehicleDetails(event);
+//            }
         }
         
 //        The version without background update
@@ -511,32 +524,6 @@ public class VehiclePageController
     private void noChosen()
     {
         JOptionPane.showMessageDialog(null, "First select a vehicle from the table!");
-    }
-    
-    private void update()
-    {
-        try
-        {
-            data = FXCollections.observableArrayList();
-            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles");
-            while(rs.next())
-            {
-                data.add(new Vehicle(rs.getString(1), rs.getString(2), rs.getString(3), 
-                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7), 
-                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), 
-                        rs.getString(12), rs.getString(13)));
-            }
-        }
-        catch(SQLException e)
-        {}
-        
-        setTableValue();
-        dataTable.setItems(null);
-        dataTable.setItems(data);
-        carType.setSelected(false);
-        vanType.setSelected(false);
-        truckType.setSelected(false);
-        warranty.setSelected(false);
     }
     
     static boolean checkIfExists(String regNo)
