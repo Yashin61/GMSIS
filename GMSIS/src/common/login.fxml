@@ -8,12 +8,11 @@
 
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.LoginController">
    <children>
-      <Pane layoutX="49.0" layoutY="38.0" prefHeight="315.0" prefWidth="519.0" style="-fx-background-color: white;">
+      <Pane layoutX="49.0" layoutY="38.0" prefHeight="315.0" prefWidth="519.0" style="-fx-background-color: NONE">
          <children>
             <JFXTextField fx:id="user" focusColor="#09b6bc" layoutX="120.0" layoutY="70.0" prefHeight="34.0" prefWidth="271.0" promptText="Username" />
-            <JFXPasswordField fx:id="password" focusColor="#09b6bc" layoutX="120.0" layoutY="132.0" prefHeight="34.0" prefWidth="271.0" promptText="Password" />
-            <JFXButton fx:id="login" buttonType="RAISED" layoutX="120.0" layoutY="237.0" onAction="#dologin" prefHeight="34.0" prefWidth="73.0" ripplerFill="WHITE" style="-fx-background-color: #2196F3;" text="Login" textFill="WHITE" />
-            <JFXButton fx:id="signUp" buttonType="RAISED" layoutX="271.0" layoutY="237.0" prefHeight="34.0" prefWidth="73.0" ripplerFill="WHITE" style="-fx-background-color: #2196F3;" text="Sign up" textFill="WHITE" />
+            <JFXPasswordField fx:id="password" focusColor="#09b6bc" layoutX="120.0" layoutY="132.0" onAction="#onEnter" prefHeight="34.0" prefWidth="271.0" promptText="Password" />
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="220.0" layoutY="237.0" onAction="#dologin" prefHeight="34.0" prefWidth="73.0" ripplerFill="WHITE" style="-fx-background-color: #32cd32;" text="Login" textFill="WHITE" />
          </children>
       </Pane>
    </children>

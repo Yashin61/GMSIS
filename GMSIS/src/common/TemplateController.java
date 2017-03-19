@@ -33,8 +33,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import vehicles.gui.AddVehicleController;
 
 /**
  * FXML Controller class
@@ -46,10 +48,6 @@ public class TemplateController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
-    @FXML
-    private JFXRadioButton adminAccount;
-    @FXML
-    private JFXRadioButton userAccount;
     @FXML
     private Label user;
     @FXML
@@ -63,7 +61,6 @@ public class TemplateController implements Initializable {
     
     
     // sets the label(User ID and name) on the front page
-    @FXML
     public void setLabel(String userAccount, String id, String username)
     {
         userType = userAccount;
@@ -96,6 +93,8 @@ public class TemplateController implements Initializable {
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
         rootPane.getChildren().setAll(pane);
+//        pane.setTitle("Vehicle Records");
+//        pane.setResizable(false);
     }
     
     // opens the parts page
@@ -154,7 +153,6 @@ public class TemplateController implements Initializable {
     }
     
     
-    @FXML
     private void adminAccess()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -166,11 +164,11 @@ public class TemplateController implements Initializable {
 
     
     @FXML
-    private void logOut(ActionEvent event)
+    private void logOut(ActionEvent event) throws IOException
     {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Logout");
-        alert.setContentText("Do you want to logout?");
+        alert.setContentText("Do you want to log out?");
             
         ButtonType yes = new ButtonType("YES");
         ButtonType no = new ButtonType("NO");
@@ -182,7 +180,6 @@ public class TemplateController implements Initializable {
         if(result.get() == yes)
         {
             ((Node)(event.getSource())).getScene().getWindow().hide();
-
         }
         else
         {
@@ -191,7 +188,6 @@ public class TemplateController implements Initializable {
         
     }
     
-    @FXML
     private void printAlert()
     {
         Alert alert = new Alert(AlertType.INFORMATION);

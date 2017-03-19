@@ -5,6 +5,7 @@
  */
 package common;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import javafx.scene.control.Alert.AlertType;
 import com.jfoenix.controls.JFXTextField;
@@ -43,12 +44,12 @@ public class LoginController implements Initializable
     private JFXTextField user;
     @FXML
     private JFXPasswordField password;
+    @FXML
+    private JFXButton login;
 
     // Checks if username and password is correct
-    @FXML
-    public void dologin(ActionEvent event) throws IOException
+    public void checkEntry(ActionEvent event) throws IOException
     {
-        
         int username = 0;
         boolean check = true;
         try
@@ -101,6 +102,8 @@ public class LoginController implements Initializable
                     Stage stage = new Stage();
                     Scene scene = new Scene(root1);
                     stage.setScene(scene);
+                    stage.setResizable(false);
+//                    stage.setTitle("Home Page");
                     stage.show();
                 }
                 else
@@ -121,8 +124,21 @@ public class LoginController implements Initializable
         }
     }
     
-    // If username or password is incorrect, prints this message
+    // Works by pressing Enter
     @FXML
+    public void onEnter(ActionEvent e) throws IOException
+    {
+        checkEntry(e);
+    }
+    
+    // Works by pressing Login
+    @FXML
+    public void dologin(ActionEvent e) throws IOException
+    {
+        checkEntry(e);
+    }
+    
+    // If username or password is incorrect, prints this message
     private void incorrectInfo()
     {
         Alert alert = new Alert(AlertType.INFORMATION);
