@@ -46,7 +46,7 @@ public class LoginController implements Initializable
     private JFXPasswordField password;
     @FXML
     private JFXButton login;
-
+    
     // Checks if username and password is correct
     public void checkEntry(ActionEvent event) throws IOException
     {
