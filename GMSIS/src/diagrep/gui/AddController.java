@@ -159,7 +159,7 @@ public class AddController implements Initializable {
     
     //DISPLAY VEHICLES FOR SELECTED CUSTOMER
     @FXML
-    private void ShowVehicles(ActionEvent event) {
+    public void ShowVehicles(ActionEvent event) {
         Connection connect = null;
         Statement stmt = null;
         
