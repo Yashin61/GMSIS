@@ -317,7 +317,6 @@ public class AddController implements Initializable {
         else
         {
             LocalDate d = BookingDate.getValue();
-            System.out.println(d.getDayOfWeek().name());
             String day = d.getDayOfWeek().name();
             if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || day.equals("THURSDAY") || day.equals("FRIDAY"))
             {
@@ -337,7 +336,7 @@ public class AddController implements Initializable {
                 }
             }
             //ALERT IF USER PICKS DATE WHERE THE DAY IS SUNDAY
-            else
+            else if(day.equals("SUNDAY"))
             {
                 BookingDate.setValue(null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -345,6 +344,10 @@ public class AddController implements Initializable {
                 alert.setHeaderText("Garage Closed On Sunday");
                 alert.setContentText("Select Another Date");
                 alert.showAndWait();
+            }
+            else if(BookingDate.getValue().equals("11-02-2017"))
+            {
+                
             }
         }
     }
