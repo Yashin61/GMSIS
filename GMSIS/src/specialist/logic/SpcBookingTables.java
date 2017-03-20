@@ -16,10 +16,12 @@ import javafx.beans.property.StringProperty;
  */
 public class SpcBookingTables {
 
-    private final StringProperty make;
-    private final StringProperty model;
-    private final StringProperty regNo;
-    private final IntegerProperty mileage;
+    private StringProperty make;
+    private StringProperty model;
+    private StringProperty regNo;
+    private IntegerProperty mileage;
+    private IntegerProperty partId;
+    private StringProperty partName;
     
     public SpcBookingTables(String make, String model, String reg, int mileage)
     {
@@ -27,6 +29,12 @@ public class SpcBookingTables {
         this.model= new SimpleStringProperty(model);
         this.regNo = new SimpleStringProperty(reg);
         this.mileage = new SimpleIntegerProperty(mileage);
+    }
+    
+    public SpcBookingTables(int partId, String partName)
+    {
+        this.partId = new SimpleIntegerProperty(partId);
+        this.partName = new SimpleStringProperty(partName);
     }
     
     public String getMake(){
@@ -45,6 +53,14 @@ public class SpcBookingTables {
         return mileage.get();
     }
     
+    public int getPartId(){
+        return partId.get();
+    }
+    
+    public String getPartName(){
+        return partName.get();
+    }
+    
     public StringProperty getMakeProperty() {
         return make;
     }
@@ -59,5 +75,13 @@ public class SpcBookingTables {
 
     public IntegerProperty getMileageProperty() {
         return mileage;
+    }
+    
+    public IntegerProperty getPartIdProperty() {
+        return partId;
+    }
+
+    public StringProperty getPartNameProperty() {
+        return partName;
     }
 }
