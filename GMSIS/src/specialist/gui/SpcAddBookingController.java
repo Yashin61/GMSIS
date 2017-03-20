@@ -35,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.swing.JOptionPane;
 import specialist.logic.SpcBookingTables;
 import specialist.logic.SpecialistDB;
 
@@ -250,6 +251,41 @@ public class SpcAddBookingController implements Initializable {
             {
                 partList.setItems(null);
             }  
+    }
+    
+    @FXML
+    private void addSpcBookingButton(ActionEvent event) 
+    {
+        String name = spcList.getSelectionModel().getSelectedItem();
+        String dDate = ""+bookingDate.getValue();
+        String arrived = "No";
+        String rDate ="";
+        String returned = "No";
+        int parts = partList.getSelectionModel().getSelectedIndex()+1;
+        String reg = "";
+        
+        SpcBookingTables spc = vehicleList.getSelectionModel().getSelectedItem();
+        if(spc == null)
+        {
+            JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
+        }
+        else
+        {
+            reg = spc.getRegNo();
+        } 
+                     
+                
+        /* 
+        if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
+        {
+            //System.out.println("It works");
+            SpecialistDB a= new SpecialistDB();
+            a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+        }
+        else
+        {
+            System.out.println("Please input all the details.");
+        }*/
     }
     
     //resets all the choices that has been made

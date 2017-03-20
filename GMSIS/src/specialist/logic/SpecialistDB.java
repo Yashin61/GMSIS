@@ -56,6 +56,30 @@ public class SpecialistDB
         }
     }
     
+    public void addSPCBooking(String name, String dDate, String arrived, String rDate, String returned, String parts, String reg, String cust, String workOn, String type, double cost)
+    {
+        Connection conn = null;
+        Statement stmt = null;
+        
+        try
+        { 
+            conn = DriverManager.getConnection(Recordurl);
+
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO SPCBooking (SPCname, ExpectedDeliverDate, Arrived, ExpectedReturnDate, Returned, PartID, RegistrationNumber, CustomerID, WorkOn, Type, Cost)"
+                    + "VALUES ("+"'"+name+"','"+dDate+"','"+arrived+"','"+rDate+"','"+returned+"','"+parts+"','"+reg+"','"+cust+"','"+workOn+"','"+type+"','"+cost+"');"; 
+
+            stmt.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "A new SPC Booking has been added. \n");
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException e)
+        {
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     public void editSPC(String id, String newData, int col)
     {      
         Connection connect = null;
