@@ -7,7 +7,6 @@ package specialist.gui;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
-import diagrep.gui.AddController;
 import diagrep.logic.Database;
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +15,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -37,7 +35,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javax.swing.JOptionPane;
 import specialist.logic.SpcBookingTables;
 import specialist.logic.SpecialistDB;
 
@@ -117,7 +114,7 @@ public class SpcAddBookingController implements Initializable {
             customerList = FXCollections.observableArrayList();
             ResultSet rs = stmt.executeQuery("SELECT Firstname, Surname FROM Customer_Accounts");
             while(rs.next()){
-                customerList.add(rs.getString("Firstname")/*+" "+rs.getString("Surname")*/);
+                customerList.add(rs.getString("Firstname")+" "+rs.getString("Surname"));
             }
             stmt.close();
             rs.close();
@@ -153,35 +150,38 @@ public class SpcAddBookingController implements Initializable {
     private void bookingCheck(ActionEvent event) throws ParseException
     {
         //IF STATEMENT CHECKING DATE AND COMPARING
-        String date = bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date date1 = format.parse(date);
-        Date currentDate = new Date();
-        //ALERT IF USER PICKS DATE IN THE PAST
-        if (date1.before(currentDate))
-        { 
-            bookingDate.setValue(null);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Invalid Date");
-            alert.setHeaderText("Your date cannot be registered");
-            alert.setContentText("Please select a date in the Future");
-            alert.showAndWait();
-        }
-        else
+        if(bookingDate.getValue() != null)
         {
-            LocalDate d = bookingDate.getValue();
-            //System.out.println(d.getDayOfWeek().name());
-            String day = d.getDayOfWeek().name();
-            if(day.equals("SUNDAY"))
-            {
+            String date = bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            Date date1 = format.parse(date);
+            Date currentDate = new Date();
+            //ALERT IF USER PICKS DATE IN THE PAST
+            if (date1.before(currentDate))
+            { 
                 bookingDate.setValue(null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Invalid Date");
-                alert.setHeaderText("Garage is closed on Sunday");
-                alert.setContentText("Please select another date");
+                alert.setHeaderText("Your date cannot be registered");
+                alert.setContentText("Please select a date in the Future");
                 alert.showAndWait();
-            }else{}
-        }
+            }
+            else
+            {
+                LocalDate d = bookingDate.getValue();
+                //System.out.println(d.getDayOfWeek().name());
+                String day = d.getDayOfWeek().name();
+                if(day.equals("SUNDAY"))
+                {
+                    bookingDate.setValue(null);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Invalid Date");
+                    alert.setHeaderText("Garage is closed on Sunday");
+                    alert.setContentText("Please select another date");
+                    alert.showAndWait();
+                }else{}
+            }
+        }else{}
     }
 
     @FXML
@@ -194,7 +194,8 @@ public class SpcAddBookingController implements Initializable {
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+custName.getValue()+"'");
+            String[] name = custName.getValue().split(" ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
             while(rs.next()){
                 vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("ID"))); 
             }
@@ -282,7 +283,12 @@ public class SpcAddBookingController implements Initializable {
         SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
         if(vehicleSPC == null)
         {
-            JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
+            //JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Please select a vehicle from the vehicle list displayed on the left side of the page");
+            alert.showAndWait();
         }
         else
         {
@@ -334,14 +340,6 @@ public class SpcAddBookingController implements Initializable {
         repairType.setValue(null);
         spcList.getSelectionModel().clearSelection();
         repairOn.setValue(null);
-    }
-    
-    // switch to the specialists page
-    @FXML
-    private void specialistsPage(ActionEvent event) throws IOException
-    {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
-        rootPane.getChildren().setAll(pane);
     }
     
     /**
