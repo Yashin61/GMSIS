@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -163,7 +166,6 @@ public class SpcMainPageController implements Initializable {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
         rootPane.getChildren().setAll(pane);
     }
-   
     
     //resets all the choices that has been made
     @FXML
@@ -522,7 +524,7 @@ public class SpcMainPageController implements Initializable {
                     ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
                     while(set.next()){
                         System.out.println("Hello");
-                        String vehicle = "Vehicle type = "+set.getString("VehicleType")+"\n";
+                        String vehicle = "Vehicle type = "+set.getString("VehicleType");
                         String make = "Make = "+set.getString("Make")+"\n"
                                 +"Model = "+set.getString("Model")+"\n"
                                 +"Colour = "+set.getString("Colour")+"\n"
@@ -532,7 +534,12 @@ public class SpcMainPageController implements Initializable {
                                 +"Mileage = "+set.getString("Mileage")+"\n";
                         String mot = "MOT renewal date = "+set.getString("MOTRenewalDate")+"\n"
                                 +"Last service date = "+set.getString("LastServiceDate")+"\n";
-                        JOptionPane.showMessageDialog(null,vehicle+make+engSize+mot);
+                        //JOptionPane.showMessageDialog(null,vehicle+make+engSize+mot);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Vehicle Details");
+                        alert.setHeaderText(vehicle);
+                        alert.setContentText(make+engSize+mot);
+                        alert.showAndWait();
                     }
                     stmt.close();
                     set.close();
@@ -556,7 +563,12 @@ public class SpcMainPageController implements Initializable {
                                 +"Model = "+set.getString("Model")+"\n"
                                 +"Make = "+set.getString("Make")+"\n"
                                 +"Description = "+set.getString("Description")+"\n";
-                        JOptionPane.showMessageDialog(null,partId+part);
+                        //JOptionPane.showMessageDialog(null,partId+part);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Part Details");
+                        alert.setHeaderText(partId);
+                        alert.setContentText(part);
+                        alert.showAndWait();
                     }
                     stmt.close();
                     set.close();
@@ -569,7 +581,12 @@ public class SpcMainPageController implements Initializable {
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"Please select what you want to search");
+            //JOptionPane.showMessageDialog(null,"Please select what you want to search");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select what you want to details of");
+            alert.showAndWait();
         }
     }
     
@@ -631,6 +648,50 @@ public class SpcMainPageController implements Initializable {
         tableReturned.setCellValueFactory(new PropertyValueFactory("SpcReturned"));
         dataTable.setItems(allSPCBooking);
     }
+    
+    //switch to add spc booking page
+    @FXML
+    private void addSpcBookingPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcAddBooking.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    //delete an spc booking for part / vehicle
+    @FXML
+    private void deleteSpcBooking(ActionEvent event)
+    {
+        SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBooking == null)
+        {
+            //JOptionPane.showMessageDialog(null,"Please select a SPC Booking");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select a SPC Booking that you want to cancel / delete");
+            alert.showAndWait();
+            
+        }
+        else
+        {
+            //int row = dataTable.getSelectionModel().getSelectedIndex();
+            int row = spcBooking.getSpcBookingId();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Please Confirm");
+            alert.setContentText("Are you sure you want to delete the SPC?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                // if the user chooses to proceed
+                SpecialistDB a = new SpecialistDB();
+                a.deleteSPCBooking(row);
+            } 
+            else { /* the user closes the confirmation dialog*/}
+            showData();
+        }
+    }
+    
     //search for the spc / spcbooking by customer names or vehicle registration
     @FXML
     private void searchSPCBooking(ActionEvent event)
@@ -707,7 +768,13 @@ public class SpcMainPageController implements Initializable {
         }
         else
         {
-            JOptionPane.showMessageDialog(null,"Please select what you want to search");
+            //JOptionPane.showMessageDialog(null,"Please select what you want to search");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select your method of searching - by customer name or registration number");
+            alert.showAndWait();
+            
         }
         
         tableSpcName.setCellValueFactory(new PropertyValueFactory("SpcBookingname"));

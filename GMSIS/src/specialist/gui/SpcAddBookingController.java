@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import diagrep.gui.AddController;
 import diagrep.logic.Database;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,6 +29,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -47,7 +49,7 @@ import specialist.logic.SpecialistDB;
 public class SpcAddBookingController implements Initializable {
 
     @FXML
-    private AnchorPane AddBooking;
+    private AnchorPane rootPane;
 
     @FXML
     private JFXDatePicker bookingDate;
@@ -257,7 +259,7 @@ public class SpcAddBookingController implements Initializable {
     private void addSpcBookingButton(ActionEvent event) 
     {
         String name = spcList.getSelectionModel().getSelectedItem();
-        String dDate = ""+bookingDate.getValue();
+        String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         String arrived = "No";
         String rDate = "";
         String returned = "No";
@@ -288,26 +290,35 @@ public class SpcAddBookingController implements Initializable {
             cust = vehicleSPC.getCust();
         } 
                      
-        String type = repairType.getValue();
+        String type = "";
         double cost = 0.0;
         
-        if(type.equals("Repair"))
+        if(repairType.getValue().equals("Repair - 5 days"))
         {
             cost = 50.00;
-            rDate = ""+bookingDate.getValue().plusDays(5);
+            rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            type = "Repair";
             
         }
-        else if(type.equals("Re-condition"))
+        else if(repairType.getValue().equals("Re-condition - 11 days"))
         {
             cost = 100.00;
-            rDate = ""+bookingDate.getValue().plusDays(11);
+            rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            type = "Re-condition";
         }
 
+        
         if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals("")))
         {
-            //System.out.println("It works");
-            SpecialistDB a= new SpecialistDB();
-            a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+            try {
+                //System.out.println("It works");
+                SpecialistDB a= new SpecialistDB();
+                a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+                rootPane.getChildren().setAll(pane);
+            } catch (IOException ex) {
+                Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
@@ -323,6 +334,14 @@ public class SpcAddBookingController implements Initializable {
         repairType.setValue(null);
         spcList.getSelectionModel().clearSelection();
         repairOn.setValue(null);
+    }
+    
+    // switch to the specialists page
+    @FXML
+    private void specialistsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        rootPane.getChildren().setAll(pane);
     }
     
     /**

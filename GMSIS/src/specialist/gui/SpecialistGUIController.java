@@ -143,7 +143,6 @@ public class SpecialistGUIController implements Initializable {
             else { /* the user closes the confirmation dialog*/}
             showData2();
         }
-        
     }
 
     //clears all the textboxes / data that was selected

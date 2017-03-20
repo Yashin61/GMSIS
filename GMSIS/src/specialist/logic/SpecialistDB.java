@@ -138,6 +138,28 @@ public class SpecialistDB
         }
     }
     
+    public void deleteSPCBooking(Object id)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection(Recordurl);
+            stmt = connect.createStatement();
+            String sql = "DELETE FROM SPCBooking WHERE Id = " + id + ";";
+
+            stmt.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "SPCBooking has been deleted."); 
+
+            stmt.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     public String[] getSPC()
     {
         

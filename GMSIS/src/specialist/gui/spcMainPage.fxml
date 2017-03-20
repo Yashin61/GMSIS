@@ -109,9 +109,9 @@
       <JFXButton layoutX="21.0" layoutY="534.0" onAction="#spcAdmin" text="SPC list" />
       <ButtonBar layoutX="209.0" layoutY="540.0" prefHeight="40.0" prefWidth="725.0">
          <buttons>
-            <Button mnemonicParsing="false" text="Add Booking" />
+            <Button mnemonicParsing="false" onAction="#addSpcBookingPage" text="Add Booking" />
             <Button mnemonicParsing="false" text="Edit Booking" />
-            <Button layoutX="211.0" mnemonicParsing="false" text="Delete Booking" />
+            <Button layoutX="211.0" mnemonicParsing="false" onAction="#deleteSpcBooking" text="Delete Booking" />
             <Button mnemonicParsing="false" text="Mark Complete" />
             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="View Repairs done" />
          </buttons>
