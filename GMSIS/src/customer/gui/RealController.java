@@ -814,7 +814,8 @@ public class RealController implements Initializable
         else
         {
             int ID = cust.getID();
-            String name = cust.getFirstname();
+            String name = cust.getFirstname() + " " + cust.getSurname();
+            System.out.println(name);
             System.out.println(ID);
             System.out.println(name);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/diagrep/gui/AddBooking.fxml"));
