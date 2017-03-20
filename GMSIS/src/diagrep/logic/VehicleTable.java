@@ -31,7 +31,8 @@ public class VehicleTable {
     private final StringProperty RegNo;
     private final IntegerProperty Mileage;
     private final IntegerProperty CustomerID;
-    private final StringProperty CustomerName;
+    private final StringProperty CustomerFName;
+    private final StringProperty CustomerSName;
     
     public VehicleTable(String Make, String Model, String RegNo, Integer Mileage, Integer CID){
         this.Make = new SimpleStringProperty(Make);
@@ -39,7 +40,8 @@ public class VehicleTable {
         this.RegNo = new SimpleStringProperty(RegNo);
         this.Mileage = new SimpleIntegerProperty(Mileage);
         this.CustomerID = new SimpleIntegerProperty(CID);
-        this.CustomerName = new SimpleStringProperty(getCustName(CID));
+        this.CustomerFName = new SimpleStringProperty(getCustName(CID));
+        this.CustomerSName = new SimpleStringProperty(getCustName(CID));
     }
     
     /******Get Customer Name using ID******/
@@ -79,14 +81,25 @@ public class VehicleTable {
     }
     
     /******Customer Name******/
-    public String getCustomerName(){
-        return CustomerName.get();
+    public String getCustomerFName(){
+        return CustomerFName.get();
     }
-    public StringProperty CustomerNameProperty() {
-        return CustomerName;
+    public StringProperty CustomerFNameProperty() {
+        return CustomerFName;
     }
-    public void setCustomerName(String CName){
-        CustomerName.set(CName);
+    public void setCustomerFName(String CName){
+        CustomerFName.set(CName);
+    }
+    
+    /******Customer Name******/
+    public String getCustomerSName(){
+        return CustomerSName.get();
+    }
+    public StringProperty CustomerSNameProperty() {
+        return CustomerSName;
+    }
+    public void setCustomerSName(String CName){
+        CustomerSName.set(CName);
     }
     
     /******Make******/

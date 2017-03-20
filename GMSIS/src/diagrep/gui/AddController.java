@@ -19,6 +19,7 @@ import diagrep.logic.Database;
 import diagrep.logic.VehicleTable;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -93,10 +94,53 @@ public class AddController implements Initializable {
         Mechanic.setValue(null);
         BookingDate.setValue(null);
         BookingTime.setItems(null);
+        VehiclesA.setItems(null);
     }
 
     @FXML
-    private void submitDetails(ActionEvent event) {
+    private void submitDetails(ActionEvent event) throws SQLException {
+        Connection connect = null;
+        PreparedStatement stmt = null;
+        Statement stmte = null;
+        
+        //SET VARIABLES TO ENTER INTO TABLE
+        VehicleTable vt = VehiclesA.getSelectionModel().getSelectedItem();
+        String Reg = vt.getRegNo();
+        String BookingType = "Diagnosis and Repair";
+        String RepairTime = "2:00";
+        Double Bill = 100.00;
+        int MechID = Integer.parseInt(Mechanic.getValue()); 
+        int CustID = vt.getCustomerID();
+        
+        // IF FIELDS ARE EMPTY, PRINT ERROR MESSAGE
+        if(CustomerName.getValue().isEmpty() || vt == null || Mechanic.getValue().isEmpty() || BookingTime.getValue().isEmpty() || BookingDate.getValue() == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Fields");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please enter in all pieces of information");
+            alert.showAndWait();
+        }
+        else
+        {
+            String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.prepareStatement(sql);
+
+            stmt.setString(1, Reg);         
+            stmt.setString(2, BookingType);
+            stmt.setInt(3, MechID);
+            stmt.setString(4, BookingDate.getValue().toString());
+            stmt.setString(5, BookingTime.getValue());
+            stmt.setString(6, RepairTime);
+            stmt.setDouble(7, Bill);
+            stmt.setInt(8, CustID);
+            
+            stmt.executeUpdate();
+            stmt.close();
+            connect.close();
+        }
     }
 
     @FXML
@@ -117,11 +161,11 @@ public class AddController implements Initializable {
     {
         Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
         ArrayList<String> CustomerList = new ArrayList<>();
-        String query = "SELECT Firstname FROM Customer_Accounts";
+        String query = "SELECT Firstname, Surname FROM Customer_Accounts";
         ResultSet rs = conn.createStatement().executeQuery(query);
         while(rs.next())
         {
-            CustomerList.add(rs.getString("Firstname"));
+            CustomerList.add(rs.getString("Firstname") + " " + rs.getString("Surname"));
         }
 
         return FXCollections.observableArrayList(CustomerList);
@@ -168,7 +212,8 @@ public class AddController implements Initializable {
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             VehicleData = FXCollections.observableArrayList();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+CustomerName.getValue()+"'");
+            String[] name = CustomerName.getValue().split(" ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
             while(rs.next()){
                 VehicleData.add(new VehicleTable(rs.getString(2), rs.getString(3), rs.getString(9), rs.getInt(7), rs.getInt(10))); 
             }
