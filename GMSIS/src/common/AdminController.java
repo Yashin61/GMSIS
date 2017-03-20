@@ -30,6 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 /**
@@ -57,14 +58,19 @@ public class AdminController implements Initializable
     @FXML
     private TextField id;
     
+    @FXML
     private TextField idE;
     
+    @FXML
     private TextField firstnameE;
 
+    @FXML
     private TextField surnameE;
 
+    @FXML
     private TextField passwordE;
 
+    @FXML
     private TextField hourlyWageE;
 
     @FXML
@@ -85,17 +91,30 @@ public class AdminController implements Initializable
     @FXML
     private TableColumn<UserAccount, Integer> table_wage;
     
+    @FXML
+    private AnchorPane editPane;
     
+    @FXML
+    private CheckBox adminType;
+    
+    @FXML
     private ObservableList<UserAccount> data;
     
     private int user_ID = 0;
     
-    private AnchorPane editPane;
+    
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+    }
+    
+    
+    @FXML
+    private void displayAdmins(ActionEvent event)
+    {
+        display();
     }
     
     @FXML
@@ -170,6 +189,7 @@ public class AdminController implements Initializable
     @FXML
     private void displayUsers(ActionEvent event)
     {
+        adminType.setSelected(false);
         display();
     }
     
@@ -183,7 +203,6 @@ public class AdminController implements Initializable
         }
         else
         {
-            
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AdminEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             AdminController controller=fxmlLoader.<AdminController>getController();
@@ -191,21 +210,20 @@ public class AdminController implements Initializable
             Stage stage = new Stage();
             stage.setTitle("Edit User");
             stage.setScene(new Scene(root1));
-            stage.showAndWait(); 
+            stage.showAndWait();
             display();
-            
             
         }
     } 
     
-    
+    @FXML
     private void editUser(ActionEvent event) throws IOException
     {   
         if(firstnameE.getText().trim().isEmpty() || surnameE.getText().trim().isEmpty() ||  passwordE.getText().trim().isEmpty() || hourlyWageE.getText().trim().isEmpty())
         { 
             printMissing();
         }
-        else
+        else 
         {
             //boolean check = checkUnique(passwordE.getText());
          
@@ -241,7 +259,7 @@ public class AdminController implements Initializable
                 Stage stage = (Stage) editPane.getScene().getWindow();
                 
                 stage.close();
-                System.out.println("Hello");
+                //System.out.println("Hello");
                 //firstname.setText("HELLO");
                 
             }
@@ -259,6 +277,10 @@ public class AdminController implements Initializable
         if(user == null)
         {
             noChosen();
+        }
+        else if(adminType.isSelected())
+        {
+            printAdmin();
         }
         else
         {
@@ -351,27 +373,28 @@ public class AdminController implements Initializable
         alert.showAndWait();
     }
     
+    private void printAdmin()
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText("DELETING ADMIN");
+        alert.setContentText("Cannot delete the admin");
+        alert.showAndWait();
+    }
+    
     @FXML
     private void goBack(ActionEvent event) throws IOException
     {
         
-        /*Stage stage3 = (Stage) rootPane.getScene().getWindow();
-        stage3.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Template.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        
-        Stage stage = new Stage();
-        Scene scene = new Scene(root1);
-        stage.setScene(scene);
-        stage.show();  */
+  
         AnchorPane pane = FXMLLoader.load(getClass().getResource("Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-    
+    @FXML
     private void setAllFields(UserAccount user)
     {
         user_ID = user.getID();
-        idE.setText(String.valueOf(user_ID));
+        idE.setText(String.valueOf(user.getID()));
         idE.setEditable(false);
         firstnameE.setText(user.getFirstname());
         surnameE.setText(user.getSurname());
@@ -385,13 +408,18 @@ public class AdminController implements Initializable
     {
         CommonDatabase db = new CommonDatabase();
         Connection connection = null;
+        String check = "USER";
+        if(adminType.isSelected())
+        {
+            check = "ADMIN";
+        }
         
         try
         {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
             
-            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Employees WHERE UserType = 'USER'" );
+            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Employees WHERE UserType = '" + check + "' " );
             while(rs.next())
             {
                 data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
