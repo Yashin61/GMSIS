@@ -12,16 +12,19 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
 public class EditVehicleController implements Initializable
@@ -78,7 +81,10 @@ public class EditVehicleController implements Initializable
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
-    {}
+    {
+        futureDateRestrictor();
+        pastDateRestrictor();
+    }
     
     public void setAllFields(Vehicle veh) 
     {
@@ -159,7 +165,7 @@ public class EditVehicleController implements Initializable
             if(flag)
             {
                 String sql2 = "UPDATE Warranty SET Name = '" + companyName.getText() + "' , Address = '" + companyAddress.getText() + "' , "
-                        + "ExpiryDate = '" +expiryDate.getValue().format(formatter) + "' WHERE WarrantyID = " + warrantyID.getText();
+                        + "ExpiryDate = '" + expiryDate.getValue().format(formatter) + "' WHERE WarrantyID = " + warrantyID.getText();
                 PreparedStatement ps2 = con.prepareStatement(sql2);
                 ps2.executeUpdate();
             }
@@ -170,7 +176,7 @@ public class EditVehicleController implements Initializable
         catch(SQLException e)
         {
             e.printStackTrace();
-            System.out.println("Fail!");
+            System.out.println("Failure!");
         }
     }
     
@@ -202,5 +208,44 @@ public class EditVehicleController implements Initializable
         edVan.setSelected(false);
         edTruck.setSelected(false);
         edCar.setSelected(false);
+    }
+
+    private void futureDateRestrictor()
+    {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
+        {
+            @Override
+            public void updateItem(LocalDate item, boolean empty)
+            {
+                super.updateItem(item, empty);
+
+                if(item.isAfter(LocalDate.now()))
+                {
+                    setStyle("-fx-background-color: #ffc0cb;");
+                    Platform.runLater(() -> setDisable(true));
+                }
+            }
+        };
+        lastServiceDate.setDayCellFactory(dayCellFactory);        
+    }
+    
+    private void pastDateRestrictor()
+    {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
+        {
+            @Override
+            public void updateItem(LocalDate item, boolean empty)
+            {
+                super.updateItem(item, empty);
+
+                if(item.isBefore(LocalDate.now()))
+                {
+                    setStyle("-fx-background-color: #ffc0cb;");
+                    Platform.runLater(() -> setDisable(true));
+                }
+            }
+        };
+        expiryDate.setDayCellFactory(dayCellFactory);
+        motRenDate.setDayCellFactory(dayCellFactory);
     }
 }

@@ -3,6 +3,7 @@
 package vehicles.gui;
 
 import common.CommonDatabase;
+import diagrep.logic.BookingTable;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,12 +32,16 @@ public class ViewController implements Initializable
     private static Vehicle veh;
     @FXML
     private AnchorPane Pane;
+    @FXML
     private Accordion bkngs;
     @FXML
     private Label none;
-    @FXML
     private ListView<String> allParts;
     private ListView<?> cstmrs;
+    @FXML
+    private Label NameLabel;
+    @FXML
+    private Label todayDate;
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -54,6 +59,13 @@ public class ViewController implements Initializable
     {
 //        System.out.println(v.getRegistrationNumber() + " 2");
         viewParts(v);
+//        viewBookings(v);
+    }
+    
+    public void setBooking(Vehicle bk)
+    {
+//        System.out.println(v.getRegistrationNumber() + " 2");
+        viewBookings(bk);
 //        viewBookings(v);
     }
     
@@ -112,7 +124,7 @@ public class ViewController implements Initializable
         try
         {
             Connection conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE RegistrationNumber = '" + v.getRegistrationNumber() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE ID = '" + v.getCustomerID() + "' ");
             if(!rs.isBeforeFirst())
             {
 //                System.out.println("Goes through the if statement");
@@ -149,7 +161,7 @@ public class ViewController implements Initializable
         }
     }
     
-    private void viewBookings(Vehicle v)
+    /*private void viewBookings(Vehicle bk)
     {
         CommonDatabase db = new CommonDatabase();
         Connection conn = null;
@@ -162,7 +174,8 @@ public class ViewController implements Initializable
         try
         {
             conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + v.getCustomerID1() + "' ");
+            ResultSet rs = conn.createStatement().executeQuery( "SELECT * FROM Booking INNER JOIN Vehicle ON "
+                    + "Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Booking.BookingID = '" + bk.getBookingID() + "' ");
             if(!rs.next())
             {
                 none.setVisible(true);
@@ -211,7 +224,7 @@ public class ViewController implements Initializable
             e.getMessage();
 //            System.out.println("HELLO");
         }
-    }
+    }*/
     
     private void removeDuplicates(ArrayList<Integer> array)
     {
@@ -228,4 +241,54 @@ public class ViewController implements Initializable
         }
 //        System.out.println(array);
     }
+    
+    
+    private void viewBookings(Vehicle v)
+    {
+//        System.out.println("It goes to the right method");
+        CommonDatabase db = new CommonDatabase();
+        ObservableList<String> data = FXCollections.observableArrayList();
+        
+        try
+        {
+            Connection conn = db.getConnection();
+            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Booking WHERE RegistrationNumber = '" + v.getRegistrationNumber() + "' ");
+            if(!rs.isBeforeFirst())
+            {
+//                System.out.println("Goes through the if statement");
+                allParts.setVisible(false);
+                none.setVisible(true);
+            }
+            else
+            {
+//                System.out.println("Goes through the else statement");
+                ArrayList<Integer> partsIDs = new ArrayList<Integer>();
+                String answer = "";
+                data.add("Registration Number: "+v.getRegistrationNumber());
+                while(rs.next())
+                {
+                    partsIDs.add(rs.getInt("PartsID"));
+                }
+                removeDuplicates(partsIDs);
+                for(int i=0; i<partsIDs.size(); i++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM Booking WHERE ID = '" + partsIDs.get(i) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer +  "Part's ID: "+ rs.getInt("BookingID") + "\nPart's Name: " + rs.getString("BookingType") + "\nPrice: £"+ rs.getString("BookingDate") + "\n\n"; 
+                    }
+                }
+//                System.out.println(answer);
+                data.add(answer);
+                allParts.setItems(data);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("SQL Error");
+        }
+    }
+    
+    
+    
 }

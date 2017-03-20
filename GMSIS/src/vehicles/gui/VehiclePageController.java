@@ -97,6 +97,17 @@ public class VehiclePageController
     
     public void initialize()
     {
+        ActionEvent event=null;
+        
+        try
+        {
+            getVehicleDetails(event);
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
 //        Deselects selected row when clicking on the skin
         mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
@@ -107,7 +118,7 @@ public class VehiclePageController
             }
         });
     }
-    
+
     private void setTableValue()
     {
         vehicleType.setCellValueFactory(new PropertyValueFactory("VehicleType"));
@@ -129,6 +140,7 @@ public class VehiclePageController
     @FXML
     public void getVehicleDetails(ActionEvent event) throws IOException
     {
+        
         try
         {
             data = FXCollections.observableArrayList();
@@ -236,7 +248,7 @@ public class VehiclePageController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
-            controller.setVehicle(vehObject);
+            controller.setBooking(vehObject);
             Stage stage = new Stage();
             stage.setTitle("View Bookings");
             stage.setScene(new Scene(root1));
@@ -481,7 +493,7 @@ public class VehiclePageController
     
     @FXML
     private void openAddPage(ActionEvent event) throws IOException
-    {        
+    {
         Stage stage;
         Parent root;
         if(event.getSource() == addVeh)
