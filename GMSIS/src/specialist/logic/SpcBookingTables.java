@@ -22,13 +22,15 @@ public class SpcBookingTables {
     private IntegerProperty mileage;
     private IntegerProperty partId;
     private StringProperty partName;
+    private IntegerProperty cust;
     
-    public SpcBookingTables(String make, String model, String reg, int mileage)
+    public SpcBookingTables(String make, String model, String reg, int mileage, int cust)
     {
         this.make = new SimpleStringProperty(make);
         this.model= new SimpleStringProperty(model);
         this.regNo = new SimpleStringProperty(reg);
         this.mileage = new SimpleIntegerProperty(mileage);
+        this.cust = new SimpleIntegerProperty(cust);
     }
     
     public SpcBookingTables(int partId, String partName)
@@ -53,6 +55,10 @@ public class SpcBookingTables {
         return mileage.get();
     }
     
+    public int getCust(){
+        return cust.get();
+    }
+    
     public int getPartId(){
         return partId.get();
     }
@@ -75,6 +81,10 @@ public class SpcBookingTables {
 
     public IntegerProperty getMileageProperty() {
         return mileage;
+    }
+    
+    public IntegerProperty getCustProperty(){
+        return cust;
     }
     
     public IntegerProperty getPartIdProperty() {

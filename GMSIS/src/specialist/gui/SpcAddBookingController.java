@@ -133,8 +133,8 @@ public class SpcAddBookingController implements Initializable {
     private ObservableList<String> repairTypeFill()
     {     
         repairTypeList = FXCollections.observableArrayList();
-        repairTypeList.add("Repair");
-        repairTypeList.add("Re-condition");
+        repairTypeList.add("Repair - 5 days");
+        repairTypeList.add("Re-condition - 11 days");
         return repairTypeList;
     }
     
@@ -168,7 +168,7 @@ public class SpcAddBookingController implements Initializable {
         else
         {
             LocalDate d = bookingDate.getValue();
-            System.out.println(d.getDayOfWeek().name());
+            //System.out.println(d.getDayOfWeek().name());
             String day = d.getDayOfWeek().name();
             if(day.equals("SUNDAY"))
             {
@@ -194,7 +194,7 @@ public class SpcAddBookingController implements Initializable {
             vehicleData = FXCollections.observableArrayList();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+custName.getValue()+"'");
             while(rs.next()){
-                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"))); 
+                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("ID"))); 
             }
             stmt.close();
             rs.close();
@@ -259,24 +259,51 @@ public class SpcAddBookingController implements Initializable {
         String name = spcList.getSelectionModel().getSelectedItem();
         String dDate = ""+bookingDate.getValue();
         String arrived = "No";
-        String rDate ="";
+        String rDate = "";
         String returned = "No";
-        int parts = partList.getSelectionModel().getSelectedIndex()+1;
-        String reg = "";
         
-        SpcBookingTables spc = vehicleList.getSelectionModel().getSelectedItem();
-        if(spc == null)
+        String workOn = repairOn.getValue();
+        int parts = 0;
+        if(workOn != null)
+        {
+            if(workOn.equals("Part"))
+            {
+                SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
+                parts = partSPC.getPartId();
+            }
+        }else{System.out.println("Select what to work on");}
+        
+        
+        String reg = "";
+        int cust = 0;
+        
+        SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
+        if(vehicleSPC == null)
         {
             JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
         }
         else
         {
-            reg = spc.getRegNo();
+            reg = vehicleSPC.getRegNo();
+            cust = vehicleSPC.getCust();
         } 
                      
-                
-        /* 
-        if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
+        String type = repairType.getValue();
+        double cost = 0.0;
+        
+        if(type.equals("Repair"))
+        {
+            cost = 50.00;
+            rDate = ""+bookingDate.getValue().plusDays(5);
+            
+        }
+        else if(type.equals("Re-condition"))
+        {
+            cost = 100.00;
+            rDate = ""+bookingDate.getValue().plusDays(11);
+        }
+
+        if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals("")))
         {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
@@ -285,7 +312,7 @@ public class SpcAddBookingController implements Initializable {
         else
         {
             System.out.println("Please input all the details.");
-        }*/
+        }
     }
     
     //resets all the choices that has been made
