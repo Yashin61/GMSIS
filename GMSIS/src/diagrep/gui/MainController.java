@@ -75,6 +75,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        ShowAllBookings();
     }    
 
     // OPEN ADDBOOKING FROM BOOKINGDETAILS
@@ -109,6 +110,10 @@ public class MainController implements Initializable {
     // SHOW BOOKINGS ON BOOKINGDETAILS PAGE
     @FXML
     private void ShowBookings(ActionEvent event) {
+        ShowAllBookings();
+    }
+    
+    private void ShowAllBookings() {
         Connection connect = null;
         Statement stmt = null;
 

@@ -105,6 +105,7 @@ public class EditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        ShowAllBookingsE();
     }    
 
     // CLEAR EDITBOOKINGS PAGE
@@ -136,6 +137,10 @@ public class EditController implements Initializable {
     // SHOW BOOKINGS ON EDITBOOKINGS PAGE
     @FXML
     private void ShowBookingsE(ActionEvent event) {
+        ShowAllBookingsE();
+    }
+    
+    private void ShowAllBookingsE() {
         Connection connect = null;
         Statement stmt = null;
 

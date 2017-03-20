@@ -36,7 +36,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -72,8 +76,15 @@ public class AddController implements Initializable {
     private TableColumn<VehicleTable, String> RegNoA;
     @FXML
     private TableColumn<VehicleTable, Integer> MileageA;
-    @FXML
     private ObservableList<VehicleTable> VehicleData;
+    @FXML
+    private ComboBox<String> RepairDuration;
+    @FXML
+    private RadioButton DiagRep;
+    @FXML
+    private ToggleGroup BookType;
+    @FXML
+    private RadioButton SPC;
 
     /**
      * Initializes the controller class.
@@ -81,6 +92,7 @@ public class AddController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        try {
+           RepairDuration.setItems(RepairTimeFill());
            CustomerName.setItems(CustomerFill());
            Mechanic.setItems(MechanicFill());
        } catch (SQLException ex) {
@@ -105,41 +117,82 @@ public class AddController implements Initializable {
         
         //SET VARIABLES TO ENTER INTO TABLE
         VehicleTable vt = VehiclesA.getSelectionModel().getSelectedItem();
-        String Reg = vt.getRegNo();
-        String BookingType = "Diagnosis and Repair";
-        String RepairTime = "2:00";
-        Double Bill = 100.00;
-        int MechID = Integer.parseInt(Mechanic.getValue()); 
-        int CustID = vt.getCustomerID();
-        
+        try {
         // IF FIELDS ARE EMPTY, PRINT ERROR MESSAGE
-        if(CustomerName.getValue().isEmpty() || vt == null || Mechanic.getValue().isEmpty() || BookingTime.getValue().isEmpty() || BookingDate.getValue() == null)
+            /*if(vt.getRegNo().isEmpty() || BookType.equals(null) || Mechanic.getValue().isEmpty() || BookingDate.getValue().isEqual(null) || BookingTime.getValue().isEmpty() || RepairDuration.getValue().isEmpty() || CustomerName.getValue().isEmpty())  
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Empty Fields");
+                alert.setHeaderText("Missing Information");
+                alert.setContentText("Please enter in all pieces of information");
+                alert.showAndWait();
+            }*/
+            //else
+            //{
+                //ASSIGN INFORMATION TO VARIABLES
+                String Reg = vt.getRegNo();
+                String BookingType = "";
+                if(DiagRep.isSelected())
+                {
+                    BookingType = "Diagnosis and Repair";
+                }
+                else if (SPC.isSelected())
+                {
+                    BookingType = "Specialist Repair";
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Booking Type");
+                    alert.setHeaderText("Booking Type Not Selected");
+                    alert.setContentText("Please select a booking type");
+                    alert.showAndWait();
+                }
+                int MechID = Integer.parseInt(Mechanic.getValue()); 
+                String Repair = RepairDuration.getValue();
+                
+                String sql1 = "SELECT Hourly_Wage FROM Employees WHERE ID = '"+Mechanic.getValue()+"'";
+
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.prepareStatement(sql1);
+                ResultSet rs = stmt.executeQuery();
+                
+                int wage = rs.getInt("Hourly_Wage");
+                int RepT = Integer.parseInt(Repair.replaceAll("[^0-9]", "")); //REMOVE TEXT
+                double Bill = RepT*wage;
+                int CustID = vt.getCustomerID();
+                
+                rs.close();
+                stmt.close();
+                connect.close();
+                
+                //INSERT INFORMATION INTO DATABASE
+                String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.prepareStatement(sql);
+
+                stmt.setString(1, Reg);         
+                stmt.setString(2, BookingType);
+                stmt.setInt(3, MechID);
+                stmt.setString(4, BookingDate.getValue().toString());
+                stmt.setString(5, BookingTime.getValue());
+                stmt.setString(6, Repair);
+                stmt.setDouble(7, Bill);
+                stmt.setInt(8, CustID);
+
+                stmt.executeUpdate();
+                stmt.close();
+                connect.close();
+            //}
+        } 
+        catch(NullPointerException e)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Empty Fields");
             alert.setHeaderText("Missing Information");
             alert.setContentText("Please enter in all pieces of information");
             alert.showAndWait();
-        }
-        else
-        {
-            String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-            stmt = connect.prepareStatement(sql);
-
-            stmt.setString(1, Reg);         
-            stmt.setString(2, BookingType);
-            stmt.setInt(3, MechID);
-            stmt.setString(4, BookingDate.getValue().toString());
-            stmt.setString(5, BookingTime.getValue());
-            stmt.setString(6, RepairTime);
-            stmt.setDouble(7, Bill);
-            stmt.setInt(8, CustID);
-            
-            stmt.executeUpdate();
-            stmt.close();
-            connect.close();
         }
     }
 
@@ -184,6 +237,14 @@ public class AddController implements Initializable {
         }
 
         return FXCollections.observableArrayList(MechanicList);
+    }
+
+    //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKDAY
+    private ObservableList<String> RepairTimeFill() throws SQLException
+    {
+        ObservableList<String> List = FXCollections.observableArrayList("1 Hour", "2 Hours", "3 Hours", "4 Hours", "5 Hours", "6 Hours", "7 Hours", "8 Hours");
+
+        return FXCollections.observableArrayList(List);
     }
     
     //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKDAY
