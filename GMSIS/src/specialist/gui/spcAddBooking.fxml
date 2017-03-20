@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="AddBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpcAddBookingController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpcAddBookingController">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
