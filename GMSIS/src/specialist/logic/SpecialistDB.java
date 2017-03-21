@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -46,7 +47,11 @@ public class SpecialistDB
                     + "VALUES ("+"'"+name+"','"+address+"','"+phone+"','"+email+"');"; 
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "A new SPC has been added. \n");
+            //JOptionPane.showMessageDialog(null, "A new SPC has been added. \n");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Adding SPC");
+            alert.setHeaderText("Success");
+            alert.setContentText("A new SPC has been added.");
 
             stmt.close();
             conn.close();
@@ -70,7 +75,11 @@ public class SpecialistDB
                     + "VALUES ("+"'"+name+"','"+dDate+"','"+arrived+"','"+rDate+"','"+returned+"','"+parts+"','"+reg+"','"+cust+"','"+workOn+"','"+type+"','"+cost+"');"; 
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "A new SPC Booking has been added. \n");
+            //JOptionPane.showMessageDialog(null, "A new SPC Booking has been added. \n");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Adding SPC Booking");
+            alert.setHeaderText("Success");
+            alert.setContentText("A new SPC Booking has been added.");
 
             stmt.close();
             conn.close();
@@ -87,9 +96,13 @@ public class SpecialistDB
         
         try
         {
-            if(id.equals(""))
+            if(id == null)
             {
-                System.out.println("error");
+                //System.out.println("error");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("SPC has not been selected");
             } 
             else
             {    
@@ -116,6 +129,47 @@ public class SpecialistDB
         }
     }
     
+    public void editSPCBooking(String id)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        
+        try
+        {
+            if(id == null)
+            {
+                //System.out.println("error");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid Input");
+                alert.setContentText("SPC Booking has not been selected");
+                alert.showAndWait();
+            } 
+            else
+            {    
+                try
+                {
+                    Integer newid = Integer.parseInt(id);
+                    String tableColumn ="";
+                    //if(col==1){ tableColumn = "SPCname";}
+                    //else if(col==2){ tableColumn =  "SPCaddress"; }
+                    //else if(col==3){ tableColumn = "SPCphone"; }
+                    //else if(col==4){ tableColumn = "SPCemail"; }
+                    connect = DriverManager.getConnection(Recordurl);
+                    stmt = connect.createStatement();
+                    //String sql = "UPDATE SPC SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE SPCId = " + newid + " ;";
+
+                    //stmt.executeUpdate(sql);
+                    stmt.close();
+                    connect.close();
+                }catch(NumberFormatException e){System.out.println("Error in converting the id");}
+            }
+        }catch(SQLException e)
+        {
+           Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     public void deleteSPC(Object id)
     {
         Connection connect = null;
@@ -128,8 +182,12 @@ public class SpecialistDB
             String sql = "DELETE FROM SPC WHERE SPCId = " + id + ";";
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "SPC has been deleted."); 
-
+            //JOptionPane.showMessageDialog(null, "SPC has been deleted."); 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deleting SPC");
+            alert.setHeaderText("Success");
+            alert.setContentText("SPC has been deleted.");
+            
             stmt.close();
             connect.close();
         }catch(SQLException e)
@@ -150,8 +208,12 @@ public class SpecialistDB
             String sql = "DELETE FROM SPCBooking WHERE Id = " + id + ";";
 
             stmt.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "SPCBooking has been deleted."); 
-
+            //JOptionPane.showMessageDialog(null, "SPCBooking has been deleted."); 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deleting SPC Booking");
+            alert.setHeaderText("Success");
+            alert.setContentText("SPC Booking has been deleted.");
+            
             stmt.close();
             connect.close();
         }catch(SQLException e)

@@ -258,7 +258,7 @@ public class SpcEditBookingController implements Initializable {
     }
     
     @FXML
-    private void addSpcBookingButton(ActionEvent event) 
+    private void updateSpcBookingButton(ActionEvent event) 
     {
         String name = spcList.getSelectionModel().getSelectedItem();
         String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
