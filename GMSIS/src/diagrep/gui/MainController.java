@@ -27,11 +27,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -241,6 +245,32 @@ public class MainController implements Initializable {
         B.setCellValueFactory(new PropertyValueFactory("Bill"));
 
         Booking.setItems(allBookings);
+    }
+    
+    @FXML 
+    private void viewParts(ActionEvent event) throws IOException
+    {
+        BookingTable book = Booking.getSelectionModel().getSelectedItem();
+        if(book == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("No Booking Selected");
+            alert.setContentText("Please select a booking");
+            alert.showAndWait();
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PartsUsed.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            PUController controller = fxmlLoader.<PUController>getController();
+            controller.setBooking(book);
+            Stage stage = new Stage();
+            stage.setTitle("View Parts");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } 
     }
     
     // switch to home page 

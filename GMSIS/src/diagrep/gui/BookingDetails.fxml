@@ -47,5 +47,6 @@
       <Button fx:id="Show" layoutX="106.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowBookings" text="View All Bookings" AnchorPane.leftAnchor="78.0" />
       <Button layoutX="215.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowPastBookings" text="View Past Bookings" />
       <Button layoutX="365.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowFutureBookings" text="View Future Bookings" />
+      <Button layoutX="580.0" layoutY="540.0" mnemonicParsing="false" onAction="#viewParts" text="View Parts Used" />
   </children>
 </AnchorPane>
