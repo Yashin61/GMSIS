@@ -355,7 +355,6 @@ public class AddController implements Initializable {
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date date1 = format.parse(date);
         Date dateobj = new Date();
-        String Holiday1 = "14-04-2017";
         //ALERT IF USER PICKS DATE IN THE PAST
         if (date1.before(dateobj))
                 {
@@ -370,6 +369,7 @@ public class AddController implements Initializable {
         else
         {
             LocalDate d = BookingDate.getValue();
+            String dateCheck = BookingDate.getValue().toString();
             String day = d.getDayOfWeek().name();
             /*LocalDate Holiday1 = LocalDate.of(2017, Month.APRIL, 14);
             LocalDate Holiday2 = LocalDate.of(2017, Month.APRIL, 17);
@@ -378,7 +378,7 @@ public class AddController implements Initializable {
             LocalDate Holiday5 = LocalDate.of(2017, Month.AUGUST, 28);
             LocalDate Holiday6 = LocalDate.of(2017, Month.DECEMBER, 25);
             LocalDate Holiday7 = LocalDate.of(2017, Month.DECEMBER, 26);*/
-            //String Holiday1 = "14-04-2017";
+            String Holiday1 = "14-04-2017";
             
             if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || 
                day.equals("THURSDAY") || day.equals("FRIDAY"))
@@ -409,9 +409,9 @@ public class AddController implements Initializable {
                 alert.showAndWait();
             }
             //ALERT IF USER PICKS HOLIDAY DATE
-            if(date.equals("14-04-2017")/* || BookingDate.getValue().equals(Holiday2) || BookingDate.getValue().equals(Holiday3) ||
-                    BookingDate.getValue().equals(Holiday4) || BookingDate.getValue().equals(Holiday5) || BookingDate.getValue().equals(Holiday6) ||
-                    BookingDate.getValue().equals(Holiday7)*/);
+            else if(date.equals(Holiday1)/* || d.equals(Holiday2) || d.equals(Holiday3) ||
+                    d.equals(Holiday4) || d.equals(Holiday5) || d.equals(Holiday6) ||
+                    d.equals(Holiday7)*/)
             {
                 BookingDate.setValue(null);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
