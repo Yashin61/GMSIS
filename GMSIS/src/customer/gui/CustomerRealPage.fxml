@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" onMouseMoved="#handle" prefHeight="584.0" prefWidth="971.0" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" onMouseMoved="#handle" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
    <children>
-      <AnchorPane fx:id="topPane" layoutX="-9.0" layoutY="-5.0" prefHeight="110.0" prefWidth="982.0" stylesheets="@customerGUI.css">
+      <AnchorPane fx:id="topPane" layoutX="-9.0" layoutY="-5.0" prefHeight="110.0" prefWidth="982.0" >
          <children>
             <GridPane layoutX="115.0" prefHeight="30.0" prefWidth="838.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="60.0">
               <columnConstraints>
@@ -32,12 +32,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#change2Specialist" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="SPECIALIST REPAIRS" GridPane.columnIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#change2Parts" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="PARTS" GridPane.columnIndex="4" />
-                  <Button mnemonicParsing="false" onAction="#change2Bookings" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="DIAGNOSTIC AND REPAIR BOOKINGS" GridPane.columnIndex="3" />
-                  <Button mnemonicParsing="false" onAction="#change2Vehicle" stylesheets="@customerGUI.css" text="VEHICLE RECORDS" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#change2Specialist" text="SPECIALIST REPAIRS" GridPane.columnIndex="5" />
+                  <Button mnemonicParsing="false" onAction="#change2Parts" text="PARTS" GridPane.columnIndex="4" />
+                  <Button mnemonicParsing="false" onAction="#change2Bookings" text="DIAGNOSTIC AND REPAIR BOOKINGS" GridPane.columnIndex="3" />
+                  <Button mnemonicParsing="false" onAction="#change2Vehicle" text="VEHICLE RECORDS" GridPane.columnIndex="2" />
                   <Button mnemonicParsing="false" text="CUSTOMER ACCOUNTS" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#change2Home" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="HOME" />
+                  <Button mnemonicParsing="false" onAction="#change2Home" text="HOME" />
                </children>
             </GridPane>
          </children></AnchorPane>

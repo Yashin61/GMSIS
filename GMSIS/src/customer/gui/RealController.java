@@ -459,7 +459,7 @@ public class RealController implements Initializable
         else if(!regNumber.getText().equals(""))
         {
             System.out.println("Vehicle Details");
-            sql ="SELECT Vehicles.RegistrationNumber, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address, Customer_Accounts.Email, Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Account FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomersID = Customer_Accounts.ID WHERE Vehicles.RegistrationNumber = '" + regNumber.getText() + "' ";
+            sql ="SELECT Vehicles.RegistrationNumber, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address, Customer_Accounts.Email, Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Account FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Vehicles.RegistrationNumber = '" + regNumber.getText() + "' ";
             try
             {
                 Connection connection = null;
