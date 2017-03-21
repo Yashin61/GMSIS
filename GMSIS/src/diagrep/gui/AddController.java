@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,18 +119,6 @@ public class AddController implements Initializable {
         //SET VARIABLES TO ENTER INTO TABLE
         VehicleTable vt = VehiclesA.getSelectionModel().getSelectedItem();
         try {
-        // IF FIELDS ARE EMPTY, PRINT ERROR MESSAGE
-            /*if(vt.getRegNo().isEmpty() || BookType.equals(null) || Mechanic.getValue().isEmpty() || BookingDate.getValue().isEqual(null) || BookingTime.getValue().isEmpty() || RepairDuration.getValue().isEmpty() || CustomerName.getValue().isEmpty())  
-            {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Empty Fields");
-                alert.setHeaderText("Missing Information");
-                alert.setContentText("Please enter in all pieces of information");
-                alert.showAndWait();
-            }*/
-            //else
-            //{
-                //ASSIGN INFORMATION TO VARIABLES
                 String Reg = vt.getRegNo();
                 String BookingType = "";
                 if(DiagRep.isSelected())
@@ -167,7 +156,8 @@ public class AddController implements Initializable {
                 connect.close();
                 
                 //INSERT INFORMATION INTO DATABASE
-                String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, "
+                            + "BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.prepareStatement(sql);
@@ -181,10 +171,11 @@ public class AddController implements Initializable {
                 stmt.setDouble(7, Bill);
                 stmt.setInt(8, CustID);
 
+                SubmitToBillsPaid();
+                
                 stmt.executeUpdate();
                 stmt.close();
                 connect.close();
-            //}
         } 
         catch(NullPointerException e)
         {
@@ -196,6 +187,59 @@ public class AddController implements Initializable {
         }
     }
 
+    public void SubmitToBillsPaid() throws SQLException
+    {
+        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        PreparedStatement stmt = null;
+        Statement stmte = null;
+        
+        VehicleTable vt = VehiclesA.getSelectionModel().getSelectedItem();
+        String Reg = vt.getRegNo();
+        
+        String sql2 = "SELECT Booking.BookingID, Booking.CustomerID FROM Booking WHERE RegistrationNumber = '"+Reg+"'";
+
+                stmt = connect.prepareStatement(sql2);
+                ResultSet set = stmt.executeQuery();
+                
+                int BID = set.getInt("BookingID");
+                int CID = set.getInt("CustomerID");
+                
+                set.close();
+                stmt.close();
+        
+        String sql1 = "SELECT WarrantyID FROM Vehicle WHERE RegistrationNumber = '"+Reg+"'";
+
+                stmt = connect.prepareStatement(sql1);
+                ResultSet rs = stmt.executeQuery();
+                
+                int WarrantyCheck = rs.getInt("WarrantyID");
+                String Settle = "";
+                if (WarrantyCheck == 0)
+                {
+                    Settle = "SETTLED";
+                }
+                else
+                {
+                    Settle = "OUTSTANDING";
+                }
+                
+                rs.close();
+                stmt.close();
+        
+        String sql = "INSERT INTO BillsPaid(CustomerID, BookingID, SettleBill) VALUES(?, ?, ?)";
+
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.prepareStatement(sql);
+                
+                stmt.setInt(1, CID);         
+                stmt.setInt(2, BID);
+                stmt.setString(3, Settle);
+                
+                stmt.executeUpdate();
+                stmt.close();
+                connect.close();
+    }
+    
     @FXML
     private void AopenBookingDetails(ActionEvent event) {
         try
@@ -242,7 +286,8 @@ public class AddController implements Initializable {
     //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKDAY
     private ObservableList<String> RepairTimeFill() throws SQLException
     {
-        ObservableList<String> List = FXCollections.observableArrayList("1 Hour", "2 Hours", "3 Hours", "4 Hours", "5 Hours", "6 Hours", "7 Hours", "8 Hours");
+        ObservableList<String> List = FXCollections.observableArrayList("1 Hour", "2 Hours", "3 Hours", "4 Hours", 
+                                                                        "5 Hours", "6 Hours", "7 Hours", "8 Hours");
 
         return FXCollections.observableArrayList(List);
     }
@@ -250,7 +295,9 @@ public class AddController implements Initializable {
     //FILL BOOKINGTIME WITH OPENING TIMES FOR WEEKDAY
     private ObservableList<String> TimeFillWeekDay() throws SQLException
     {
-        ObservableList<String> List = FXCollections.observableArrayList("9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm", "2:30 pm", "3:00 pm", "3:30 pm", "4:00 pm", "4:30 pm");
+        ObservableList<String> List = FXCollections.observableArrayList("9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", 
+                                                                        "11:30 am", "12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", 
+                                                                        "2:00 pm", "2:30 pm", "3:00 pm", "3:30 pm", "4:00 pm", "4:30 pm");
 
         return FXCollections.observableArrayList(List);
     }
@@ -274,9 +321,13 @@ public class AddController implements Initializable {
             stmt = connect.createStatement();
             VehicleData = FXCollections.observableArrayList();
             String[] name = CustomerName.getValue().split(" ");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts "
+                                            + "ON Vehicles.CustomerID = Customer_Accounts.ID WHERE "
+                                            + "Customer_Accounts.Firstname = '"+name[0]
+                                            +"' AND Customer_Accounts.Surname = '"+name[1]+"'");
             while(rs.next()){
-                VehicleData.add(new VehicleTable(rs.getString(2), rs.getString(3), rs.getString(9), rs.getInt(7), rs.getInt(10))); 
+                VehicleData.add(new VehicleTable(rs.getString(2), rs.getString(3), 
+                                    rs.getString(9), rs.getInt(7), rs.getInt(10))); 
             }
             stmt.close();
             rs.close();
@@ -299,10 +350,12 @@ public class AddController implements Initializable {
     public void DateCheck(ActionEvent event) throws ParseException {
         //IF STATEMENT CHECKING DATE AND COMPARING
         String date = BookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        System.out.println(date);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         Date date1 = format.parse(date);
         Date dateobj = new Date();
+        String Holiday1 = "14-04-2017";
         //ALERT IF USER PICKS DATE IN THE PAST
         if (date1.before(dateobj))
                 {
@@ -318,7 +371,17 @@ public class AddController implements Initializable {
         {
             LocalDate d = BookingDate.getValue();
             String day = d.getDayOfWeek().name();
-            if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || day.equals("THURSDAY") || day.equals("FRIDAY"))
+            /*LocalDate Holiday1 = LocalDate.of(2017, Month.APRIL, 14);
+            LocalDate Holiday2 = LocalDate.of(2017, Month.APRIL, 17);
+            LocalDate Holiday3 = LocalDate.of(2017, Month.MAY, 1);
+            LocalDate Holiday4 = LocalDate.of(2017, Month.MAY, 29);
+            LocalDate Holiday5 = LocalDate.of(2017, Month.AUGUST, 28);
+            LocalDate Holiday6 = LocalDate.of(2017, Month.DECEMBER, 25);
+            LocalDate Holiday7 = LocalDate.of(2017, Month.DECEMBER, 26);*/
+            //String Holiday1 = "14-04-2017";
+            
+            if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || 
+               day.equals("THURSDAY") || day.equals("FRIDAY"))
             {
                 try {
                     BookingTime.setItems(TimeFillWeekDay());
@@ -345,9 +408,17 @@ public class AddController implements Initializable {
                 alert.setContentText("Select Another Date");
                 alert.showAndWait();
             }
-            else if(BookingDate.getValue().equals("11-02-2017"))
+            //ALERT IF USER PICKS HOLIDAY DATE
+            if(date.equals("14-04-2017")/* || BookingDate.getValue().equals(Holiday2) || BookingDate.getValue().equals(Holiday3) ||
+                    BookingDate.getValue().equals(Holiday4) || BookingDate.getValue().equals(Holiday5) || BookingDate.getValue().equals(Holiday6) ||
+                    BookingDate.getValue().equals(Holiday7)*/);
             {
-                
+                BookingDate.setValue(null);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid Date");
+                alert.setHeaderText("Garage Closed On This Date");
+                alert.setContentText("Select Another Date");
+                alert.showAndWait();
             }
         }
     }
