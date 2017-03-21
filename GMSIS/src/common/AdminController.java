@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -31,6 +32,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import static common.TemplateController.getUserID;
 import javafx.stage.Stage;
 
 /**
@@ -98,6 +103,17 @@ public class AdminController implements Initializable
     private CheckBox adminType;
     
     @FXML
+    private RadioButton userType;
+
+    @FXML
+    private ToggleGroup Accounts;
+
+    @FXML
+    private RadioButton adminsType;
+
+    
+    
+    @FXML
     private ObservableList<UserAccount> data;
     
     private int user_ID = 0;
@@ -126,8 +142,6 @@ public class AdminController implements Initializable
         }
         else
         {
-            
-
             boolean integerOr = checkInteger(hourlyWage.getText());
             if(integerOr == true)
             {
@@ -143,7 +157,14 @@ public class AdminController implements Initializable
                     stmt.setString(3, surname.getText());
                     stmt.setString(4, password.getText());
                     stmt.setInt(5, Integer.parseInt(hourlyWage.getText()));
-                    stmt.setString(6, "USER");
+                    if(adminsType.isSelected())
+                    {
+                        stmt.setString(6, "ADMIN");
+                    }
+                    else
+                    {
+                        stmt.setString(6, "USER");
+                    }
                     stmt.execute(); 
                    
                 }
@@ -273,12 +294,13 @@ public class AdminController implements Initializable
     @FXML
     private void deleteUser(ActionEvent event)
     {
+        System.out.println(getUserID());
         UserAccount user = dataTable.getSelectionModel().getSelectedItem();
         if(user == null)
         {
             noChosen();
         }
-        else if(adminType.isSelected())
+        else if(user.getID() == Integer.parseInt(getUserID()))
         {
             printAdmin();
         }
@@ -385,8 +407,6 @@ public class AdminController implements Initializable
     @FXML
     private void goBack(ActionEvent event) throws IOException
     {
-        
-  
         AnchorPane pane = FXMLLoader.load(getClass().getResource("Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }

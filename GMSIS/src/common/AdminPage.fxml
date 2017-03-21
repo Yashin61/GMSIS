@@ -3,16 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
    <children>
       <ImageView fitHeight="141.0" fitWidth="118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,7 +35,7 @@
           <TableColumn fx:id="table_wage" prefWidth="119.0" text="Hourly Wage" />
         </columns>
       </TableView>
-      <Button layoutX="260.0" layoutY="376.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
+      <Button layoutX="265.0" layoutY="414.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
       <Label layoutX="29.0" layoutY="142.0" text="ADD  USER">
          <font>
             <Font name="Apple Braille" size="18.0" />
@@ -63,7 +65,7 @@
       <TextField fx:id="surname" layoutX="134.0" layoutY="245.0" prefHeight="26.0" prefWidth="172.0" />
       <TextField fx:id="password" layoutX="135.0" layoutY="286.0" prefHeight="26.0" prefWidth="172.0" />
       <TextField fx:id="hourlyWage" layoutX="135.0" layoutY="325.0" prefHeight="26.0" prefWidth="172.0" />
-      <Button layoutX="190.0" layoutY="376.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
+      <Button layoutX="190.0" layoutY="414.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
       <Button layoutX="744.0" layoutY="447.0" mnemonicParsing="false" onAction="#openEdit" text="EDIT" AnchorPane.rightAnchor="187.0" />
       <Button layoutX="798.0" layoutY="447.0" mnemonicParsing="false" onAction="#deleteUser" text="DELETE" AnchorPane.rightAnchor="110.0" />
       <Separator layoutX="26.0" layoutY="472.0" prefHeight="27.0" prefWidth="927.0" />
@@ -83,5 +85,16 @@
       <Button layoutX="437.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
       <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="HOME" />
       <CheckBox fx:id="adminType" layoutX="324.0" layoutY="451.0" mnemonicParsing="false" onAction="#displayAdmins" text="ADMIN" />
+      <Label layoutX="27.0" layoutY="372.0" text="User Type:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="userType" layoutX="135.0" layoutY="374.0" mnemonicParsing="false" selected="true" text="User">
+         <toggleGroup>
+            <ToggleGroup fx:id="Accounts" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="adminsType" layoutX="210.0" layoutY="374.0" mnemonicParsing="false" text="Admin" toggleGroup="$Accounts" />
    </children>
 </AnchorPane>

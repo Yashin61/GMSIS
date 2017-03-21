@@ -61,6 +61,11 @@ public class TemplateController implements Initializable {
         welcomeLabel.setText(username);
     }
     
+    @FXML
+    public static String getUserID()
+    {
+        return allID;
+    }
     // opens the specialist page
     @FXML
     private void spcPage(ActionEvent event) throws IOException
