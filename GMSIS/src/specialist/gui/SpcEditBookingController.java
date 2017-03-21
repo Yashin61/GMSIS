@@ -7,6 +7,7 @@ package specialist.gui;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextField;
 import diagrep.logic.Database;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import specialist.logic.SpcBookingTables;
 import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
@@ -56,7 +58,7 @@ public class SpcEditBookingController implements Initializable {
     private JFXListView<String> spcList;
 
     @FXML
-    private ComboBox<String> custName;
+    private JFXTextField custName;
 
     @FXML
     private TableView<SpcBookingTables> vehicleList;
@@ -87,9 +89,6 @@ public class SpcEditBookingController implements Initializable {
 
     @FXML
     private ComboBox<String> repairOn;
-
-    @FXML
-    private ObservableList<String> customerList;
     
     @FXML
     private ObservableList<String> repairTypeList;
@@ -103,31 +102,7 @@ public class SpcEditBookingController implements Initializable {
     @FXML
     private ObservableList<SpcBookingTables> partData;
     
-    //show all the customers on the combo box
-    private ObservableList<String> customerFill()
-    {
-        Connection connect = null;
-        Statement stmt = null;
-        try
-        {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-            stmt = connect.createStatement();         
-            customerList = FXCollections.observableArrayList();
-            ResultSet rs = stmt.executeQuery("SELECT Firstname, Surname FROM Customer_Accounts");
-            while(rs.next()){
-                customerList.add(rs.getString("Firstname")+" "+rs.getString("Surname"));
-            }
-            stmt.close();
-            rs.close();
-            connect.close();
-        }
-        catch(SQLException e)
-        {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
-        }
-        
-        return customerList;
-    }
+    private SpcBookings booking;
     
     //show all the repair types on the combo box
     private ObservableList<String> repairTypeFill()
@@ -186,7 +161,7 @@ public class SpcEditBookingController implements Initializable {
     }
 
     @FXML
-    private void displayVehicles(ActionEvent event) {
+    private void displayVehicles(SpcBookings bookingSPC) {
         Connection connect = null;
         Statement stmt = null;
         
@@ -195,8 +170,10 @@ public class SpcEditBookingController implements Initializable {
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
-            String[] name = custName.getValue().split(" ");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
+            String[] name = custName.getText().split(" ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]
+                    +"' AND Customer_Accounts.Surname = '"+name[1]
+                    +"' AND Vehicles.RegistrationNumber = '"+bookingSPC.getSpcRNumber()+"'");
             while(rs.next()){
                 vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("ID"))); 
             }
@@ -258,6 +235,33 @@ public class SpcEditBookingController implements Initializable {
     }
     
     @FXML
+    private void displayParts2() {
+        Connection connect = null;
+        Statement stmt = null;
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            partData = FXCollections.observableArrayList();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");
+            while(rs.next()){
+                partData.add(new SpcBookingTables(rs.getInt("ID"),rs.getString("Name"))); 
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        //System.out.println(vehicleData);
+        tablePartId.setCellValueFactory(new PropertyValueFactory("partId"));
+        tablePartName.setCellValueFactory(new PropertyValueFactory("partName"));
+        partList.setItems(partData);
+    }
+    
+    @FXML
     private void updateSpcBookingButton(ActionEvent event) 
     {
         String name = spcList.getSelectionModel().getSelectedItem();
@@ -275,7 +279,16 @@ public class SpcEditBookingController implements Initializable {
                 SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
                 parts = partSPC.getPartId();
             }
-        }else{System.out.println("Select what to work on");}
+        }
+        else
+        {
+            //System.out.println("Select what to work on");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Select what to work on");
+            alert.showAndWait();
+        }
         
         
         String reg = "";
@@ -305,7 +318,6 @@ public class SpcEditBookingController implements Initializable {
             cost = 50.00;
             rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             type = "Repair";
-            
         }
         else if(repairType.getValue().equals("Re-condition - 11 days"))
         {
@@ -313,30 +325,40 @@ public class SpcEditBookingController implements Initializable {
             rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             type = "Re-condition";
         }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Please select the type of special repair you want");
+            alert.showAndWait();
+        }
 
         
-        if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals("")))
+        
+        if(!name.equals("") && !dDate.equals("") && !reg.equals("") && !custName.getText().equals("") && !workOn.equals("") && !type.equals(""))
         {
-            try {
-                //System.out.println("It works");
-                SpecialistDB a= new SpecialistDB();
-                a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
-                rootPane.getChildren().setAll(pane);
-            } catch (IOException ex) {
-                Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //System.out.println("It works");
+            SpecialistDB a= new SpecialistDB();
+            a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.close();
         }
         else
         {
-            System.out.println("Please input all the details.");
+            //System.out.println("Please input all the details.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Please complete");
+            alert.setHeaderText("Some details are still missing");
+            alert.setContentText("Please input all the details");
+            alert.showAndWait();
         }
     }
     
     //resets all the choices that has been made
     @FXML
     private void Reset(ActionEvent event) {
-        custName.setValue(null);
+        custName.setText(null);
         bookingDate.setValue(null);
         repairType.setValue(null);
         spcList.getSelectionModel().clearSelection();
@@ -347,16 +369,36 @@ public class SpcEditBookingController implements Initializable {
     @FXML
     public void setAllFields(SpcBookings spcBooking)throws ParseException
     {
-        custName.setValue(spcBooking.getSpcCustName());
+        booking = spcBooking;
+        custName.setText(spcBooking.getSpcCustName());
+        custName.setEditable(false);
+        
+        displayVehicles(spcBooking);
+        vehicleList.getSelectionModel().select(0);
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String date = spcBooking.getSpcDDate();
         //convert String to LocalDate
-        LocalDate localDate = LocalDate.parse(date, formatter);      
-        bookingDate.setValue(localDate);
+        LocalDate lDate = LocalDate.parse(date, formatter);      
+        bookingDate.setValue(lDate);
         
-        repairType.setValue(spcBooking.getSpcType());
+        if(spcBooking.getSpcType().equals("Repair"))
+        {
+            repairType.setValue("Repair - 5 days");
+        }
+        else
+        {
+             repairType.setValue("Re-condition - 11 days");
+        }
+        
+        spcList.getSelectionModel().select(spcBooking.getSpcBookingName());
+        
         repairOn.setValue(spcBooking.getSpcWOn());
+        if(repairOn.getValue().equals("Part"))
+        {
+            displayParts2();
+            partList.getSelectionModel().select(spcBooking.getSpcPartId()-1);
+        }
     }
     /**
      * Initializes the controller class.
@@ -364,7 +406,6 @@ public class SpcEditBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        custName.setItems(customerFill());
         repairType.setItems(repairTypeFill());
         repairOn.setItems(repairOnFill());
         SpecialistDB a = new SpecialistDB();

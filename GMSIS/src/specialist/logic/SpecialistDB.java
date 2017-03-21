@@ -129,7 +129,7 @@ public class SpecialistDB
         }
     }
     
-    public void editSPCBooking(String id)
+    public void editSPCBooking(String id, String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -150,16 +150,18 @@ public class SpecialistDB
                 try
                 {
                     Integer newid = Integer.parseInt(id);
-                    String tableColumn ="";
+                    //String tableColumn ="";
                     //if(col==1){ tableColumn = "SPCname";}
                     //else if(col==2){ tableColumn =  "SPCaddress"; }
                     //else if(col==3){ tableColumn = "SPCphone"; }
                     //else if(col==4){ tableColumn = "SPCemail"; }
                     connect = DriverManager.getConnection(Recordurl);
                     stmt = connect.createStatement();
-                    //String sql = "UPDATE SPC SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE SPCId = " + newid + " ;";
-
-                    //stmt.executeUpdate(sql);
+                    //String sql = "UPDATE SPCBooking SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE Id = " + newid + " ;";
+                    String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
+                            + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+" WHERE Id = "+id+" ;";
+                    //String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , " + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , " + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
+                    stmt.executeUpdate(sql);
                     stmt.close();
                     connect.close();
                 }catch(NumberFormatException e){System.out.println("Error in converting the id");}

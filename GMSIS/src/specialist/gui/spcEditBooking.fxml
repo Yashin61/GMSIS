@@ -68,6 +68,6 @@
          </font>
       </Label>
       <ComboBox fx:id="repairOn" layoutX="705.0" layoutY="290.0" onAction="#displayParts" prefHeight="26.0" prefWidth="206.0" />
-      <JFXTextField fx:id="custName" layoutX="200.0" layoutY="135.0" onAction="#displayVehicles" />
+      <JFXTextField fx:id="custName" layoutX="200.0" layoutY="135.0" prefHeight="25.0" prefWidth="163.0" />
    </children>
 </AnchorPane>
