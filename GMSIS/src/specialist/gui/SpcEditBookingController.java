@@ -36,6 +36,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import specialist.logic.SpcBookingTables;
+import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
 
 /**
@@ -342,6 +343,21 @@ public class SpcEditBookingController implements Initializable {
         repairOn.setValue(null);
     }
     
+    //sets the textfields already to the details of the spcBooking that the user wants to change
+    @FXML
+    public void setAllFields(SpcBookings spcBooking)throws ParseException
+    {
+        custName.setValue(spcBooking.getSpcCustName());
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String date = spcBooking.getSpcDDate();
+        //convert String to LocalDate
+        LocalDate localDate = LocalDate.parse(date, formatter);      
+        bookingDate.setValue(localDate);
+        
+        repairType.setValue(spcBooking.getSpcType());
+        repairOn.setValue(spcBooking.getSpcWOn());
+    }
     /**
      * Initializes the controller class.
      */

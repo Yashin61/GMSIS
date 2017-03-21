@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -33,9 +36,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
+import specialist.logic.theSPC;
 
 /**
  * FXML Controller class
@@ -655,6 +660,28 @@ public class SpcMainPageController implements Initializable {
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcAddBooking.fxml"));
         rootPane.getChildren().setAll(pane);
+    }
+    
+    @FXML
+    private void editSpcBookingPage(ActionEvent event) throws IOException, ParseException
+    {
+        SpcBookings spcBookings = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBookings == null)
+        {
+            JOptionPane.showMessageDialog(null,"Please select a SPC");
+        }
+        else
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SpcEditBooking.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            SpcEditBookingController Econtroller = fxmlLoader.<SpcEditBookingController>getController();
+            Econtroller.setAllFields(spcBookings);
+            Stage stage = new Stage();
+            stage.setTitle("Edit SPC");
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            showData();
+        } 
     }
     
     //delete an spc booking for part / vehicle

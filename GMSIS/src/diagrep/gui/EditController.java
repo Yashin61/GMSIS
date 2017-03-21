@@ -365,9 +365,54 @@ public class EditController implements Initializable {
                 alert.close();
             }
             
-            
+            ShowAllBookingsE();
         }
-    }         
+    }    
+    
+    //DELETE ENTRY FROM BILLSPAID TABLE
+    public void DeleteFromBillsPaid() throws SQLException
+    {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
+        int BookID = book.getBookingID();
+        String sql = "DELETE FROM BillsPaid WHERE BookingID = '"+BookID+"'";
+        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        PreparedStatement stmt = null;
+        stmt = connect.prepareStatement(sql);
+        stmt.executeUpdate();
+        
+        stmt.close();
+        connect.close();
+    }
+    
+    //DELETE ENTRY FROM PARTSUSED TABLE
+    public void DeleteFromPartsUsed() throws SQLException
+    {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
+        int BookID = book.getBookingID();
+        String sql = "DELETE FROM PartsUsed WHERE BookingID = '"+BookID+"'";
+        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        PreparedStatement stmt = null;
+        stmt = connect.prepareStatement(sql);
+        stmt.executeUpdate();
+        
+        stmt.close();
+        connect.close();
+    }
+    
+    //DELETE ENTRY FROM SPCBOOKING TABLE
+    public void DeleteFromSPCBooking() throws SQLException
+    {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
+        int BookID = book.getBookingID();
+        String sql = "DELETE FROM SPCBooking WHERE BookingID = '"+BookID+"'";
+        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        PreparedStatement stmt = null;
+        stmt = connect.prepareStatement(sql);
+        stmt.executeUpdate();
+        
+        stmt.close();
+        connect.close();
+    }
     
     // ENTERS INFORMATION INTO TEXTBOX FROM TABLE
     @FXML
