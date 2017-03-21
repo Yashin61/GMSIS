@@ -151,7 +151,9 @@ public class EditController implements Initializable {
             allBookingsE = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
             while(set.next()){
-                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                   set.getInt(4), set.getString(5), set.getString(6),
+                                                   set.getString(7), set.getDouble(8))); 
             }
             stmt.close();
             set.close();
@@ -184,12 +186,16 @@ public class EditController implements Initializable {
                 try
                 {   
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE Firstname like '" + Search_Bar.getText() + "%'";
+                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
+                               + "ON Booking.CustomerID = Customer_Accounts.ID "
+                               + "WHERE Firstname like '" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                           set.getInt(4), set.getString(5), set.getString(6),
+                                                           set.getString(7), set.getDouble(8))); 
                     }
                     stmt.close();
                     set.close();
@@ -216,12 +222,16 @@ public class EditController implements Initializable {
                 try
                 {   
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE Surname like '" + Search_Bar.getText() + "%'";
+                    String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
+                               + "ON Booking.CustomerID = Customer_Accounts.ID "
+                               + "WHERE Surname like '" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                           set.getInt(4), set.getString(5), set.getString(6),
+                                                           set.getString(7), set.getDouble(8))); 
                     }
                     stmt.close();
                     set.close();
@@ -253,7 +263,9 @@ public class EditController implements Initializable {
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                           set.getInt(4), set.getString(5), set.getString(6),
+                                                           set.getString(7), set.getDouble(8))); 
                     }
                     stmt.close();
                     set.close();
@@ -280,12 +292,16 @@ public class EditController implements Initializable {
                 try
                 {   
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                    String sql = "SELECT * FROM Booking INNER JOIN Vehicles ON Booking.RegistrationNumber = Vehicles.RegistrationNumber WHERE Make like '" + Search_Bar.getText() + "%'";
+                    String sql = "SELECT * FROM Booking INNER JOIN Vehicles "
+                               + "ON Booking.RegistrationNumber = Vehicles.RegistrationNumber "
+                               + "WHERE Make like '" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                           set.getInt(4), set.getString(5), set.getString(6),
+                                                           set.getString(7), set.getDouble(8))); 
                     }
                     stmt.close();
                     set.close();
@@ -318,7 +334,7 @@ public class EditController implements Initializable {
     
     // DELETE ENTRY FROM DATABASE
     @FXML
-    private void deleteBooking(ActionEvent event) {
+    private void deleteBooking(ActionEvent event) throws SQLException {
         BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
         
         if(book == null)
@@ -344,15 +360,31 @@ public class EditController implements Initializable {
             if(result.get() == yes)
             {
                 int BookID = book.getBookingID();
-                String sql = "DELETE FROM Booking WHERE BookingID = ?";
-                Connection connect = null;
+                Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 PreparedStatement stmt = null;
                 try
                 {
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    //DELETE FROM BOOKING TABLE
+                    String sql = "DELETE FROM Booking WHERE BookingID = ?";
                     stmt = connect.prepareStatement(sql);
                     stmt.setInt(1, BookID);
                     stmt.executeUpdate(); 
+                    stmt.close();
+                    
+                    //DELETE FROM BILLSPAID TABLE
+                    String sql1 = "DELETE FROM BillsPaid WHERE BookingID = ?";
+                    stmt = connect.prepareStatement(sql1);
+                    stmt.setInt(1, BookID);
+                    stmt.executeUpdate(); 
+                    stmt.close();
+                    
+                    //DELETE FROM PARTSUSED TABLE
+                    String sql2 = "DELETE FROM PartsUsed WHERE BookingID = ?";
+                    stmt = connect.prepareStatement(sql2);
+                    stmt.setInt(1, BookID);
+                    stmt.executeUpdate(); 
+                    stmt.close();
+                     
                     connect.close();
                 }
                 catch(SQLException e)
@@ -368,52 +400,7 @@ public class EditController implements Initializable {
             ShowAllBookingsE();
         }
     }    
-    
-    //DELETE ENTRY FROM BILLSPAID TABLE
-    public void DeleteFromBillsPaid() throws SQLException
-    {
-        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
-        int BookID = book.getBookingID();
-        String sql = "DELETE FROM BillsPaid WHERE BookingID = '"+BookID+"'";
-        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-        PreparedStatement stmt = null;
-        stmt = connect.prepareStatement(sql);
-        stmt.executeUpdate();
-        
-        stmt.close();
-        connect.close();
-    }
-    
-    //DELETE ENTRY FROM PARTSUSED TABLE
-    public void DeleteFromPartsUsed() throws SQLException
-    {
-        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
-        int BookID = book.getBookingID();
-        String sql = "DELETE FROM PartsUsed WHERE BookingID = '"+BookID+"'";
-        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-        PreparedStatement stmt = null;
-        stmt = connect.prepareStatement(sql);
-        stmt.executeUpdate();
-        
-        stmt.close();
-        connect.close();
-    }
-    
-    //DELETE ENTRY FROM SPCBOOKING TABLE
-    public void DeleteFromSPCBooking() throws SQLException
-    {
-        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();    
-        int BookID = book.getBookingID();
-        String sql = "DELETE FROM SPCBooking WHERE BookingID = '"+BookID+"'";
-        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-        PreparedStatement stmt = null;
-        stmt = connect.prepareStatement(sql);
-        stmt.executeUpdate();
-        
-        stmt.close();
-        connect.close();
-    }
-    
+   
     // ENTERS INFORMATION INTO TEXTBOX FROM TABLE
     @FXML
     private void EditDetails(MouseEvent event) {
@@ -456,7 +443,10 @@ public class EditController implements Initializable {
         Statement stmte = null;
         
         // IF TEXTFIELDS ARE EMPTY, PRINT ERROR MESSAGE
-        if(RegNo.getText().trim().isEmpty() || BookingType.getText().trim().isEmpty() || MechanicID.getText().trim().isEmpty() || Bill.getText().trim().isEmpty() || BookingDate.getText().trim().isEmpty() || BookingTime.getText().trim().isEmpty() || RepairTime.getText().trim().isEmpty())
+        if(RegNo.getText().trim().isEmpty() || BookingType.getText().trim().isEmpty() || 
+           MechanicID.getText().trim().isEmpty() || Bill.getText().trim().isEmpty() || 
+           BookingDate.getText().trim().isEmpty() || BookingTime.getText().trim().isEmpty() || 
+           RepairTime.getText().trim().isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Empty Fields");
@@ -468,7 +458,9 @@ public class EditController implements Initializable {
         // ELSE UPDATE THE TABLE
         else
         {
-            String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , " + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , " + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
+            String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , "
+                       + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , "
+                       + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
             
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.prepareStatement(sql);
@@ -491,15 +483,24 @@ public class EditController implements Initializable {
             stmt.close();
             connect.close();
             
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("Submitted");
+            alert.setContentText("Data Submitted To Table");
+            alert.showAndWait();
+            
             // SHOW THE UPDATED TABLE
-            try
+            ShowAllBookingsE();
+            /*try
             {   
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmte = connect.createStatement();
                 allBookingsE = FXCollections.observableArrayList();
                 ResultSet set = stmte.executeQuery("SELECT * FROM Booking");
                 while(set.next()){
-                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
+                                                   set.getInt(4), set.getString(5), set.getString(6),
+                                                   set.getString(7), set.getDouble(8))); 
             }
                 stmte.close();
                 set.close();
@@ -520,6 +521,7 @@ public class EditController implements Initializable {
                 BE.setCellValueFactory(new PropertyValueFactory("Bill"));
 
                 BookingE.setItems(allBookingsE);
-        }
-    }    
+        }*/
+        }    
+    }
 }

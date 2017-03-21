@@ -124,7 +124,9 @@ public class MainController implements Initializable {
             allBookings = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
             while(set.next()){
-                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
+                                                 set.getInt(4), set.getString(5), set.getString(6),
+                                                 set.getString(7), set.getDouble(8))); 
             }
             stmt.close();
             set.close();
@@ -166,7 +168,9 @@ public class MainController implements Initializable {
                 Date date1 = format.parse(date);
                 if (date1.compareTo(dateobj) <= 0)
                 {
-                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
+                                                     set.getInt(4), set.getString(5), set.getString(6),
+                                                     set.getString(7), set.getDouble(8))); 
                 }
             }
             stmt.close();
@@ -209,7 +213,9 @@ public class MainController implements Initializable {
                 String date = set.getString(5);
                 Date date1 = format.parse(date);
                 if (date1.compareTo(dateobj) >= 0)
-                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getString(5), set.getString(6), set.getString(7), set.getDouble(8))); 
+                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
+                                                 set.getInt(4), set.getString(5), set.getString(6),
+                                                 set.getString(7), set.getDouble(8))); 
             }
             stmt.close();
             set.close();

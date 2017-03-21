@@ -92,13 +92,14 @@ public class AddController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       try {
-           RepairDuration.setItems(RepairTimeFill());
-           CustomerName.setItems(CustomerFill());
-           Mechanic.setItems(MechanicFill());
-       } catch (SQLException ex) {
-           Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
-       }
+           BookType.selectToggle(DiagRep);
+           try {
+               RepairDuration.setItems(RepairTimeFill());
+               CustomerName.setItems(CustomerFill());
+               Mechanic.setItems(MechanicFill());
+           } catch (SQLException ex) {
+               Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+           }
     }    
 
     @FXML
@@ -108,6 +109,7 @@ public class AddController implements Initializable {
         BookingDate.setValue(null);
         BookingTime.setItems(null);
         VehiclesA.setItems(null);
+        BookType.selectToggle(DiagRep);
     }
 
     @FXML
@@ -129,14 +131,14 @@ public class AddController implements Initializable {
                 {
                     BookingType = "Specialist Repair";
                 }
-                else
+                /*else
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Booking Type");
                     alert.setHeaderText("Booking Type Not Selected");
                     alert.setContentText("Please select a booking type");
                     alert.showAndWait();
-                }
+                }*/
                 int MechID = Integer.parseInt(Mechanic.getValue()); 
                 String Repair = RepairDuration.getValue();
                 
@@ -170,12 +172,18 @@ public class AddController implements Initializable {
                 stmt.setString(6, Repair);
                 stmt.setDouble(7, Bill);
                 stmt.setInt(8, CustID);
-
-                SubmitToBillsPaid();
                 
                 stmt.executeUpdate();
                 stmt.close();
                 connect.close();
+                
+                SubmitToBillsPaid();
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("");
+                alert.setHeaderText("Submitted");
+                alert.setContentText("Data Submitted To Table");
+                alert.showAndWait();
         } 
         catch(NullPointerException e)
         {
@@ -191,30 +199,31 @@ public class AddController implements Initializable {
     {
         Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
         PreparedStatement stmt = null;
-        Statement stmte = null;
+        ResultSet rs = null;
         
         VehicleTable vt = VehiclesA.getSelectionModel().getSelectedItem();
         String Reg = vt.getRegNo();
+        int CID = vt.getCustomerID();
         
-        String sql2 = "SELECT Booking.BookingID, Booking.CustomerID FROM Booking WHERE RegistrationNumber = '"+Reg+"'";
+        String sql2 = "SELECT * FROM Booking ORDER BY BookingID DESC LIMIT 1";
 
                 stmt = connect.prepareStatement(sql2);
-                ResultSet set = stmt.executeQuery();
+                rs = stmt.executeQuery();
                 
-                int BID = set.getInt("BookingID");
-                int CID = set.getInt("CustomerID");
+                int BID = rs.getInt("BookingID");
+                System.out.println(BID);
                 
-                set.close();
+                rs.close();
                 stmt.close();
         
-        String sql1 = "SELECT WarrantyID FROM Vehicle WHERE RegistrationNumber = '"+Reg+"'";
+        String sql1 = "SELECT * FROM Vehicles WHERE RegistrationNumber = '"+Reg+"'";
 
                 stmt = connect.prepareStatement(sql1);
-                ResultSet rs = stmt.executeQuery();
+                rs = stmt.executeQuery();
                 
                 int WarrantyCheck = rs.getInt("WarrantyID");
-                String Settle = "";
-                if (WarrantyCheck == 0)
+                String Settle;
+                if (WarrantyCheck != 0)
                 {
                     Settle = "SETTLED";
                 }
@@ -349,76 +358,79 @@ public class AddController implements Initializable {
     @FXML
     public void DateCheck(ActionEvent event) throws ParseException {
         //IF STATEMENT CHECKING DATE AND COMPARING
-        String date = BookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        System.out.println(date);
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Date date1 = format.parse(date);
-        Date dateobj = new Date();
-        //ALERT IF USER PICKS DATE IN THE PAST
-        if (date1.before(dateobj))
+        if (BookingDate.getValue()!=null)
+        {
+            String date = BookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            //System.out.println(date);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            Date date1 = format.parse(date);
+            Date dateobj = new Date();
+            //ALERT IF USER PICKS DATE IN THE PAST
+            if (date1.before(dateobj))
+                    {
+                        BookingDate.setValue(null);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Invalid Date");
+                        alert.setHeaderText("Picked A Date In The Past");
+                        alert.setContentText("Select A Date In The Future");
+                        alert.showAndWait();
+                    }
+            //DISPLAY OPENING TIMES FOR WEEKDAY IF DATE CHOSEN IS ON A WEEKDAY
+            else
+            {
+                LocalDate d = BookingDate.getValue();
+                String dateCheck = BookingDate.getValue().toString();
+                String day = d.getDayOfWeek().name();
+
+                String Holiday1 = "2017-04-14";
+                String Holiday2 = "2017-04-17";
+                String Holiday3 = "2017-05-01";
+                String Holiday4 = "2017-05-29";
+                String Holiday5 = "2017-08-28";
+                String Holiday6 = "2017-12-25";
+                String Holiday7 = "2017-12-26";
+                
+                //ALERT IF USER PICKS HOLIDAY DATE
+                if(dateCheck.equals(Holiday1) || dateCheck.equals(Holiday2) || dateCheck.equals(Holiday3) ||
+                   dateCheck.equals(Holiday4) || dateCheck.equals(Holiday5) || dateCheck.equals(Holiday6) ||
+                   dateCheck.equals(Holiday7))
                 {
                     BookingDate.setValue(null);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Invalid Date");
-                    alert.setHeaderText("Picked A Date In The Past");
-                    alert.setContentText("Select A Date In The Future");
+                    alert.setHeaderText("Garage Closed On This Date");
+                    alert.setContentText("Select Another Date");
                     alert.showAndWait();
                 }
-        //DISPLAY OPENING TIMES FOR WEEKDAY IF DATE CHOSEN IS ON A WEEKDAY
-        else
-        {
-            LocalDate d = BookingDate.getValue();
-            String dateCheck = BookingDate.getValue().toString();
-            String day = d.getDayOfWeek().name();
-            /*LocalDate Holiday1 = LocalDate.of(2017, Month.APRIL, 14);
-            LocalDate Holiday2 = LocalDate.of(2017, Month.APRIL, 17);
-            LocalDate Holiday3 = LocalDate.of(2017, Month.MAY, 1);
-            LocalDate Holiday4 = LocalDate.of(2017, Month.MAY, 29);
-            LocalDate Holiday5 = LocalDate.of(2017, Month.AUGUST, 28);
-            LocalDate Holiday6 = LocalDate.of(2017, Month.DECEMBER, 25);
-            LocalDate Holiday7 = LocalDate.of(2017, Month.DECEMBER, 26);*/
-            String Holiday1 = "14-04-2017";
-            
-            if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || 
-               day.equals("THURSDAY") || day.equals("FRIDAY"))
-            {
-                try {
-                    BookingTime.setItems(TimeFillWeekDay());
-                } catch (SQLException ex) {
-                    Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                else if(day.equals("MONDAY") || day.equals("TUESDAY") || day.equals("WEDNESDAY") || 
+                   day.equals("THURSDAY") || day.equals("FRIDAY"))
+                {
+                    try {
+                        BookingTime.setItems(TimeFillWeekDay());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-            //DISPLAY OPENING TIMES FOR WEEKEND IF DATE CHOSEN IS ON A WEEKEND
-            else if(day.equals("SATURDAY"))
-            {
-                try {    
-                    BookingTime.setItems(TimeFillWeekEnd());
-                } catch (SQLException ex) {
-                    Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                //DISPLAY OPENING TIMES FOR WEEKEND IF DATE CHOSEN IS ON A WEEKEND
+                else if(day.equals("SATURDAY"))
+                {
+                    try {    
+                        BookingTime.setItems(TimeFillWeekEnd());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-            //ALERT IF USER PICKS DATE WHERE THE DAY IS SUNDAY
-            else if(day.equals("SUNDAY"))
-            {
-                BookingDate.setValue(null);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Invalid Date");
-                alert.setHeaderText("Garage Closed On Sunday");
-                alert.setContentText("Select Another Date");
-                alert.showAndWait();
-            }
-            //ALERT IF USER PICKS HOLIDAY DATE
-            else if(date.equals(Holiday1)/* || d.equals(Holiday2) || d.equals(Holiday3) ||
-                    d.equals(Holiday4) || d.equals(Holiday5) || d.equals(Holiday6) ||
-                    d.equals(Holiday7)*/)
-            {
-                BookingDate.setValue(null);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Invalid Date");
-                alert.setHeaderText("Garage Closed On This Date");
-                alert.setContentText("Select Another Date");
-                alert.showAndWait();
+                //ALERT IF USER PICKS DATE WHERE THE DAY IS SUNDAY
+                else if(day.equals("SUNDAY"))
+                {
+                    BookingDate.setValue(null);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Invalid Date");
+                    alert.setHeaderText("Garage Closed On Sunday");
+                    alert.setContentText("Select Another Date");
+                    alert.showAndWait();
+                }
             }
         }
     }
