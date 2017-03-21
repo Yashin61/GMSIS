@@ -75,6 +75,8 @@ public class EditController implements Initializable {
     @FXML
     private TableColumn<BookingTableE, String> RegE;
     @FXML
+    private TableColumn<BookingTableE, Integer> MileE;
+    @FXML
     private TableColumn<BookingTableE, String> ToBE;
     @FXML
     private TableColumn<BookingTableE, Integer> MIDE;
@@ -151,9 +153,9 @@ public class EditController implements Initializable {
             allBookingsE = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
             while(set.next()){
-                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                   set.getInt(4), set.getString(5), set.getString(6),
-                                                   set.getString(7), set.getDouble(8))); 
+                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                   set.getInt(5), set.getString(6), set.getString(7),
+                                                   set.getString(8), set.getDouble(9))); 
             }
             stmt.close();
             set.close();
@@ -166,6 +168,7 @@ public class EditController implements Initializable {
         
         BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
         RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        MileE.setCellValueFactory(new PropertyValueFactory("Mileage"));
         ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
         MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
         BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -193,9 +196,9 @@ public class EditController implements Initializable {
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                           set.getInt(4), set.getString(5), set.getString(6),
-                                                           set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                           set.getInt(5), set.getString(6), set.getString(7),
+                                                           set.getString(8), set.getDouble(9))); 
                     }
                     stmt.close();
                     set.close();
@@ -208,6 +211,7 @@ public class EditController implements Initializable {
 
                 BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
                 RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                MileE.setCellValueFactory(new PropertyValueFactory("Mileage"));
                 ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
                 MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
                 BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -229,9 +233,9 @@ public class EditController implements Initializable {
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                           set.getInt(4), set.getString(5), set.getString(6),
-                                                           set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                           set.getInt(5), set.getString(6), set.getString(7),
+                                                           set.getString(8), set.getDouble(9))); 
                     }
                     stmt.close();
                     set.close();
@@ -244,6 +248,7 @@ public class EditController implements Initializable {
 
                 BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
                 RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                MileE.setCellValueFactory(new PropertyValueFactory("Mileage"));
                 ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
                 MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
                 BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -263,9 +268,9 @@ public class EditController implements Initializable {
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                           set.getInt(4), set.getString(5), set.getString(6),
-                                                           set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                           set.getInt(5), set.getString(6), set.getString(7),
+                                                           set.getString(8), set.getDouble(9))); 
                     }
                     stmt.close();
                     set.close();
@@ -278,6 +283,7 @@ public class EditController implements Initializable {
 
                 BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
                 RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                MileE.setCellValueFactory(new PropertyValueFactory("Mileage"));
                 ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
                 MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
                 BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -299,9 +305,9 @@ public class EditController implements Initializable {
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
                     while(set.next()){
-                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                           set.getInt(4), set.getString(5), set.getString(6),
-                                                           set.getString(7), set.getDouble(8))); 
+                        allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                           set.getInt(5), set.getString(6), set.getString(7),
+                                                           set.getString(8), set.getDouble(9)));
                     }
                     stmt.close();
                     set.close();
@@ -314,6 +320,7 @@ public class EditController implements Initializable {
 
                 BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
                 RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+                MileE.setCellValueFactory(new PropertyValueFactory("Mileage"));
                 ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
                 MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
                 BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -424,7 +431,7 @@ public class EditController implements Initializable {
         
         // SET BOOKING DATE TEXTFIELD
         String setBD = book.getBookingDate();
-        BookingDate.setText(setReg);
+        BookingDate.setText(setBD);
         
         // SET BOOKING TIME TEXTFIELD
         String setBT = book.getBookingTime();
@@ -491,37 +498,6 @@ public class EditController implements Initializable {
             
             // SHOW THE UPDATED TABLE
             ShowAllBookingsE();
-            /*try
-            {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                stmte = connect.createStatement();
-                allBookingsE = FXCollections.observableArrayList();
-                ResultSet set = stmte.executeQuery("SELECT * FROM Booking");
-                while(set.next()){
-                allBookingsE.add(new BookingTableE(set.getInt(1), set.getString(2), set.getString(3),
-                                                   set.getInt(4), set.getString(5), set.getString(6),
-                                                   set.getString(7), set.getDouble(8))); 
-            }
-                stmte.close();
-                set.close();
-                connect.close();
-            }
-            catch(SQLException e)
-            {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
-            }
-        
-                BIDE.setCellValueFactory(new PropertyValueFactory("BookingID"));
-                RegE.setCellValueFactory(new PropertyValueFactory("RegNumber"));
-                ToBE.setCellValueFactory(new PropertyValueFactory("BookingType"));
-                MIDE.setCellValueFactory(new PropertyValueFactory("MechanicID"));
-                BDE.setCellValueFactory(new PropertyValueFactory("BookingDate"));
-                BTE.setCellValueFactory(new PropertyValueFactory("BookingTime"));
-                RepDurE.setCellValueFactory(new PropertyValueFactory("RepairTime"));
-                BE.setCellValueFactory(new PropertyValueFactory("Bill"));
-
-                BookingE.setItems(allBookingsE);
-        }*/
         }    
     }
 }

@@ -55,6 +55,8 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<BookingTable, String> Reg;
     @FXML
+    private TableColumn<BookingTable, Integer> Mile;
+    @FXML
     private TableColumn<BookingTable, String> ToB;
     @FXML
     private TableColumn<BookingTable, Integer> MID;
@@ -124,9 +126,9 @@ public class MainController implements Initializable {
             allBookings = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
             while(set.next()){
-                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
-                                                 set.getInt(4), set.getString(5), set.getString(6),
-                                                 set.getString(7), set.getDouble(8))); 
+                allBookings.add(new BookingTable(set.getInt(1), set.getString(2),set.getInt(3), set.getString(4),
+                                                 set.getInt(5), set.getString(6), set.getString(7),
+                                                 set.getString(8), set.getDouble(9))); 
             }
             stmt.close();
             set.close();
@@ -139,6 +141,7 @@ public class MainController implements Initializable {
         
         BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
         Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        Mile.setCellValueFactory(new PropertyValueFactory("Mileage"));
         ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
         MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
         BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -164,13 +167,13 @@ public class MainController implements Initializable {
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                 Date dateobj = new Date();
-                String date = set.getString(5);
+                String date = set.getString(6);
                 Date date1 = format.parse(date);
                 if (date1.compareTo(dateobj) <= 0)
                 {
-                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
-                                                     set.getInt(4), set.getString(5), set.getString(6),
-                                                     set.getString(7), set.getDouble(8))); 
+                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                     set.getInt(5), set.getString(6), set.getString(7),
+                                                     set.getString(8), set.getDouble(9))); 
                 }
             }
             stmt.close();
@@ -184,6 +187,7 @@ public class MainController implements Initializable {
         
         BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
         Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        Mile.setCellValueFactory(new PropertyValueFactory("Mileage"));
         ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
         MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
         BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));
@@ -210,12 +214,12 @@ public class MainController implements Initializable {
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                 DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                 Date dateobj = new Date();
-                String date = set.getString(5);
+                String date = set.getString(6);
                 Date date1 = format.parse(date);
                 if (date1.compareTo(dateobj) >= 0)
-                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getString(3),
-                                                 set.getInt(4), set.getString(5), set.getString(6),
-                                                 set.getString(7), set.getDouble(8))); 
+                allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                 set.getInt(5), set.getString(6), set.getString(7),
+                                                 set.getString(8), set.getDouble(9))); 
             }
             stmt.close();
             set.close();
@@ -228,6 +232,7 @@ public class MainController implements Initializable {
         
         BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
         Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        Mile.setCellValueFactory(new PropertyValueFactory("Mileage"));
         ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
         MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
         BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));

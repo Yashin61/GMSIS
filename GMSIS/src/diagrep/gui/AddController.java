@@ -131,14 +131,7 @@ public class AddController implements Initializable {
                 {
                     BookingType = "Specialist Repair";
                 }
-                /*else
-                {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Booking Type");
-                    alert.setHeaderText("Booking Type Not Selected");
-                    alert.setContentText("Please select a booking type");
-                    alert.showAndWait();
-                }*/
+                
                 int MechID = Integer.parseInt(Mechanic.getValue()); 
                 String Repair = RepairDuration.getValue();
                 
@@ -152,26 +145,28 @@ public class AddController implements Initializable {
                 int RepT = Integer.parseInt(Repair.replaceAll("[^0-9]", "")); //REMOVE TEXT
                 double Bill = RepT*wage;
                 int CustID = vt.getCustomerID();
+                int Mileage = vt.getMileage();
                 
                 rs.close();
                 stmt.close();
                 connect.close();
                 
                 //INSERT INFORMATION INTO DATABASE
-                String sql = "INSERT INTO Booking(RegistrationNumber, BookingType, MechanicID, BookingDate, "
-                            + "BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO Booking(RegistrationNumber, Mileage, BookingType, MechanicID, BookingDate, "
+                            + "BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.prepareStatement(sql);
 
-                stmt.setString(1, Reg);         
-                stmt.setString(2, BookingType);
-                stmt.setInt(3, MechID);
-                stmt.setString(4, BookingDate.getValue().toString());
-                stmt.setString(5, BookingTime.getValue());
-                stmt.setString(6, Repair);
-                stmt.setDouble(7, Bill);
-                stmt.setInt(8, CustID);
+                stmt.setString(1, Reg);   
+                stmt.setInt(2, Mileage);
+                stmt.setString(3, BookingType);
+                stmt.setInt(4, MechID);
+                stmt.setString(5, BookingDate.getValue().toString());
+                stmt.setString(6, BookingTime.getValue());
+                stmt.setString(7, Repair);
+                stmt.setDouble(8, Bill);
+                stmt.setInt(9, CustID);
                 
                 stmt.executeUpdate();
                 stmt.close();

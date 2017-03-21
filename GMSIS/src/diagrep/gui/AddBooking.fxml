@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="AddBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.AddController">
+<AnchorPane id="AnchorPane" fx:id="AddBooking" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.AddController">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
@@ -28,7 +28,7 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="180.0" text="Customer Name:" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="795.0">
+      <Label layoutX="60.0" layoutY="180.0" text="Customer Name:">
          <font>
             <Font size="15.0" />
          </font>

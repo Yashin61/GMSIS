@@ -20,6 +20,7 @@ import javafx.beans.property.DoubleProperty;
 public class BookingTable {
     private final IntegerProperty BookingID;
     private final StringProperty RegNumber;
+    private final IntegerProperty Mileage;
     private final StringProperty BookingType;
     private final IntegerProperty MechanicID;
     private final StringProperty BookingDate;
@@ -27,9 +28,10 @@ public class BookingTable {
     private final StringProperty RepairTime;
     private final DoubleProperty Bill; 
     
-    public BookingTable(Integer BookingID, String RegNumber, String BookingType, Integer MechanicID, String BookingDate, String BookingTime, String RepairTime, Double Bill){
+    public BookingTable(Integer BookingID, String RegNumber, Integer Mileage, String BookingType, Integer MechanicID, String BookingDate, String BookingTime, String RepairTime, Double Bill){
         this.BookingID = new SimpleIntegerProperty(BookingID);
         this.RegNumber = new SimpleStringProperty(RegNumber);
+        this.Mileage = new SimpleIntegerProperty(Mileage);
         this.BookingType = new SimpleStringProperty(BookingType);
         this.MechanicID = new SimpleIntegerProperty(MechanicID);
         this.BookingDate = new SimpleStringProperty(BookingDate);
@@ -62,6 +64,19 @@ public class BookingTable {
     
     public void setRegNumber(String x){
         RegNumber.set(x);
+    }
+    
+    /******Mileage******/
+    public int getMileage(){
+        return Mileage.get();
+    }
+    
+    public IntegerProperty MileageProperty(){
+        return Mileage;
+    }
+    
+    public void setMileage(Integer x){
+        Mileage.set(x);
     }
     
     /******Booking Type******/

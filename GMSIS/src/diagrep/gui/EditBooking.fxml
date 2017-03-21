@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="EditBooking" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.EditController">
+<AnchorPane id="AnchorPane" fx:id="EditBooking" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.EditController">
    <children>
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
@@ -35,14 +35,15 @@
       <Button fx:id="Search_Button" layoutX="840.0" layoutY="160.0" mnemonicParsing="false" onAction="#searchBookings" text="SEARCH" />
       <TableView fx:id="BookingE" layoutX="54.0" layoutY="206.0" onMouseClicked="#EditDetails" prefHeight="113.0" prefWidth="931.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
         <columns>
-            <TableColumn fx:id="BIDE" prefWidth="93.41622543334961" text="Booking ID" />
-            <TableColumn fx:id="RegE" prefWidth="178.58379364013672" text="Registration Number" />
-          <TableColumn fx:id="ToBE" prefWidth="132.0" text="Type of Booking" />
-          <TableColumn fx:id="MIDE" prefWidth="100.0" text="Mechanic ID" />
-            <TableColumn fx:id="BDE" prefWidth="117.07583618164062" text="Booking Date" />
-            <TableColumn fx:id="BTE" prefWidth="117.58905029296875" text="Booking Time" />
-            <TableColumn fx:id="RepDurE" prefWidth="117.4110107421875" text="Repair Duration" />
-            <TableColumn fx:id="BE" prefWidth="84.6492919921875" text="Bill" />
+            <TableColumn fx:id="BIDE" prefWidth="81.98102951049805" text="Booking ID" />
+            <TableColumn fx:id="RegE" prefWidth="154.44073486328125" text="Registration Number" />
+            <TableColumn fx:id="MileE" prefWidth="89.92886352539062" text="Mileage" />
+          <TableColumn fx:id="ToBE" prefWidth="155.9715576171875" text="Type of Booking" />
+          <TableColumn fx:id="MIDE" prefWidth="100.02838134765625" text="Mechanic ID" />
+            <TableColumn fx:id="BDE" prefWidth="102.0093994140625" text="Booking Date" />
+            <TableColumn fx:id="BTE" prefWidth="94.76776123046875" text="Booking Time" />
+            <TableColumn fx:id="RepDurE" prefWidth="106.5640869140625" text="Repair Duration" />
+            <TableColumn fx:id="BE" prefWidth="69.00006103515625" text="Bill" />
         </columns>
       </TableView>
       <Label layoutX="32.0" layoutY="360.0" text="Registration Number:" AnchorPane.leftAnchor="20.0">
