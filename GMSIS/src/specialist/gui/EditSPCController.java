@@ -55,6 +55,7 @@ public class EditSPCController implements Initializable {
     public void setAllFields(theSPC spc)
     {
         spcId.setText(""+spc.getSPCid());
+        spcId.setEditable(false);
         spcName.setText(spc.getSPCname());
         spcAddress.setText(spc.getSPCaddress());
         spcPhone.setText(spc.getSPCphone());
