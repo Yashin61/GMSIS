@@ -19,6 +19,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -201,6 +202,23 @@ public class SpcBookings
     
     public void setSpcArrive(String arrived) {
         SpcArrived.set(arrived);
+        Connection connect = null;
+        Statement stmt = null;
+        
+        try
+        {
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+
+            String sql = "UPDATE SPCBooking SET Arrived = '"+arrived+"' WHERE Id = "+getSpcBookingId()+" ;";
+
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+           Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     public void setSpcRDate(String rDate) {
@@ -209,6 +227,23 @@ public class SpcBookings
 
     public void setSpcReturn(String returned) {
         SpcReturned.set(returned);
+        Connection connect = null;
+        Statement stmt = null;
+        
+        try
+        {
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+
+            String sql = "UPDATE SPCBooking SET Returned = '"+returned+"' WHERE Id = "+getSpcBookingId()+" ;";
+
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+           Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     public void setSpcRNumber(String rNumber){

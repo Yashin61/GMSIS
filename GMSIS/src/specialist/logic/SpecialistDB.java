@@ -150,17 +150,12 @@ public class SpecialistDB
                 try
                 {
                     Integer newid = Integer.parseInt(id);
-                    //String tableColumn ="";
-                    //if(col==1){ tableColumn = "SPCname";}
-                    //else if(col==2){ tableColumn =  "SPCaddress"; }
-                    //else if(col==3){ tableColumn = "SPCphone"; }
-                    //else if(col==4){ tableColumn = "SPCemail"; }
                     connect = DriverManager.getConnection(Recordurl);
                     stmt = connect.createStatement();
-                    //String sql = "UPDATE SPCBooking SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE Id = " + newid + " ;";
+                    
                     String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
                             + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+" WHERE Id = "+id+" ;";
-                    //String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , " + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , " + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
+                    
                     stmt.executeUpdate(sql);
                     stmt.close();
                     connect.close();

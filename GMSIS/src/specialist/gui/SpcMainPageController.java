@@ -27,6 +27,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -539,11 +541,16 @@ public class SpcMainPageController implements Initializable {
                                 +"Mileage = "+set.getString("Mileage")+"\n";
                         String mot = "MOT renewal date = "+set.getString("MOTRenewalDate")+"\n"
                                 +"Last service date = "+set.getString("LastServiceDate")+"\n";
-                        //JOptionPane.showMessageDialog(null,vehicle+make+engSize+mot);
+                        String dates = "Expected delivery date to SPC = "+spcBooking.getSpcDDate()+"\n"
+                                +"Arrived at SPC ? = "+spcBooking.getSpcArrive()+"\n"
+                                +"Expected return date from SPC = "+spcBooking.getSpcRDate()+"\n"
+                                +"Returned from SPC ? = "+spcBooking.getSpcReturn()+"\n";
+                        String repairType = "Type of specialist repais being done on "+spcBooking.getSpcWOn()+" = "+spcBooking.getSpcType();
+                        
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Vehicle Details");
                         alert.setHeaderText(vehicle);
-                        alert.setContentText(make+engSize+mot);
+                        alert.setContentText(make+engSize+mot+dates+repairType);
                         alert.showAndWait();
                     }
                     stmt.close();
@@ -716,6 +723,92 @@ public class SpcMainPageController implements Initializable {
             } 
             else { /* the user closes the confirmation dialog*/}
             showData();
+        }
+    }
+    
+    //mark spc item as arrived to the spc
+    @FXML
+    private void spcItemArrived(ActionEvent event)
+    {
+        SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBooking == null)
+        {
+            //JOptionPane.showMessageDialog(null,"Please select a SPC Booking");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select a SPC Booking that you want to mark as arrived to SPC");
+            alert.showAndWait();
+            
+        }
+        else
+        {
+            //int row = dataTable.getSelectionModel().getSelectedIndex();
+            int row = spcBooking.getSpcBookingId();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Please Confirm");
+            alert.setContentText("Has the item arrived to the SPC?");
+            
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE); 
+            alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+            
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == yesButton){
+                // if the user chooses to click yes
+                spcBooking.setSpcArrive("Yes");
+            } 
+            else if(result.get() == noButton)
+            {
+                // if the user chooses to click no
+                spcBooking.setSpcArrive("No");
+            }
+            else { /* the user closes the confirmation dialog*/}
+        }
+    }
+    
+    //mark spc item as complete / returned
+    @FXML
+    private void spcItemReturned(ActionEvent event)
+    {
+        SpcBookings spcBooking = dataTable.getSelectionModel().getSelectedItem();
+        if(spcBooking == null)
+        {
+            //JOptionPane.showMessageDialog(null,"Please select a SPC Booking");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select a SPC Booking that you want to mark as arrived to SPC");
+            alert.showAndWait();
+            
+        }
+        else
+        {
+            //int row = dataTable.getSelectionModel().getSelectedIndex();
+            int row = spcBooking.getSpcBookingId();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Please Confirm");
+            alert.setContentText("Is the repairs on the item completed");
+            
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE); 
+            alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+            
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == yesButton){
+                // if the user chooses to click yes
+                spcBooking.setSpcReturn("Yes");
+            } 
+            else if(result.get() == noButton)
+            {
+                // if the user chooses to click no
+                spcBooking.setSpcReturn("No");
+            }
+            else { /* the user closes the confirmation dialog*/}
         }
     }
     
