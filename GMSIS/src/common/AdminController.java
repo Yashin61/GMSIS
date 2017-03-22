@@ -60,8 +60,7 @@ public class AdminController implements Initializable
     @FXML
     private TextField hourlyWage;
 
-    @FXML
-    private TextField id;
+
     
     @FXML
     private TextField idE;
@@ -106,6 +105,9 @@ public class AdminController implements Initializable
     private CheckBox adminType;
     
     @FXML
+    private CheckBox userCheck;
+    
+    @FXML
     private RadioButton userType;
 
     @FXML
@@ -133,12 +135,24 @@ public class AdminController implements Initializable
     @FXML
     private void displayAdmins(ActionEvent event)
     {
+        userCheck.setSelected(false);
         display();
     }
     
     @FXML
+    private void displayUsers(ActionEvent event)
+    {
+        adminType.setSelected(false);
+        display();
+    }
+
+    
+    
+    @FXML
     private void addUser(ActionEvent event)
     {
+        adminType.setSelected(false);
+        userCheck.setSelected(false);
         if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  password.getText().trim().isEmpty() || hourlyWage.getText().trim().isEmpty())
         {
             printMissing();
@@ -178,6 +192,7 @@ public class AdminController implements Initializable
                 close(conn);
                 infoGiven(firstname.getText(), "add");
                 clearDetails(event);
+                
                 display();
             }
             else if(integerOr == false)
@@ -211,9 +226,10 @@ public class AdminController implements Initializable
     }
             
     @FXML
-    private void displayUsers(ActionEvent event)
+    private void displayAllUsers(ActionEvent event)
     {
         adminType.setSelected(false);
+        userCheck.setSelected(false);
         display();
     }
     
@@ -349,45 +365,7 @@ public class AdminController implements Initializable
         display();
     } 
     
-    @FXML
-    private void searchUser(ActionEvent event)
-    {
-        Connection connection = null;
-        try
-        {
-            String sql = "select * from Employees where ID = '" + id.getText()+ "' AND UserType = 'USER'"  ;
-                
-            PreparedStatement statement = null;
-            
-            CommonDatabase db = new CommonDatabase();
-            connection = db.getConnection();
-
-            statement = connection.prepareStatement(sql);
-                
-            ResultSet rs = statement.executeQuery();
-            data = FXCollections.observableArrayList();
-            if(rs.next())
-            {
-                data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
-            }
-               
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Doesnt Work");
-        }
-           
-        table_id.setCellValueFactory(new PropertyValueFactory("ID"));
-        table_firstname.setCellValueFactory(new PropertyValueFactory("Firstname"));
-        table_surname.setCellValueFactory(new PropertyValueFactory("Surname"));
-        table_password.setCellValueFactory(new PropertyValueFactory("Password"));
-        table_wage.setCellValueFactory(new PropertyValueFactory("Hourly_Wage"));
-        
-        close(connection);  
-        dataTable.setItems(null);
-        dataTable.setItems(data);
-        
-    }
+    
             
     private void noChosen()
     {
@@ -431,18 +409,29 @@ public class AdminController implements Initializable
     {
         CommonDatabase db = new CommonDatabase();
         Connection connection = null;
-        String check = "USER";
+        String check = "";
         if(adminType.isSelected())
         {
             check = "ADMIN";
+        }
+        else if(userCheck.isSelected())
+        {
+            check = "USER";
         }
         
         try
         {
             connection = db.getConnection();
             data = FXCollections.observableArrayList();
-            
-            ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM Employees WHERE UserType = '" + check + "' " );
+            ResultSet rs = null;
+            if(check == "")
+            {
+                rs = connection.createStatement().executeQuery("SELECT * FROM Employees");
+            }
+            else
+            {
+                rs = connection.createStatement().executeQuery("SELECT * FROM Employees WHERE UserType = '" + check + "' " );
+            }
             while(rs.next())
             {
                 data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
@@ -472,7 +461,7 @@ public class AdminController implements Initializable
         surname.setText("");
         password.setText("");
         hourlyWage.setText("");
-        id.setText("");
+        //id.setText("");
     }
     
     public void printMissing()

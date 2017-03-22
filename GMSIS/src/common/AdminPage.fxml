@@ -4,7 +4,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
    <children>
       <ImageView fitHeight="141.0" fitWidth="118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -26,7 +25,7 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="dataTable" layoutX="307.0" layoutY="139.0" prefHeight="300.0" prefWidth="622.0" AnchorPane.rightAnchor="25.0">
+      <TableView fx:id="dataTable" layoutX="322.0" layoutY="145.0" prefHeight="297.0" prefWidth="622.0" AnchorPane.rightAnchor="27.0">
         <columns>
           <TableColumn fx:id="table_id" prefWidth="76.0" text="ID" />
           <TableColumn fx:id="table_firstname" prefWidth="110.0" text="Firstname" />
@@ -36,66 +35,53 @@
             <TableColumn fx:id="table_type" prefWidth="93.0" text="User Type" />
         </columns>
       </TableView>
-      <Button layoutX="265.0" layoutY="414.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
+      <Button layoutX="255.0" layoutY="474.0" mnemonicParsing="false" onAction="#addUser" text="ADD" AnchorPane.topAnchor="478.0" />
       <Label layoutX="29.0" layoutY="142.0" text="ADD  USER">
          <font>
             <Font name="Apple Braille" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="207.0" text="Firstname: " AnchorPane.leftAnchor="28.0">
+      <Label layoutX="26.0" layoutY="203.0" text="Firstname: " AnchorPane.leftAnchor="26.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="248.0" text="Surname: " AnchorPane.leftAnchor="28.0">
+      <Label layoutX="26.0" layoutY="258.0" text="Surname: " AnchorPane.leftAnchor="26.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="289.0" text="Password:" AnchorPane.leftAnchor="28.0">
+      <Label layoutX="27.0" layoutY="312.0" text="Password:" AnchorPane.leftAnchor="27.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="328.0" text="Hourly Wage: " AnchorPane.leftAnchor="28.0">
+      <Label layoutX="26.0" layoutY="367.0" text="Hourly Wage: " AnchorPane.leftAnchor="26.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="firstname" layoutX="134.0" layoutY="204.0" prefHeight="26.0" prefWidth="172.0" />
-      <TextField fx:id="surname" layoutX="134.0" layoutY="245.0" prefHeight="26.0" prefWidth="172.0" />
-      <TextField fx:id="password" layoutX="135.0" layoutY="286.0" prefHeight="26.0" prefWidth="172.0" />
-      <TextField fx:id="hourlyWage" layoutX="135.0" layoutY="325.0" prefHeight="26.0" prefWidth="172.0" />
-      <Button layoutX="190.0" layoutY="414.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
-      <Button layoutX="744.0" layoutY="447.0" mnemonicParsing="false" onAction="#openEdit" text="EDIT" AnchorPane.rightAnchor="187.0" />
-      <Button layoutX="798.0" layoutY="447.0" mnemonicParsing="false" onAction="#deleteUser" text="DELETE" AnchorPane.rightAnchor="110.0" />
-      <Separator layoutX="26.0" layoutY="472.0" prefHeight="27.0" prefWidth="927.0" />
-      <Button layoutX="873.0" layoutY="447.0" mnemonicParsing="false" onAction="#displayUsers" text="VIEW ALL" AnchorPane.rightAnchor="24.0" />
-      <Label layoutX="26.0" layoutY="449.0" text="SEARCH  USER">
-         <font>
-            <Font name="Apple Braille" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="29.0" layoutY="518.0" text="System User ID: ">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="id" layoutX="167.0" layoutY="515.0" prefHeight="26.0" prefWidth="172.0" />
-      <Button layoutX="354.0" layoutY="515.0" mnemonicParsing="false" onAction="#searchUser" text="SEARCH" />
-      <Button layoutX="437.0" layoutY="515.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" />
+      <TextField fx:id="firstname" layoutX="132.0" layoutY="200.0" prefHeight="26.0" prefWidth="172.0" />
+      <TextField fx:id="surname" layoutX="131.0" layoutY="254.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <TextField fx:id="password" layoutX="134.0" layoutY="309.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <TextField fx:id="hourlyWage" layoutX="133.0" layoutY="364.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <Button layoutX="180.0" layoutY="474.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="735.0" layoutY="486.0" mnemonicParsing="false" onAction="#openEdit" text="EDIT" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="791.0" layoutY="488.0" mnemonicParsing="false" onAction="#deleteUser" text="DELETE" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="868.0" layoutY="486.0" mnemonicParsing="false" onAction="#displayAllUsers" text="VIEW ALL" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="478.0" />
       <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="HOME" />
-      <CheckBox fx:id="adminType" layoutX="324.0" layoutY="451.0" mnemonicParsing="false" onAction="#displayAdmins" text="ADMIN" />
-      <Label layoutX="27.0" layoutY="372.0" text="User Type:">
+      <CheckBox fx:id="adminType" layoutX="322.0" layoutY="490.0" mnemonicParsing="false" onAction="#displayAdmins" text="ADMIN" AnchorPane.topAnchor="480.0" />
+      <Label layoutX="27.0" layoutY="422.0" text="User Type:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <RadioButton fx:id="userType" layoutX="135.0" layoutY="374.0" mnemonicParsing="false" selected="true" text="User">
+      <RadioButton fx:id="userType" layoutX="135.0" layoutY="424.0" mnemonicParsing="false" selected="true" text="User">
          <toggleGroup>
             <ToggleGroup fx:id="Accounts" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="adminsType" layoutX="210.0" layoutY="374.0" mnemonicParsing="false" text="Admin" toggleGroup="$Accounts" />
+      <RadioButton fx:id="adminsType" layoutX="210.0" layoutY="424.0" mnemonicParsing="false" text="Admin" toggleGroup="$Accounts" />
+      <CheckBox fx:id="userCheck" layoutX="406.0" layoutY="479.0" mnemonicParsing="false" onAction="#displayUsers" text="USER" AnchorPane.topAnchor="480.0" />
    </children>
 </AnchorPane>
