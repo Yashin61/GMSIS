@@ -6,6 +6,7 @@
 package specialist.gui;
 
 import com.jfoenix.controls.JFXCheckBox;
+import static common.TemplateController.userType;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -170,8 +171,19 @@ public class SpcMainPageController implements Initializable {
     @FXML
     private void spcAdmin(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
-        rootPane.getChildren().setAll(pane);
+        if(userType.equals("ADMIN"))
+        {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("specialistGUI.fxml" ));
+            rootPane.getChildren().setAll(pane);
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("ADMIN ACCESS ONLY");
+            alert.setContentText("");
+            alert.showAndWait();
+        }
     }
     
     //resets all the choices that has been made

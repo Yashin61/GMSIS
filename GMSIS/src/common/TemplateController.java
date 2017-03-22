@@ -70,7 +70,7 @@ public class TemplateController implements Initializable {
     @FXML
     private void spcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
@@ -107,8 +107,6 @@ public class TemplateController implements Initializable {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-    
-
     
     // If the user is an admin, then they can access the admin page. 
     // Else prints a message saying admin access only
