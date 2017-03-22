@@ -23,6 +23,7 @@ public class UserAccount
     private final StringProperty surname;
     private final StringProperty password;
     private final IntegerProperty hourly_wage;
+    private final StringProperty userType;
     
     public UserAccount(Integer ID, String fn, String sn, String pw, Integer hw, String ut)
     {
@@ -31,6 +32,7 @@ public class UserAccount
         this.surname = new SimpleStringProperty(sn);
         this.password = new SimpleStringProperty(pw);
         this.hourly_wage = new SimpleIntegerProperty(hw);
+        this.userType = new SimpleStringProperty(ut);
     }
     
     public int getID()
@@ -56,6 +58,11 @@ public class UserAccount
     public int getHourly_Wage()
     {
         return hourly_wage.get();
+    }
+    
+    public String getUser_Type()
+    {
+        return userType.get();
     }
     
    

@@ -97,6 +97,9 @@ public class AdminController implements Initializable
     private TableColumn<UserAccount, Integer> table_wage;
     
     @FXML
+    private TableColumn<UserAccount, String> table_type;
+    
+    @FXML
     private AnchorPane editPane;
     
     @FXML
@@ -443,6 +446,7 @@ public class AdminController implements Initializable
             while(rs.next())
             {
                 data.add(new UserAccount(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
+                System.out.println(rs.getString(6));
             }
         }
         catch(SQLException e)
@@ -455,6 +459,7 @@ public class AdminController implements Initializable
         table_surname.setCellValueFactory(new PropertyValueFactory("Surname"));
         table_password.setCellValueFactory(new PropertyValueFactory("Password"));
         table_wage.setCellValueFactory(new PropertyValueFactory("Hourly_Wage"));
+        table_type.setCellValueFactory(new PropertyValueFactory("User_Type"));
      
         dataTable.setItems(null);
         dataTable.setItems(data);

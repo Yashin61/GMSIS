@@ -28,11 +28,12 @@
       </Label>
       <TableView fx:id="dataTable" layoutX="307.0" layoutY="139.0" prefHeight="300.0" prefWidth="622.0" AnchorPane.rightAnchor="25.0">
         <columns>
-          <TableColumn fx:id="table_id" prefWidth="104.0" text="ID" />
-          <TableColumn fx:id="table_firstname" prefWidth="141.0" text="Firstname" />
-          <TableColumn fx:id="table_surname" prefWidth="122.0" text="Surname" />
-          <TableColumn fx:id="table_password" prefWidth="135.0" text="Password" />
-          <TableColumn fx:id="table_wage" prefWidth="119.0" text="Hourly Wage" />
+          <TableColumn fx:id="table_id" prefWidth="76.0" text="ID" />
+          <TableColumn fx:id="table_firstname" prefWidth="110.0" text="Firstname" />
+          <TableColumn fx:id="table_surname" prefWidth="119.0" text="Surname" />
+          <TableColumn fx:id="table_password" prefWidth="118.0" text="Password" />
+          <TableColumn fx:id="table_wage" prefWidth="105.0" text="Hourly Wage" />
+            <TableColumn fx:id="table_type" prefWidth="93.0" text="User Type" />
         </columns>
       </TableView>
       <Button layoutX="265.0" layoutY="414.0" mnemonicParsing="false" onAction="#addUser" text="ADD" />
