@@ -76,7 +76,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="510.0" text="Bill:" AnchorPane.leftAnchor="20.0">
+      <Label layoutX="32.0" layoutY="510.0" text="Mileage:" AnchorPane.leftAnchor="20.0">
          <font>
             <Font size="15.0" />
          </font>
@@ -84,7 +84,7 @@
       <TextField fx:id="RegNo" layoutX="200.0" layoutY="360.0" />
       <TextField fx:id="BookingType" layoutX="200.0" layoutY="410.0" />
       <TextField fx:id="MechanicID" layoutX="200.0" layoutY="460.0" />
-      <TextField fx:id="Bill" layoutX="200.0" layoutY="510.0" />
+      <TextField fx:id="Mileage" layoutX="200.0" layoutY="510.0" />
       <TextField fx:id="BookingDate" layoutX="650.0" layoutY="360.0" />
       <TextField fx:id="BookingTime" layoutX="650.0" layoutY="410.0" />
       <TextField fx:id="RepairTime" layoutX="650.0" layoutY="460.0" />

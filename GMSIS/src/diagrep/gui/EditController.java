@@ -55,7 +55,7 @@ public class EditController implements Initializable {
     @FXML
     private TextField MechanicID;
     @FXML
-    private TextField Bill;
+    private TextField Mileage;
     @FXML
     private TextField BookingDate;
     @FXML
@@ -116,7 +116,7 @@ public class EditController implements Initializable {
         RegNo.setText(null);
         BookingType.setText(null);
         MechanicID.setText(null);
-        Bill.setText(null);
+        Mileage.setText(null);
         BookingDate.setText(null);
         BookingTime.setText(null);
         RepairTime.setText(null);
@@ -356,7 +356,7 @@ public class EditController implements Initializable {
         {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
-            alert.setContentText("Do you want to continue deleting the account?");
+            alert.setContentText("Do you want to continue deleting the booking?");
             
             ButtonType yes = new ButtonType("YES");
             ButtonType no = new ButtonType("NO");
@@ -425,9 +425,9 @@ public class EditController implements Initializable {
         String setMID = Integer.toString(book.getMechanicID());
         MechanicID.setText(setMID);
         
-        // SET BILL TEXTFIELD
-        String setBill = Double.toString(book.getBill());
-        Bill.setText(setBill);
+        // SET MILEAGE TEXTFIELD
+        String setMileage = Integer.toString(book.getMileage());
+        Mileage.setText(setMileage);
         
         // SET BOOKING DATE TEXTFIELD
         String setBD = book.getBookingDate();
@@ -451,7 +451,7 @@ public class EditController implements Initializable {
         
         // IF TEXTFIELDS ARE EMPTY, PRINT ERROR MESSAGE
         if(RegNo.getText().trim().isEmpty() || BookingType.getText().trim().isEmpty() || 
-           MechanicID.getText().trim().isEmpty() || Bill.getText().trim().isEmpty() || 
+           MechanicID.getText().trim().isEmpty() || Mileage.getText().trim().isEmpty() || 
            BookingDate.getText().trim().isEmpty() || BookingTime.getText().trim().isEmpty() || 
            RepairTime.getText().trim().isEmpty())
         {
@@ -465,9 +465,52 @@ public class EditController implements Initializable {
         // ELSE UPDATE THE TABLE
         else
         {
+            BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
+            int Mechanic = book.getMechanicID();
+            
+            //GET WAGE FOR MECHANIC
+            String sql1 = "SELECT Hourly_Wage FROM Employees WHERE ID = '"+Mechanic+"'";
+
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.prepareStatement(sql1);
+            ResultSet rs1 = stmt.executeQuery();
+                
+            int wage = rs1.getInt("Hourly_Wage");
+                
+            rs1.close();
+            stmt.close();
+            connect.close();
+                
+            
+            int getBID = book.getBookingID();
+            String sql2 = "SELECT * FROM Booking WHERE BookingID = '"+getBID+"'";
+
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.prepareStatement(sql2);
+            ResultSet rs = stmt.executeQuery();
+            
+            //REMOVE OLD WAGE COST FROM BILL
+            double Bill = rs.getInt("Bill");
+            String RT = rs.getString("RepairTime");
+            int RT2 = Integer.parseInt(RT.replaceAll("[^0-9]", ""));
+            Bill = Bill - (RT2*wage);
+            if (Bill < 0)
+            {
+                Bill = 0;
+            }
+                
+            rs.close();
+            stmt.close();
+            connect.close();
+                
+            //GET REPAIR TIME AND MECHANIC WAGE TO CALCULATE BILL           
+            String Repair = RepairTime.getText();      
+            int RepT = Integer.parseInt(Repair.replaceAll("[^0-9]", "")); //REMOVE TEXT
+            double BillUpdate = Bill + (RepT*wage); //UPDATE BILL WITH NEW WAGE COST
+                
             String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , "
                        + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , "
-                       + "RepairTime = ? , " + "Bill = ? " + " WHERE BookingID = ?";
+                       + "RepairTime = ? , " + "Mileage = ? , " + "Bill = ? " + " WHERE BookingID = ?";
             
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.prepareStatement(sql);
@@ -478,12 +521,23 @@ public class EditController implements Initializable {
             stmt.setString(4, BookingDate.getText());
             stmt.setString(5, BookingTime.getText());
             stmt.setString(6, RepairTime.getText());
-            stmt.setString(7, Bill.getText());
+            stmt.setString(7, Mileage.getText());
+            stmt.setDouble(8, BillUpdate);
+            stmt.setInt(9, getBID);
             
-            BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
-            int getBID = book.getBookingID();
+            stmt.executeUpdate();
             
-            stmt.setInt(8, getBID);
+            stmt.close();
+            connect.close();
+            
+            String sql3 = "UPDATE Vehicles SET Mileage = ? " + " WHERE RegistrationNumber = ?";
+            
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.prepareStatement(sql3);
+            
+            stmt.setString(1, Mileage.getText());
+            stmt.setString(2, RegNo.getText());         
+            
             
             stmt.executeUpdate();
             
