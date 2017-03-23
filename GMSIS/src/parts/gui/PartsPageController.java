@@ -361,17 +361,10 @@ e.printStackTrace();
 }
 
     @FXML
-    private void home(ActionEvent event) {
-         try {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PartsEdit.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (Exception e) {
-     System.out.println("No doesnt work");
-        }
+    private void home(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource( "/common/Template.fxml"));
+        mainPane.getChildren().setAll(pane);
+        
     }
 
     @FXML
