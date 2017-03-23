@@ -61,6 +61,9 @@ public class SpcEditBookingController implements Initializable {
     private JFXTextField custName;
 
     @FXML
+    private ComboBox<String> bookingID;
+    
+    @FXML
     private TableView<SpcBookingTables> vehicleList;
 
     @FXML
@@ -89,6 +92,9 @@ public class SpcEditBookingController implements Initializable {
 
     @FXML
     private ComboBox<String> repairOn;
+    
+    @FXML
+    private ObservableList<String> bookingList;
     
     @FXML
     private ObservableList<String> repairTypeList;
@@ -372,6 +378,8 @@ public class SpcEditBookingController implements Initializable {
         booking = spcBooking;
         custName.setText(spcBooking.getSpcCustName());
         custName.setEditable(false);
+        //bookingID.setText(spcBooking.getSpcBookID());
+        //bookingID.setEditable(false);
         
         displayVehicles(spcBooking);
         vehicleList.getSelectionModel().select(0);

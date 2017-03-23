@@ -27,7 +27,7 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <JFXDatePicker fx:id="bookingDate" layoutX="60.0" layoutY="385.0" onAction="#bookingCheck" promptText="Booking Date" />
+      <JFXDatePicker fx:id="bookingDate" layoutX="60.0" layoutY="410.0" onAction="#bookingCheck" promptText="Booking Date" />
       <Label layoutX="610.0" layoutY="135.0" text="SPC:">
          <font>
             <Font size="15.0" />
@@ -48,14 +48,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="vehicleList" layoutX="60.0" layoutY="200.0" prefHeight="161.0" prefWidth="381.0">
-         <columns>
-            <TableColumn fx:id="tableVehicleMake" prefWidth="87.66629409790039" text="Make" />
-            <TableColumn fx:id="tableVehicleModel" prefWidth="75.33372497558594" text="Model" />
-            <TableColumn fx:id="tableVehicleReg" prefWidth="139.37548828125" text="Registration Number" />
-            <TableColumn fx:id="tableVehicleMileage" prefWidth="78.85458374023438" text="Mileage" />
-         </columns>
-      </TableView>
       <Label layoutX="60.0" layoutY="460.0" prefHeight="21.0" prefWidth="104.0" text="Repair Type:">
          <font>
             <Font size="15.0" />
@@ -68,6 +60,14 @@
          </font>
       </Label>
       <ComboBox fx:id="repairOn" layoutX="705.0" layoutY="290.0" onAction="#displayParts" prefHeight="26.0" prefWidth="206.0" />
-      <JFXTextField fx:id="custName" layoutX="200.0" layoutY="135.0" prefHeight="25.0" prefWidth="163.0" />
+      <ComboBox fx:id="custName" layoutX="200.0" layoutY="135.0" onAction="#setBooking" prefHeight="26.0" prefWidth="163.0" />
+      <TableView fx:id="vehicleList" layoutX="60.0" layoutY="235.0" prefHeight="161.0" prefWidth="381.0">
+         <columns>
+            <TableColumn fx:id="tableVehicleMake" prefWidth="87.66629409790039" text="Make" />
+            <TableColumn fx:id="tableVehicleModel" prefWidth="75.33372497558594" text="Model" />
+            <TableColumn fx:id="tableVehicleReg" prefWidth="139.37548828125" text="Registration Number" />
+            <TableColumn fx:id="tableVehicleMileage" prefWidth="78.85458374023438" text="Mileage" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

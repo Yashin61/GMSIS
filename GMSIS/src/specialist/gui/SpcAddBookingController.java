@@ -139,6 +139,7 @@ public class SpcAddBookingController implements Initializable {
     {
         bookingID.setItems(bookingFill());
     }
+    
     //show which booking needs SPC
     @FXML
     private ObservableList<String> bookingFill()

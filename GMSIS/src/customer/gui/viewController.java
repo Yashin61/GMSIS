@@ -278,8 +278,8 @@ public class viewController implements Initializable
                     
                     payment = checkWarranty(rs.getInt("BookingID"));
                     double[] totalBill = {0.00};                 
-                    String spcVehicle = checkSPCVehicle(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"),rs.getDouble("Bill"), totalBill);
-                    String spcParts = checkSPCParts(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"),rs.getDouble("Bill"), totalBill);
+                    String spcVehicle = checkSPCVehicle(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"), totalBill);
+                    String spcParts = checkSPCParts(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"), totalBill);
                     totalBill[0] = totalBill[0]+rs.getDouble("Bill");
                     data.add( "\nDate: " + status + "\n"+ "Vehicle: " + rs.getString("RegistrationNumber") + "\n" 
                             + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") 
@@ -304,7 +304,7 @@ public class viewController implements Initializable
     }
     
     //checks if the vehicle had an spc repair
-    private String checkSPCVehicle(int custId, String reg, int bookingID, double bill, double[] totalBill)
+    private String checkSPCVehicle(int custId, String reg, int bookingID, double[] totalBill)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -313,12 +313,15 @@ public class viewController implements Initializable
         {   
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Parts ON SPCBooking.PartID = Parts.ID WHERE BookingID = " + bookingID);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking WHERE BookingID = " + bookingID);
             if(rs != null)
             {
-                answer = answer+"Special "+rs.getString("Type")+" on Part ID: "+rs.getString("PartID")+"\n"
-                            +"Part Name: "+rs.getString("Name")+"\n"
+                answer = answer+"Special "+rs.getString("Type")+" on Vehicle: "+rs.getString("RegistrationNumber")+"\n"
                            +"+£"+rs.getString("Cost")+"\n";
+                if(rs.getString("Returned").equals("No"))
+                {
+                    answer = answer + "SPECIAL REPAIRS ARE STILL UNDER PROGRESS \n";
+                }
                 totalBill[0] = totalBill[0]+rs.getDouble("Cost");
             }
             stmt.close();
@@ -331,7 +334,7 @@ public class viewController implements Initializable
     }
     
     //checks if any of the parts of the vehicle has spc repair
-    private String checkSPCParts(int custId, String reg, int bookingID, double bill, double[] totalBill)
+    private String checkSPCParts(int custId, String reg, int bookingID, double[] totalBill)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -346,6 +349,10 @@ public class viewController implements Initializable
                 answer = answer+"Special "+rs.getString("Type")+" on Part ID: "+rs.getString("PartID")+"\n"
                             +"Part Name: "+rs.getString("Name")+"\n"
                            +"+£"+rs.getString("Cost")+"\n";
+                if(rs.getString("Returned").equals("No"))
+                {
+                    answer = answer + "SPECIAL REPAIRS ARE STILL UNDER PROGRESS \n";
+                }
                 totalBill[0] = totalBill[0]+rs.getDouble("Cost");
             }
             stmt.close();

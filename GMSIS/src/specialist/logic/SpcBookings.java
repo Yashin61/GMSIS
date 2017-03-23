@@ -41,9 +41,10 @@ public class SpcBookings
     private final StringProperty SpcWorkOn;
     private final StringProperty SpcRepairType;
     private final DoubleProperty SpcCost;
+    private final IntegerProperty SpcBookId;
     
      
-    public SpcBookings(Integer id, String name, String dDate, String arrived, String rDate, String returned, Integer parts, String rNumber, Integer cust, String workOn, String type, Double cost)
+    public SpcBookings(Integer id, String name, String dDate, String arrived, String rDate, String returned, Integer parts, String rNumber, Integer cust, String workOn, String type, Double cost, Integer bookingId)
     {
         this.SpcBookingid = new SimpleIntegerProperty(id);
         this.SpcBookingname = new SimpleStringProperty(name);
@@ -58,6 +59,7 @@ public class SpcBookings
         this.SpcWorkOn = new SimpleStringProperty(workOn);   
         this.SpcRepairType = new SimpleStringProperty(type);
         this.SpcCost = new SimpleDoubleProperty(cost);
+        this.SpcBookId = new SimpleIntegerProperty(bookingId);
     }
 
     private String getCustName(Integer cust)
@@ -136,6 +138,10 @@ public class SpcBookings
         return SpcCost.get();
     }
     
+    public int getSpcBookId(){
+        return SpcBookId.get();
+    }
+    
     public IntegerProperty SpcBookingidProperty() {
         return SpcBookingid;
     }
@@ -186,6 +192,10 @@ public class SpcBookings
 
     public DoubleProperty SpcCostProperty() {
         return SpcCost;
+    }
+    
+    public IntegerProperty SpcBookIdProperty(){
+        return SpcBookId;
     }
 
     public void setSpcBookingId(Integer id) {
