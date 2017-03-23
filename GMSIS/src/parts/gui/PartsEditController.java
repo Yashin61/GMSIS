@@ -243,15 +243,17 @@ public class PartsEditController implements Initializable {
     private void Add_Parts_By_ID(ActionEvent event) {
 
         if (!CheckIdStock(Integer.parseInt(Add_ID_Part.getText()))) {
-            JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist with that booking");
+            JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
             Add_ID_Part.setText("");
             return;
         }
  if (!withdrawPart(Integer.parseInt(Add_ID_Part.getText()))) {
                         JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " is out of stock");
                         Add_ID_Part.setText("");
+                        return;
                 }
         con = conn.connect();
+        ResultSet costdetail=null;
         String sql = "INSERT INTO PartsUsed (RegistrationNumber, PartsID, BookingID) VALUES(?,?,?)";
         try {
             PreparedStatement stat = con.prepareStatement(sql);
@@ -264,6 +266,7 @@ public class PartsEditController implements Initializable {
             PreparedStatement ko = con.prepareStatement(h);
             ko.setString(1, regNo.getValue());
             ResultSet info = ko.executeQuery();
+            
             data = FXCollections.observableArrayList();
             Part_ID.setCellValueFactory(new PropertyValueFactory("PartsID"));
 
@@ -283,8 +286,10 @@ public class PartsEditController implements Initializable {
             String parts = "SELECT * FROM Parts WHERE ID = ?";
             PreparedStatement partsd = con.prepareStatement(parts);
             partsd.setInt(1, Integer.parseInt(Add_ID_Part.getText()));
-            ResultSet infos = partsd.executeQuery();
-            JOptionPane.showMessageDialog(null, "You have Added the part with the ID " + Add_ID_Part.getText() + " called " + infos.getString(2) + ".");
+             costdetail = partsd.executeQuery();
+            JOptionPane.showMessageDialog(null, "You have Added the part with the ID " + Add_ID_Part.getText() + " called " + costdetail.getString(2) + ".");
+           System.out.println(costdetail.getDouble(7));
+            updatetotal(Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(),Double.parseDouble(costdetail.getString(7)));
             Delete_ID_Part.setText("");
             Add_ID_Part.setText("");
             con.close();
@@ -293,9 +298,35 @@ public class PartsEditController implements Initializable {
             JOptionPane.showMessageDialog(null, "Add unsuccessfull");
 
         }
-
+        
     }
 
+    public void updatetotal(int bookingID, String reg, double cost){
+          
+          
+           String booking = "SELECT * FROM Booking WHERE BookingID = ? AND RegistrationNumber = ? ";
+           try{
+            PreparedStatement book = con.prepareStatement(booking);
+            book.setInt(1,bookingID);
+            book.setString(2, reg);
+           
+            ResultSet bookinginfo = book.executeQuery();
+          
+         String sql = "UPDATE Booking SET Bill = ? WHERE BookingID = ? AND RegistrationNumber = ? ";
+           PreparedStatement state = con.prepareStatement(sql);
+           System.out.println(cost);
+            System.out.println(bookinginfo.getDouble(8));
+           System.out.println(bookinginfo.getDouble(8)+cost);
+            state.setDouble(1,bookinginfo.getDouble(8)+cost);
+            state.setInt(2, bookingID);
+            state.setString(3,reg);
+            state.executeUpdate();
+           }
+           catch(SQLException e){
+               e.printStackTrace();
+              System.out.println("fail");
+           }
+    }
     @FXML
     private void Clear(ActionEvent event) {
         Search_ID_txt.clear();
@@ -575,12 +606,14 @@ public class PartsEditController implements Initializable {
             ResultSet info = ko.executeQuery();
             bookingID = info.getInt(1);
             boolean t = true;
+            int no = 1;
             while (info.next()) {
-                Booking_Dates.getItems().add(info.getString(5) + " at " + info.getString(6));
+                Booking_Dates.getItems().add(no + ". " + info.getInt(1) + " | " + info.getString(5) + " at " + info.getString(6));
                 if (t) {
-                    Booking_Dates.setValue(info.getString(5) + " at " + info.getString(6));
+                    Booking_Dates.setValue(no + ". " + info.getInt(1) + " | " + info.getString(5) + " at " + info.getString(6));
                     t = false;
                 }
+                no++;
             }
 
             con.close();

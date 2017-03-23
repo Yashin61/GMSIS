@@ -261,7 +261,7 @@ int currentQTY = 0;
         if (event.getClickCount() == 2) {
             ChosenID = parts_table.getSelectionModel().getSelectedItem().getID();
             currentQTY = parts_table.getSelectionModel().getSelectedItem().getQTY();
-            System.out.println(currentQTY);
+            
             lbl_data_Name.setText(parts_table.getSelectionModel().getSelectedItem().getName());
             lbl_data_Description.setText(parts_table.getSelectionModel().getSelectedItem().getDescription());
             txt_Search_ID_QTY.setText(Integer.toString(parts_table.getSelectionModel().getSelectedItem().getQTY()));

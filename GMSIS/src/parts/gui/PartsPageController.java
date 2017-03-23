@@ -7,6 +7,7 @@ package parts.gui;
 
 import common.CommonDatabase;
 import customer.logic.allCustomers;
+import java.io.IOException;
 import parts.*;
 
 import java.net.URL;
@@ -36,6 +37,7 @@ import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 /**
@@ -93,6 +95,8 @@ public class PartsPageController implements Initializable {
 
     ConnectionToParts conn = new ConnectionToParts();
     Connection con = null;
+    @FXML
+    private AnchorPane mainPane;
 
     /**
      * Initializes the controller class.
@@ -153,7 +157,7 @@ public class PartsPageController implements Initializable {
                 first_sur(firstname.getText(), surname.getText());
             }
         } catch (NumberFormatException e) {
-
+JOptionPane.showMessageDialog(null,"try again");
         }
 
         String sqlRegno = "SELECT * FROM Vehicles WHERE CustomerID = ? ";
@@ -186,7 +190,7 @@ public class PartsPageController implements Initializable {
 
             con.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException e ) {
            JOptionPane.showMessageDialog(null,"Customer with ID " + regNumber.getText() + " Does not exist");
            regNumber.setText("");
            return;
@@ -355,5 +359,45 @@ e.printStackTrace();
         txtexpire.setText("");
         dataTable.setItems(null);
 }
+
+    @FXML
+    private void home(ActionEvent event) {
+         try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PartsEdit.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+     System.out.println("No doesnt work");
+        }
+    }
+
+    @FXML
+    private void customer(ActionEvent event) throws IOException {
+     
+         AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        mainPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void bandrb(ActionEvent event) throws IOException {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        mainPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void vehicle(ActionEvent event) throws IOException {
+   AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
+        mainPane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void sr(ActionEvent event) throws IOException {
+         AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        mainPane.getChildren().setAll(pane);
+    
+    }
 
 }
