@@ -61,7 +61,7 @@ public class SpcEditBookingController implements Initializable {
     private JFXTextField custName;
 
     @FXML
-    private ComboBox<String> bookingID;
+    private JFXTextField bookingID;
     
     @FXML
     private TableView<SpcBookingTables> vehicleList;
@@ -340,13 +340,13 @@ public class SpcEditBookingController implements Initializable {
             alert.showAndWait();
         }
 
-        
+        int bookId = Integer.parseInt(bookingID.getText());
         
         if(!name.equals("") && !dDate.equals("") && !reg.equals("") && !custName.getText().equals("") && !workOn.equals("") && !type.equals(""))
         {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
-            a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+            a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
@@ -378,8 +378,8 @@ public class SpcEditBookingController implements Initializable {
         booking = spcBooking;
         custName.setText(spcBooking.getSpcCustName());
         custName.setEditable(false);
-        //bookingID.setText(spcBooking.getSpcBookID());
-        //bookingID.setEditable(false);
+        bookingID.setText(""+spcBooking.getSpcBookId());
+        bookingID.setEditable(false);
         
         displayVehicles(spcBooking);
         vehicleList.getSelectionModel().select(0);

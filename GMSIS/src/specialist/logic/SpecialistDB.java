@@ -129,7 +129,7 @@ public class SpecialistDB
         }
     }
     
-    public void editSPCBooking(String id, String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost)
+    public void editSPCBooking(String id, String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost, int bookId)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -154,7 +154,7 @@ public class SpecialistDB
                     stmt = connect.createStatement();
                     
                     String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
-                            + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+" WHERE Id = "+id+" ;";
+                            + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+"', BookingID = "+bookId+" WHERE Id = "+id+" ;";
                     
                     stmt.executeUpdate(sql);
                     stmt.close();

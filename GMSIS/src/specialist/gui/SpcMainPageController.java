@@ -211,7 +211,7 @@ public class SpcMainPageController implements Initializable {
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
             }
             stmt.close();
             set.close();
@@ -327,7 +327,7 @@ public class SpcMainPageController implements Initializable {
             while(set.next()){
                 allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13)));  
             }
             stmt.close();
             set.close();
@@ -364,7 +364,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -385,7 +385,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -424,7 +424,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -445,7 +445,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -484,7 +484,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -505,7 +505,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -632,7 +632,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12))); 
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13)));  
                 }
                 stmt.close();
                 set.close();
@@ -653,7 +653,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -879,7 +879,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -900,7 +900,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
@@ -924,7 +924,7 @@ public class SpcMainPageController implements Initializable {
                 while(set.next()){
                     allSPCBooking.add(new SpcBookings(set.getInt(1), set.getString(2), set.getString(3),
                             set.getString(4), set.getString(5), set.getString(6), set.getInt(7), set.getString(8),
-                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12)));
+                            set.getInt(9), set.getString(10), set.getString(11), set.getDouble(12), set.getInt(13))); 
                 }
                 stmt.close();
                 set.close();
