@@ -61,7 +61,7 @@ public class SpecialistDB
         }
     }
     
-    public void addSPCBooking(String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost)
+    public void addSPCBooking(String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost, int bookID)
     {
         Connection conn = null;
         Statement stmt = null;
@@ -71,8 +71,8 @@ public class SpecialistDB
             conn = DriverManager.getConnection(Recordurl);
 
             stmt = conn.createStatement();
-            String sql = "INSERT INTO SPCBooking (SPCname, ExpectedDeliveryDate, Arrived, ExpectedReturnDate, Returned, PartID, RegistrationNumber, CustomerID, WorkOn, Type, Cost)"
-                    + "VALUES ("+"'"+name+"','"+dDate+"','"+arrived+"','"+rDate+"','"+returned+"','"+parts+"','"+reg+"','"+cust+"','"+workOn+"','"+type+"','"+cost+"');"; 
+            String sql = "INSERT INTO SPCBooking (SPCname, ExpectedDeliveryDate, Arrived, ExpectedReturnDate, Returned, PartID, RegistrationNumber, CustomerID, WorkOn, Type, Cost, BookingID)"
+                    + "VALUES ("+"'"+name+"','"+dDate+"','"+arrived+"','"+rDate+"','"+returned+"','"+parts+"','"+reg+"','"+cust+"','"+workOn+"','"+type+"','"+cost+"','"+bookID+"');"; 
 
             stmt.executeUpdate(sql);
             //JOptionPane.showMessageDialog(null, "A new SPC Booking has been added. \n");

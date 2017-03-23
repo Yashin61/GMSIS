@@ -56,6 +56,9 @@ public class SpcAddBookingController implements Initializable {
 
     @FXML
     private ComboBox<String> custName;
+    
+    @FXML
+    private ComboBox<String> bookingID;
 
     @FXML
     private TableView<SpcBookingTables> vehicleList;
@@ -91,6 +94,9 @@ public class SpcAddBookingController implements Initializable {
     private ObservableList<String> customerList;
     
     @FXML
+    private ObservableList<String> bookingList;
+    
+    @FXML
     private ObservableList<String> repairTypeList;
     
     @FXML
@@ -120,12 +126,49 @@ public class SpcAddBookingController implements Initializable {
             rs.close();
             connect.close();
         }
-        catch(SQLException e)
+        catch (SQLException ex) 
         {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return customerList;
+    }
+    
+    @FXML
+    private void setBooking(ActionEvent event)
+    {
+        bookingID.setItems(bookingFill());
+    }
+    //show which booking needs SPC
+    @FXML
+    private ObservableList<String> bookingFill()
+    {     
+        Connection connect = null;
+        Statement stmt = null;
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();         
+            bookingList = FXCollections.observableArrayList();
+            if(custName != null)
+            {
+                String[] name = custName.getValue().split(" ");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Booking INNER JOIN Customer_Accounts ON Customer_Accounts.ID = Booking.CustomerID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
+
+                while(rs.next()){
+                    bookingList.add(rs.getString("BookingID"));
+                }
+                stmt.close();
+                rs.close();
+                connect.close();
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return bookingList;
     }
     
     //show all the repair types on the combo box
@@ -194,10 +237,11 @@ public class SpcAddBookingController implements Initializable {
             connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
-            String[] name = custName.getValue().split(" ");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]+"' AND Customer_Accounts.Surname = '"+name[1]+"'");
+            
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber "
+                    + "WHERE BookingID = "+bookingID.getValue());
             while(rs.next()){
-                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("ID"))); 
+                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("CustomerID"))); 
             }
             stmt.close();
             rs.close();
@@ -313,13 +357,14 @@ public class SpcAddBookingController implements Initializable {
             type = "Re-condition";
         }
 
+        int bookId = Integer.parseInt(bookingID.getValue());
         
         if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals("")))
         {
             try {
                 //System.out.println("It works");
                 SpecialistDB a= new SpecialistDB();
-                a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost);
+                a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
                 AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
                 rootPane.getChildren().setAll(pane);
             } catch (IOException ex) {
