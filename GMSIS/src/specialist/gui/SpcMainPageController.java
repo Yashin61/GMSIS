@@ -792,7 +792,7 @@ public class SpcMainPageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Input");
-            alert.setContentText("Please select a SPC Booking that you want to mark as arrived to SPC");
+            alert.setContentText("Please select a SPC Booking that you want to mark as completed");
             alert.showAndWait();
             
         }
@@ -814,6 +814,14 @@ public class SpcMainPageController implements Initializable {
             if (result.get() == yesButton){
                 // if the user chooses to click yes
                 spcBooking.setSpcReturn("Yes");
+                if(spcBooking.getSpcWOn().equals("Part"))
+                {
+                    sendPartCost(spcBooking);
+                }
+                else
+                {
+                    sendVehicleCost(spcBooking);
+                }
             } 
             else if(result.get() == noButton)
             {
@@ -824,6 +832,34 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    private void sendPartCost(SpcBookings spc)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            
+            ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID"
+                    + " WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
+            while(set.next()){
+                
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    private void sendVehicleCost(SpcBookings spc)
+    {
+        
+    }
     //search for the spc / spcbooking by customer names or vehicle registration
     @FXML
     private void searchSPCBooking(ActionEvent event)

@@ -13,15 +13,19 @@ import customer.logic.allCustomers;
 import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -94,7 +98,6 @@ public class viewController implements Initializable
     @FXML
     private Label noBookings;
     
-
     @FXML
     private ListView<String> bookingsView = new ListView<String>();
     
@@ -182,12 +185,28 @@ public class viewController implements Initializable
                 statusLabel.setVisible(true);
                 
                 String[] words = newValue.split("\n");
-                String st = words[7].substring(8);
+                //String st = words[7].substring(8);
                 String id = words[3].substring(12);
-                realStatus.setText(words[7].substring(8));
+                //realStatus.setText(words[7].substring(8));
+                String st ="";
+                for(int a=0; a<words.length; a++)
+                {
+                    if(words[a].equals("Status: OUTSTANDING"))
+                    {
+                        st = "OUTSTANDING";
+                        break;
+                    }
+                    else if(words[a].equals("Status: SETTLED"))
+                    {
+                        st = "SETTLED";
+                        break;
+                    }
+                    else{}
+                }
+                realStatus.setText(st);
                 realStatus.setVisible(true);
-                System.out.println(st);
-                        
+                //System.out.println(st);    
+                
                 if(st.equals("OUTSTANDING"))
                 {
                     instructions.setVisible(true);
@@ -207,7 +226,7 @@ public class viewController implements Initializable
                             //displayBookings(c);
                             //bookingsView.getSelectionModel().select(0);       
                          }
-                     });
+                     });               
                     
                     
                 }
@@ -215,8 +234,7 @@ public class viewController implements Initializable
                 {
                     instructions.setVisible(false);
                     settleButton.setVisible(false);
-                }
-                
+                }   
             }
         });
     }
@@ -232,8 +250,9 @@ public class viewController implements Initializable
         try
         {
             
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + c.getID() + "' ");
-            
+            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, "
+                    + "Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime "
+                    + "FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + c.getID() + "' ");
             
             if(rs.next())
             {
@@ -257,9 +276,14 @@ public class viewController implements Initializable
                         status = rs.getString("BookingDate") + " - " +  "FUTURE";
                     }
                     
-                    payment = checkWarranty(conn, rs.getInt("BookingID"));
-                                        
-                    data.add( "\nDate: " + status + "\n"+ "Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n" + "Bill: " + rs.getDouble("Bill")  + "\nStatus: " + payment + "\n\n\n");
+                    payment = checkWarranty(rs.getInt("BookingID"));
+                    double[] totalBill = {0.00};                 
+                    String spcVehicle = checkSPCVehicle(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"),rs.getDouble("Bill"), totalBill);
+                    String spcParts = checkSPCParts(c.getID(), rs.getString("RegistrationNumber"), rs.getInt("BookingID"),rs.getDouble("Bill"), totalBill);
+                    totalBill[0] = totalBill[0]+rs.getDouble("Bill");
+                    data.add( "\nDate: " + status + "\n"+ "Vehicle: " + rs.getString("RegistrationNumber") + "\n" 
+                            + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") 
+                            + "\n"  + "Time: " + rs.getString("BookingTime") + "\n" + spcVehicle + spcParts +"Total Bill: "+totalBill[0] + "\nStatus: " + payment + "\n\n\n");
                     bookingsView.setItems(data); 
                     
                 }
@@ -271,14 +295,67 @@ public class viewController implements Initializable
                 noBookings.setVisible(true);
                 bookingsView.setOpacity(0.5);
             }
-        }
-        catch(SQLException e)
+        } 
+        catch (SQLException ex)
         {
-            System.out.println("first error");
+            Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        close(conn);
+
     }
     
+    //checks if the vehicle had an spc repair
+    private String checkSPCVehicle(int custId, String reg, int bookingID, double bill, double[] totalBill)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String answer = "";
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Parts ON SPCBooking.PartID = Parts.ID WHERE BookingID = " + bookingID);
+            if(rs != null)
+            {
+                answer = answer+"Special "+rs.getString("Type")+" on Part ID: "+rs.getString("PartID")+"\n"
+                            +"Part Name: "+rs.getString("Name")+"\n"
+                           +"+£"+rs.getString("Cost")+"\n";
+                totalBill[0] = totalBill[0]+rs.getDouble("Cost");
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return answer;
+    }
+    
+    //checks if any of the parts of the vehicle has spc repair
+    private String checkSPCParts(int custId, String reg, int bookingID, double bill, double[] totalBill)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        String answer = "";
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Parts ON SPCBooking.PartID = Parts.ID WHERE BookingID = " + bookingID);
+            if(rs != null)
+            {
+                answer = answer+"Special "+rs.getString("Type")+" on Part ID: "+rs.getString("PartID")+"\n"
+                            +"Part Name: "+rs.getString("Name")+"\n"
+                           +"+£"+rs.getString("Cost")+"\n";
+                totalBill[0] = totalBill[0]+rs.getDouble("Cost");
+            }
+            stmt.close();
+            rs.close();
+            connect.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return answer;
+    }
     
     public void printSettled()
     {
@@ -289,23 +366,28 @@ public class viewController implements Initializable
         alert.showAndWait();
     }
     
-    public String checkWarranty(Connection conn, int id) 
+    public String checkWarranty( int id) 
     {   
+        Connection connect = null;
+        Statement stmt = null;
         String answer = "";
-        //Connection conn = new CommonDatabase().getConnection();
         try
-        {
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM BillsPaid WHERE BookingID = '" + id + "' ");
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM BillsPaid WHERE BookingID = '" + id + "' ");
             if(rs != null)
             {
                 return rs.getString("SettleBill");
             }
+            
+            stmt.close();
+            rs.close();
+            connect.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(SQLException e)
-        {
-            System.out.println("HELLO");
-        }
-        close(conn);
+
         return answer;
     }
     
@@ -334,17 +416,17 @@ public class viewController implements Initializable
     @FXML
     public void viewParts2(allCustomers c)
     {
-        System.out.println("HELLO");
-        CommonDatabase db = new CommonDatabase();
-        
+        Connection connect = null;
+        Statement stmt = null;
         ArrayList<String> vehicles = new ArrayList<String>();
         ObservableList<String> data = FXCollections.observableArrayList();
-        NameLabel.setText(c.getFirstname() +  " " + c.getSurname());
-        NameLabel.setVisible(true);
+
         try
         {
-            Connection conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomerID = '" + c.getID() + "' ");
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles WHERE CustomerID = '" + c.getID() + "' ");
             if(!rs.isBeforeFirst())
             {
                 allParts.setVisible(false);
@@ -357,47 +439,208 @@ public class viewController implements Initializable
                     vehicles.add(rs.getString("RegistrationNumber"));
                 }
                 System.out.println(vehicles);
-                for(int i=0; i< vehicles.size(); i++)
-                {
-                    String answer = vehicles.get(i) + "\n";
-                    ArrayList <Integer> partsIDs = new ArrayList<Integer>();
-                    rs = conn.createStatement().executeQuery("SELECT * FROM PartsUsed WHERE RegistrationNumber = '" + vehicles.get(i) + "' ");
-                    if(!rs.isBeforeFirst())
-                    {
-                        answer = answer + "NO PARTS USED FOR THIS VEHICLE";
-                    }
-                    if(rs != null)
-                    {
+            }
 
-                        while(rs.next())
+            stmt.close();
+            rs.close();
+            connect.close();
+        } 
+        catch (SQLException ex)
+        {
+            Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        ArrayList <Integer> partsIDs = new ArrayList<Integer>();
+        for(int i=0; i< vehicles.size(); i++)
+        {
+            String answer = vehicles.get(i) + "\n";
+            //boolean partsUsed = false;
+            try
+            {
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM PartsUsed WHERE RegistrationNumber = '" + vehicles.get(i) + "' ");
+                if(!rs.isBeforeFirst())
+                {
+                    answer = answer + "NO PARTS USED FOR THIS VEHICLE";
+                    //partsUsed = false;
+                }
+                if(rs != null)
+                {
+                    while(rs.next())
+                    {
+                        if(!partsIDs.contains(rs.getString("PartsID")))
                         {
-                            if(!partsIDs.contains(rs.getString("PartsID")))
-                            {
-                                System.out.println(rs.getString("PartsID"));
-                                partsIDs.add(rs.getInt("PartsID"));
-                                removeDuplicates(partsIDs);
-                            }
+                            System.out.println(rs.getString("PartsID"));
+                            partsIDs.add(rs.getInt("PartsID"));
+                            removeDuplicates(partsIDs);
+                            //partsUsed = true;
                         }
                     }
-                    for(int j=0; j<partsIDs.size(); j++)
+                }
+                stmt.close();
+                rs.close();
+                connect.close();
+            }
+            catch (SQLException ex) 
+            {
+                Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            ArrayList<String> specialists = new ArrayList<String>();
+            try
+            {
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+
+                ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Parts ON SPCBooking.PartID = Parts.ID WHERE SPCBooking.RegistrationNumber = '" + vehicles.get(i) + "' ");
+                while(rs.next())
+                {
+                    specialists.add("\n Special "+rs.getString("Type")+" on Part ID: "+rs.getString("PartID")+"\n"
+                            +"Part Name: "+rs.getString("Name")+"\n"
+                            +"+£"+rs.getString("Cost"));
+                }
+                rs.close();
+
+                stmt.close();
+                connect.close();
+            }
+            catch (SQLException ex) 
+            {
+                Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*try
+            {
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+
+                if(partsUsed)
+                {
+                    for(int a=0; a<partsIDs.size(); a++)
                     {
-                        rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(j) + "' ");
+                        ResultSet rs = stmt.executeQuery("SELECT * FROM SPCBooking WHERE PartID = " + partsIDs.get(a));
                         if(rs != null)
                         {
-                            answer = answer + "Parts ID: "+ partsIDs.get(j) + "\nName: " + rs.getString("Name") + "Cost: \n"+ rs.getString("Cost") + "\n\n";
+                            specialists[a] = "\n Special "+rs.getString("Type")+": +£"+rs.getString("Cost");
+                        }
+                        else{specialists[a]="";}
+                        rs.close();
+                    }
+                }
+                stmt.close();
+
+                connect.close();
+            }
+            catch (SQLException ex) 
+            {
+                Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+
+            try
+            {
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+
+                String blank="";
+                for(int sp=0; sp<specialists.size(); sp++)
+                {
+                    blank = blank +specialists.get(sp);
+                }
+
+                for(int j=0; j<partsIDs.size(); j++)
+                {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(j) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer + "Parts ID: "+ partsIDs.get(j) + "\nName: " + rs.getString("Name") + "Cost: \n"+ rs.getString("Cost")+ "\n\n";
+                    }
+                    rs.close();
+                }
+                answer = answer+blank+ "\n\n";
+                stmt.close();
+                connect.close();
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(viewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /*
+    System.out.println("HELLO");
+    CommonDatabase db = new CommonDatabase();
+
+    ArrayList<String> vehicles = new ArrayList<String>();
+    ObservableList<String> data = FXCollections.observableArrayList();
+
+    try
+    {
+        Connection conn = db.getConnection();
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Vehicles WHERE CustomerID = '" + c.getID() + "' ");
+        if(!rs.isBeforeFirst())
+        {
+            allParts.setVisible(false);
+            none.setVisible(true);
+        }
+        else
+        {
+            while(rs.next())
+            {
+                vehicles.add(rs.getString("RegistrationNumber"));
+            }
+            System.out.println(vehicles);
+            for(int i=0; i< vehicles.size(); i++)
+            {
+                String answer = vehicles.get(i) + "\n";
+                ArrayList <Integer> partsIDs = new ArrayList<Integer>();
+                rs = conn.createStatement().executeQuery("SELECT * FROM PartsUsed WHERE RegistrationNumber = '" + vehicles.get(i) + "' ");
+                if(!rs.isBeforeFirst())
+                {
+                    answer = answer + "NO PARTS USED FOR THIS VEHICLE";
+                }
+                if(rs != null)
+                {
+
+                    while(rs.next())
+                    {
+                        if(!partsIDs.contains(rs.getString("PartsID")))
+                        {
+                            System.out.println(rs.getString("PartsID"));
+                            partsIDs.add(rs.getInt("PartsID"));
+                            removeDuplicates(partsIDs);
                         }
                     }
-                    data.add(answer);
                 }
-                allParts.setItems(data);
-            }
-           
-            
+
+
+                String[] specialists = new String[partsIDs.size()];
+                for(int a=0; a<partsIDs.size(); a++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM SPCBooking WHERE PartID = " + partsIDs.get(a));
+                    if(rs != null)
+                    {
+                        specialists[a] = "\n Special "+rs.getString("Type")+": +£"+rs.getString("Cost");
+                    }
+                    else{specialists[a]="";}
+                }
+
+                for(int j=0; j<partsIDs.size(); j++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(j) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer + "Parts ID: "+ partsIDs.get(j) + "\nName: " + rs.getString("Name") + "Cost: \n"+ rs.getString("Cost") +specialists[j]+ "\n\n";
+                    }
+                }/*
+                for(int j=0; j<partsIDs.size(); j++)
+                {
+                    rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(j) + "' ");
+                    if(rs != null)
+                    {
+                        answer = answer + "Parts ID: "+ partsIDs.get(j) + "\nName: " + rs.getString("Name") + "Cost: \n"+ rs.getString("Cost") + "\n\n";
+                    }
+                }*/
+            data.add(answer);
         }
-        catch(SQLException e)
-        {
-            System.out.println("SQL Error");
-        }
+        allParts.setItems(data);
     }
     
     @FXML
