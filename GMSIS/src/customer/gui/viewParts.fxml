@@ -29,7 +29,7 @@
             <Image url="@../person.png" />
          </image>
       </ImageView>
-      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Vehicles owned by this Customer" textFill="#d30b0b" visible="false">
+      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Vehicle Owned by this Customer" textFill="#d30b0b" visible="false">
          <font>
             <Font size="16.0" />
          </font>

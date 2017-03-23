@@ -90,6 +90,10 @@ public class viewController implements Initializable
 
     @FXML
     private Label instructions;
+    
+    @FXML
+    private Label noBookings;
+    
 
     @FXML
     private ListView<String> bookingsView = new ListView<String>();
@@ -107,8 +111,8 @@ public class viewController implements Initializable
     public void setCustomer(allCustomers c, String type)
     {
         cust = c;
-        //ArrayList<String> regNo = new ArrayList<String>();
-        //NameLabel.setText(c.getFirstname() + " " + c.getSurname());
+        NameLabel.setText(c.getFirstname() +  " " + c.getSurname());
+        
         if(type == "Vehicles")
         {
             viewVehicles2(c);
@@ -131,6 +135,8 @@ public class viewController implements Initializable
     {
         CommonDatabase db = new CommonDatabase();
         Connection conn = null;
+        NameLabel.setText(c.getFirstname() +  " " + c.getSurname());
+        NameLabel.setVisible(true);
         try
         {
             conn = db.getConnection();
@@ -160,70 +166,7 @@ public class viewController implements Initializable
     }
    
     
-    
-    /*@FXML
-    public void viewBookings2(allCustomers c)
-    {
-        CommonDatabase db = new CommonDatabase();
-        Connection conn = null;
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
-        Date dateobj = new Date();
-        String dateT = df.format(dateobj);
-        todayDate.setText("Today's Date: " + df.format(dateobj));
-        todayDate.setVisible(true);
-        try
-        {
-            conn = db.getConnection();
-            ResultSet rs = conn.createStatement().executeQuery( "SELECT Vehicles.CustomerID, Vehicles.RegistrationNumber, Vehicles.WarrantyID, Booking.RegistrationNumber, Booking.BookingID, Booking.Bill, Booking.BookingType, Booking.BookingDate, Booking.BookingTime FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE Vehicles.CustomerID = '" + c.getID() + "' ");
-            if(!rs.next())
-            {
-                none.setVisible(true);
-            }
-            
-            if(rs != null)
-            {
-                do
-                {
-                    String payment;
-                    String status =rs.getString("BookingDate") + " - " +  "PAST";
-                    DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy"); 
-                    String d = rs.getString("BookingDate").replace("-", "/");
-                    Date dateBooking = new Date();
-                    try
-                    {
-                        dateBooking = df.parse(d);
-                    }
-                    catch(ParseException e)
-                    {
-                        System.out.println("DATE ERROR");
-                    }
-                    if(dateobj.before(dateBooking))
-                    {
-                        status = rs.getString("BookingDate") + " - " +  "FUTURE";
-                    }
-                    System.out.println(rs.getString("RegistrationNumber"));
-                    TitledPane pane = new TitledPane(status, Pane);
-                    if(rs.getInt("WarrantyID") != 0)
-                    {
-                        payment = "OUTSTANDING";
-                    }
-                    else
-                    {
-                        payment = "SETTLED";
-                    }
-                    pane.setContent(new Label("Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n" + "Bill: " + rs.getDouble("Bill") + "\n" + "Payment Status: "  + payment));
-                    mainFrame.getPanes().add(pane); 
-                }
-                while(rs.next());
-            }
-        }
-        catch(SQLException e)
-        {
-            e.getMessage();
-            System.out.println("HELLO");
-        }
-    }*/
-    
+   
     
     @FXML
     public void viewBookings2(allCustomers c)
@@ -321,6 +264,12 @@ public class viewController implements Initializable
                     
                 }
                 while(rs.next());
+                
+            }
+            else
+            {
+                noBookings.setVisible(true);
+                bookingsView.setOpacity(0.5);
             }
         }
         catch(SQLException e)
@@ -390,7 +339,8 @@ public class viewController implements Initializable
         
         ArrayList<String> vehicles = new ArrayList<String>();
         ObservableList<String> data = FXCollections.observableArrayList();
-        
+        NameLabel.setText(c.getFirstname() +  " " + c.getSurname());
+        NameLabel.setVisible(true);
         try
         {
             Connection conn = db.getConnection();

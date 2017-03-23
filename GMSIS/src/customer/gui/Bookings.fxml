@@ -21,21 +21,31 @@
          </font>
       </Label>
       <ListView fx:id="bookingsView" layoutX="24.0" layoutY="105.0" prefHeight="394.0" prefWidth="313.0" />
-      <AnchorPane layoutX="371.0" layoutY="227.0" prefHeight="131.0" prefWidth="313.0" style="-fx-border-color: grey;">
+      <AnchorPane layoutX="371.0" layoutY="217.0" prefHeight="146.0" prefWidth="319.0" style="-fx-border-color: grey;">
          <children>
             <Label fx:id="statusLabel" layoutX="21.0" layoutY="49.0" prefHeight="35.0" prefWidth="79.0" text="Status:" visible="false" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="realStatus" layoutX="103.0" layoutY="27.0" prefHeight="24.0" prefWidth="209.0" textFill="#6b0a0a" AnchorPane.topAnchor="29.0">
+            <Label fx:id="realStatus" layoutX="109.0" layoutY="24.0" prefHeight="42.0" prefWidth="209.0" text="SETTLED" textFill="#0a4369" visible="false" AnchorPane.topAnchor="22.0">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
+            <Label fx:id="instructions" layoutX="22.0" layoutY="66.0" prefHeight="35.0" prefWidth="295.0" text="Click the button below to settle the bill" visible="false" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="66.0" />
+            <Button fx:id="settleButton" layoutX="22.0" layoutY="102.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="79.0" text="SETTLE" visible="false" AnchorPane.topAnchor="102.0" />
+            <Label fx:id="noBookings" layoutX="89.0" layoutY="52.0" prefHeight="42.0" prefWidth="209.0" text="NO BOOKINGS " textFill="#d70909" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <Label fx:id="instructions" layoutX="380.0" layoutY="198.0" prefHeight="35.0" prefWidth="295.0" text="Click the below button to settle the bill" visible="false" AnchorPane.topAnchor="288.0" />
-      <Button fx:id="settleButton" layoutX="380.0" layoutY="205.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="79.0" text="SETTLE" visible="false" AnchorPane.topAnchor="320.0" />
+      <Label fx:id="NameLabel" layoutX="390.0" layoutY="124.0" prefHeight="42.0" prefWidth="280.0" textAlignment="CENTER" textFill="#00000089">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
