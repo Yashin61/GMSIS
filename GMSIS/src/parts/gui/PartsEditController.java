@@ -608,9 +608,9 @@ public class PartsEditController implements Initializable {
             boolean t = true;
             int no = 1;
             while (info.next()) {
-                Booking_Dates.getItems().add(no + ". " + info.getInt(1) + " | " + info.getString(5) + " at " + info.getString(6));
+                Booking_Dates.getItems().add(no + ". " + info.getInt(1) + " | " + info.getString(6) + " at " + info.getString(6));
                 if (t) {
-                    Booking_Dates.setValue(no + ". " + info.getInt(1) + " | " + info.getString(5) + " at " + info.getString(6));
+                    Booking_Dates.setValue(no + ". " + info.getInt(1) + " | " + info.getString(6) + " at " + info.getString(6));
                     t = false;
                 }
                 no++;
@@ -635,7 +635,7 @@ public class PartsEditController implements Initializable {
                 ko.setString(1, Customers_Parts_Editt.getSelectionModel().getSelectedItem().getRegistrationNo());
                 ko.setInt(2, Customers_Parts_Editt.getSelectionModel().getSelectedItem().getBookingID());
                 ResultSet info = ko.executeQuery();
-                lbl_type_of_booking.setText(info.getString(3));
+                lbl_type_of_booking.setText(info.getString(4));
                 lbl_type_of_booking.setStyle("-fx-background-color:White");
                 con.close();
             } catch (SQLException e) {
