@@ -228,9 +228,14 @@ public class RealController implements Initializable
                 try
                 {
                     int cust_id = cust.getID();
-                    deleteC(cust.getID());
-                    deleteV(cust.getID());
+                    deleteBP(cust.getID());
+                    deleteSPC(cust.getID());
                     deleteB(cust.getID());
+                    deleteV(cust.getID());
+                    deleteC(cust.getID());
+                    
+                    
+                    
                 }
                 catch(SQLException e)
                 {
@@ -267,6 +272,15 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    public void deleteBP(int id) throws SQLException
+    {
+        Connection conn = new CommonDatabase().getConnection();
+        String sql2 = "DELETE FROM BillsPaid WHERE CustomerID = '" + id + "' ";
+        PreparedStatement stmt = conn.prepareStatement(sql2);
+        stmt.executeUpdate();
+        close(conn);
+    }
+    
     private void deleteB(int id) throws SQLException
     {       
         Connection conn = new CommonDatabase().getConnection();
@@ -281,14 +295,30 @@ public class RealController implements Initializable
         System.out.println(bookings);
         for(int i = 0; i < bookings.size(); i++)
         {
-            String sql = "DELETE FROM Booking  WHERE BookingID = '" + bookings.get(i) + "' " ;
+            String sql = "DELETE FROM PartsUsed  WHERE BookingID = '" + bookings.get(i) + "' " ;
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.executeUpdate();
-            sql = "DELETE FROM PartsUsed  WHERE BookingID = '" + bookings.get(i) + "' " ;
+            sql =  "DELETE FROM Booking  WHERE BookingID = '" + bookings.get(i) + "' " ;
             PreparedStatement statement2 = conn.prepareStatement(sql);
             statement2.executeUpdate();
         }
-       
+        close(conn);
+    }
+    
+    public void deleteSPC(int id)
+    {
+        Connection conn = new CommonDatabase().getConnection();
+        
+        try
+        {
+            String sql = "DELETE FROM SPCBooking  WHERE CustomerID = '" + id + "' " ;
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            System.out.println("deleting error");
+        }
         close(conn);
     }
     
