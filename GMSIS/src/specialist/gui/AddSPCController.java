@@ -24,7 +24,7 @@ import specialist.logic.SpecialistDB;
  */
 public class AddSPCController implements Initializable {
 
-     @FXML
+    @FXML
     private AnchorPane rootPane;
     @FXML
     private TextField spcName;
@@ -71,6 +71,7 @@ public class AddSPCController implements Initializable {
         spcEmail.clear();
     }
 
+    //the back button closes the add spc page window
     @FXML
     private void back(ActionEvent event) throws IOException
     {

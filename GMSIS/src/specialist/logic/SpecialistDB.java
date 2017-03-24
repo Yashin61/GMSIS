@@ -11,9 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.swing.JOptionPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
@@ -24,7 +21,6 @@ import javafx.scene.control.Alert;
  */
 public class SpecialistDB 
 {
-    private List<Object> rList = new ArrayList<Object>();
     private ArrayList SList = new ArrayList();
     private Object[][] rowData;
     private Object[] cols;
@@ -32,6 +28,7 @@ public class SpecialistDB
     private String[] SPCList;
     String Recordurl = "jdbc:sqlite:src/common/Records.db";
     
+    //adds spc to the database
     public void addSPC(String name, String address, String phone, String email)
     {
         
@@ -61,6 +58,7 @@ public class SpecialistDB
         }
     }
     
+    //adds details about an spc booking to the database
     public void addSPCBooking(String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost, int bookID)
     {
         Connection conn = null;
@@ -89,7 +87,8 @@ public class SpecialistDB
         }
     }
     
-    public void editSPC(String id, String newData, int col)
+    //used to edit the details of the spc stored in the database
+    public void editSPC(String id, String name, String address, String phone, String email)
     {      
         Connection connect = null;
         Statement stmt = null;
@@ -106,22 +105,15 @@ public class SpecialistDB
             } 
             else
             {    
-                try
-                {
-                    Integer newid = Integer.parseInt(id);
-                    String tableColumn ="";
-                    if(col==1){ tableColumn = "SPCname";}
-                    else if(col==2){ tableColumn =  "SPCaddress"; }
-                    else if(col==3){ tableColumn = "SPCphone"; }
-                    else if(col==4){ tableColumn = "SPCemail"; }
-                    connect = DriverManager.getConnection(Recordurl);
-                    stmt = connect.createStatement();
-                    String sql = "UPDATE SPC SET "+ tableColumn + " = '" + newData+ "' "+ "WHERE SPCId = " + newid + " ;";
+                Integer newid = Integer.parseInt(id);
+                connect = DriverManager.getConnection(Recordurl);
+                stmt = connect.createStatement();
+                String sql = "UPDATE SPC SET SPCname = '"+name+"', SPCaddress = '"+address
+                +"', SPCphone = '"+phone+"', SPCemail = '"+email+"' WHERE SPCId = " + id + " ;";
 
-                    stmt.executeUpdate(sql);
-                    stmt.close();
-                    connect.close();
-                }catch(NumberFormatException e){System.out.println("Error in converting the id");}
+                stmt.executeUpdate(sql);
+                stmt.close();
+                connect.close();
             }
         }catch(SQLException e)
         {
@@ -129,6 +121,7 @@ public class SpecialistDB
         }
     }
     
+    //used to edit the details of an spc booking stored in the database
     public void editSPCBooking(String id, String name, String dDate, String arrived, String rDate, String returned, int parts, String reg, int cust, String workOn, String type, double cost, int bookId)
     {
         Connection connect = null;
@@ -147,19 +140,15 @@ public class SpecialistDB
             } 
             else
             {    
-                try
-                {
-                    Integer newid = Integer.parseInt(id);
-                    connect = DriverManager.getConnection(Recordurl);
-                    stmt = connect.createStatement();
-                    
-                    String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
-                            + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+"', BookingID = "+bookId+" WHERE Id = "+id+" ;";
-                    
-                    stmt.executeUpdate(sql);
-                    stmt.close();
-                    connect.close();
-                }catch(NumberFormatException e){System.out.println("Error in converting the id");}
+                connect = DriverManager.getConnection(Recordurl);
+                stmt = connect.createStatement();
+
+                String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
+                        + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+"', BookingID = "+bookId+" WHERE Id = "+id+" ;";
+
+                stmt.executeUpdate(sql);
+                stmt.close();
+                connect.close();
             }
         }catch(SQLException e)
         {
@@ -167,6 +156,7 @@ public class SpecialistDB
         }
     }
     
+    //delete an spc from the stored list in the database
     public void deleteSPC(int id)
     {
         Connection connect = null;
@@ -193,6 +183,7 @@ public class SpecialistDB
         }
     }
     
+    //deletes the spc booking that was made
     public void deleteSPCBooking(int id)
     {
         Connection connect = null;
@@ -246,6 +237,7 @@ public class SpecialistDB
         }
     }
     
+    //gets the list of spc names stored in the database
     public String[] getSPC()
     {
         
@@ -278,9 +270,4 @@ public class SpecialistDB
           return SPCList;
     }
     
-    /*
-    public static void main(String[] args) {
-        SpecialistDB app = new SpecialistDB();
-        System.out.print(Arrays.toString(app.getSPC()));
-    }*/
 }

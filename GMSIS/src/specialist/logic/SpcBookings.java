@@ -18,8 +18,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Alert;
 
 /**
  *
@@ -62,6 +60,7 @@ public class SpcBookings
         this.SpcBookId = new SimpleIntegerProperty(bookingId);
     }
 
+    //gets the customer name by using the foreign key customer id
     private String getCustName(Integer cust)
     {
         String name ="";
@@ -210,6 +209,7 @@ public class SpcBookings
         SpcDeliveryDate.set(dDate);
     }
     
+    //updates the data in the database for spc booking. Changed when the item has arrived at SPC
     public void setSpcArrive(String arrived) {
         SpcArrived.set(arrived);
         Connection connect = null;
@@ -235,6 +235,7 @@ public class SpcBookings
         SpcReturnDate.set(rDate);
     }
 
+    //updates the data in the database for spc booking. Changed when the item has been returned from SPC
     public void setSpcReturn(String returned) {
         SpcReturned.set(returned);
         Connection connect = null;

@@ -128,6 +128,7 @@ public class SpcEditBookingController implements Initializable {
         return repairOnList;
     }
     
+    // checks if booking is done in the past or currently day, if it is - returns error message
     @FXML
     private void bookingCheck(ActionEvent event) throws ParseException
     {
@@ -166,6 +167,7 @@ public class SpcEditBookingController implements Initializable {
         }else{}
     }
 
+    // displays the vehicle which the spc booking is for
     @FXML
     private void displayVehicles(SpcBookings bookingSPC) {
         Connection connect = null;
@@ -199,6 +201,7 @@ public class SpcEditBookingController implements Initializable {
         vehicleList.setItems(vehicleData);
     }
     
+    // displays the parts which were chosen to be repaired
     @FXML
     private void displayParts(ActionEvent event) {
         Connection connect = null;
@@ -240,6 +243,7 @@ public class SpcEditBookingController implements Initializable {
             }  
     }
     
+    // displays the parts which were chosen to be repaired - used to show the initialised data / what the booking previously contained
     @FXML
     private void displayParts2() {
         Connection connect = null;
@@ -267,6 +271,7 @@ public class SpcEditBookingController implements Initializable {
         partList.setItems(partData);
     }
     
+    // changes any data that was made to the spc booking
     @FXML
     private void updateSpcBookingButton(ActionEvent event) 
     {

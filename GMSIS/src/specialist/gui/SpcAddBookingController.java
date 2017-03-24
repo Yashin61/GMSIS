@@ -134,6 +134,7 @@ public class SpcAddBookingController implements Initializable {
         return customerList;
     }
     
+    //show all the booking the customer has, and select the booking id the user want to add spc booking to
     @FXML
     private void setBooking(ActionEvent event)
     {
@@ -190,6 +191,7 @@ public class SpcAddBookingController implements Initializable {
         return repairOnList;
     }
     
+    // checks if booking is done in the past or currently day, if it is - returns error message
     @FXML
     private void bookingCheck(ActionEvent event) throws ParseException
     {
@@ -228,6 +230,7 @@ public class SpcAddBookingController implements Initializable {
         }else{}
     }
 
+    //displays the vehicle which is linked to the booking id the user has
     @FXML
     private void displayVehicles(ActionEvent event) {
         Connection connect = null;
@@ -260,6 +263,7 @@ public class SpcAddBookingController implements Initializable {
         vehicleList.setItems(vehicleData);
     }
     
+    //displays the parts which is / are linked to the booking id the user has
     @FXML
     private void displayParts(ActionEvent event) {
         Connection connect = null;
@@ -301,15 +305,18 @@ public class SpcAddBookingController implements Initializable {
             }  
     }
     
+    //adds the spc to the database
     @FXML
     private void addSpcBookingButton(ActionEvent event) 
     {
+        // get names and dates in the correct format
         String name = spcList.getSelectionModel().getSelectedItem();
         String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         String arrived = "No";
         String rDate = "";
         String returned = "No";
         
+        //get the work on information - part or vehicle
         String workOn = repairOn.getValue();
         int parts = 0;
         if(workOn != null)
@@ -319,9 +326,17 @@ public class SpcAddBookingController implements Initializable {
                 SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
                 parts = partSPC.getPartId();
             }
-        }else{System.out.println("Select what to work on");}
+        }else
+        {
+            //System.out.println("Select what to work on");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Select what to work on");
+            alert.showAndWait();
+        }
         
-        
+        // get customer and vehicle information
         String reg = "";
         int cust = 0;
         
@@ -340,7 +355,8 @@ public class SpcAddBookingController implements Initializable {
             reg = vehicleSPC.getRegNo();
             cust = vehicleSPC.getCust();
         } 
-                     
+                 
+        //calculate the cost the type of repair which will be done. calculate the return date with this
         String type = "";
         double cost = 0.0;
         
@@ -358,6 +374,7 @@ public class SpcAddBookingController implements Initializable {
             type = "Re-condition";
         }
 
+        //get the booking id - foreign key
         int bookId = Integer.parseInt(bookingID.getValue());
         
         if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals("")))
@@ -374,7 +391,13 @@ public class SpcAddBookingController implements Initializable {
         }
         else
         {
-            System.out.println("Please input all the details.");
+            //System.out.println("Please input all the details.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Please input all the details.");
+            alert.showAndWait();
+            
         }
     }
     

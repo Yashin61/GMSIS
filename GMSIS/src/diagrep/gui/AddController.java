@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.layout.AnchorPane;
 import diagrep.logic.Database;
 import diagrep.logic.VehicleTable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,6 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -43,6 +46,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -113,7 +117,7 @@ public class AddController implements Initializable {
     }
 
     @FXML
-    private void submitDetails(ActionEvent event) throws SQLException {
+    private void submitDetails(ActionEvent event) throws SQLException, IOException {
         Connection connect = null;
         PreparedStatement stmt = null;
         Statement stmte = null;
@@ -167,6 +171,15 @@ public class AddController implements Initializable {
                 stmt.setString(7, Repair);
                 stmt.setDouble(8, Bill);
                 stmt.setInt(9, CustID);
+                /*
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/specialist/gui/spcAddBooking.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                AddController controller=fxmlLoader.<AddController>getController();
+                controller.setCustomerID(name, ID);
+                controller.ShowVehicles(event);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));  
+                stage.showAndWait();*/
                 
                 stmt.executeUpdate();
                 stmt.close();

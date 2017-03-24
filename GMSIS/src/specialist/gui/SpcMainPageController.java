@@ -28,7 +28,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -43,7 +42,6 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
-import specialist.logic.theSPC;
 
 /**
  * FXML Controller class
@@ -614,6 +612,7 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    // this function shows all the items which has been returned from the spc / all the spc repairs/bookings which has been completed
     @FXML
     private void showReturned(ActionEvent event)
     {
@@ -681,6 +680,7 @@ public class SpcMainPageController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
     
+    //switch to edit spc booking page
     @FXML
     private void editSpcBookingPage(ActionEvent event) throws IOException, ParseException
     {

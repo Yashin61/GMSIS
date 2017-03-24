@@ -10,13 +10,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import specialist.logic.SpecialistDB;
 import specialist.logic.theSPC;
 
@@ -63,6 +61,7 @@ public class EditSPCController implements Initializable {
         spcEmail.setText(spc.getSPCemail());
     }
 
+    //the back button closes the edit spc page window
     @FXML
     private void back(ActionEvent event) throws IOException
     {
@@ -80,14 +79,12 @@ public class EditSPCController implements Initializable {
         String address = spcAddress.getText();
         String phone = spcPhone.getText();
         String email = spcEmail.getText();
-        String[] data = {id,name,address,phone,email};
+
         if(!(spcId.getText().equals("") || spcName.getText().equals("") || spcAddress.getText().equals("") || spcPhone.getText().equals("") || spcEmail.getText().equals("")))
         {
-            for(int i=1; i<5; i++)
-            {
-                SpecialistDB a= new SpecialistDB();
-                a.editSPC(id,data[i],i);
-            }     
+            
+            SpecialistDB a= new SpecialistDB();
+            a.editSPC(id, name, address, phone, email);      
             
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Congrats");

@@ -203,6 +203,7 @@ public class SpecialistGUIController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
     
+    // switch to the spc add page where spc can be added to the list as long as there are less than 10 spc currently linked to the garage
     @FXML
     private void spcAddPage(ActionEvent event) throws IOException
     {
@@ -245,6 +246,7 @@ public class SpecialistGUIController implements Initializable {
         //} 
     }
     
+    // linked to the edit page where details of the spc can be changed
     @FXML
     private void spcEditPage(ActionEvent event) throws IOException
     {
@@ -267,6 +269,7 @@ public class SpecialistGUIController implements Initializable {
         } 
     }
     
+    //if search by id checkbox is checked - unselect/disable the search by name
     @FXML
     private void searchByID(ActionEvent event)
     {
@@ -276,6 +279,7 @@ public class SpecialistGUIController implements Initializable {
         }
     }
     
+    //if search by name checkbox is checked - unselect/disable the search by id
     @FXML
     private void searchByName(ActionEvent event)
     {
@@ -285,6 +289,7 @@ public class SpecialistGUIController implements Initializable {
         }
     }
     
+    //find the spc which fits the requirement inserted in the search box
     @FXML
     private void spcSearch(ActionEvent event)
     {
