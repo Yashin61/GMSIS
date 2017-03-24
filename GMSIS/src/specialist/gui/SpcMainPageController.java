@@ -824,24 +824,20 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
+    // if customer name checkbox is selected, disable search by registration checkbox
     @FXML
     private void customerName(ActionEvent event)
     {
-        Connection connect = null;
-        Statement stmt = null;
-        
         if(custName.isSelected())
         {
             vehiRegistration.setSelected(false);
         }
     }
     
+    // if vehicle registration checkbox is selected, disable search by customer name
     @FXML
     private void vehicleReg(ActionEvent event)
     {
-        Connection connect = null;
-        Statement stmt = null;
-        
         if(vehiRegistration.isSelected())
         {
             custName.setSelected(false);

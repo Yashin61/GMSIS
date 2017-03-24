@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -87,13 +88,22 @@ public class EditSPCController implements Initializable {
                 SpecialistDB a= new SpecialistDB();
                 a.editSPC(id,data[i],i);
             }     
-            JOptionPane.showMessageDialog(null, "SPC list has been updated");
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Congrats");
+            alert.setHeaderText("Application was succesful");
+            alert.setContentText("SPC list has been updated");
+            alert.showAndWait();
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
         else
         {
-            System.out.println("Please input all the details.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Form Incomplete");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please input all the details.");
+            alert.showAndWait();
         }
     }
     

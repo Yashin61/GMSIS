@@ -5,6 +5,7 @@
  */
 package specialist.gui;
 
+import com.jfoenix.controls.JFXRadioButton;
 import specialist.logic.SpecialistDB;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +36,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.JOptionPane;
+import specialist.logic.SpcBookings;
 import specialist.logic.theSPC;
 
 /**
@@ -70,6 +72,10 @@ public class SpecialistGUIController implements Initializable {
     private TableColumn<theSPC, String> tableSpcEmail;
     @FXML
     private ObservableList<theSPC> allSPC;
+    @FXML
+    private JFXRadioButton byID;
+    @FXML
+    private JFXRadioButton byNAME;
     
     //view all the lists of spc - triggered by an actionlistener / button
     @FXML
@@ -151,6 +157,7 @@ public class SpecialistGUIController implements Initializable {
         spcAddress.clear();
         spcPhone.clear();
         spcEmail.clear();
+        showData2();
     }
     
     //switch to the homepage
@@ -221,25 +228,6 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void addSpcButton(ActionEvent event) 
-    {
-        String name = spcName.getText();
-        String address = spcAddress.getText();
-        String phone = spcPhone.getText();
-        String email = spcEmail.getText();
-        if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
-        {
-            //System.out.println("It works");
-            SpecialistDB a= new SpecialistDB();
-            a.addSPC(name,address,phone,email);
-        }
-        else
-        {
-            System.out.println("Please input all the details.");
-        }
-    }
-    
-    @FXML
     private void spcEditPage(ActionEvent event) throws IOException
     {
         theSPC spc = dataTable.getSelectionModel().getSelectedItem();
@@ -262,30 +250,82 @@ public class SpecialistGUIController implements Initializable {
     }
     
     @FXML
-    private void updateSpcButton(ActionEvent event) 
+    private void searchByID(ActionEvent event)
     {
-        //get all the texts first
-        String id = spcId.getText();
-        String name = spcName.getText();
-        String address = spcAddress.getText();
-        String phone = spcPhone.getText();
-        String email = spcEmail.getText();
-        String[] data = {id,name,address,phone,email};
-        if(!(spcId.getText().equals("") || spcName.getText().equals("") || spcAddress.getText().equals("") || spcPhone.getText().equals("") || spcEmail.getText().equals("")))
+        if(byID.isSelected())
         {
-            for(int i=1; i<5; i++)
+            byNAME.setSelected(false);
+        }
+    }
+    
+    @FXML
+    private void searchByName(ActionEvent event)
+    {
+        if(byNAME.isSelected())
+        {
+            byID.setSelected(false);
+        }
+    }
+    
+    @FXML
+    private void spcSearch(ActionEvent event)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+        
+        if(byID.isSelected())
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPC = FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPC WHERE SPCId = " + spcId.getText());
+                while(set.next()){
+                    allSPC.add(new theSPC(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch (SQLException ex) 
             {
-                SpecialistDB a= new SpecialistDB();
-                a.editSPC(id,data[i],i);
-            }     
-            JOptionPane.showMessageDialog(null, "SPC list has been updated");
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.close();
+                Logger.getLogger(SpecialistGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else if(byNAME.isSelected())
+        {
+            try
+            {   
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                allSPC = FXCollections.observableArrayList();
+                ResultSet set = stmt.executeQuery("SELECT * FROM SPC WHERE SPCname like '%" + spcName.getText() + "%'");
+                while(set.next()){
+                    allSPC.add(new theSPC(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
+                }
+                stmt.close();
+                set.close();
+                connect.close();
+            }catch (SQLException ex) 
+            {
+                Logger.getLogger(SpecialistGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else
         {
-            System.out.println("Please input all the details.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select your method of searching - by id or name");
+            alert.showAndWait();
         }
+        
+        tableSpcId.setCellValueFactory(new PropertyValueFactory("SPCid"));
+        tableSpcName.setCellValueFactory(new PropertyValueFactory("SPCname"));
+        tableSpcAddress.setCellValueFactory(new PropertyValueFactory("SPCaddress"));
+        tableSpcPhone.setCellValueFactory(new PropertyValueFactory("SPCphone"));
+        tableSpcEmail.setCellValueFactory(new PropertyValueFactory("SPCemail"));   
+        dataTable.setItems(allSPC);
     }
     
     /**

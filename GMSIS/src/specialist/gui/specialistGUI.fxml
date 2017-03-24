@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -18,19 +19,19 @@
             <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="235.0" text="ID:" AnchorPane.topAnchor="235.0">
+      <Label layoutX="23.0" layoutY="284.0" text="ID:" AnchorPane.topAnchor="284.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="310.0" text="NAME:" AnchorPane.topAnchor="310.0">
+      <Label layoutX="24.0" layoutY="359.0" text="NAME:" AnchorPane.topAnchor="359.0">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcId" layoutX="144.0" layoutY="232.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="232.0" />
-      <TextField fx:id="spcName" layoutX="145.0" layoutY="307.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="307.0" />
-      <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
+      <TextField fx:id="spcId" layoutX="144.0" layoutY="281.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="281.0" />
+      <TextField fx:id="spcName" layoutX="145.0" layoutY="356.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="356.0" />
+      <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" onAction="#spcSearch" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
       <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
       <TableView fx:id="dataTable" layoutX="341.0" layoutY="129.0" prefHeight="322.0" prefWidth="620.0">
         <columns>
@@ -45,8 +46,8 @@
       <Button layoutX="717.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteSPCButton" text="DELETE" AnchorPane.rightAnchor="222.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="657.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcEditPage" text="EDIT" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="593.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcAddPage" text="ADD" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="465.0" />
-      <Separator layoutX="70.0" layoutY="287.0" prefWidth="200.0" />
-      <Label layoutX="154.0" layoutY="273.0" text="OR" textFill="#000000c1" />
+      <Separator layoutX="70.0" layoutY="336.0" prefWidth="200.0" />
+      <Label layoutX="154.0" layoutY="322.0" text="OR" textFill="#000000c1" />
       <Button layoutX="128.0" layoutY="73.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="83.0" text="HOME" />
       <Button layoutX="217.0" layoutY="73.0" mnemonicParsing="false" onAction="#customerPage" text="CUSTOMER ACCOUNTS" />
       <Button layoutX="510.0" layoutY="73.0" mnemonicParsing="false" onAction="#bookingsPage" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
@@ -58,5 +59,7 @@
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
+      <JFXRadioButton fx:id="byID" layoutX="24.0" layoutY="229.0" onAction="#searchByID" text="By ID" />
+      <JFXRadioButton fx:id="byNAME" layoutX="178.0" layoutY="229.0" onAction="#searchByName" text="By NAME" />
    </children>
 </AnchorPane>
