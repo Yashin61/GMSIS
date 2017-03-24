@@ -167,7 +167,7 @@ public class SpecialistDB
         }
     }
     
-    public void deleteSPC(Object id)
+    public void deleteSPC(int id)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -193,7 +193,7 @@ public class SpecialistDB
         }
     }
     
-    public void deleteSPCBooking(Object id)
+    public void deleteSPCBooking(int id)
     {
         Connection connect = null;
         Statement stmt = null;
@@ -219,6 +219,33 @@ public class SpecialistDB
         }
     }
     
+    //deletes all the spc bookings when the spc is deleted from the record
+    public void deleteSPCBooking2(String spcName)
+    {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection(Recordurl);
+            stmt = connect.createStatement();
+            String sql = "DELETE FROM SPCBooking WHERE SPCname = '" + spcName + "';";
+
+            stmt.executeUpdate(sql);
+            //JOptionPane.showMessageDialog(null, "SPCBooking has been deleted."); 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deleting SPC Booking");
+            alert.setHeaderText("Success");
+            alert.setContentText("SPC Bookings has been deleted along with the SPC.");
+            
+            stmt.close();
+            connect.close();
+        }catch(SQLException e)
+        {
+            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
     public String[] getSPC()
     {
         
@@ -230,10 +257,10 @@ public class SpecialistDB
             //Connect to database 
             connect = DriverManager.getConnection(Recordurl);
             stmt = connect.createStatement();
-            ResultSet set = stmt.executeQuery("SELECT SPCname FROM SPC");
+            ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
 
             while(set.next()){
-                SList.add(set.getString(1)); 
+                SList.add(set.getString("SPCname")); 
             }
 
             SPCList = (String[]) SList.toArray(new String[SList.size()]);

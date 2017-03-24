@@ -53,12 +53,6 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private TextField spcName;
     @FXML
-    private TextField spcPhone;
-    @FXML
-    private TextField spcAddress;
-    @FXML
-    private TextField spcEmail;
-    @FXML
     private TableView<theSPC> dataTable;
     @FXML
     private TableColumn<theSPC, Integer> tableSpcId;
@@ -103,9 +97,9 @@ public class SpecialistGUIController implements Initializable {
             stmt.close();
             set.close();
             connect.close();
-        }catch(SQLException e)
+        }catch (SQLException ex)
         {
-            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+           Logger.getLogger(SpecialistGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         tableSpcId.setCellValueFactory(new PropertyValueFactory("SPCid"));
@@ -132,6 +126,7 @@ public class SpecialistGUIController implements Initializable {
         {
             //int row = dataTable.getSelectionModel().getSelectedIndex();
             int row = spc.getSPCid();
+            String name = spc.getSPCname();
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
             alert.setHeaderText("Please Confirm");
@@ -142,6 +137,8 @@ public class SpecialistGUIController implements Initializable {
                 // if the user chooses to proceed
                 SpecialistDB a = new SpecialistDB();
                 a.deleteSPC(row);
+                a.deleteSPCBooking2(name);
+                
             } 
             else { /* the user closes the confirmation dialog*/}
             showData2();
@@ -154,9 +151,8 @@ public class SpecialistGUIController implements Initializable {
     {
         spcId.clear();
         spcName.clear();
-        spcAddress.clear();
-        spcPhone.clear();
-        spcEmail.clear();
+        byID.setSelected(false);
+        byNAME.setSelected(false);
         showData2();
     }
     
@@ -210,10 +206,32 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void spcAddPage(ActionEvent event) throws IOException
     {
-       /* theSPC spc = dataTable.getSelectionModel().getSelectedItem();
-        if(spc == null)
+        /*Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allSPC = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
+            while(set.next()){
+                allSPC.add(new theSPC(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getString(5))); 
+            }
+            stmt.close();
+            set.close();
+            connect.close();
+        }catch (SQLException ex)
         {
-            JOptionPane.showMessageDialog(null,"Please select a SPC");
+           Logger.getLogger(SpecialistGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(allSPC.size() >= 10)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Already 10 SPCs are linked to the garage");
+            alert.setContentText("Please delete one or more SPC before adding another");
+            alert.showAndWait();
         }
         else
         {*/
@@ -224,7 +242,7 @@ public class SpecialistGUIController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.showAndWait();
             showData2();
-       // } 
+        //} 
     }
     
     @FXML
