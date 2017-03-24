@@ -388,6 +388,14 @@ public class SpcAddBookingController implements Initializable {
         repairOn.setValue(null);
     }
     
+    // switch to the specialists page
+    @FXML
+    private void back(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
     /**
      * Initializes the controller class.
      */

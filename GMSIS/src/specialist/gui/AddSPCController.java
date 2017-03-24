@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -66,6 +67,13 @@ public class AddSPCController implements Initializable {
         spcEmail.clear();
     }
 
+    @FXML
+    private void back(ActionEvent event) throws IOException
+    {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.close();
+    }
+    
     /**
      * Initializes the controller class.
      */
