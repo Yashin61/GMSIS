@@ -61,17 +61,12 @@ public class EditSPCController implements Initializable {
         spcPhone.setText(spc.getSPCphone());
         spcEmail.setText(spc.getSPCemail());
     }
-    
-    @FXML
-    void home(ActionEvent event) {
-
-    }
 
     @FXML
-    private void spcPage(ActionEvent event) throws IOException
+    private void back(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcMainPage.fxml" ));
-        rootPane.getChildren().setAll(pane);
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.close();
     }
 
     //the update button makes changes to the data stored in the database

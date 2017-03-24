@@ -2,51 +2,56 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="430.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.EditSPCController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="408.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.EditSPCController">
    <children>
-      <Separator layoutX="115.0" layoutY="80.0" prefHeight="3.0" prefWidth="460.0" />
-      <Label layoutX="168.0" layoutY="40.0" prefHeight="55.0" prefWidth="355.0" text="Edit Specialist Repair Center">
+      <Label layoutX="209.0" layoutY="29.0" prefHeight="55.0" prefWidth="355.0" text="Edit Specialist Repair Center">
          <font>
             <Font name="Apple Braille" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="36.0" layoutY="300.0" mnemonicParsing="false" text="BACK" />
-      <Label layoutX="33.0" layoutY="130.0" text="SPC ID:">
+      <Button layoutX="67.0" layoutY="300.0" mnemonicParsing="false" onAction="#back" text="BACK" />
+      <Label layoutX="67.0" layoutY="110.0" text="SPC ID:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="33.0" layoutY="180.0" text="ADDRESS:">
+      <Label layoutX="67.0" layoutY="180.0" text="ADDRESS:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcId" layoutX="121.0" layoutY="130.0" prefHeight="26.0" prefWidth="200.0" />
-      <TextField fx:id="spcAddress" layoutX="121.0" layoutY="180.0" prefHeight="26.0" prefWidth="200.0" />
-      <Button layoutX="571.0" layoutY="300.0" mnemonicParsing="false" onAction="#updateSpcButton" text="UPDATE" />
-      <Button layoutX="501.0" layoutY="300.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" text="CLEAR" />
-      <Label layoutX="33.0" layoutY="230.0" text="EMAIL:">
+      <TextField fx:id="spcId" layoutX="137.0" layoutY="110.0" prefHeight="26.0" prefWidth="171.0" />
+      <TextField fx:id="spcAddress" layoutX="137.0" layoutY="180.0" prefHeight="26.0" prefWidth="171.0" />
+      <Button layoutX="572.0" layoutY="300.0" mnemonicParsing="false" onAction="#updateSpcButton" text="UPDATE" />
+      <Button layoutX="502.0" layoutY="300.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" text="CLEAR" />
+      <Label layoutX="67.0" layoutY="250.0" text="EMAIL:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcEmail" layoutX="121.0" layoutY="230.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="345.0" layoutY="130.0" text="NAME:">
+      <TextField fx:id="spcEmail" layoutX="137.0" layoutY="250.0" prefHeight="26.0" prefWidth="171.0" />
+      <Label layoutX="371.0" layoutY="110.0" text="NAME:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcName" layoutX="430.0" layoutY="130.0" prefHeight="26.0" prefWidth="200.0" />
-      <Label layoutX="345.0" layoutY="180.0" text="Phone_NO:">
+      <TextField fx:id="spcName" layoutX="461.0" layoutY="110.0" prefHeight="26.0" prefWidth="171.0" />
+      <Label layoutX="371.0" layoutY="180.0" text="Phone_NO:">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcPhone" layoutX="430.0" layoutY="180.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="spcPhone" layoutX="461.0" layoutY="180.0" prefHeight="26.0" prefWidth="171.0" />
+      <ImageView fitHeight="112.5" fitWidth="150.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../common/Car.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -408,6 +408,15 @@ public class SpcEditBookingController implements Initializable {
             partList.getSelectionModel().select(spcBooking.getSpcPartId()-1);
         }
     }
+    
+    // switch to the specialists page
+    @FXML
+    private void back(ActionEvent event) throws IOException
+    {
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        stage.close();
+    }
+    
     /**
      * Initializes the controller class.
      */

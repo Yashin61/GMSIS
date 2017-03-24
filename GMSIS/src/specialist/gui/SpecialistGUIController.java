@@ -153,40 +153,38 @@ public class SpecialistGUIController implements Initializable {
         spcEmail.clear();
     }
     
+    //switch to the homepage
     @FXML
-    private void home(ActionEvent event) throws IOException
+    private void homePage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
-    // opens the specialist page
-    @FXML
-    private void spcPage(ActionEvent event) throws IOException
-    {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcMainPage.fxml"));
-        rootPane.getChildren().setAll(pane);
-    }
-    
-    // opens the customer page
+    // switch to the customer page
     @FXML
     private void customerPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerRealPage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-    
-    // opens the vehicles page
+    // switch to the vehicle page
     @FXML
     private void vehiclePage(ActionEvent event) throws IOException
     {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
         rootPane.getChildren().setAll(pane);
-//        pane.setTitle("Vehicle Records");
-//        pane.setResizable(false);
     }
     
-    // opens the parts page
+    // switch to the bookings page
+    @FXML
+    private void bookingsPage(ActionEvent event) throws IOException
+    {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+    
+    // switch to the parts page
     @FXML
     private void partsPage(ActionEvent event) throws IOException
     {
@@ -194,11 +192,11 @@ public class SpecialistGUIController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
     
-    // opens the diagnostics page
+    // switch to the specialists page
     @FXML
-    private void diagPage(ActionEvent event) throws IOException
+    private void specialistsPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     

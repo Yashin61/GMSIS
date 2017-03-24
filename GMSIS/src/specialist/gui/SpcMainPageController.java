@@ -814,14 +814,6 @@ public class SpcMainPageController implements Initializable {
             if (result.get() == yesButton){
                 // if the user chooses to click yes
                 spcBooking.setSpcReturn("Yes");
-                if(spcBooking.getSpcWOn().equals("Part"))
-                {
-                    sendPartCost(spcBooking);
-                }
-                else
-                {
-                    sendVehicleCost(spcBooking);
-                }
             } 
             else if(result.get() == noButton)
             {
@@ -832,34 +824,30 @@ public class SpcMainPageController implements Initializable {
         }
     }
     
-    private void sendPartCost(SpcBookings spc)
+    @FXML
+    private void customerName(ActionEvent event)
     {
         Connection connect = null;
         Statement stmt = null;
-
-        try
-        {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-            stmt = connect.createStatement();
-            
-            ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID"
-                    + " WHERE Firstname like '%" + searchSPC.getText() + "%' OR Surname like '%" + searchSPC.getText() +"%'");
-            while(set.next()){
-                
-            }
-            stmt.close();
-            set.close();
-            connect.close();
-        }catch(SQLException e)
+        
+        if(custName.isSelected())
         {
-            Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
+            vehiRegistration.setSelected(false);
         }
     }
     
-    private void sendVehicleCost(SpcBookings spc)
+    @FXML
+    private void vehicleReg(ActionEvent event)
     {
+        Connection connect = null;
+        Statement stmt = null;
         
+        if(vehiRegistration.isSelected())
+        {
+            custName.setSelected(false);
+        }
     }
+    
     //search for the spc / spcbooking by customer names or vehicle registration
     @FXML
     private void searchSPCBooking(ActionEvent event)
@@ -910,7 +898,7 @@ public class SpcMainPageController implements Initializable {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-        else if(custName.isSelected() && vehiRegistration.isSelected())
+        /*else if(custName.isSelected() && vehiRegistration.isSelected())
         {
             try
             {   
@@ -933,7 +921,7 @@ public class SpcMainPageController implements Initializable {
             {
                 Logger.getLogger(SpecialistDB.class.getName()).log(Level.SEVERE, null, e);
             }
-        }
+        }*/
         else
         {
             //JOptionPane.showMessageDialog(null,"Please select what you want to search");

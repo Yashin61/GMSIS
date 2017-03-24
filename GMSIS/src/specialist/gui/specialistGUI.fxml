@@ -6,38 +6,33 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.SpecialistGUIController">
    <children>
-      <Separator layoutX="13.0" layoutY="71.0" prefHeight="35.0" prefWidth="950.0" />
-      <Button layoutX="9.0" layoutY="61.0" mnemonicParsing="false" onAction="#home" prefHeight="25.0" prefWidth="143.0" text="HOME" />
-      <Button layoutX="161.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
-      <Button layoutX="456.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
-      <Button layoutX="314.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
-      <Button layoutX="699.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
-      <Button layoutX="793.0" layoutY="61.0" mnemonicParsing="false" onAction="#spcPage" prefHeight="25.0" prefWidth="164.0" text="SPECIALIST REPAIRS" />
-      <Label layoutX="23.0" layoutY="149.0" prefHeight="34.0" prefWidth="183.0" text="Search SPC">
+      <Label layoutX="23.0" layoutY="175.0" prefHeight="34.0" prefWidth="183.0" text="Search SPC">
          <font>
             <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="209.0" text="ID:" AnchorPane.topAnchor="209.0">
+      <Label layoutX="23.0" layoutY="235.0" text="ID:" AnchorPane.topAnchor="235.0">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="284.0" text="NAME:" AnchorPane.topAnchor="284.0">
+      <Label layoutX="24.0" layoutY="310.0" text="NAME:" AnchorPane.topAnchor="310.0">
          <font>
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="spcId" layoutX="144.0" layoutY="206.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="206.0" />
-      <TextField fx:id="spcName" layoutX="145.0" layoutY="281.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="281.0" />
+      <TextField fx:id="spcId" layoutX="144.0" layoutY="232.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="144.0" AnchorPane.topAnchor="232.0" />
+      <TextField fx:id="spcName" layoutX="145.0" layoutY="307.0" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="307.0" />
       <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
       <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clearSearchAddEdit" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
-      <TableView fx:id="dataTable" layoutX="336.0" layoutY="130.0" prefHeight="322.0" prefWidth="620.0">
+      <TableView fx:id="dataTable" layoutX="341.0" layoutY="129.0" prefHeight="322.0" prefWidth="620.0">
         <columns>
           <TableColumn fx:id="tableSpcId" prefWidth="77.0" text="ID" />
           <TableColumn fx:id="tableSpcName" prefWidth="118.0" text="Name" />
@@ -46,12 +41,22 @@
             <TableColumn fx:id="tableSpcEmail" prefWidth="155.0" text="Email" />
         </columns>
       </TableView>
-      <Button layoutX="784.0" layoutY="457.0" mnemonicParsing="false" onAction="#showData" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL SPC" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="705.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteSPCButton" text="DELETE" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="646.0" layoutY="457.0" mnemonicParsing="false" onAction="#spcEditPage" text="EDIT" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="566.0" layoutY="457.0" mnemonicParsing="false" onAction="#spcAddPage" text="ADD" AnchorPane.rightAnchor="349.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="474.0" layoutY="465.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="SELECT" AnchorPane.rightAnchor="409.0" />
-      <Separator layoutX="70.0" layoutY="261.0" prefWidth="200.0" />
-      <Label layoutX="154.0" layoutY="247.0" text="OR" textFill="#000000c1" />
+      <Button layoutX="790.0" layoutY="465.0" mnemonicParsing="false" onAction="#showData" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL SPC" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="717.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteSPCButton" text="DELETE" AnchorPane.rightAnchor="222.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="657.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcEditPage" text="EDIT" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="465.0" />
+      <Button layoutX="593.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcAddPage" text="ADD" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="465.0" />
+      <Separator layoutX="70.0" layoutY="287.0" prefWidth="200.0" />
+      <Label layoutX="154.0" layoutY="273.0" text="OR" textFill="#000000c1" />
+      <Button layoutX="128.0" layoutY="73.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="83.0" text="HOME" />
+      <Button layoutX="217.0" layoutY="73.0" mnemonicParsing="false" onAction="#customerPage" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="510.0" layoutY="73.0" mnemonicParsing="false" onAction="#bookingsPage" prefHeight="25.0" prefWidth="229.0" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
+      <Button layoutX="369.0" layoutY="73.0" mnemonicParsing="false" onAction="#vehiclePage" prefHeight="25.0" prefWidth="131.0" text="VEHICLE RECORDS" />
+      <Button layoutX="746.0" layoutY="73.0" mnemonicParsing="false" onAction="#partsPage" prefHeight="25.0" prefWidth="83.0" text="PARTS" />
+      <Button layoutX="836.0" layoutY="73.0" mnemonicParsing="false" onAction="#specialistsPage" prefHeight="25.0" prefWidth="125.0" text="SPECIALIST REPAIRS" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../vehicles/gui/Car.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
