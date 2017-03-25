@@ -29,7 +29,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="editTable" layoutX="532.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="60.0" text="EDIT" AnchorPane.rightAnchor="118.0" />
+      <Button fx:id="editTable" defaultButton="true" layoutX="532.0" layoutY="364.0" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="60.0" text="EDIT" AnchorPane.rightAnchor="118.0" />
       <Button layoutX="462.0" layoutY="364.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="60.0" text="CLEAR" />
       <GridPane layoutX="100.0" layoutY="149.0">
         <columnConstraints>
@@ -75,8 +75,6 @@
             <Label text="Last Service Date" GridPane.rowIndex="1" />
             <Label text="Customer ID" GridPane.rowIndex="2" />
             <Label text="Warranty ID" GridPane.rowIndex="3" />
-            <TextField fx:id="customerID" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="warrantyID" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Expiry Date" GridPane.rowIndex="4" />
             <Label text="Company Name" GridPane.rowIndex="5" />
             <TextField fx:id="companyName" layoutX="110.0" layoutY="132.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -85,6 +83,8 @@
             <DatePicker fx:id="motRenDate" editable="false" GridPane.columnIndex="1" />
             <DatePicker fx:id="lastServiceDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="expiryDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="customerID" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="warrantyID" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

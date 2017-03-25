@@ -19,16 +19,11 @@
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
-      <Label layoutX="302.0" layoutY="18.0" prefHeight="55.0" prefWidth="106.0" text="Customers">
+      <Label layoutX="305.0" layoutY="18.0" prefHeight="55.0" prefWidth="103.0" text="Customers">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="none" layoutX="65.0" layoutY="186.0" prefHeight="68.0" prefWidth="499.0" text="No customers are available for this vehicle!" visible="false">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <ListView fx:id="cstmrs" layoutX="82.0" layoutY="83.0" prefHeight="302.0" prefWidth="547.0" />
+      <ListView fx:id="allCustomers" layoutX="82.0" layoutY="83.0" prefHeight="302.0" prefWidth="547.0" />
    </children>
 </AnchorPane>

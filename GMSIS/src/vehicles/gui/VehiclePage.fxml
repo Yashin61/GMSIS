@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
@@ -20,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="mainAnchor" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehiclePageController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchor" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehiclePageController">
    <children>
       <Button layoutX="146.0" layoutY="61.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="55.0" text="HOME" />
       <Button layoutX="252.0" layoutY="61.0" mnemonicParsing="false" onAction="#custAccPage" text="CUSTOMER ACCOUNTS" />
@@ -28,7 +24,7 @@
       <Button layoutX="411.0" layoutY="61.0" mnemonicParsing="false" text="VEHICLE RECORDS" />
       <Button layoutX="776.0" layoutY="61.0" mnemonicParsing="false" onAction="#partsPage" text="PARTS" />
       <Button layoutX="842.0" layoutY="61.0" mnemonicParsing="false" onAction="#spcPage" text="SPECIALIST REPAIRS" />
-      <Label layoutX="21.0" layoutY="473.0" text="Search Vehicle">
+      <Label layoutX="20.0" layoutY="441.0" text="Search Vehicle">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -54,26 +50,26 @@
             </TableView>
       <Button fx:id="viewVeh" layoutX="8.0" layoutY="367.0" mnemonicParsing="false" onAction="#getVehicleDetails" prefHeight="26.0" prefWidth="123.0" text="VIEW ALL VEHICLES" AnchorPane.rightAnchor="973.0" AnchorPane.topAnchor="367.0" />
       <Button layoutX="702.0" layoutY="370.0" mnemonicParsing="false" onAction="#deleteVehicle" text="DELETE" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="370.0" />
-      <Button fx:id="edVeh" layoutX="702.0" layoutY="439.0" mnemonicParsing="false" onAction="#openEditPage" prefHeight="25.0" prefWidth="55.0" text="EDIT" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="439.0" />
-      <Button fx:id="addVeh" layoutX="702.0" layoutY="506.0" mnemonicParsing="false" onAction="#openAddPage" prefHeight="25.0" prefWidth="55.0" text="ADD" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="506.0" />
+      <Button fx:id="edVeh" layoutX="702.0" layoutY="445.0" mnemonicParsing="false" onAction="#openEditPage" prefHeight="25.0" prefWidth="55.0" text="EDIT" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="445.0" />
+      <Button fx:id="addVeh" layoutX="702.0" layoutY="517.0" mnemonicParsing="false" onAction="#openAddPage" prefHeight="25.0" prefWidth="55.0" text="ADD" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="517.0" />
       <Button layoutX="884.0" layoutY="369.0" mnemonicParsing="false" onAction="#viewWarranty" prefHeight="26.0" prefWidth="194.0" text="VIEW WARRANTY DETAILS" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="369.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-13.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../vehicles/gui/Car.png" />
          </image>
       </ImageView>
-      <Label layoutX="21.0" layoutY="517.0" prefHeight="25.0" prefWidth="194.0" text="Vehicle Registration Number">
+      <Label layoutX="251.0" layoutY="481.0" prefHeight="25.0" prefWidth="162.0" text="By Registration Number">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
       <TextField fx:id="regNumber" layoutX="235.0" layoutY="516.0" onAction="#onEnter" prefHeight="26.0" prefWidth="194.0" promptText="ie. AB12 CDE" />
-      <Label layoutX="21.0" layoutY="425.0" prefHeight="30.0" prefWidth="217.0" text="View All Vehicles by Type or Warranty">
+      <Label layoutX="265.0" layoutY="409.0" prefHeight="30.0" prefWidth="136.0" text="By Type or Warranty">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font size="15.0" />
          </font>
       </Label>
-      <GridPane layoutX="888.0" layoutY="443.0">
+      <GridPane layoutX="888.0" layoutY="454.0">
          <children>
             <TextField fx:id="expDate" editable="false" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" />
             <Label text="Expiry Date" />
@@ -92,16 +88,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button layoutX="167.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewParts" prefHeight="26.0" prefWidth="123.0" text="VIEW PARTS" />
+      <Button fx:id="vParts" layoutX="167.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewParts" prefHeight="26.0" prefWidth="123.0" text="VIEW PARTS" />
       <Button layoutX="316.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewBookings" prefHeight="26.0" prefWidth="123.0" text="VIEW BOOKINGS" />
-      <RadioButton fx:id="carType" layoutX="268.0" layoutY="432.0" mnemonicParsing="false" onAction="#actionVehType" text="Car">
+      <RadioButton fx:id="carType" layoutX="473.0" layoutY="416.0" mnemonicParsing="false" onAction="#actionVehType" text="Car">
          <toggleGroup>
             <ToggleGroup fx:id="vehType" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="vanType" layoutX="329.0" layoutY="432.0" mnemonicParsing="false" onAction="#actionVehType" text="Van" toggleGroup="$vehType" />
-      <RadioButton fx:id="truckType" layoutX="393.0" layoutY="432.0" mnemonicParsing="false" onAction="#actionVehType" text="Truck" toggleGroup="$vehType" />
-      <RadioButton fx:id="warranty" layoutX="459.0" layoutY="432.0" mnemonicParsing="false" onAction="#actionWarranty" text="Warranty" toggleGroup="$vehType" />
+      <RadioButton fx:id="vanType" layoutX="569.0" layoutY="416.0" mnemonicParsing="false" onAction="#actionVehType" text="Van" toggleGroup="$vehType" />
+      <RadioButton fx:id="truckType" layoutX="472.0" layoutY="484.0" mnemonicParsing="false" onAction="#actionVehType" text="Truck" toggleGroup="$vehType" />
+      <RadioButton fx:id="warranty" layoutX="569.0" layoutY="484.0" mnemonicParsing="false" onAction="#actionWarranty" text="Warranty" toggleGroup="$vehType" />
       <Button layoutX="467.0" layoutY="368.0" mnemonicParsing="false" onAction="#viewCustomers" prefHeight="25.0" prefWidth="123.0" text="VIEW CUSTOMERS" />
+      <ComboBox layoutX="19.0" layoutY="518.0" prefHeight="25.0" prefWidth="123.0" promptText="By Make" visibleRowCount="4" />
    </children>
 </AnchorPane>
