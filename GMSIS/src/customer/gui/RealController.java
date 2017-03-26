@@ -10,6 +10,8 @@ import customer.logic.allCustomers;
 import customer.logic.customers;
 import diagrep.gui.AddController;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
