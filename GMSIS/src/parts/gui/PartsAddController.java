@@ -99,7 +99,7 @@ public class PartsAddController implements Initializable {
     ConnectionToParts conn;
     Connection con;
     int ChosenID = 0;
-    
+
     @FXML
     private TextField txt_ID_Search;
     @FXML
@@ -121,7 +121,8 @@ public class PartsAddController implements Initializable {
     private Label make_lbl;
     @FXML
     private Button Delete;
-int currentQTY = 0;
+    int currentQTY = 0;
+
     /**
      * Initializes the controller class.
      *
@@ -149,7 +150,7 @@ int currentQTY = 0;
             model_lbl.setVisible(true);
             make_lbl.setVisible(true);
         }
-            updateTable();
+        updateTable();
     }
 
     @FXML
@@ -167,7 +168,7 @@ int currentQTY = 0;
             model_lbl.setVisible(true);
             make_lbl.setVisible(true);
         }
-            updateTable();
+        updateTable();
     }
 
     @FXML
@@ -188,7 +189,7 @@ int currentQTY = 0;
             txt_ID_Search.setVisible(false);
             Search_Part_by_ID.setVisible(false);
         }
-            updateTable();
+        updateTable();
 
     }
 
@@ -244,8 +245,8 @@ int currentQTY = 0;
         lbl_data_Name.setText("");
         lbl_data_Description.setText("");
         make_txt.clear();
-       model_txt.clear();
-        
+        model_txt.clear();
+
         updateTable();
     }
 
@@ -259,9 +260,10 @@ int currentQTY = 0;
     private void data(MouseEvent event) {
 
         if (event.getClickCount() == 2) {
+
             ChosenID = parts_table.getSelectionModel().getSelectedItem().getID();
             currentQTY = parts_table.getSelectionModel().getSelectedItem().getQTY();
-            
+
             lbl_data_Name.setText(parts_table.getSelectionModel().getSelectedItem().getName());
             lbl_data_Description.setText(parts_table.getSelectionModel().getSelectedItem().getDescription());
             txt_Search_ID_QTY.setText(Integer.toString(parts_table.getSelectionModel().getSelectedItem().getQTY()));
@@ -278,28 +280,48 @@ int currentQTY = 0;
 
     @FXML
     private void updateQTYparts(ActionEvent event) {
-int new_total= 0;
+        if (checkAction()) {
+            return;
+        }
+        try {
+
+            int q = Integer.parseInt(txt_Search_ID_QTY.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please Enter a Number");
+            txt_Search_ID_QTY.setText("");
+            return;
+        }
+        int new_total = 0;
         String sql = "UPDATE Parts SET Quantity = ? WHERE ID = ? ";
         if (currentQTY >= 10) {
             JOptionPane.showMessageDialog(null, "The current quantity is already equal to 10, trying to add more will exceed the maximum limit.");
-           txt_Search_ID_QTY.setText("");
+            txt_Search_ID_QTY.setText("");
             return;
         }
-    new_total=currentQTY+Integer.parseInt(txt_Search_ID_QTY.getText());
+        new_total = currentQTY + Integer.parseInt(txt_Search_ID_QTY.getText());
         if (new_total > 10) {
             JOptionPane.showMessageDialog(null, "The new total " + new_total + " will exceed the maximum limit.");
             txt_Search_ID_QTY.setText("");
             return;
         }
+
+        if (ChosenID == 0) {
+            JOptionPane.showMessageDialog(null, "Please select a part from the table first");
+            txt_Search_ID_QTY.setText("");
+            return;
+        }
         con = conn.connect();
         try {
-           
+
             PreparedStatement stat = con.prepareStatement(sql);
-            stat.setInt(1,new_total);
+            stat.setInt(1, new_total);
             stat.setInt(2, ChosenID);
             stat.executeUpdate();
-
-            con.close();
+            JOptionPane.showMessageDialog(null,  txt_Search_ID_QTY.getText() + " has been added to the chosen part which gives a total of " + new_total);
+            lbl_data_Name.setText("");
+            lbl_data_Description.setText("");
+            txt_Search_ID_QTY.setText("");
+                      con.close();
         } catch (SQLException e) {
 
         }
@@ -309,6 +331,10 @@ int new_total= 0;
 
     @FXML
     private void search_p(ActionEvent event) {
+        if (txt_ID_Search.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter a parts name");
+            return;
+        }
         con = conn.connect();
         String sql = "SELECT * FROM Parts WHERE Name LIKE '%" + txt_ID_Search.getText() + "%' OR Description Like '" + txt_ID_Search.getText() + "%'";
 
@@ -333,44 +359,59 @@ int new_total= 0;
             parts_table.setItems(data);
 
             con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
     }
 
     @FXML
     private void add_qty_update(ActionEvent event) {
+        if (checkAction()) {
+            return;
+        }
+
         con = conn.connect();
         String sql = "";
         PreparedStatement stat = null;
 
         try {
-           if(Integer.parseInt(txt_New_Part_Quantity.getText()) > 10){
-               JOptionPane.showMessageDialog(null, "Updating the qty to " + txt_New_Part_Quantity.getText() + " will exceed the maximum amount");
-           }
-            if (Update_CurrentPart.isSelected()) {
-                sql = "UPDATE Parts SET Name = '" + txt_New_Part_Name.getText() + "', Model = '" + model_txt.getText() + "' , Make = '" + make_txt.getText() + "' , Description = '" + txt_New_Part_Description.getText() + "' , Cost = '" + txt_New_Part_Cost.getText() + "' , Quantity = '" + txt_New_Part_Quantity.getText()+ "' WHERE ID = " + ChosenID;
-                stat = con.prepareStatement(sql);
-               /* stat.setString(1, );
-                stat.setString(2, );
-                stat.setString(3, );
-                stat.setString(4, );
-                stat.setString(5, );
-                stat.setInt(6, Integer.parseInt());
-                stat.setInt(7, );*/
-                stat.executeUpdate();
-            } else if (New_Part_Select.isSelected()) {
-                sql = "INSERT INTO Parts (Name,Model,Make,Description,Cost,Quantity) VALUES (?,?,?,?,?,?)";
-                stat = con.prepareStatement(sql);
-                stat.setString(1, txt_New_Part_Name.getText());
-                stat.setString(2, model_txt.getText());
-                stat.setString(3, make_txt.getText());
-                stat.setString(4, txt_New_Part_Description.getText());
-                stat.setString(5, txt_New_Part_Cost.getText());
-                stat.setInt(6, Integer.parseInt(txt_New_Part_Quantity.getText()));
-               
-                stat.executeUpdate();
+
+            if (checkUpdatepart()) {
+
+                if (Update_CurrentPart.isSelected()) {
+                    if (qtycheck()) {
+
+                        sql = "UPDATE Parts SET Name = '" + txt_New_Part_Name.getText() + "', Model = '" + model_txt.getText() + "' , Make = '" + make_txt.getText() + "' , Description = '" + txt_New_Part_Description.getText() + "' , Cost = '" + txt_New_Part_Cost.getText() + "' , Quantity = '" + txt_New_Part_Quantity.getText() + "' WHERE ID = " + ChosenID;
+                        stat = con.prepareStatement(sql);
+
+                        stat.executeUpdate();
+                    } else {
+                        con.close();
+                        return;
+                    }
+                } else if (New_Part_Select.isSelected()) {
+                    if (qtycheck()) {
+                        sql = "INSERT INTO Parts (Name,Model,Make,Description,Cost,Quantity) VALUES (?,?,?,?,?,?)";
+                        stat = con.prepareStatement(sql);
+                        stat.setString(1, txt_New_Part_Name.getText());
+                        stat.setString(2, model_txt.getText());
+                        stat.setString(3, make_txt.getText());
+                        stat.setString(4, txt_New_Part_Description.getText());
+                        stat.setString(5, txt_New_Part_Cost.getText());
+                        stat.setInt(6, Integer.parseInt(txt_New_Part_Quantity.getText()));
+                        
+                        stat.executeUpdate();
+                         JOptionPane.showMessageDialog(null, txt_New_Part_Name.getText() + " was added to the stock");
+                    }
+                } else {
+                    con.close();
+                    return;
+                }
+            } else {
+                con.close();
+                return;
             }
+
             con.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -381,19 +422,54 @@ int new_total= 0;
 
     @FXML
     private void DeletePartCompletely(ActionEvent event) {
-          con = conn.connect(); 
-          String sql = "DELETE FROM Parts WHERE ID = ? ";
-          try{
-               PreparedStatement stat = con.prepareStatement(sql);
-                stat.setInt(1,parts_table.getSelectionModel().getSelectedItem().getID() );
-                stat.executeUpdate();
-                con.close();
-          }
-          catch(SQLException e){
-              
-          }
-         updateTable();
-        
+        con = conn.connect();
+        String sql = "DELETE FROM Parts WHERE ID = ? ";
+        try {
+            PreparedStatement stat = con.prepareStatement(sql);
+            stat.setInt(1, parts_table.getSelectionModel().getSelectedItem().getID());
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null,parts_table.getSelectionModel().getSelectedItem().getName() + " has been deleted");
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "You must select a part from the table");
+        }
+        updateTable();
+
     }
 
+    public boolean checkAction() {
+        if (!add_Quantity.isSelected() && !Update_CurrentPart.isSelected() && !New_Part_Select.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Please select an action first");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkUpdatepart() {
+        if (txt_New_Part_Name.getText().equals("")
+                || model_txt.getText().equals("")
+                || make_txt.getText().equals("")
+                || txt_New_Part_Description.getText().equals("")
+                || txt_New_Part_Cost.getText().equals("")
+                || txt_New_Part_Quantity.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "You can not leave any fields empty");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean qtycheck() {
+        try {
+            if (Integer.parseInt(txt_New_Part_Quantity.getText()) > 10) {
+                JOptionPane.showMessageDialog(null, "Updating the qty to " + txt_New_Part_Quantity.getText() + " will exceed the maximum amount");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please Enter a Number for the quantity");
+            txt_New_Part_Quantity.setText("");
+            return false;
+        }
+        return true;
+    }
 }

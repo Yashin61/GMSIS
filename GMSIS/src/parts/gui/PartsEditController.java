@@ -123,6 +123,8 @@ public class PartsEditController implements Initializable {
     private Label lbl_type_of_booking;
     @FXML
     private ChoiceBox<String> BookingIDchouce;
+    @FXML
+    private Button bookedparts_btn;
 
     /**
      * Initializes the controller class.
@@ -149,8 +151,23 @@ public class PartsEditController implements Initializable {
     private void Search_ID(ActionEvent event) {
 
         if (Search_ID_CheckBox.isSelected()) {
+            try {
+                int a = Integer.parseInt(txt_Search_By_ID.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "You must Enter a number when searching a customer using customerID");
+                txt_Search_By_ID.setText("");
+                return;
+            }
+            bookedparts_btn.setDisable(false);
             ID_Search();
         } else {
+            if (txt_Surename_search.getText().equals("") || txt_First_search.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "You must insert a Firstname AND Surname");
+                txt_Surename_search.setText("");
+                txt_First_search.setText("");
+                return;
+            }
+            bookedparts_btn.setDisable(false);
             name_search();
         }
         /*   ObservableList<Customers_Parts_Edit> list=null;
@@ -184,13 +201,22 @@ public class PartsEditController implements Initializable {
 
     @FXML
     private void DeletePartByID(ActionEvent event) {
-
+        
+        try{
+            
+            int a = Integer.parseInt(Delete_ID_Part.getText());
+        }
+        catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "You must enter a number when Deleting a part");
+            Delete_ID_Part.setText("");
+            return;
+        }
+        
         if (!CheckPartsID(Integer.parseInt(Delete_ID_Part.getText()))) {
             JOptionPane.showMessageDialog(null, "Part with the ID " + Delete_ID_Part.getText() + " has not been used");
             Delete_ID_Part.setText("");
             return;
         }
-       
 
         String sql = "DELETE FROM PartsUsed WHERE PartsID=? AND RegistrationNumber = ? AND BookingID = ?";
         try {
@@ -241,19 +267,29 @@ public class PartsEditController implements Initializable {
 
     @FXML
     private void Add_Parts_By_ID(ActionEvent event) {
-
+ 
+        try{
+            
+            int a = Integer.parseInt(Add_ID_Part.getText());
+        }
+        catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "You must enter a number when adding a part");
+            Add_ID_Part.setText("");
+            return;
+        }
+        
         if (!CheckIdStock(Integer.parseInt(Add_ID_Part.getText()))) {
             JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
             Add_ID_Part.setText("");
             return;
         }
- if (!withdrawPart(Integer.parseInt(Add_ID_Part.getText()))) {
-                        JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " is out of stock");
-                        Add_ID_Part.setText("");
-                        return;
-                }
+        if (!withdrawPart(Integer.parseInt(Add_ID_Part.getText()))) {
+            JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " is out of stock");
+            Add_ID_Part.setText("");
+            return;
+        }
         con = conn.connect();
-        ResultSet costdetail=null;
+        ResultSet costdetail = null;
         String sql = "INSERT INTO PartsUsed (RegistrationNumber, PartsID, BookingID) VALUES(?,?,?)";
         try {
             PreparedStatement stat = con.prepareStatement(sql);
@@ -266,7 +302,7 @@ public class PartsEditController implements Initializable {
             PreparedStatement ko = con.prepareStatement(h);
             ko.setString(1, regNo.getValue());
             ResultSet info = ko.executeQuery();
-            
+
             data = FXCollections.observableArrayList();
             Part_ID.setCellValueFactory(new PropertyValueFactory("PartsID"));
 
@@ -286,10 +322,10 @@ public class PartsEditController implements Initializable {
             String parts = "SELECT * FROM Parts WHERE ID = ?";
             PreparedStatement partsd = con.prepareStatement(parts);
             partsd.setInt(1, Integer.parseInt(Add_ID_Part.getText()));
-             costdetail = partsd.executeQuery();
+            costdetail = partsd.executeQuery();
             JOptionPane.showMessageDialog(null, "You have Added the part with the ID " + Add_ID_Part.getText() + " called " + costdetail.getString(2) + ".");
-           System.out.println(costdetail.getDouble(7));
-            updatetotal(Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(),Double.parseDouble(costdetail.getString(7)));
+            System.out.println(costdetail.getDouble(7));
+            updatetotal(Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), Double.parseDouble(costdetail.getString(7)));
             Delete_ID_Part.setText("");
             Add_ID_Part.setText("");
             con.close();
@@ -298,35 +334,34 @@ public class PartsEditController implements Initializable {
             JOptionPane.showMessageDialog(null, "Add unsuccessfull");
 
         }
-        
+
     }
 
-    public void updatetotal(int bookingID, String reg, double cost){
-          
-          
-           String booking = "SELECT * FROM Booking WHERE BookingID = ? AND RegistrationNumber = ? ";
-           try{
+    public void updatetotal(int bookingID, String reg, double cost) {
+
+        String booking = "SELECT * FROM Booking WHERE BookingID = ? AND RegistrationNumber = ? ";
+        try {
             PreparedStatement book = con.prepareStatement(booking);
-            book.setInt(1,bookingID);
+            book.setInt(1, bookingID);
             book.setString(2, reg);
-           
+
             ResultSet bookinginfo = book.executeQuery();
-          
-         String sql = "UPDATE Booking SET Bill = ? WHERE BookingID = ? AND RegistrationNumber = ? ";
-           PreparedStatement state = con.prepareStatement(sql);
-           System.out.println(cost);
+
+            String sql = "UPDATE Booking SET Bill = ? WHERE BookingID = ? AND RegistrationNumber = ? ";
+            PreparedStatement state = con.prepareStatement(sql);
+            System.out.println(cost);
             System.out.println(bookinginfo.getDouble(8));
-           System.out.println(bookinginfo.getDouble(8)+cost);
-            state.setDouble(1,bookinginfo.getDouble(8)+cost);
+            System.out.println(bookinginfo.getDouble(8) + cost);
+            state.setDouble(1, bookinginfo.getDouble(8) + cost);
             state.setInt(2, bookingID);
-            state.setString(3,reg);
+            state.setString(3, reg);
             state.executeUpdate();
-           }
-           catch(SQLException e){
-               e.printStackTrace();
-              System.out.println("fail");
-           }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("fail");
+        }
     }
+
     @FXML
     private void Clear(ActionEvent event) {
         Search_ID_txt.clear();
@@ -391,10 +426,9 @@ public class PartsEditController implements Initializable {
 
             con.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            JOptionPane.showMessageDialog(null, "Customer with the ID " + txt_Search_By_ID.getText() + " does not exist");
+            txt_Search_By_ID.setText("");
         }
-
     }
 
     public void hi() {
@@ -510,7 +544,10 @@ public class PartsEditController implements Initializable {
 
             con.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Customer with the name " + txt_First_search.getText() + " " + txt_Surename_search.getText() + " does not exist");
+            txt_First_search.setText("");
+            txt_Surename_search.setText("");
+
         }
 
     }
@@ -548,7 +585,6 @@ public class PartsEditController implements Initializable {
             while (info.next()) {
                 if (info.getInt(1) == partID && info.getInt(6) > 0) {
                     con.close();
-                    
 
                     return true;
                 }

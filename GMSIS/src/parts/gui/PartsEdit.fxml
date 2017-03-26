@@ -70,7 +70,7 @@
       <Separator layoutX="417.0" layoutY="317.0" prefHeight="3.0" prefWidth="209.0" />
       <Label fx:id="txt_ID_Name" layoutX="418.0" layoutY="259.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: Silver; -fx-pref-width: 95; -fx-pref-height: 50;" visible="false" wrapText="true" />
       <ChoiceBox fx:id="regNo" layoutX="163.0" layoutY="163.0" prefWidth="150.0" />
-      <Button layoutX="535.0" layoutY="192.0" mnemonicParsing="false" onAction="#booked_parts" prefHeight="25.0" prefWidth="88.0" text="Booked Parts" />
+      <Button fx:id="bookedparts_btn" disable="true" layoutX="535.0" layoutY="192.0" mnemonicParsing="false" onAction="#booked_parts" prefHeight="25.0" prefWidth="88.0" text="Booked Parts" />
       <ChoiceBox fx:id="Booking_Dates" layoutX="473.0" layoutY="241.0" prefWidth="150.0" />
       <Label fx:id="lbl_type_of_booking" layoutX="473.0" layoutY="289.0" style="-fx-background-color: silver; -fx-border-color: black; -fx-pref-width: 150;" />
       <Label layoutX="422.0" layoutY="268.0" text="Booking Type" />

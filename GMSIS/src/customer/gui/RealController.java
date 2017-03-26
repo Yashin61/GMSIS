@@ -6,10 +6,14 @@ package customer.gui;
  */ 
 
 import common.CommonDatabase;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import customer.logic.allCustomers;
 import customer.logic.customers;
 import diagrep.gui.AddController;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -215,42 +219,105 @@ public class RealController implements Initializable
         }
         else
         {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setContentText("Do you want to continue deleting the account?");
-            
-            ButtonType yes = new ButtonType("YES");
-            ButtonType no = new ButtonType("NO");
-            alert.getButtonTypes().setAll(yes, no);
-            
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if(result.get() == yes)
+            boolean check = checkCustomerBookings(cust.getID());
+            if(check)
             {
-                try
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setContentText("Do you want to continue deleting the account?");
+
+                ButtonType yes = new ButtonType("YES");
+                ButtonType no = new ButtonType("NO");
+                alert.getButtonTypes().setAll(yes, no);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+
+                if(result.get() == yes)
                 {
-                    int cust_id = cust.getID();
-                    deleteBP(cust.getID());
-                    deleteSPC(cust.getID());
-                    deleteB(cust.getID());
-                    deleteV(cust.getID());
-                    deleteC(cust.getID());
-                    
-                    
-                    
+                    try
+                    {
+                        int cust_id = cust.getID();
+
+                        deleteBP(cust.getID());
+                        deleteSPC(cust.getID());
+                        deleteB(cust.getID());
+                        deleteV(cust.getID());
+                        deleteC(cust.getID());
+                    }
+                    catch(SQLException e)
+                    {
+                        System.out.println("DELETE METHOD DOESNT WORK");
+                    }
+
                 }
-                catch(SQLException e)
+                else
                 {
-                    System.out.println("DELETE METHOD DOESNT WORK");
+                    alert.close();
                 }
-                
             }
             else
             {
-                alert.close();
+                CannotDelete();
             }
         }
         display();
+    }
+    
+    private boolean checkCustomerBookings(int id)
+    {
+        boolean check  = true;
+        Connection conn = new CommonDatabase().getConnection();
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        Date dateobj = new Date();
+        String dateT = df.format(dateobj);
+        try
+        {
+            ResultSet rs = conn.createStatement().executeQuery("SELECT BillsPaid.SettleBill, Booking.BookingDate from BillsPaid INNER JOIN Booking ON BillsPaid.BookingID = Booking.BookingID WHERE BillsPaid.CustomerID = '" + id + "' ");
+            if(rs.next())
+            {
+                do
+                {
+                    String d = rs.getString("BookingDate").replace("-", "/");
+                    Date dateBooking = new Date();
+                    try
+                    {
+                        dateBooking = df.parse(d);
+                    }
+                    catch(ParseException e)
+                    {
+                        System.out.println("DATE ERROR");
+                    }
+                    if(dateBooking.before(dateobj) && rs.getString("SettleBill").equals("OUTSTANDING"))
+                    {
+                        System.out.println("Can't delete");
+                        check = false;
+                        break;
+                    }
+                }
+                while(rs.next());
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("New SQLError");
+        }
+        close(conn);
+        return check;
+    }
+    
+    @FXML
+    public void CannotDelete()
+    {   
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Deleting Account");
+        alert.setHeaderText("This account cannot be deleted");
+        alert.setContentText("There are still bills to be settled");
+        alert.showAndWait();
     }
     
     // helper method to delete the customer account
