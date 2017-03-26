@@ -716,62 +716,7 @@ public class RealController implements Initializable
         alert.setContentText("Please type in a valid phone number");
         alert.showAndWait();
     }
-    
-    // method to add a new customer
-    @FXML
-    public void addCustomer(ActionEvent event)
-    {
-        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
-        {
-            printMissing();
-        }
-        else
-        {
-            int phoneNumber = 0;
-            boolean check = checkForString(phone.getText());
-            String account_type = "private";
-            if(business_type.isSelected())
-            {
-                account_type = "business";
-            }
-            
-            if(check)
-            {
-                customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-                String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement statement = null;
-                Connection connection = null;
-                CommonDatabase db = new CommonDatabase();
-                connection = db.getConnection();
-                try
-                {
-                    statement = connection.prepareStatement(sql);
-                    statement.setString(2, acc.getFirstname());         
-                    statement.setString(3, acc.getSurname());
-                    statement.setString(4, acc.getAddress());
-                    statement.setString(5, acc.getPostcode());
-                    statement.setString(6, acc.getPhone());
-                    statement.setString(7, acc.getEmail());
-                    statement.setString(8, acc.getAccount());
-                    statement.execute(); 
-                }
-                catch(SQLException ex)
-                {
-                    ex.getMessage();
-                }
-                close(connection);
-                clearDetails(event);
-                infoGiven(acc.getFirstname(), "add");
-                Stage stage = (Stage) addPane.getScene().getWindow();
-                stage.close();
-            }
-            else
-            {
-                printPhone();
-                phone.setText("");
-            }
-        }
-    }
+  
     
     
     public boolean checkForString(String number)

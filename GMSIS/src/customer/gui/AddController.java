@@ -11,8 +11,6 @@ package customer.gui;
  */
 
 //import customer.logic.customers;
-import common.CommonDatabase;
-import customer.logic.customers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,22 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import java.sql.*;
-import javax.swing.JOptionPane;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import common.CommonDatabase;
-import customer.logic.allCustomers;
 import customer.logic.customers;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
 public class AddController implements Initializable 
