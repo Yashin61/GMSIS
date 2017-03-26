@@ -180,6 +180,7 @@ public class AddController implements Initializable {
                 
                 SubmitToBillsPaid();
                 
+                // if specialist repairs checkbox is ticked - booking step carries on further for specialist repairs
                 if(BookingType.equals("Specialist Repair"))
                 {
                     String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE "
@@ -203,6 +204,7 @@ public class AddController implements Initializable {
                     stmt.close();
                     connect.close();
                     
+                    // a general booking is first made above so that there is a booking id which the spc booking can link to. This way the spc costs can be gathered to the customer bill.
                     try 
                     {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/specialist/gui/spcAddBooking2.fxml"));
