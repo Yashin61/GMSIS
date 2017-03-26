@@ -147,7 +147,21 @@ public class PartsPageController implements Initializable {
 
     @FXML
     private void search_customer(ActionEvent event) {
-
+             if(firstname.getText().equals("") && surname.getText().equals("")&&regNumber.getText().equals("")){
+                 JOptionPane.showMessageDialog(null, "You must enter a Customer ID or First name and Surname to make a search");
+                 return;
+             }
+             try{
+                 int i = Integer.parseInt(regNumber.getText());
+                 
+             }catch(NumberFormatException e){
+                  JOptionPane.showMessageDialog(null, "You must Enter a number when searching a customer using customerID");
+                  regNumber.setText("");
+                  return;
+             }
+                 
+                 
+             
         try {
             if (firstname.getText().equals("") && surname.getText().equals("")) {
                 reg_no();
@@ -196,6 +210,7 @@ JOptionPane.showMessageDialog(null,"try again");
            return;
         }
         date();
+        add_choice.setDisable(false);
         update_table();
 
     }
@@ -308,16 +323,12 @@ e.printStackTrace();
 
         try {
 
-            System.out.println("1");
+      
             String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
-            System.out.println("2");
             PreparedStatement stat = con.prepareStatement(sql);
             stat.setString(1, reg);
-            System.out.println("3");
             ResultSet info = stat.executeQuery();
-            System.out.println("4");
             data = FXCollections.observableArrayList();
-            System.out.println("5");
             parts.setCellValueFactory(new PropertyValueFactory("PartsID"));
 
             booking.setCellValueFactory(new PropertyValueFactory("BookingID"));
