@@ -461,7 +461,7 @@ public class RealController implements Initializable
             System.out.println("Customer Details");
             if(account_type != "")
             {
-                sql = "select * from Customer_Accounts where Firstname = '" + firstname.getText() + "'" + "and Account = '" + account_type + "' " + "and Surname like '" + surname.getText() + "%'";
+                sql = "select * from Customer_Accounts where Firstname ='" + firstname.getText() + "'" + "and Account = '" + account_type + "' " + "and Surname like '" + surname.getText() + "%'";
             }
  
             try

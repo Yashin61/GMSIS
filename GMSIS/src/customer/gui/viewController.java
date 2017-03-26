@@ -254,6 +254,7 @@ public class viewController implements Initializable
                     
                     payment = checkWarranty(conn, rs.getInt("BookingID"));
                     String answer ="\nDate: " + status + "\n"+ "Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n";
+                    System.out.println(rs.getInt("BookingID"));
                     answer = answer + checkSPCVehicle(conn, rs.getInt("BookingID"), totalBill) + "\nStatus: " + payment;                    
                     data.add(answer);
                     bookingsView.setItems(data); 
@@ -314,6 +315,10 @@ public class viewController implements Initializable
                     totalCost = totalCost + rs.getDouble("Cost");
                 }
                 while(rs.next());
+            }
+            else
+            {
+                answer = answer;
             }
             
             answer = answer + "\nBill: " + totalCost;
@@ -407,7 +412,7 @@ public class viewController implements Initializable
                     rs = conn.createStatement().executeQuery("SELECT * FROM PartsUsed WHERE RegistrationNumber = '" + vehicles.get(i) + "' ");
                     if(!rs.isBeforeFirst())
                     {
-                        answer = answer + "NO PARTS USED FOR THIS VEHICLE";
+                        //answer = answer + "NO PARTS USED FOR THIS VEHICLE";
                     }
                     if(rs != null)
                     {
