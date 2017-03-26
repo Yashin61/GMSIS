@@ -28,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -45,7 +46,7 @@ import specialist.logic.SpecialistDB;
  *
  * @author prashant
  */
-public class SpcEditBookingController implements Initializable {
+public class SpcAddBookingController2 implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
@@ -107,8 +108,6 @@ public class SpcEditBookingController implements Initializable {
     @FXML
     private ObservableList<SpcBookingTables> partData;
     
-    private SpcBookings booking;
-    
     //show all the repair types on the combo box
     private ObservableList<String> repairTypeFill()
     {     
@@ -168,7 +167,7 @@ public class SpcEditBookingController implements Initializable {
 
     // displays the vehicle which the spc booking is for
     @FXML
-    private void displayVehicles(SpcBookings bookingSPC) {
+    private void displayVehicles(int bID) {
         Connection connect = null;
         Statement stmt = null;
         
@@ -178,11 +177,9 @@ public class SpcEditBookingController implements Initializable {
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
             String[] name = custName.getText().split(" ");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Customer_Accounts.Firstname = '"+name[0]
-                    +"' AND Customer_Accounts.Surname = '"+name[1]
-                    +"' AND Vehicles.RegistrationNumber = '"+bookingSPC.getSpcRNumber()+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Vehicles INNER JOIN Booking ON Vehicles.RegistrationNumber = Booking.RegistrationNumber WHERE BookingID = "+bID);
             while(rs.next()){
-                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("ID"))); 
+                vehicleData.add(new SpcBookingTables(rs.getString("Make"),rs.getString("Model"),rs.getString("RegistrationNumber"),rs.getInt("Mileage"),rs.getInt("CustomerID"))); 
             }
             stmt.close();
             rs.close();
@@ -270,16 +267,18 @@ public class SpcEditBookingController implements Initializable {
         partList.setItems(partData);
     }
     
-    // changes any data that was made to the spc booking
+    //adds the spc to the database
     @FXML
-    private void updateSpcBookingButton(ActionEvent event) 
+    private void addSpcBookingButton(ActionEvent event) 
     {
+        // get names and dates in the correct format
         String name = spcList.getSelectionModel().getSelectedItem();
         String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         String arrived = "No";
         String rDate = "";
         String returned = "No";
         
+        //get the work on information - part or vehicle
         String workOn = repairOn.getValue();
         int parts = 0;
         if(workOn != null)
@@ -289,8 +288,7 @@ public class SpcEditBookingController implements Initializable {
                 SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
                 parts = partSPC.getPartId();
             }
-        }
-        else
+        }else
         {
             //System.out.println("Select what to work on");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -300,7 +298,7 @@ public class SpcEditBookingController implements Initializable {
             alert.showAndWait();
         }
         
-        
+        // get customer and vehicle information
         String reg = "";
         int cust = 0;
         
@@ -319,7 +317,8 @@ public class SpcEditBookingController implements Initializable {
             reg = vehicleSPC.getRegNo();
             cust = vehicleSPC.getCust();
         } 
-                     
+                 
+        //calculate the cost the type of repair which will be done. calculate the return date with this
         String type = "";
         double cost = 0.0;
         
@@ -328,6 +327,7 @@ public class SpcEditBookingController implements Initializable {
             cost = 50.00;
             rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             type = "Repair";
+            
         }
         else if(repairType.getValue().equals("Re-condition - 11 days"))
         {
@@ -335,22 +335,20 @@ public class SpcEditBookingController implements Initializable {
             rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             type = "Re-condition";
         }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Please select the type of special repair you want");
-            alert.showAndWait();
-        }
 
+        //get the booking id - foreign key
         int bookId = Integer.parseInt(bookingID.getText());
         
-        if(!name.equals("") && !dDate.equals("") && !reg.equals("") && !custName.getText().equals("") && !workOn.equals("") && !type.equals(""))
+        if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getText().equals("") || workOn.equals("") || type.equals("")))
         {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
-            a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
+            a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Submitted");
+            alert.setContentText("Spc booking has now been made");
+            alert.showAndWait();
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
@@ -358,10 +356,11 @@ public class SpcEditBookingController implements Initializable {
         {
             //System.out.println("Please input all the details.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Please complete");
-            alert.setHeaderText("Some details are still missing");
-            alert.setContentText("Please input all the details");
+            alert.setTitle("Missing Data");
+            alert.setHeaderText("Form is not completed properly");
+            alert.setContentText("Please input all the details.");
             alert.showAndWait();
+            
         }
     }
     
@@ -377,23 +376,22 @@ public class SpcEditBookingController implements Initializable {
     
     //sets the textfields already to the details of the spcBooking that the user wants to change
     @FXML
-    public void setAllFields(SpcBookings spcBooking)throws ParseException
+    public void setAllFields(String customerName, int bID, String bDate)throws ParseException
     {
-        booking = spcBooking;
-        custName.setText(spcBooking.getSpcCustName());
+        custName.setText(customerName);
         custName.setEditable(false);
-        bookingID.setText(""+spcBooking.getSpcBookId());
+        bookingID.setText(""+bID);
         bookingID.setEditable(false);
         
-        displayVehicles(spcBooking);
+        displayVehicles(bID);
         vehicleList.getSelectionModel().select(0);
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String date = spcBooking.getSpcDDate();
+        String date = bDate;
         //convert String to LocalDate
         LocalDate lDate = LocalDate.parse(date, formatter);      
         bookingDate.setValue(lDate);
-        
+        /*
         if(spcBooking.getSpcType().equals("Repair"))
         {
             repairType.setValue("Repair - 5 days");
@@ -410,7 +408,7 @@ public class SpcEditBookingController implements Initializable {
         {
             displayParts2();
             partList.getSelectionModel().select(spcBooking.getSpcPartId()-1);
-        }
+        }*/
     }
     
     // switch to the specialists page

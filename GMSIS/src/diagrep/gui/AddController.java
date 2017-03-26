@@ -47,6 +47,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import specialist.gui.SpcAddBookingController2;
 
 /**
  * FXML Controller class
@@ -171,15 +172,7 @@ public class AddController implements Initializable {
                 stmt.setString(7, Repair);
                 stmt.setDouble(8, Bill);
                 stmt.setInt(9, CustID);
-                /*
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/specialist/gui/spcAddBooking.fxml"));
-                Parent root1 = (Parent) fxmlLoader.load();
-                AddController controller=fxmlLoader.<AddController>getController();
-                controller.setCustomerID(name, ID);
-                controller.ShowVehicles(event);
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root1));  
-                stage.showAndWait();*/
+                
                 
                 stmt.executeUpdate();
                 stmt.close();
@@ -187,11 +180,60 @@ public class AddController implements Initializable {
                 
                 SubmitToBillsPaid();
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("");
-                alert.setHeaderText("Submitted");
-                alert.setContentText("Data Submitted To Table");
-                alert.showAndWait();
+                if(BookingType.equals("Specialist Repair"))
+                {
+                    String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE "
+                            +"RegistrationNumber = '"+Reg+"' "
+                            +"AND Mileage = '"+Mileage+"' "
+                            +"AND BookingType = '"+BookingType+"' "
+                            +"AND MechanicID = '"+MechID+"' "
+                            +"AND BookingDate = '"+BookingDate.getValue().toString()+"' "
+                            +"AND BookingTime = '"+BookingTime.getValue()+"' "
+                            +"AND RepairTime = '"+Repair+"' "
+                            +"AND Bill = '"+Bill+"' "
+                            +"AND CustomerID = '"+CustID+"'";
+
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.prepareStatement(sql2);
+                    ResultSet rs2 = stmt.executeQuery();
+                    int bookID = rs2.getInt("BookingID");
+                    String custName = rs2.getString("Firstname")+" "+rs2.getString("Surname");
+                    
+                    rs2.close();
+                    stmt.close();
+                    connect.close();
+                    
+                    try 
+                    {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/specialist/gui/spcAddBooking2.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        SpcAddBookingController2 controller=fxmlLoader.<SpcAddBookingController2>getController();
+                        controller.setAllFields(custName, bookID,  BookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                        //controller.ShowVehicles(event);
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root1));  
+                        stage.showAndWait();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("");
+                        alert.setHeaderText("Submitted");
+                        alert.setContentText("Data Submitted To Table");
+                        alert.showAndWait();
+                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+                        AddBooking.getChildren().setAll(pane);
+                    } 
+                    catch (ParseException ex) 
+                    {
+                        Logger.getLogger(AddController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("");
+                    alert.setHeaderText("Submitted");
+                    alert.setContentText("Data Submitted To Table");
+                    alert.showAndWait();
+                }
         } 
         catch(NullPointerException e)
         {
