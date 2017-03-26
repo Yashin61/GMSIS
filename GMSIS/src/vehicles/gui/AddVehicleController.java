@@ -10,12 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -33,7 +30,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
+import vehicles.Vehicle;
 
 public class AddVehicleController implements Initializable
 {
@@ -87,6 +84,7 @@ public class AddVehicleController implements Initializable
     private static int cstID=0;
     Button viewVeh; // think why not private!
     private Stage stage=null;
+    private static Vehicle veh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
     
@@ -148,7 +146,7 @@ public class AddVehicleController implements Initializable
         cstIDTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> cstID=newValue);
         futureDateRestrictor();
         pastDateRestrictor();
-        setUpDatePickers();
+//        setUpDatePickers();
     }
 
     private ObservableList<String> filling1() throws SQLException  // think of making aall in one method, possibly linkedlist?!
@@ -232,6 +230,7 @@ public class AddVehicleController implements Initializable
     @FXML
     private void add(ActionEvent event) throws SQLException
     {
+//        Vehicle veh=new Vehicle();
         String message="";
         make = makeTemp.getEditor().getText();
         model = modelTemp.getEditor().getText();
@@ -275,9 +274,15 @@ public class AddVehicleController implements Initializable
         }
 //        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());  // It records the date with "/" separation
 //        String motRen = toDate(motRenTemp).toString();  // If using just toDate method, the format is yyyy-mm-dd
-        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());
-        String lSrvDt = lSrvDtTemp.getConverter().toString(lSrvDtTemp.getValue());
-        String expDate = expDateTemp.getConverter().toString(expDateTemp.getValue()); // toDate(expDateTemp).toString();
+//        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());
+//        String lSrvDt = lSrvDtTemp.getConverter().toString(lSrvDtTemp.getValue());
+//        String expDate = expDateTemp.getConverter().toString(expDateTemp.getValue());
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        motRenTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        lSrvDtTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter2));
+        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        expDateTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter3));
         String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, "
                 + "RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate) VALUES(?,?,?)";
@@ -294,8 +299,10 @@ public class AddVehicleController implements Initializable
                 stmt.setString(7, cl);
                 stmt.setString(8, regNum);
                 stmt.setInt(9, cstID);
-                stmt.setString(10, motRen);
-                stmt.setString(11, lSrvDt);
+//                stmt.setString(10, motRen);
+//                stmt.setString(11, lSrvDt);
+                stmt.setString(10, motRenTemp.getValue().format(formatter1));
+                stmt.setString(11, lSrvDtTemp.getValue().format(formatter2));                
                 stmt.setNull(12, Types.NULL);
                 RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
                 stmt.setString(13, btnSelected.getText());
@@ -317,7 +324,7 @@ public class AddVehicleController implements Initializable
                 PreparedStatement stmt2=con.prepareStatement(sql2);
                 stmt2.setString(1, cmpName);
                 stmt2.setString(2, cmpAddress);
-                stmt2.setString(3, expDate);
+                stmt2.setString(3, expDateTemp.getValue().format(formatter3));
                 stmt2.executeUpdate();
                 PreparedStatement statement = con.prepareStatement("SELECT WarrantyID FROM Warranty WHERE Name = ? AND Address = ? AND ExpiryDate = ?");
                 statement.setString(1, cmpNameTemp.getText());
@@ -334,8 +341,8 @@ public class AddVehicleController implements Initializable
                 stmt.setString(7, cl);
                 stmt.setString(8, regNum);
                 stmt.setInt(9, cstID);
-                stmt.setString(10, motRen);
-                stmt.setString(11, lSrvDt);
+                stmt.setString(10, motRenTemp.getValue().format(formatter1));
+                stmt.setString(11, lSrvDtTemp.getValue().format(formatter2));
                 if(results.next())
                 {
                     stmt.setInt(12, results.getInt("WarrantyID"));
@@ -351,14 +358,14 @@ public class AddVehicleController implements Initializable
                 VehiclePageController.infoAlert(message);
                 message="The warranty details is added!";
                 VehiclePageController.infoAlert(message);
+                viewVeh.fire();
             }
             catch(SQLException e)
             {
                 System.out.println(e.getMessage());
             }
+            closeWin();
         }
-        viewVeh.fire();
-        closeWin();
     } 
     
     @FXML
@@ -435,106 +442,104 @@ public class AddVehicleController implements Initializable
         motRenTemp.setDayCellFactory(dayCellFactory);
     }
     
-    private void setUpDatePickers()
-    {
-        motRenTemp.setConverter(new StringConverter<LocalDate>()
-        {
-            @Override
-            public String toString(LocalDate object)
-            {
-                if(object != null)
-                {
-                    try
-                    {
-                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
-                    }
-                    catch(DateTimeException e)
-                    {}
-                }
-                return null;
-            }
-
-            @Override
-            public LocalDate fromString(String string)
-            {
-                if(string != null && !string.isEmpty())
-                {
-                    try
-                    {
-                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    }
-                    catch(DateTimeParseException e)
-                    {}
-                }
-                return null;
-            }
-        });
-                        
-        lSrvDtTemp.setConverter(new StringConverter<LocalDate>()
-        {
-            @Override
-            public String toString(LocalDate object)
-            {
-                if(object != null)
-                {
-                    try
-                    {
-                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
-                    }
-                    catch(DateTimeException e)
-                    {}
-                }
-                return null;
-            }
-
-            @Override
-            public LocalDate fromString(String string)
-            {
-                if(string != null && !string.isEmpty())
-                {
-                    try
-                    {
-                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    }
-                    catch(DateTimeParseException e)
-                    {}
-                }
-                return null;
-            }
-        });
-        
-        expDateTemp.setConverter(new StringConverter<LocalDate>()
-        {
-            @Override
-            public String toString(LocalDate object)
-            {
-                if(object != null)
-                {
-                    try
-                    {
-                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
-                    }
-                    catch(DateTimeException e)
-                    {}
-                }
-                return null;
-            }
-            @Override
-            public LocalDate fromString(String string)
-            {
-                if(string != null && !string.isEmpty())
-                {
-                    try
-                    {
-                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    }
-                    catch(DateTimeParseException e)
-                    {}
-                }
-                return null;
-            }
-        });     
-    }
+//    private void setUpDatePickers()
+//    {
+//        motRenTemp.setConverter(new StringConverter<LocalDate>()
+//        {
+//            @Override
+//            public String toString(LocalDate object)
+//            {
+//                if(object != null)
+//                {
+//                    try
+//                    {
+//                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
+//                    }
+//                    catch(DateTimeException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            public LocalDate fromString(String string)
+//            {
+//                if(string != null && !string.isEmpty())
+//                {
+//                    try
+//                    {
+//                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//                    }
+//                    catch(DateTimeParseException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//        });
+//        lSrvDtTemp.setConverter(new StringConverter<LocalDate>()
+//        {
+//            @Override
+//            public String toString(LocalDate object)
+//            {
+//                if(object != null)
+//                {
+//                    try
+//                    {
+//                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
+//                    }
+//                    catch(DateTimeException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            public LocalDate fromString(String string)
+//            {
+//                if(string != null && !string.isEmpty())
+//                {
+//                    try
+//                    {
+//                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//                    }
+//                    catch(DateTimeParseException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//        });
+//        expDateTemp.setConverter(new StringConverter<LocalDate>()
+//        {
+//            @Override
+//            public String toString(LocalDate object)
+//            {
+//                if(object != null)
+//                {
+//                    try
+//                    {
+//                        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(object);
+//                    }
+//                    catch(DateTimeException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//            @Override
+//            public LocalDate fromString(String string)
+//            {
+//                if(string != null && !string.isEmpty())
+//                {
+//                    try
+//                    {
+//                        return LocalDate.parse(string, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//                    }
+//                    catch(DateTimeParseException e)
+//                    {}
+//                }
+//                return null;
+//            }
+//        });     
+//    }
     
     // This is a method for the customer module to access
     public void setCustomerID(int id)
@@ -543,11 +548,11 @@ public class AddVehicleController implements Initializable
     }
     
     // Sets the format of date with - instead of /
-    private Date toDate(DatePicker DatePickerObject)
-    {
-        java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
-        return sqlDate;
-    }
+//    private Date toDate(DatePicker DatePickerObject)
+//    {
+//        java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
+//        return sqlDate;
+//    }
     
 //    I have used SELECT DISTINCT instead of using removeDuplicates method
 //    private ArrayList removeDuplicates(ArrayList<String> temp)

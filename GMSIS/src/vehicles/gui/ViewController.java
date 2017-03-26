@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -21,8 +20,6 @@ import vehicles.Vehicle;
 
 public class ViewController implements Initializable
 {
-    private static Vehicle veh;
-    
     @FXML
     private AnchorPane Pane;
     @FXML
@@ -33,8 +30,10 @@ public class ViewController implements Initializable
     private ListView<String> allBookings;
     @FXML
     private ListView<String> allCustomers;
+    private static Vehicle veh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {}    
@@ -56,8 +55,8 @@ public class ViewController implements Initializable
     
     private void viewParts(Vehicle v) throws SQLException
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection con = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         ObservableList<String> data = FXCollections.observableArrayList();
         try
         {
@@ -104,8 +103,8 @@ public class ViewController implements Initializable
 //        String dateT = df.format(dateobj);
 //        todayDate.setText("Today's Date: " + df.format(dateobj));
 //        todayDate.setVisible(true);
-        CommonDatabase db = new CommonDatabase();
-        Connection con = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         ObservableList<String> data = FXCollections.observableArrayList();
         try
         {
@@ -135,8 +134,8 @@ public class ViewController implements Initializable
     
     private void viewCustomers(Vehicle v) throws SQLException
     {
-        CommonDatabase db = new CommonDatabase();
-        Connection con = db.getConnection();
+        db = new CommonDatabase();
+        con = db.getConnection();
         ObservableList<String> data = FXCollections.observableArrayList();
         try
         {
