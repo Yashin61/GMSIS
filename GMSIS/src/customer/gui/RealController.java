@@ -137,6 +137,7 @@ public class RealController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)  
     {
+        display();
     }    
     
     // clear method for the add page
@@ -190,7 +191,7 @@ public class RealController implements Initializable
     }
     
     
-    // alert box when no account has been selected
+    // alert box when no account has been selected 
     @FXML
     private void noChosen()
     {
@@ -202,7 +203,8 @@ public class RealController implements Initializable
     }
     
 
-    // method to delete the chosen customer account
+    /* method to delete the chosen customer account, the vehicles that the customer owns, 
+    and bookings and any parts associated with the vehicles owned*/
     @FXML
     private void deleteCustomer(ActionEvent event)
     {
@@ -251,6 +253,7 @@ public class RealController implements Initializable
         display();
     }
     
+    // helper method to delete the customer account
     private void deleteC(int id) throws SQLException
     {      
         Connection conn = new CommonDatabase().getConnection();
@@ -260,6 +263,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the vehicles owned by a customer
     private void deleteV(int id) throws SQLException
     {        
         Connection conn = new CommonDatabase().getConnection();
@@ -272,6 +276,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the booking from the bills paid table
     public void deleteBP(int id) throws SQLException
     {
         Connection conn = new CommonDatabase().getConnection();
@@ -281,6 +286,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the bookings and the parts associated with the vehicles
     private void deleteB(int id) throws SQLException
     {       
         Connection conn = new CommonDatabase().getConnection();
@@ -305,6 +311,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete any spc bookings
     public void deleteSPC(int id)
     {
         Connection conn = new CommonDatabase().getConnection();
@@ -441,7 +448,7 @@ public class RealController implements Initializable
         } 
     }
  
-    // searhc for a customer
+    // searhc for a customer using partial name (both private and busness customers)
     @FXML
     private void searchCustomer(ActionEvent event)
     {
@@ -524,6 +531,8 @@ public class RealController implements Initializable
         dataTable.setItems(data);
     }
     
+    
+    // method to search for just private customers
     @FXML
     private void searchPrivateCustomer(ActionEvent event)
     {
@@ -567,6 +576,8 @@ public class RealController implements Initializable
         }
     }
 
+    
+    // method to search for just business customers
     @FXML
     private void serachBusinessCustomer(ActionEvent event)
     {
@@ -610,6 +621,7 @@ public class RealController implements Initializable
         }
     } 
     
+    
     // search functions to hide
     @FXML
     public void handleNames(MouseEvent event)
@@ -627,6 +639,8 @@ public class RealController implements Initializable
         surname.setDisable(true);
         firstname.setText("");
         surname.setText("");
+        business_c.setSelected(false);
+        private_c.setSelected(false);
     }
     
      // search functions to hide
@@ -760,7 +774,7 @@ public class RealController implements Initializable
     }
     
     
-    private boolean checkForString(String number)
+    public boolean checkForString(String number)
     {
         for(int i=0; i<number.length(); i++)
         {
