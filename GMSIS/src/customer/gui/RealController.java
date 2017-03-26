@@ -6,6 +6,8 @@ package customer.gui;
  */ 
 
 import common.CommonDatabase;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import customer.logic.allCustomers;
 import customer.logic.customers;
 import diagrep.gui.AddController;
