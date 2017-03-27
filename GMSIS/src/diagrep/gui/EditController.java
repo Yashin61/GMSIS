@@ -563,6 +563,7 @@ public class EditController implements Initializable {
             
             // SHOW THE UPDATED TABLE
             ShowAllBookingsE();
+            clearPage();
         }    
     }
 }
