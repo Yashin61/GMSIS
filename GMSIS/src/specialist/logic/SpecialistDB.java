@@ -269,5 +269,12 @@ public class SpecialistDB
           } 
           return SPCList;
     }
+    /*
+    public static void main(String [] param)
+    {
+        SpecialistDB a = new SpecialistDB();
+        System.out.println(Arrays.toString(a.getSPC()));
+    }
+    */
     
 }

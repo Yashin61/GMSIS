@@ -161,7 +161,7 @@ public class SpcMainPageController implements Initializable {
     @FXML
     private void specialistsPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("spcMainPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     

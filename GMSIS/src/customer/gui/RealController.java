@@ -676,7 +676,7 @@ public class RealController implements Initializable
     @FXML
     private void change2Specialist(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     
