@@ -482,7 +482,8 @@ public class EditController implements Initializable {
             stmt = connect.prepareStatement(sql1);
             ResultSet rs1 = stmt.executeQuery();
                 
-            double wage = (double)rs1.getInt("Hourly_Wage");
+            double wage = rs1.getDouble("Hourly_Wage");
+            System.out.println(wage);
                 
             rs1.close();
             stmt.close();
@@ -497,7 +498,7 @@ public class EditController implements Initializable {
             ResultSet rs = stmt.executeQuery();
             
             //REMOVE OLD WAGE COST FROM BILL
-            double Bill = rs.getInt("Bill");
+            double Bill = rs.getDouble("Bill");
             String RT = rs.getString("RepairTime");
             double RT2 = Double.parseDouble(RT.replaceAll("[^0-9]", ""));
             Bill = Bill - (RT2*wage);
