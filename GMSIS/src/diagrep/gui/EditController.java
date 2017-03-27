@@ -482,7 +482,7 @@ public class EditController implements Initializable {
             stmt = connect.prepareStatement(sql1);
             ResultSet rs1 = stmt.executeQuery();
                 
-            int wage = rs1.getInt("Hourly_Wage");
+            double wage = (double)rs1.getInt("Hourly_Wage");
                 
             rs1.close();
             stmt.close();
