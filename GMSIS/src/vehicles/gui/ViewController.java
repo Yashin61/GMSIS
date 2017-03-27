@@ -30,7 +30,6 @@ public class ViewController implements Initializable
     private ListView<String> allBookings;
     @FXML
     private ListView<String> allCustomers;
-    private static Vehicle veh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
     
@@ -140,7 +139,7 @@ public class ViewController implements Initializable
         try
         {
 //            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE ID = '" + v.getCustomerID() + "' ");  // Without showing the registration number
-            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts INNER JOIN Vehicles WHERE ID = '" + v.getCustomerID() + "';");
+            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomerID WHERE Customer_Accounts.ID = '" + v.getCustomerID() + "';");
 //            SELECT * FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.RegistrationNumber = Vehicles.RegistrationNumber WHERE ID = '1';
             String answer = "";
             if(!rs.isBeforeFirst())

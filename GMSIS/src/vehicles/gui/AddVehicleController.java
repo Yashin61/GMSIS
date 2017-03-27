@@ -9,10 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -20,7 +20,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -30,7 +32,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import vehicles.Vehicle;
+import static vehicles.gui.VehiclePageController.confirmationAlert;
 
 public class AddVehicleController implements Initializable
 {
@@ -84,7 +86,7 @@ public class AddVehicleController implements Initializable
     private static int cstID=0;
     Button viewVeh; // think why not private!
     private Stage stage=null;
-    private static Vehicle veh;
+//    private static Vehicle veh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
     
@@ -200,7 +202,7 @@ public class AddVehicleController implements Initializable
 //        fTypeList = removeDuplicates(fTypeList);
         return FXCollections.observableArrayList(fTypeList);
     }
-
+    
     private ObservableList<String> filling5() throws SQLException
     {
         ArrayList<String> clList =new ArrayList<>();
@@ -230,7 +232,6 @@ public class AddVehicleController implements Initializable
     @FXML
     private void add(ActionEvent event) throws SQLException
     {
-//        Vehicle veh=new Vehicle();
         String message="";
         make = makeTemp.getEditor().getText();
         model = modelTemp.getEditor().getText();
@@ -246,14 +247,9 @@ public class AddVehicleController implements Initializable
         }
         String cmpName = cmpNameTemp.getText();
         String cmpAddress = cmpAddressTemp.getText();
-        if(make.isEmpty() ||
-                model.isEmpty() || 
-                yearTemp.getText().isEmpty() ||
-                engSize.isEmpty() || 
-                fType.isEmpty() ||
-                milTemp.getText().isEmpty() || 
-                cl.isEmpty() || regNum.isEmpty() || cstID==0 || motRenTemp.toString().isEmpty() || lSrvDtTemp.toString().isEmpty()
-                || vehType.getSelectedToggle() == null)
+        if(make.isEmpty() || model.isEmpty() || yearTemp.getText().isEmpty() || engSize.isEmpty() || 
+                fType.isEmpty() || milTemp.getText().isEmpty() || cl.isEmpty() || regNum.isEmpty() || cstID==0 || 
+                motRenTemp.toString().isEmpty() || lSrvDtTemp.toString().isEmpty() || vehType.getSelectedToggle() == null)
         {
             message="There are empty option(s)!";
             VehiclePageController.warningAlert(message);
@@ -274,21 +270,35 @@ public class AddVehicleController implements Initializable
         }
 //        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());  // It records the date with "/" separation
 //        String motRen = toDate(motRenTemp).toString();  // If using just toDate method, the format is yyyy-mm-dd
-//        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());
-//        String lSrvDt = lSrvDtTemp.getConverter().toString(lSrvDtTemp.getValue());
-//        String expDate = expDateTemp.getConverter().toString(expDateTemp.getValue());
-        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        motRenTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        lSrvDtTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter2));
-        DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        expDateTemp.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter3));
+//        veh.setMOTRenewalDate(motRenTemp.toString());
+        LocalDate localDate = motRenTemp.getValue();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedString = localDate.format(formatter);
+        LocalDate localDate2 = lSrvDtTemp.getValue();
+        String formattedString2 = localDate2.format(formatter);
         String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, "
                 + "RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate) VALUES(?,?,?)";
-        if(expDateTemp.getValue() == null && cmpNameTemp.getText().isEmpty() && cmpAddressTemp.getText().isEmpty()){    
+        if(expDateTemp.getValue() != null && !cmpNameTemp.getText().isEmpty() && !cmpAddressTemp.getText().isEmpty())
+        {
             try
             {
+                LocalDate localDate3 = expDateTemp.getValue();
+                String formattedString3 = localDate3.format(formatter);
+                PreparedStatement stmt2=con.prepareStatement(sql2);
+                stmt2.setString(1, cmpName);
+                stmt2.setString(2, cmpAddress);
+                stmt2.setString(3, formattedString3);
+                stmt2.executeUpdate();
+//                PreparedStatement statement = con.prepareStatement("SELECT WarrantyID FROM Warranty WHERE Name = ? AND Address = ? AND ExpiryDate = ?");
+//                statement.setString(1, cmpNameTemp.getText());
+//                statement.setString(2, cmpAddressTemp.getText());
+//                statement.setString(3, expDateTemp.getConverter().toString(expDateTemp.getValue()));
+                String getWarID="SELECT * FROM Warranty WHERE Name=? AND Address=?";
+                PreparedStatement stmtWarr=con.prepareStatement(getWarID);
+                stmtWarr.setString(1, cmpName);
+                stmtWarr.setString(2, cmpAddress);
+                ResultSet rsWarr=stmtWarr.executeQuery();
                 PreparedStatement stmt=con.prepareStatement(sql1);
                 stmt.setString(1, make);
                 stmt.setString(2, model);
@@ -301,56 +311,9 @@ public class AddVehicleController implements Initializable
                 stmt.setInt(9, cstID);
 //                stmt.setString(10, motRen);
 //                stmt.setString(11, lSrvDt);
-                stmt.setString(10, motRenTemp.getValue().format(formatter1));
-                stmt.setString(11, lSrvDtTemp.getValue().format(formatter2));                
-                stmt.setNull(12, Types.NULL);
-                RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
-                stmt.setString(13, btnSelected.getText());
-                stmt.executeUpdate();
-                message="The vehicle is now added!";
-                VehiclePageController.infoAlert(message);
-                message="No warranty details is added!";
-                VehiclePageController.infoAlert(message);
-            }
-            catch(SQLException e)
-            {
-                System.out.println(e.getMessage());
-            }
-        }
-        else
-        {
-            try
-            {
-                PreparedStatement stmt2=con.prepareStatement(sql2);
-                stmt2.setString(1, cmpName);
-                stmt2.setString(2, cmpAddress);
-                stmt2.setString(3, expDateTemp.getValue().format(formatter3));
-                stmt2.executeUpdate();
-                PreparedStatement statement = con.prepareStatement("SELECT WarrantyID FROM Warranty WHERE Name = ? AND Address = ? AND ExpiryDate = ?");
-                statement.setString(1, cmpNameTemp.getText());
-                statement.setString(2, cmpAddressTemp.getText());
-                statement.setString(3, expDateTemp.getConverter().toString(expDateTemp.getValue()));
-                ResultSet results = statement.executeQuery();
-                PreparedStatement stmt=con.prepareStatement(sql1);
-                stmt.setString(1, make);
-                stmt.setString(2, model);
-                stmt.setInt(3, year);
-                stmt.setString(4, engSize);
-                stmt.setString(5, fType);
-                stmt.setInt(6, mil);
-                stmt.setString(7, cl);
-                stmt.setString(8, regNum);
-                stmt.setInt(9, cstID);
-                stmt.setString(10, motRenTemp.getValue().format(formatter1));
-                stmt.setString(11, lSrvDtTemp.getValue().format(formatter2));
-                if(results.next())
-                {
-                    stmt.setInt(12, results.getInt("WarrantyID"));
-                }
-                else
-                {
-                    stmt.setInt(12, Types.NULL);
-                }
+                stmt.setString(10, formattedString);
+                stmt.setString(11, formattedString2);
+                stmt.setInt(12, rsWarr.getInt("WarrantyID"));
                 RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
                 stmt.setString(13, btnSelected.getText());
                 stmt.executeUpdate();
@@ -364,9 +327,53 @@ public class AddVehicleController implements Initializable
             {
                 System.out.println(e.getMessage());
             }
-            closeWin();
         }
-    } 
+        else
+        {
+            Alert alert=null;
+            message="Do you want to add the vehicle without warranty details?";
+            alert=confirmationAlert(message);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.OK)
+            {
+                try
+                {
+                    PreparedStatement stmt=con.prepareStatement(sql1);
+                    stmt.setString(1, make);
+                    stmt.setString(2, model);
+                    stmt.setInt(3, year);
+                    stmt.setString(4, engSize);
+                    stmt.setString(5, fType);
+                    stmt.setInt(6, mil);
+                    stmt.setString(7, cl);
+                    stmt.setString(8, regNum);
+                    stmt.setInt(9, cstID);
+                    stmt.setString(10, formattedString);
+                    stmt.setString(11, formattedString2);
+                    stmt.setInt(12, 0);
+    //                stmt.setNull(12, Types.NULL);
+                    RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
+                    stmt.setString(13, btnSelected.getText());
+                    stmt.executeUpdate();
+                    message="The vehicle is now added!";
+                    VehiclePageController.infoAlert(message);
+                    message="No warranty details is added!";
+                    VehiclePageController.infoAlert(message);
+                    viewVeh.fire();
+                }
+                catch(SQLException e)
+                {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        closeWin();
+    }
     
     @FXML
     private void clear(ActionEvent event) // think about other possible way
@@ -419,7 +426,7 @@ public class AddVehicleController implements Initializable
                 }
             }
         };
-        lSrvDtTemp.setDayCellFactory(dayCellFactory);        
+        lSrvDtTemp.setDayCellFactory(dayCellFactory);
     }
     
     private void pastDateRestrictor()
@@ -440,6 +447,12 @@ public class AddVehicleController implements Initializable
         };
         expDateTemp.setDayCellFactory(dayCellFactory);
         motRenTemp.setDayCellFactory(dayCellFactory);
+    }
+    
+    // This is a method for the customer module to access
+    public void setCustomerID(int id)
+    {
+        cstIDTemp.setValue(id);
     }
     
 //    private void setUpDatePickers()
@@ -538,14 +551,8 @@ public class AddVehicleController implements Initializable
 //                }
 //                return null;
 //            }
-//        });     
+//        });
 //    }
-    
-    // This is a method for the customer module to access
-    public void setCustomerID(int id)
-    {
-        cstIDTemp.setValue(id);
-    }
     
     // Sets the format of date with - instead of /
 //    private Date toDate(DatePicker DatePickerObject)

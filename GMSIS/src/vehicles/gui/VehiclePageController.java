@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,7 +33,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 public class VehiclePageController
 {
@@ -121,6 +122,23 @@ public class VehiclePageController
                 dataTable.getSelectionModel().clearSelection();
             }
         });
+        
+        // Gets warranty details when mouse is clicked
+//        dataTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+//        {
+//            @Override
+//            public void handle(MouseEvent event)
+//            {
+//                try
+//                {
+//                    viewWarranty2();
+//                }
+//                catch (SQLException ex)
+//                {
+//                    Logger.getLogger(VehiclePageController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
     }
 
     private void setTableValue()
@@ -451,15 +469,14 @@ public class VehiclePageController
         }
         else
         {
-            if(JOptionPane.showConfirmDialog(null, "Do you want to continue deleting? "
-                    + "If the vehicle has booking or warranty details, they also will be deleted!", 
-                    "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-            
-//            Alert alert=null;
-//            message="Do you want to continue deleting? If the vehicle has booking or warranty details, they also will be deleted!";
-//            confirmationAlert(message);
-//            Optional<ButtonType> result = alert.showAndWait();
-//            if(result.get() == ButtonType.OK)
+//            if(JOptionPane.showConfirmDialog(null, "Do you want to continue deleting? "
+//                    + "If the vehicle has booking or warranty details, they also will be deleted!", 
+//                    "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+            Alert alert=null;
+            message="Do you want to continue deleting? If the vehicle has booking or warranty details, they also will be deleted!";
+            alert=confirmationAlert(message);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.OK)
             {
                 String sql="DELETE FROM Vehicles WHERE RegistrationNumber=?";
                 try
@@ -474,7 +491,7 @@ public class VehiclePageController
                 }
                 catch(SQLException e)
                 {
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
                 con.close();
             }
@@ -563,22 +580,6 @@ public class VehiclePageController
             stage.showAndWait();
             getVehicleDetails(event);
         }
-        
-//        The version without background update
-//        Stage stage;
-//        Parent root;
-//        if(event.getSource() == addVeh)
-//        {
-//            stage = new Stage();
-//            root = FXMLLoader.load(getClass().getResource("AddVehicle.fxml"));
-//            stage.setScene(new Scene(root));
-//            stage.setResizable(false);
-//            stage.setTitle("Add Vehicle");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.initOwner(addVeh.getScene().getWindow());
-//            stage.show();
-//            dataTable.setItems(data);
-//        }
     }
     
     private void noChosen()
@@ -628,12 +629,13 @@ public class VehiclePageController
         alert.showAndWait();
     }
     
-    static void confirmationAlert(String message)
+    static Alert confirmationAlert(String message)
     {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText("CONFIRMATION");
         alert.setContentText(message);
+        return alert;
     }
     
 //    Connection with other pages
