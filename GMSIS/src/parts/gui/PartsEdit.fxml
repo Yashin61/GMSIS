@@ -76,8 +76,8 @@
       <Label layoutX="419.0" layoutY="222.0" text="Past and Future Booking Dates" />
       <ChoiceBox fx:id="BookingIDchouce" layoutX="482.0" layoutY="320.0" prefHeight="25.0" prefWidth="142.0" />
       <Label layoutX="413.0" layoutY="324.0" text="Booking ID:" />
-      <Label layoutX="168.0" layoutY="413.0" text="Total Parts cost:" />
-      <Label fx:id="totalCost" layoutX="255.0" layoutY="413.0" style="-fx-background-color: White; -fx-border-color: Black; -fx-pref-width: 150;" />
+      <Label layoutX="117.0" layoutY="413.0" text="Total Parts cost:" />
+      <Label fx:id="totalCost" layoutX="204.0" layoutY="413.0" style="-fx-background-color: White; -fx-border-color: Black; -fx-pref-width: 200;" />
       
    </children>
 </AnchorPane>
