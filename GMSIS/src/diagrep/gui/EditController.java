@@ -484,6 +484,7 @@ public class EditController implements Initializable {
                 
             double wage = rs1.getDouble("Hourly_Wage");
             System.out.println(wage);
+            System.out.println("test");
                 
             rs1.close();
             stmt.close();
