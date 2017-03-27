@@ -143,8 +143,11 @@ public class SpecialistDB
                 connect = DriverManager.getConnection(Recordurl);
                 stmt = connect.createStatement();
 
-                String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"', ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
-                        + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"', Type = '"+type+"', Cost = "+cost+"', BookingID = "+bookId+" WHERE Id = "+id+" ;";
+                String sql = "UPDATE SPCBooking SET SPCname = '"+name+"', ExpectedDeliveryDate = '"+dDate+"', Arrived = '"+arrived+"',"
+                        + " ExpectedReturnDate = '"+rDate+"', Returned = '"+returned+"', "
+                        + "PartID = "+parts+", RegistrationNumber = '"+reg+"', CustomerID = "+cust+", WorkOn = '"+workOn+"',"
+                        + " Type = '"+type+"', Cost = "+cost+", BookingID = "+bookId+""
+                        + " WHERE Id = "+id+" ;";
 
                 stmt.executeUpdate(sql);
                 stmt.close();
