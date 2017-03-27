@@ -216,9 +216,9 @@ public class PartsEditController implements Initializable {
         if (!CheckPartsID(Integer.parseInt(Delete_ID_Part.getText()))) {
             JOptionPane.showMessageDialog(null, "Part with the ID " + Delete_ID_Part.getText() + " has not been used");
             Delete_ID_Part.setText("");
-            return;
+           
         }
-
+        else{
         String sql = "DELETE FROM PartsUsed WHERE PartsID=? AND RegistrationNumber = ? AND BookingID = ?";
         try {
             con = conn.connect();
@@ -269,7 +269,7 @@ public class PartsEditController implements Initializable {
         }
 
         Delete_ID_Part.setText("");
-        Add_ID_Part.setText("");
+        Add_ID_Part.setText("");}
     }
 
     @FXML

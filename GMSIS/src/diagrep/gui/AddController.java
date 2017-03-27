@@ -183,7 +183,8 @@ public class AddController implements Initializable {
                 // if specialist repairs checkbox is ticked - booking step carries on further for specialist repairs
                 if(BookingType.equals("Specialist Repair"))
                 {
-                    String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE "
+                    
+                    /*String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID WHERE "
                             +"RegistrationNumber = '"+Reg+"' "
                             +"AND Mileage = '"+Mileage+"' "
                             +"AND BookingType = '"+BookingType+"' "
@@ -194,6 +195,13 @@ public class AddController implements Initializable {
                             +"AND Bill = '"+Bill+"' "
                             +"AND CustomerID = '"+CustID+"'";
 
+                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    stmt = connect.prepareStatement(sql2);
+                    ResultSet rs2 = stmt.executeQuery();
+                    int bookID = rs2.getInt("BookingID");
+                    String custName = rs2.getString("Firstname")+" "+rs2.getString("Surname");*/
+                    String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID "
+                            + "ORDER BY BOOKINGID DESC LIMIT 1";
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                     stmt = connect.prepareStatement(sql2);
                     ResultSet rs2 = stmt.executeQuery();

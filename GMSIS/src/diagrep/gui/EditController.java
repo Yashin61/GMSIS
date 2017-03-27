@@ -393,7 +393,7 @@ public class EditController implements Initializable {
                     stmt.close();
                     
                     //DELETE FROM SPCBookings TABLE
-                    String sql3 = "DELETE FROM SPCBookings WHERE BookingID = ?";
+                    String sql3 = "DELETE FROM SPCBooking WHERE BookingID = ?";
                     stmt = connect.prepareStatement(sql3);
                     stmt.setInt(1, BookID);
                     stmt.executeUpdate(); 
