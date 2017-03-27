@@ -65,17 +65,15 @@ public class LoginController implements Initializable
         {
             String passWord = password.getText();
             Connection connect = null;
-            //Statement stmt = null;    
+            Statement stmt = null;    
             PreparedStatement statement = null;
 
             try
             {
                 //Connect to database 
-                //connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                //stmt = connect.createStatement();
-                //ResultSet set = stmt.executeQuery("SELECT * FROM Employees WHERE ID = '" + username + "' "); 
-                connect = new CommonDatabase().getConnection();
-                ResultSet set = connect.createStatement().executeQuery( "SELECT * FROM Employees WHERE ID = '" + username + "' ");
+                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                stmt = connect.createStatement();
+                ResultSet set = stmt.executeQuery("SELECT * FROM Employees WHERE ID = '" + username + "' "); 
                 boolean flag = false;
                 if(set != null)
                 {              
@@ -89,7 +87,6 @@ public class LoginController implements Initializable
                 else
                 {
                     System.out.println("Incorrect username or password");
-                    incorrectInfo();
                     user.clear();
                     password.clear();
                 }
@@ -124,12 +121,17 @@ public class LoginController implements Initializable
                     user.clear();
                     password.clear();
                 }
+                stmt.close();
+                set.close();
+                connect.close();
             }
             catch(SQLException e)
             {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
+                incorrectInfo();
+                    user.clear();
+                    password.clear();
+                //Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);   
             }
-            close(connect);
         }
     }
     
@@ -165,23 +167,6 @@ public class LoginController implements Initializable
 //        alert.setContentText("Type the username and password...");
 //        alert.showAndWait();
 //    }
-    
-    @FXML
-    public void close(Connection connection)
-    {
-        try
-        {
-            if(connection != null)
-            {
-                connection.close();
-                System.out.println("CLOSED");
-            }
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 

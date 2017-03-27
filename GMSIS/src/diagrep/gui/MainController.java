@@ -293,7 +293,7 @@ public class MainController implements Initializable {
     @FXML
     private void change2Customer(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerRealPage.fxml"));
         rootPane.getChildren().setAll(pane);
     }
     

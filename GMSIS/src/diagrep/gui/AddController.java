@@ -167,7 +167,7 @@ public class AddController implements Initializable {
                 stmt.setInt(2, Mileage);
                 stmt.setString(3, BookingType);
                 stmt.setInt(4, MechID);
-                stmt.setString(5, BookingDate.getValue().toString());
+                stmt.setString(5, BookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                 stmt.setString(6, BookingTime.getValue());
                 stmt.setString(7, Repair);
                 stmt.setDouble(8, Bill);
