@@ -151,7 +151,6 @@ public class viewController implements Initializable
             {
                 do
                 {
-                    System.out.println(rs.getString("RegistrationNumber"));
                     TitledPane pane = new TitledPane(rs.getString("RegistrationNumber"), Pane);
                     pane.setContent(new Label("Vehicle Type: " + rs.getString("VehicleType") + "\n" + "Make: " + rs.getString("Make") + "\n" + "Model: " + rs.getString("Model") + "\n" + "Colour: " + rs.getString("Colour")));
                     mainFrame.getPanes().add(pane); 
@@ -178,15 +177,12 @@ public class viewController implements Initializable
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) 
             {
                 statusLabel.setVisible(true);
-                System.out.println(newValue);
                 String[] words = newValue.split("\n");
                 
                 String st = words[words.length-1].substring(8);
                 String id = words[3].substring(12);
-                System.out.println("ID: " + id);
                 realStatus.setText(words[words.length-1].substring(8));
                 realStatus.setVisible(true);
-                System.out.println(st);
                         
                 if(st.equals("OUTSTANDING"))
                 {
@@ -254,7 +250,6 @@ public class viewController implements Initializable
                     
                     payment = checkWarranty(conn, rs.getInt("BookingID"));
                     String answer ="\nDate: " + status + "\n"+ "Vehicle: " + rs.getString("RegistrationNumber") + "\n" + "Booking ID: " + rs.getString("BookingID") + "\n" + "Booking Type: " + rs.getString("BookingType") + "\n"  + "Time: " + rs.getString("BookingTime") + "\n";
-                    System.out.println(rs.getInt("BookingID"));
                     answer = answer + checkSPCVehicle(conn, rs.getInt("BookingID"), totalBill) + "\nStatus: " + payment;                    
                     data.add(answer);
                     bookingsView.setItems(data); 
@@ -362,7 +357,6 @@ public class viewController implements Initializable
     public void settleBill( String n) 
     {
         int id = Integer.parseInt(n);
-        System.out.println(id);
         Connection conn = new CommonDatabase().getConnection();
         PreparedStatement statement = null;
         String sql = "UPDATE BillsPaid SET SettleBill = ? WHERE BookingID = ? ";
@@ -385,7 +379,6 @@ public class viewController implements Initializable
     @FXML
     private void viewParts2(allCustomers c)
     {
-        System.out.println("HELLO");
         CommonDatabase db = new CommonDatabase();
         
         ArrayList<String> vehicles = new ArrayList<String>();
@@ -431,7 +424,6 @@ public class viewController implements Initializable
                         rs = conn.createStatement().executeQuery("SELECT * FROM Parts WHERE ID = '" + partsIDs.get(j) + "' ");
                         if(rs != null)
                         {
-                            System.out.println(rs.getString("Name"));
                             answer = answer + "Parts ID: " + rs.getString("ID") + "\n" + rs.getString("Name") + "\nCost: " + rs.getString("Cost")+"\n\n";
                             
                         }
@@ -479,7 +471,7 @@ public class viewController implements Initializable
         }
         catch(SQLException e)
         {
-            System.out.println("DOESNT WORK");
+            System.out.println("");
         }
         return answer;
     }
@@ -500,7 +492,6 @@ public class viewController implements Initializable
                 }
             }
         }
-        System.out.println(array);
     }
     
     @FXML

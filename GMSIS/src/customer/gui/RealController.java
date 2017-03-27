@@ -290,7 +290,6 @@ public class RealController implements Initializable
                     }
                     if(dateBooking.before(dateobj) && rs.getString("SettleBill").equals("OUTSTANDING"))
                     {
-                        System.out.println("Can't delete");
                         check = false;
                         break;
                     }
@@ -365,7 +364,6 @@ public class RealController implements Initializable
         {
             bookings.add(rs.getInt("BookingID"));
         }
-        System.out.println(bookings);
         for(int i = 0; i < bookings.size(); i++)
         {
             String sql = "DELETE FROM PartsUsed  WHERE BookingID = '" + bookings.get(i) + "' " ;
@@ -532,7 +530,6 @@ public class RealController implements Initializable
         String sql ="select * from Customer_Accounts where Firstname = '" + firstname.getText() + "'" + "and Surname like '" + surname.getText() + "%'";
         if(!firstname.getText().equals(""))
         {
-            System.out.println("Customer Details");
             if(account_type != "")
             {
                 sql = "select * from Customer_Accounts where Firstname ='" + firstname.getText() + "'" + "and Account = '" + account_type + "' " + "and Surname like '" + surname.getText() + "%'";
@@ -562,7 +559,6 @@ public class RealController implements Initializable
         }
         else if(!regNumber.getText().equals(""))
         {
-            System.out.println("Vehicle Details");
             sql ="SELECT Vehicles.RegistrationNumber, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address, Customer_Accounts.Email, Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Account FROM Vehicles INNER JOIN Customer_Accounts ON Vehicles.CustomerID = Customer_Accounts.ID WHERE Vehicles.RegistrationNumber = '" + regNumber.getText() + "' ";
             try
             {
@@ -839,7 +835,6 @@ public class RealController implements Initializable
         else
         {
             int ID = cust.getID();
-            System.out.println(ID);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             VehiclePageController controller = fxmlLoader.<VehiclePageController>getController();
@@ -871,14 +866,12 @@ public class RealController implements Initializable
         {
             int ID = cust.getID();
             String name = cust.getFirstname() + " " + cust.getSurname();
-            System.out.println(name);
-            System.out.println(ID);
-            System.out.println(name);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/diagrep/gui/AddBooking.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             AddController controller=fxmlLoader.<AddController>getController();
             controller.setCustomerID(name, ID);
             controller.ShowVehicles(event);
+            ((Node)(event.getSource())).getScene().getWindow().hide();  
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.showAndWait();

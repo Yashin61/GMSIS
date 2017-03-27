@@ -135,7 +135,6 @@ public class EditController implements Initializable
                     statement.setString(7, account);
                     statement.setInt(8, customer_ID);
                     statement.executeUpdate();   
-                    System.out.println("DONE");
 
                 }
                 catch(SQLException e)    
@@ -154,7 +153,6 @@ public class EditController implements Initializable
                 phone.setText("");
             }
         }
-        System.out.println(customer_ID);
     }
     
     @FXML
