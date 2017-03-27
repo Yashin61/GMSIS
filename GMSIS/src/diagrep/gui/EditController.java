@@ -113,6 +113,10 @@ public class EditController implements Initializable {
     // CLEAR EDITBOOKINGS PAGE
     @FXML
     private void EclearPage(ActionEvent event) {
+        clearPage();
+    }
+    
+    private void clearPage() {
         RegNo.setText(null);
         BookingType.setText(null);
         MechanicID.setText(null);
@@ -483,8 +487,6 @@ public class EditController implements Initializable {
             ResultSet rs1 = stmt.executeQuery();
                 
             double wage = rs1.getDouble("Hourly_Wage");
-            System.out.println(wage);
-            System.out.println("test");
                 
             rs1.close();
             stmt.close();
