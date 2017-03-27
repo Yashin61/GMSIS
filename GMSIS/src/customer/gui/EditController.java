@@ -7,7 +7,6 @@ package customer.gui;
 
 import common.CommonDatabase;
 import customer.logic.allCustomers;
-import customer.logic.customers;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -16,9 +15,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -101,15 +98,16 @@ public class EditController implements Initializable
         CommonDatabase db = new CommonDatabase();
         Connection connection = null;
         PreparedStatement statement = null;
+        RealController controller = new RealController();
         
         if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() || address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
         { 
-            RealController controller = new RealController();
+            
             controller.printMissing();
         }
         else
         {
-            boolean check = checkForString(phone.getText());
+            boolean check = controller.checkForString(phone.getText());
             if(check)
             {
                 String sql = "UPDATE Customer_Accounts SET Firstname = ? , " + "Surname = ? , " + "Address = ? , " + "Postcode = ? , " + "Phone = ? , " + "Email = ? , " + "Account = ? " + "WHERE ID = ?";
@@ -146,14 +144,13 @@ public class EditController implements Initializable
 
                 }
                 close(connection);
-                RealController controller = new RealController();
                 controller.infoGiven(firstname.getText(), "edit");
                 Stage stage = (Stage) rootPane.getScene().getWindow();
                 stage.close();
             }
             else
             {
-                printPhone();
+                controller.printPhone();
                 phone.setText("");
             }
         }
@@ -170,29 +167,7 @@ public class EditController implements Initializable
         phone.setText(null);
         email.setText(null);
     }
-    
-    private boolean checkForString(String number)
-    {
-        for(int i=0; i<number.length(); i++)
-        {
-            if(!Character.isDigit(number.charAt(i)))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    @FXML
-    public void printPhone()
-    {   
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Incorrect Fields");
-        alert.setHeaderText("Invalid Phone Number");
-        alert.setContentText("Please type in a valid phone number");
-        alert.showAndWait();
-    }
-    
+
     public void close(Connection connection)
     {
         try

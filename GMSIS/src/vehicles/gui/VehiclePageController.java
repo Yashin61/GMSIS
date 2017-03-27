@@ -13,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -175,8 +173,8 @@ public class VehiclePageController
     @FXML
     private void viewWarranty(ActionEvent event) throws SQLException
     {
-        CommonDatabase db=new CommonDatabase();
-        Connection con=db.getConnection();
+        db=new CommonDatabase();
+        con=db.getConnection();
         String message="";
         Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
         if(veh==null)
@@ -317,8 +315,10 @@ public class VehiclePageController
     }
     
     @FXML
-    private void actionVehType(ActionEvent event)
+    private void actionVehType(ActionEvent event) throws SQLException
     {
+        db=new CommonDatabase();
+        con=db.getConnection();
         try
         {
             data = FXCollections.observableArrayList();
@@ -340,11 +340,14 @@ public class VehiclePageController
         }
         setTableValue();
         dataTable.setItems(data);
+        con.close();
     }
     
     @FXML
-    private void actionWarranty(ActionEvent event)
+    private void actionWarranty(ActionEvent event) throws SQLException
     {
+        db=new CommonDatabase();
+        con=db.getConnection();
         try
         {
             data = FXCollections.observableArrayList();
@@ -362,10 +365,13 @@ public class VehiclePageController
         {}
         setTableValue();
         dataTable.setItems(data);
+        con.close();
     }
     
-    private void searchEntry(ActionEvent event)
+    private void searchEntry(ActionEvent event) throws SQLException
     {
+        db=new CommonDatabase();
+        con=db.getConnection();
         String message="";
         if(!regNumber.getText().equals(""))
         {
@@ -400,6 +406,7 @@ public class VehiclePageController
             vanType.setSelected(false);
             truckType.setSelected(false);
             warranty.setSelected(false);
+            con.close();
         }
         else
         {
@@ -409,13 +416,13 @@ public class VehiclePageController
     }
     
     @FXML
-    private void searchVehRegNum(ActionEvent event)
+    private void searchVehRegNum(ActionEvent event) throws SQLException
     {
         searchEntry(event);
     }
     
     @FXML
-    private void onEnter(ActionEvent event)
+    private void onEnter(ActionEvent event) throws SQLException
     {
         searchEntry(event);
     }
@@ -434,8 +441,8 @@ public class VehiclePageController
     @FXML
     private void deleteVehicle(ActionEvent event) throws IOException, SQLException
     {
-        CommonDatabase db=new CommonDatabase();
-        Connection con=db.getConnection();
+        db=new CommonDatabase();
+        con=db.getConnection();
         String message="";
         Vehicle veh=dataTable.getSelectionModel().getSelectedItem();
         if(veh==null)
@@ -463,12 +470,12 @@ public class VehiclePageController
                     stmt.execute();
                     message="Deleting was successfull!";
                     infoAlert(message);
+                    getVehicleDetails(event);
                 }
                 catch(SQLException e)
                 {
 //                    e.printStackTrace();
                 }
-                getVehicleDetails(event);
                 con.close();
             }
         }
@@ -537,6 +544,7 @@ public class VehiclePageController
     @FXML
     private void openAddPage(ActionEvent event) throws IOException
     {
+        Vehicle veh = dataTable.getSelectionModel().getSelectedItem();
         Stage stage;
         Parent root;
         if(event.getSource() == addVeh)
@@ -553,10 +561,7 @@ public class VehiclePageController
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(addVeh.getScene().getWindow());
             stage.showAndWait();
-//            if(AddVehicleController.ckeckAdded)
-//            {
-                getVehicleDetails(event);
-//            }
+            getVehicleDetails(event);
         }
         
 //        The version without background update

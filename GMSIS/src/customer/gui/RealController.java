@@ -6,10 +6,14 @@ package customer.gui;
  */ 
 
 import common.CommonDatabase;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import customer.logic.allCustomers;
 import customer.logic.customers;
 import diagrep.gui.AddController;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -137,6 +141,7 @@ public class RealController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)  
     {
+        display();
     }    
     
     // clear method for the add page
@@ -190,7 +195,7 @@ public class RealController implements Initializable
     }
     
     
-    // alert box when no account has been selected
+    // alert box when no account has been selected 
     @FXML
     private void noChosen()
     {
@@ -202,7 +207,8 @@ public class RealController implements Initializable
     }
     
 
-    // method to delete the chosen customer account
+    /* method to delete the chosen customer account, the vehicles that the customer owns, 
+    and bookings and any parts associated with the vehicles owned*/
     @FXML
     private void deleteCustomer(ActionEvent event)
     {
@@ -213,44 +219,108 @@ public class RealController implements Initializable
         }
         else
         {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation");
-            alert.setContentText("Do you want to continue deleting the account?");
-            
-            ButtonType yes = new ButtonType("YES");
-            ButtonType no = new ButtonType("NO");
-            alert.getButtonTypes().setAll(yes, no);
-            
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if(result.get() == yes)
+            boolean check = checkCustomerBookings(cust.getID());
+            if(check)
             {
-                try
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setContentText("Do you want to continue deleting the account?");
+
+                ButtonType yes = new ButtonType("YES");
+                ButtonType no = new ButtonType("NO");
+                alert.getButtonTypes().setAll(yes, no);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+
+                if(result.get() == yes)
                 {
-                    int cust_id = cust.getID();
-                    deleteBP(cust.getID());
-                    deleteSPC(cust.getID());
-                    deleteB(cust.getID());
-                    deleteV(cust.getID());
-                    deleteC(cust.getID());
-                    
-                    
-                    
+                    try
+                    {
+                        int cust_id = cust.getID();
+
+                        deleteBP(cust.getID());
+                        deleteSPC(cust.getID());
+                        deleteB(cust.getID());
+                        deleteV(cust.getID());
+                        deleteC(cust.getID());
+                    }
+                    catch(SQLException e)
+                    {
+                        System.out.println("DELETE METHOD DOESNT WORK");
+                    }
+
                 }
-                catch(SQLException e)
+                else
                 {
-                    System.out.println("DELETE METHOD DOESNT WORK");
+                    alert.close();
                 }
-                
             }
             else
             {
-                alert.close();
+                CannotDelete();
             }
         }
         display();
     }
     
+    private boolean checkCustomerBookings(int id)
+    {
+        boolean check  = true;
+        Connection conn = new CommonDatabase().getConnection();
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        Date dateobj = new Date();
+        String dateT = df.format(dateobj);
+        try
+        {
+            ResultSet rs = conn.createStatement().executeQuery("SELECT BillsPaid.SettleBill, Booking.BookingDate from BillsPaid INNER JOIN Booking ON BillsPaid.BookingID = Booking.BookingID WHERE BillsPaid.CustomerID = '" + id + "' ");
+            if(rs.next())
+            {
+                do
+                {
+                    String d = rs.getString("BookingDate").replace("-", "/");
+                    Date dateBooking = new Date();
+                    try
+                    {
+                        dateBooking = df.parse(d);
+                    }
+                    catch(ParseException e)
+                    {
+                        System.out.println("DATE ERROR");
+                    }
+                    if(dateBooking.before(dateobj) && rs.getString("SettleBill").equals("OUTSTANDING"))
+                    {
+                        System.out.println("Can't delete");
+                        check = false;
+                        break;
+                    }
+                }
+                while(rs.next());
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.out.println("New SQLError");
+        }
+        close(conn);
+        return check;
+    }
+    
+    @FXML
+    public void CannotDelete()
+    {   
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Deleting Account");
+        alert.setHeaderText("This account cannot be deleted");
+        alert.setContentText("There are still bills to be settled");
+        alert.showAndWait();
+    }
+    
+    // helper method to delete the customer account
     private void deleteC(int id) throws SQLException
     {      
         Connection conn = new CommonDatabase().getConnection();
@@ -260,6 +330,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the vehicles owned by a customer
     private void deleteV(int id) throws SQLException
     {        
         Connection conn = new CommonDatabase().getConnection();
@@ -272,6 +343,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the booking from the bills paid table
     public void deleteBP(int id) throws SQLException
     {
         Connection conn = new CommonDatabase().getConnection();
@@ -281,6 +353,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete the bookings and the parts associated with the vehicles
     private void deleteB(int id) throws SQLException
     {       
         Connection conn = new CommonDatabase().getConnection();
@@ -305,6 +378,7 @@ public class RealController implements Initializable
         close(conn);
     }
     
+    // helper method to delete any spc bookings
     public void deleteSPC(int id)
     {
         Connection conn = new CommonDatabase().getConnection();
@@ -441,7 +515,7 @@ public class RealController implements Initializable
         } 
     }
  
-    // searhc for a customer
+    // searhc for a customer using partial name (both private and busness customers)
     @FXML
     private void searchCustomer(ActionEvent event)
     {
@@ -524,6 +598,8 @@ public class RealController implements Initializable
         dataTable.setItems(data);
     }
     
+    
+    // method to search for just private customers
     @FXML
     private void searchPrivateCustomer(ActionEvent event)
     {
@@ -567,6 +643,8 @@ public class RealController implements Initializable
         }
     }
 
+    
+    // method to search for just business customers
     @FXML
     private void serachBusinessCustomer(ActionEvent event)
     {
@@ -610,6 +688,7 @@ public class RealController implements Initializable
         }
     } 
     
+    
     // search functions to hide
     @FXML
     public void handleNames(MouseEvent event)
@@ -627,6 +706,8 @@ public class RealController implements Initializable
         surname.setDisable(true);
         firstname.setText("");
         surname.setText("");
+        business_c.setSelected(false);
+        private_c.setSelected(false);
     }
     
      // search functions to hide
@@ -702,65 +783,10 @@ public class RealController implements Initializable
         alert.setContentText("Please type in a valid phone number");
         alert.showAndWait();
     }
-    
-    // method to add a new customer
-    @FXML
-    public void addCustomer(ActionEvent event)
-    {
-        if(firstname.getText().trim().isEmpty() || surname.getText().trim().isEmpty() ||  address.getText().trim().isEmpty() || postcode.getText().trim().isEmpty() || phone.getText().trim().isEmpty() || email.getText().trim().isEmpty())
-        {
-            printMissing();
-        }
-        else
-        {
-            int phoneNumber = 0;
-            boolean check = checkForString(phone.getText());
-            String account_type = "private";
-            if(business_type.isSelected())
-            {
-                account_type = "business";
-            }
-            
-            if(check)
-            {
-                customers acc = new customers(firstname.getText(), surname.getText(), address.getText(), postcode.getText(), phone.getText(), email.getText(), account_type);
-                String sql = "INSERT INTO Customer_Accounts( ID, Firstname, Surname, Address, Postcode, Phone, Email, Account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement statement = null;
-                Connection connection = null;
-                CommonDatabase db = new CommonDatabase();
-                connection = db.getConnection();
-                try
-                {
-                    statement = connection.prepareStatement(sql);
-                    statement.setString(2, acc.getFirstname());         
-                    statement.setString(3, acc.getSurname());
-                    statement.setString(4, acc.getAddress());
-                    statement.setString(5, acc.getPostcode());
-                    statement.setString(6, acc.getPhone());
-                    statement.setString(7, acc.getEmail());
-                    statement.setString(8, acc.getAccount());
-                    statement.execute(); 
-                }
-                catch(SQLException ex)
-                {
-                    ex.getMessage();
-                }
-                close(connection);
-                clearDetails(event);
-                infoGiven(acc.getFirstname(), "add");
-                Stage stage = (Stage) addPane.getScene().getWindow();
-                stage.close();
-            }
-            else
-            {
-                printPhone();
-                phone.setText("");
-            }
-        }
-    }
+  
     
     
-    private boolean checkForString(String number)
+    public boolean checkForString(String number)
     {
         for(int i=0; i<number.length(); i++)
         {
