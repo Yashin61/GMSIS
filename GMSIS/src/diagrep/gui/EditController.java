@@ -499,7 +499,7 @@ public class EditController implements Initializable {
             //REMOVE OLD WAGE COST FROM BILL
             double Bill = rs.getInt("Bill");
             String RT = rs.getString("RepairTime");
-            int RT2 = Integer.parseInt(RT.replaceAll("[^0-9]", ""));
+            double RT2 = Double.parseDouble(RT.replaceAll("[^0-9]", ""));
             Bill = Bill - (RT2*wage);
             if (Bill < 0)
             {
@@ -512,7 +512,7 @@ public class EditController implements Initializable {
                 
             //GET REPAIR TIME AND MECHANIC WAGE TO CALCULATE BILL           
             String Repair = RepairTime.getText();      
-            int RepT = Integer.parseInt(Repair.replaceAll("[^0-9]", "")); //REMOVE TEXT
+            double RepT = Double.parseDouble(Repair.replaceAll("[^0-9]", "")); //REMOVE TEXT
             double BillUpdate = Bill + (RepT*wage); //UPDATE BILL WITH NEW WAGE COST
                 
             String sql = "UPDATE Booking SET RegistrationNumber = ? , " + "BookingType = ? , "
