@@ -125,6 +125,8 @@ public class PartsEditController implements Initializable {
     private ChoiceBox<String> BookingIDchouce;
     @FXML
     private Button bookedparts_btn;
+    @FXML
+    private Label totalCost;
 
     /**
      * Initializes the controller class.
@@ -365,8 +367,8 @@ public class PartsEditController implements Initializable {
             state.setInt(2, bookingID);
             state.setString(3, reg);
             state.executeUpdate();
+            totalCost.setText("£" + price + " for booking with ID " + bookingID);
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("fail");
         }
     }

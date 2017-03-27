@@ -22,7 +22,6 @@
          </image>
       </ImageView>
       <Label fx:id="Search_ID" layoutX="159.0" layoutY="107.0" text="Enter Registration No." visible="false" />
-      <Button layoutX="32.0" layoutY="417.0" mnemonicParsing="false" text="BACK" />
       <Label layoutX="227.0" layoutY="39.0" prefHeight="55.0" prefWidth="246.0" text="Edit Customer Parts">
          <font>
             <Font name="Apple Braille" size="26.0" />
@@ -77,6 +76,8 @@
       <Label layoutX="419.0" layoutY="222.0" text="Past and Future Booking Dates" />
       <ChoiceBox fx:id="BookingIDchouce" layoutX="482.0" layoutY="320.0" prefHeight="25.0" prefWidth="142.0" />
       <Label layoutX="413.0" layoutY="324.0" text="Booking ID:" />
+      <Label layoutX="168.0" layoutY="413.0" text="Total Parts cost:" />
+      <Label fx:id="totalCost" layoutX="255.0" layoutY="413.0" style="-fx-background-color: White; -fx-border-color: Black; -fx-pref-width: 150;" />
       
    </children>
 </AnchorPane>
