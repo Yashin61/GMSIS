@@ -195,7 +195,7 @@ public class EditController implements Initializable {
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
                                + "ON Booking.CustomerID = Customer_Accounts.ID "
-                               + "WHERE Firstname like '" + Search_Bar.getText() + "%'";
+                               + "WHERE Firstname like '%" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
@@ -232,7 +232,7 @@ public class EditController implements Initializable {
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
                                + "ON Booking.CustomerID = Customer_Accounts.ID "
-                               + "WHERE Surname like '" + Search_Bar.getText() + "%'";
+                               + "WHERE Surname like '%" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
@@ -267,7 +267,7 @@ public class EditController implements Initializable {
                 try
                 {   
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
-                    String sql = "SELECT * FROM Booking WHERE RegistrationNumber like '" + Search_Bar.getText() + "%'";
+                    String sql = "SELECT * FROM Booking WHERE RegistrationNumber like '%" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
@@ -304,7 +304,7 @@ public class EditController implements Initializable {
                     connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Vehicles "
                                + "ON Booking.RegistrationNumber = Vehicles.RegistrationNumber "
-                               + "WHERE Make like '" + Search_Bar.getText() + "%'";
+                               + "WHERE Make like '%" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
                     ResultSet set = stmt.executeQuery();
