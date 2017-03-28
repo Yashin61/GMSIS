@@ -585,11 +585,16 @@ public class SpcMainPageController implements Initializable {
                                 +"Model = "+set.getString("Model")+"\n"
                                 +"Make = "+set.getString("Make")+"\n"
                                 +"Description = "+set.getString("Description")+"\n";
+                        String dates = "Expected delivery date to SPC = "+spcBooking.getSpcDDate()+"\n"
+                                +"Arrived at SPC ? = "+spcBooking.getSpcArrive()+"\n"
+                                +"Expected return date from SPC = "+spcBooking.getSpcRDate()+"\n"
+                                +"Returned from SPC ? = "+spcBooking.getSpcReturn()+"\n";
+                        String repairType = "Type of specialist repais being done on "+spcBooking.getSpcWOn()+" = "+spcBooking.getSpcType();
                         //JOptionPane.showMessageDialog(null,partId+part);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Part Details");
                         alert.setHeaderText(partId);
-                        alert.setContentText(part);
+                        alert.setContentText(part+dates+repairType);
                         alert.showAndWait();
                     }
                     stmt.close();
