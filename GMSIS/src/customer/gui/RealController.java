@@ -527,12 +527,12 @@ public class RealController implements Initializable
             account_type = "private";
         }
         
-        String sql ="select * from Customer_Accounts where Firstname = '%" + firstname.getText() + "%'" + "and Surname like '%" + surname.getText() + "%'";
-        if(!firstname.getText().equals(""))
+        String sql ="select * from Customer_Accounts where Firstname like '%" + firstname.getText() + "%'" + "and Surname like '%" + surname.getText() + "%'";
+        if(!firstname.getText().equals("") || !surname.getText().equals(""))
         {
             if(account_type != "")
             {
-                sql = "select * from Customer_Accounts where Firstname ='%" + firstname.getText() + "%'" + "and Account = '" + account_type + "' " + "and Surname like '%" + surname.getText() + "%'";
+                sql = "select * from Customer_Accounts where Firstname like '%" + firstname.getText() + "%'" + "and Account = '" + account_type + "' " + "and Surname like '%" + surname.getText() + "%'";
             }
  
             try
