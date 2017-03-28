@@ -20,7 +20,6 @@
             <Image url="@../Car.png" />
          </image>
       </ImageView>
-      <Button fx:id="BAck_btn" layoutX="28.0" layoutY="321.0" mnemonicParsing="false" onAction="#close" text="BACK" />
       <Label layoutX="227.0" layoutY="39.0" prefHeight="55.0" prefWidth="215.0" text="Edit Parts">
          <font>
             <Font name="Apple Braille" size="26.0" />

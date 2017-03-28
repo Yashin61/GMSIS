@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import java.util.Date;
 import javafx.collections.FXCollections;
@@ -119,7 +120,7 @@ public class PartsPageController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
-     System.out.println("No doesnt work");
+            System.out.println("No doesnt work");
         }
     }
 
@@ -141,49 +142,44 @@ public class PartsPageController implements Initializable {
 
     @FXML
     private void clear(ActionEvent event) {
-      clear();
+        clear();
         //colour()
     }
 
     @FXML
     private void search_customer(ActionEvent event) {
-             if(firstname.getText().equals("") && surname.getText().equals("")&&regNumber.getText().equals("")){
-                 JOptionPane.showMessageDialog(null, "You must enter a Customer ID or First name and Surname to make a search");
-                 return;
-             }
-             try{
-                 int i = Integer.parseInt(regNumber.getText());
-                 
-             }catch(NumberFormatException e){
-                  JOptionPane.showMessageDialog(null, "You must Enter a number when searching a customer using customerID");
-                  regNumber.setText("");
-                  return;
-             }
-                 
-                 
-             
+        if (firstname.getText().equals("") && surname.getText().equals("") && regNumber.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "You must enter a Customer ID or First name and Surname to make a search");
+            return;
+        }
+        try {
+            int i = Integer.parseInt(regNumber.getText());
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "You must Enter a number when searching a customer using customerID");
+            regNumber.setText("");
+            return;
+        }
+
         try {
             if (firstname.getText().equals("") && surname.getText().equals("")) {
                 reg_no();
-            }
-
-            else if (regNumber.getText().equals("")) {
+            } else if (regNumber.getText().equals("")) {
                 first_sur(firstname.getText(), surname.getText());
             }
         } catch (NumberFormatException e) {
-JOptionPane.showMessageDialog(null,"try again");
+            JOptionPane.showMessageDialog(null, "try again");
         }
 
         String sqlRegno = "SELECT * FROM Vehicles WHERE CustomerID = ? ";
         String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
-         con = conn.connect();
+        con = conn.connect();
         try {
             PreparedStatement s = con.prepareStatement(sqlRegno);
-          
+
             s.setInt(1, Integer.parseInt(regNumber.getText()));
-            
+
             //JOptionPane.showMessageDialog(null,"Customer with the name " + firstname.getText() + " " + surname.getText()+ " Does not exist");
-           
             ResultSet in = s.executeQuery();
 
             PreparedStatement stat = con.prepareStatement(sql);
@@ -193,26 +189,30 @@ JOptionPane.showMessageDialog(null,"try again");
             ResultSet info = stat.executeQuery();
 
             boolean i = true;
-             Parts.getItems().clear();
+            Parts.getItems().clear();
             while (info.next()) {
                 Parts.getItems().add(Integer.toString(info.getInt(2)));
                 if (i) {
                     Parts.setValue(Integer.toString(info.getInt(2)));
-                    i = false;
+                    i = false; 
+                    date();
+            txtexpire.setDisable(false);
+            instal.setDisable(false);
+            Parts.setDisable(false);
+            add_choice.setDisable(false);
+            update_table();
                 }
             }
+           update_table();
 
             con.close();
 
-        } catch (SQLException e ) {
-           JOptionPane.showMessageDialog(null,"Customer with ID " + regNumber.getText() + " Does not exist");
-           regNumber.setText("");
-           return;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Customer with ID " + regNumber.getText() + " Does not exist");
+            regNumber.setText("");
+            return;
         }
-        date();
-        add_choice.setDisable(false);
-        update_table();
-
+       
     }
 
     public void first_sur(String f, String s) {
@@ -223,11 +223,11 @@ JOptionPane.showMessageDialog(null,"try again");
 
             PreparedStatement stat = con.prepareStatement(sql);
 
-           stat.setString(1, f);
-           stat.setString(2, s);
+            stat.setString(1, f);
+            stat.setString(2, s);
 
             ResultSet info = stat.executeQuery();
-            System.out.println(info.getString(1));
+
             regNumber.setText(info.getString(1));
             address.setText(info.getString(4));
             colour(address, false);
@@ -239,7 +239,7 @@ JOptionPane.showMessageDialog(null,"try again");
             colour(phone, false);
             con.close();
         } catch (SQLException e) {
-e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -310,11 +310,18 @@ e.printStackTrace();
     }
 
     public void date() {
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-        Date date = new Date();
-        String d = dateFormat.format(date);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+//        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+//        Date date = new Date();
+        String d = sdf.format(date);
+//                dateFormat.format(date);
         instal.setText(d);
-        txtexpire.setText(d);
+        String[] change = d.split("-");
+        int year = Integer.parseInt(change[2]);
+        year = year + 1;
+        txtexpire.setText(change[0] + "-" + change[1] + "-" + year);
     }
 
     public void update_table() {
@@ -323,7 +330,6 @@ e.printStackTrace();
 
         try {
 
-      
             String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
             PreparedStatement stat = con.prepareStatement(sql);
             stat.setString(1, reg);
@@ -353,8 +359,9 @@ e.printStackTrace();
         dataTable.setItems(data);
 
     }
-    public void clear(){
-      email.setText("");
+
+    public void clear() {
+        email.setText("");
         colour(email, true);
         address.setText("");
         colour(address, true);
@@ -369,39 +376,39 @@ e.printStackTrace();
         instal.setText("");
         txtexpire.setText("");
         dataTable.setItems(null);
-}
+    }
 
     @FXML
     private void home(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource( "/common/Template.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/common/Template.fxml"));
         mainPane.getChildren().setAll(pane);
-        
+
     }
 
     @FXML
     private void customer(ActionEvent event) throws IOException {
-     
-         AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerRealPage.fxml"));
         mainPane.getChildren().setAll(pane);
     }
 
     @FXML
     private void bandrb(ActionEvent event) throws IOException {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/diagrep/gui/BookingDetails.fxml"));
         mainPane.getChildren().setAll(pane);
     }
 
     @FXML
     private void vehicle(ActionEvent event) throws IOException {
-   AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/vehicles/gui/VehiclePage.fxml"));
         mainPane.getChildren().setAll(pane);
     }
 
     @FXML
     private void sr(ActionEvent event) throws IOException {
-         AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         mainPane.getChildren().setAll(pane);
-    
+
     }
 
 }

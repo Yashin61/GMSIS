@@ -105,10 +105,10 @@
             <Font name="Apple Braille" size="15.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="Parts" layoutX="361.0" layoutY="324.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="Parts" disable="true" layoutX="361.0" layoutY="324.0" prefWidth="150.0" />
       <Button fx:id="add_choice" disable="true" layoutX="391.0" layoutY="424.0" mnemonicParsing="false" onAction="#Add_Choice" prefHeight="28.0" prefWidth="86.0" text="ADD DATES" />
-      <TextField fx:id="instal" layoutX="382.0" layoutY="360.0" onAction="#AddDate" promptText="DD / MM / YYY" />
-      <TextField fx:id="txtexpire" layoutX="382.0" layoutY="392.0" promptText="DD / MM / YYY" />
+      <TextField fx:id="instal" editable="false" layoutX="382.0" layoutY="360.0" onAction="#AddDate" promptText="DD / MM / YYY" />
+      <TextField fx:id="txtexpire" editable="false" layoutX="382.0" layoutY="392.0" promptText="DD / MM / YYY" />
       <Label layoutX="332.0" layoutY="364.0" text="Installed:" />
       <Label layoutX="332.0" layoutY="396.0" text="Expire:" />
    </children>

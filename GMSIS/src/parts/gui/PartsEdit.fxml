@@ -28,7 +28,7 @@
          </font>
       </Label>
       <Button fx:id="Clear" layoutX="575.0" layoutY="417.0" mnemonicParsing="false" onAction="#Clear" text="CLEAR" />
-      <CheckBox fx:id="Search_ID_CheckBox" layoutX="42.0" layoutY="107.0" mnemonicParsing="false" onAction="#Search_ID_CheckBox" text="Search By ID" />
+      <CheckBox fx:id="Search_ID_CheckBox" layoutX="20.0" layoutY="107.0" mnemonicParsing="false" onAction="#Search_ID_CheckBox" text="Search By Reg No." />
       <TextField fx:id="txt_Search_By_ID" layoutX="277.0" layoutY="103.0" visible="false" />
       <Button fx:id="Search_By_ID_btn" layoutX="443.0" layoutY="103.0" mnemonicParsing="false" onAction="#Search_ID" text="Search" visible="false" />
       <Button fx:id="Search_Firstname" layoutX="570.0" layoutY="103.0" mnemonicParsing="false" onAction="#Search_ID" text="Search" />
