@@ -138,8 +138,8 @@ public class ViewController implements Initializable
         ObservableList<String> data = FXCollections.observableArrayList();
         try
         {
-//            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE ID = '" + v.getCustomerID() + "' ");  // Without showing the registration number
-            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomerID WHERE Customer_Accounts.ID = '" + v.getCustomerID() + "';");
+            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts WHERE ID = '" + v.getCustomerID() + "' ");
+//            ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.ID = Vehicles.CustomerID WHERE Customer_Accounts.ID = '" + v.getCustomerID() + "';");  // With showing the registration number
 //            SELECT * FROM Customer_Accounts INNER JOIN Vehicles ON Customer_Accounts.RegistrationNumber = Vehicles.RegistrationNumber WHERE ID = '1';
             String answer = "";
             if(!rs.isBeforeFirst())
@@ -148,7 +148,8 @@ public class ViewController implements Initializable
             }
             else
             {
-                answer = answer + "Registration Number: " + rs.getString("RegistrationNumber") + "\n\nCustomer ID: " + rs.getInt("ID") + "\nFirstname: " 
+                        answer = answer + "Customer ID: " + rs.getInt("ID") + "\nFirstname: " 
+//                answer = answer + "Registration Number: " + rs.getString("RegistrationNumber") + "\n\nCustomer ID: " + rs.getInt("ID") + "\nFirstname: " 
                         + rs.getString("Firstname") + "\nSurname: " + rs.getString("Surname") 
                         + "\nAddress: " + rs.getString("Address") + "\nPostcode: " + 
                         rs.getString("Postcode") + "\nPhone Number: " + rs.getString("Phone") + 
