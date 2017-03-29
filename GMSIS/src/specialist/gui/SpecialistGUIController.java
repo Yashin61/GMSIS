@@ -35,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
 import specialist.logic.theSPC;
@@ -241,6 +242,8 @@ public class SpecialistGUIController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Add SPC");
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             showData2();
         //} 
@@ -264,6 +267,8 @@ public class SpecialistGUIController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Edit SPC");
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             showData2();
         } 

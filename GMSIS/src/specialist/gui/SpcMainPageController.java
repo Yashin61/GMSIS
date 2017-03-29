@@ -38,6 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
@@ -703,6 +704,8 @@ public class SpcMainPageController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Edit SPC");
             stage.setScene(new Scene(root1));
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             showData();
         } 
