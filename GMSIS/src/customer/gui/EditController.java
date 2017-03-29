@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package customer.gui;
 
 import common.CommonDatabase;
@@ -24,7 +20,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Manoharan
+ * @author Nandhini Manoharan
  */
 public class EditController implements Initializable
 {
@@ -69,10 +65,13 @@ public class EditController implements Initializable
     @FXML
     private String account;
     
+    
     public void initialize(URL url, ResourceBundle rb)
     {
     }
     
+    
+    // method to set the fields when a particular customer is selected to edit their details
     @FXML
     public void setAllFields(allCustomers cust)
     {
@@ -92,6 +91,8 @@ public class EditController implements Initializable
         
     }
     
+    // method to edit the customer account 
+    // checks if any fields are empty 
     @FXML
     private void edit(ActionEvent evt) throws IOException
     {
@@ -155,6 +156,7 @@ public class EditController implements Initializable
         }
     }
     
+    
     @FXML
     private void clear(ActionEvent event)
     {
@@ -166,6 +168,7 @@ public class EditController implements Initializable
         email.setText(null);
     }
 
+    // method to close the connection for the database
     public void close(Connection connection)
     {
         try

@@ -1,31 +1,20 @@
 
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package customer.gui;
 
 import common.CommonDatabase;
 import customer.logic.allCustomers;
-import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -40,20 +29,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 /**
  *
- * @author Manoharan
+ * @author Nandhini Manoharan
  */
 public class viewController implements Initializable
 {
@@ -104,12 +85,15 @@ public class viewController implements Initializable
     @FXML
     private ListView<String> allParts = new ListView<String>();
     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         
     }
     
+    
+    // method to check if view bookings, view vehicles, or view parts
     @FXML
     public void setCustomer(allCustomers c, String type)
     {
@@ -132,6 +116,7 @@ public class viewController implements Initializable
     }
    
     
+    // method to view all the vehicles owned by a particular customer
     @FXML
     public void viewVehicles2(allCustomers c)
     {
@@ -165,6 +150,7 @@ public class viewController implements Initializable
         }
     }
    
+    // method to view all the bookings for a customer account
     @FXML
     public void viewBookings2(allCustomers c)
     {
@@ -212,6 +198,8 @@ public class viewController implements Initializable
         });
     }
     
+    // method to display all the bookings in a list view
+    // Code Reference/Credit: http://docs.oracle.com/javafx/2/ui_controls/list-view.htm
     public void displayBookings(allCustomers c)
     {
         CommonDatabase db = new CommonDatabase();
@@ -270,7 +258,7 @@ public class viewController implements Initializable
         close(conn);
     }
   
-    
+    // method to check there are any SPC bookings 
     private String checkSPCVehicle(Connection conn, int ID, double bill)
     {
         double totalCost = bill;
@@ -326,6 +314,7 @@ public class viewController implements Initializable
         return answer;
     }
 
+    // message to print if the payment has been completed
     public void printSettled()
     {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -335,6 +324,7 @@ public class viewController implements Initializable
         alert.showAndWait();
     }
     
+    // method to check if a vehicle has warranty or not
     public String checkWarranty(Connection conn, int id) 
     {   
         String answer = "";
@@ -354,6 +344,7 @@ public class viewController implements Initializable
         return answer;
     }
     
+    // method to settle the bill for a booking
     public void settleBill( String n) 
     {
         int id = Integer.parseInt(n);
@@ -375,7 +366,7 @@ public class viewController implements Initializable
         close(conn);
     }
     
-    
+    // method to view all the parts for all the vehicles owned by a customer
     @FXML
     private void viewParts2(allCustomers c)
     {
@@ -444,6 +435,7 @@ public class viewController implements Initializable
     
     }
     
+    // method to check any parts sent to SPC or any vehicle sent to SPC
     public String checkSPCAllParts(Connection conn, String reg)
     {
         String answer = "";
@@ -477,6 +469,7 @@ public class viewController implements Initializable
     }
     
     
+    // method to remove any duplicated
     @FXML
     private void removeDuplicates(ArrayList<Integer> array)
     {
@@ -494,6 +487,7 @@ public class viewController implements Initializable
         }
     }
     
+    // method to close the database connection
     @FXML
     public void close(Connection connection)
     {

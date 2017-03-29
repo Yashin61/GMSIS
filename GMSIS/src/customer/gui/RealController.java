@@ -137,12 +137,13 @@ public class RealController implements Initializable
     private Button noButton;
 
     
-    
+    // populated the table with all the customer accounts from the database as soon as the window is opened
     @Override
     public void initialize(URL url, ResourceBundle rb)  
     {
         display();
     }    
+    
     
     // clear method for the add page
     @FXML
@@ -264,6 +265,9 @@ public class RealController implements Initializable
         display();
     }
     
+    
+    // method to check if all the past bookings for a customer account has been settled
+    // if they are settled then the customr account deleted, if not then the account cannot be deleted
     private boolean checkCustomerBookings(int id)
     {
         boolean check  = true;
@@ -309,6 +313,8 @@ public class RealController implements Initializable
         return check;
     }
     
+    
+    // alert message to say the selected account cannot be deleted due to unsettled bills
     @FXML
     public void CannotDelete()
     {   
@@ -404,6 +410,8 @@ public class RealController implements Initializable
     
     
     // helper method for diplaying all the customers
+    // Code Reference/Credit: https://www.daniweb.com/programming/software-development/threads/457555/populating-tableview-in-javafx-using-mysql-database
+    
     @FXML
     public void display()
     {
@@ -513,7 +521,7 @@ public class RealController implements Initializable
         } 
     }
  
-    // searhc for a customer using partial name (both private and busness customers)
+    // search for a customer using partial name (both private and business customers) or using registration number
     @FXML
     private void searchCustomer(ActionEvent event)
     {
@@ -781,7 +789,7 @@ public class RealController implements Initializable
     }
   
     
-    
+    // checks if the phone number entered is valid
     public boolean checkForString(String number)
     {
         for(int i=0; i<number.length(); i++)
@@ -794,6 +802,7 @@ public class RealController implements Initializable
         return true;
     }
     
+    // method to clear all the text fields
     @FXML
     private void clearSearch(ActionEvent event)
     {
@@ -824,6 +833,8 @@ public class RealController implements Initializable
         alert.showAndWait();
     }
     
+    
+    // method to add a vehicle (initiate vehicle access) for a selected customer account
     @FXML
     private void addVehicle(ActionEvent event) throws IOException
     {
@@ -854,6 +865,7 @@ public class RealController implements Initializable
         }
     }
     
+    // method to add a new booking for a selected customer account
     @FXML
     private void addBooking(ActionEvent event) throws IOException
     {

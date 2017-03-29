@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package customer.gui;
 
 /**
  *
- * @author Nandhini
+ * @author Nandhini Manoharan
  */
 
-//import customer.logic.customers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -61,12 +56,15 @@ public class AddController implements Initializable
     @FXML
     private AnchorPane addPane;
    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         // TODO
     }    
     
+    
+    // method to clear all the textfields when the clear button is pressed
     @FXML
     public void clearDetails(ActionEvent event)
     {
@@ -78,7 +76,9 @@ public class AddController implements Initializable
         email.setText("");
     }
     
+    
     // method to add a new customer
+    // checks if any field is empty and if so prints a message saying so
     @FXML
     public void addCustomer(ActionEvent event)
     {
@@ -136,6 +136,8 @@ public class AddController implements Initializable
         }
     }
     
+    
+    // method to close the connection for the database 
     public void close(Connection connection)
     {
         try
