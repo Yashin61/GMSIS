@@ -147,6 +147,13 @@ public class PartsAddController implements Initializable {
             make_txt.setVisible(true);
             model_lbl.setVisible(true);
             make_lbl.setVisible(true);
+            txt_New_Part_Name.setText("");
+            model_txt.setText("");
+            make_txt.setText("");
+            txt_New_Part_Description.setText("");
+            txt_New_Part_Cost.setText("");
+            txt_New_Part_Quantity.setText("");
+            
         }
         updateTable();
     }
@@ -165,6 +172,12 @@ public class PartsAddController implements Initializable {
             make_txt.setVisible(true);
             model_lbl.setVisible(true);
             make_lbl.setVisible(true);
+                txt_New_Part_Name.setText("");
+            model_txt.setText("");
+            make_txt.setText("");
+            txt_New_Part_Description.setText("");
+            txt_New_Part_Cost.setText("");
+            txt_New_Part_Quantity.setText("");
         }
         updateTable();
     }
@@ -186,6 +199,11 @@ public class PartsAddController implements Initializable {
             lbl_Search_ID.setVisible(false);
             txt_ID_Search.setVisible(false);
             Search_Part_by_ID.setVisible(false);
+            lbl_data_Name.setText("");
+            lbl_data_Description.setText("");
+            txt_Search_ID_QTY.setText("");
+            
+            
         }
         updateTable();
 
