@@ -661,26 +661,22 @@ public class PartsEditController implements Initializable {
                 ResultSet info = ko.executeQuery();
                 lbl_type_of_booking.setText(info.getString(4));
                 lbl_type_of_booking.setStyle("-fx-background-color:White");
-                con.close();
+             
                 
-            } catch (SQLException e) {
+   
+       
+            String sqlparts = "SELECT * FROM Parts WHERE ID = ?";
+           
+                PreparedStatement koparts = con.prepareStatement(sqlparts);
                
-            }
-            
-        }
-        else if(event.getClickCount() == 1){
-            String sql = "SELECT * FROM Parts WHERE ID = ?";
-            try {
-                PreparedStatement ko = con.prepareStatement(sql);
-               
-                ko.setInt(1, Customers_Parts_Editt.getSelectionModel().getSelectedItem().getPartsID());
-                ResultSet info = ko.executeQuery();
+                koparts.setInt(1, Customers_Parts_Editt.getSelectionModel().getSelectedItem().getPartsID());
+                ResultSet infoparts = koparts.executeQuery();
             JOptionPane.showMessageDialog(null, "Name: " +
-                    info.getString(2) + "\nModel: " + 
-                    info.getString(3) + "\nMake: " + 
-                    info.getString(4) + "\nDescription: " + 
-                    info.getString(5) + "\nCost: £" +
-                    info.getString(7));
+                    infoparts.getString(2) + "\nModel: " + 
+                    infoparts.getString(3) + "\nMake: " + 
+                    infoparts.getString(4) + "\nDescription: " + 
+                    infoparts.getString(5) + "\nCost: £" +
+                    infoparts.getString(7));
                 con.close();
                 
             } catch (SQLException e) {
