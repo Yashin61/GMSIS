@@ -344,11 +344,6 @@ public class SpcAddBookingController2 implements Initializable {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
             a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Submitted");
-            alert.setContentText("Spc booking has now been made");
-            alert.showAndWait();
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }

@@ -49,6 +49,7 @@ public class SpecialistDB
             alert.setTitle("Adding SPC");
             alert.setHeaderText("Success");
             alert.setContentText("A new SPC has been added.");
+            alert.showAndWait();
 
             stmt.close();
             conn.close();
@@ -78,6 +79,7 @@ public class SpecialistDB
             alert.setTitle("Adding SPC Booking");
             alert.setHeaderText("Success");
             alert.setContentText("A new SPC Booking has been added.");
+            alert.showAndWait();
 
             stmt.close();
             conn.close();
@@ -102,6 +104,7 @@ public class SpecialistDB
                 alert.setTitle("Error");
                 alert.setHeaderText("Invalid Input");
                 alert.setContentText("SPC has not been selected");
+                alert.showAndWait();
             } 
             else
             {    
@@ -112,6 +115,12 @@ public class SpecialistDB
                 +"', SPCphone = '"+phone+"', SPCemail = '"+email+"' WHERE SPCId = " + id + " ;";
 
                 stmt.executeUpdate(sql);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Congrats");
+                alert.setHeaderText("Application was succesful");
+                alert.setContentText("SPC list has been updated");
+                alert.showAndWait();
                 stmt.close();
                 connect.close();
             }
@@ -150,6 +159,12 @@ public class SpecialistDB
                         + " WHERE Id = "+id+" ;";
 
                 stmt.executeUpdate(sql);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Congrats");
+                alert.setHeaderText("Application was succesful");
+                alert.setContentText("SPC Booking has been updated");
+                alert.showAndWait();
                 stmt.close();
                 connect.close();
             }
@@ -177,6 +192,7 @@ public class SpecialistDB
             alert.setTitle("Deleting SPC");
             alert.setHeaderText("Success");
             alert.setContentText("SPC has been deleted.");
+            alert.showAndWait();
             
             stmt.close();
             connect.close();
@@ -204,6 +220,7 @@ public class SpecialistDB
             alert.setTitle("Deleting SPC Booking");
             alert.setHeaderText("Success");
             alert.setContentText("SPC Booking has been deleted.");
+            alert.showAndWait();
             
             stmt.close();
             connect.close();
@@ -231,6 +248,7 @@ public class SpecialistDB
             alert.setTitle("Deleting SPC Booking");
             alert.setHeaderText("Success");
             alert.setContentText("SPC Bookings has been deleted along with the SPC.");
+            alert.showAndWait();
             
             stmt.close();
             connect.close();

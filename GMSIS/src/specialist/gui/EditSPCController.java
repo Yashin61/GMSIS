@@ -85,12 +85,6 @@ public class EditSPCController implements Initializable {
             
             SpecialistDB a= new SpecialistDB();
             a.editSPC(id, name, address, phone, email);      
-            
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Congrats");
-            alert.setHeaderText("Application was succesful");
-            alert.setContentText("SPC list has been updated");
-            alert.showAndWait();
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.close();
         }
