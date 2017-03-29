@@ -67,6 +67,8 @@ public class EditController implements Initializable {
     @FXML
     private Button Delete_Button;
     @FXML
+    private Button Complete_Button;
+    @FXML
     private Button ShowE;
     @FXML
     private TableView<BookingTableE> BookingE; 
@@ -418,6 +420,52 @@ public class EditController implements Initializable {
             ShowAllBookingsE();
         }
     }    
+    
+    @FXML
+    private void completeBooking(ActionEvent event) throws SQLException
+    {
+        BookingTableE book = BookingE.getSelectionModel().getSelectedItem();
+        if(book==null)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Select Booking");
+            alert.setHeaderText("No Booking Selected");
+            alert.setContentText("Please select a booking from the table");
+            alert.showAndWait();
+        }
+        else
+        {
+            int BID = book.getBookingID();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Do you want to complete the booking?");
+
+            ButtonType yes = new ButtonType("YES");
+            ButtonType no = new ButtonType("NO");
+            alert.getButtonTypes().setAll(yes, no);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == yes)
+                {
+                    String status = "COMPLETE";
+                    String sql = "UPDATE Booking SET Status = ? " + " WHERE BookingID = ?";
+
+                Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                PreparedStatement stmt = connect.prepareStatement(sql);
+
+                stmt.setString(1, status);
+                stmt.setInt(2, BID);
+                
+                stmt.executeUpdate();
+            
+                stmt.close();
+                connect.close();
+                }
+            
+            }
+        
+    }
    
     // ENTERS INFORMATION INTO TEXTBOX FROM TABLE
     @FXML

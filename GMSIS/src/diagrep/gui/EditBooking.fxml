@@ -18,7 +18,7 @@
       <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../customer/Car.png" />
+            <Image url="@../../../../../SE8-3/GMSIS/src/customer/Car.png" />
          </image>
       </ImageView>
       <Label layoutX="376.0" layoutY="46.0" prefHeight="44.0" prefWidth="230.0" text="Edit Booking" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="370.0">
@@ -34,17 +34,17 @@
       <TextField fx:id="Search_Bar" layoutX="246.0" layoutY="160.0" prefHeight="26.0" prefWidth="583.0" promptText="Search" />
       <Button fx:id="Search_Button" layoutX="840.0" layoutY="160.0" mnemonicParsing="false" onAction="#searchBookings" text="SEARCH" />
       <TableView fx:id="BookingE" layoutX="54.0" layoutY="206.0" onMouseClicked="#EditDetails" prefHeight="113.0" prefWidth="931.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
-        <columns>
+         <columns>
             <TableColumn fx:id="BIDE" prefWidth="81.98102951049805" text="Booking ID" />
             <TableColumn fx:id="RegE" prefWidth="154.44073486328125" text="Registration Number" />
             <TableColumn fx:id="MileE" prefWidth="89.92886352539062" text="Mileage" />
-          <TableColumn fx:id="ToBE" prefWidth="155.9715576171875" text="Type of Booking" />
-          <TableColumn fx:id="MIDE" prefWidth="100.02838134765625" text="Mechanic ID" />
+            <TableColumn fx:id="ToBE" prefWidth="155.9715576171875" text="Type of Booking" />
+            <TableColumn fx:id="MIDE" prefWidth="100.02838134765625" text="Mechanic ID" />
             <TableColumn fx:id="BDE" prefWidth="102.0093994140625" text="Booking Date" />
             <TableColumn fx:id="BTE" prefWidth="94.76776123046875" text="Booking Time" />
             <TableColumn fx:id="RepDurE" prefWidth="106.5640869140625" text="Repair Duration" />
             <TableColumn fx:id="BE" prefWidth="69.00006103515625" text="Bill" />
-        </columns>
+         </columns>
       </TableView>
       <Label layoutX="32.0" layoutY="360.0" text="Registration Number:" AnchorPane.leftAnchor="20.0">
          <font>
@@ -101,5 +101,6 @@
       <RadioButton fx:id="CFN" layoutX="246.0" layoutY="125.0" mnemonicParsing="false" selected="true" text="Customer First Name" toggleGroup="$SearchType" />
       <RadioButton fx:id="CSN" layoutX="410.0" layoutY="125.0" mnemonicParsing="false" text="Customer Surname" toggleGroup="$SearchType" />
       <RadioButton fx:id="M" layoutX="720.0" layoutY="125.0" mnemonicParsing="false" text="Manufacturer" toggleGroup="$SearchType" />
+      <Button fx:id="Complete_Button" layoutX="710.0" layoutY="326.0" mnemonicParsing="false" onAction="#completeBooking" text="Complete Booking" />
    </children>
 </AnchorPane>

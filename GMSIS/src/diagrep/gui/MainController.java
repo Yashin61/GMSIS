@@ -247,6 +247,50 @@ public class MainController implements Initializable {
         Booking.setItems(allBookings);
     }
     
+    @FXML
+    private void ShowCompletedBookings(ActionEvent event) throws SQLException
+    {
+        Connection connect = null;
+        Statement stmt = null;
+
+        try
+        {   
+            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            stmt = connect.createStatement();
+            allBookings = FXCollections.observableArrayList();
+            ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
+            while(set.next())
+            {
+                if(set.getString("Status").equals("COMPLETE"))
+                {
+                    allBookings.add(new BookingTable(set.getInt(1), set.getString(2), set.getInt(3), set.getString(4),
+                                                 set.getInt(5), set.getString(6), set.getString(7),
+                                                 set.getString(8), set.getDouble(9))); 
+                }
+            }
+            
+            stmt.close();
+            set.close();
+            connect.close();
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        BID.setCellValueFactory(new PropertyValueFactory("BookingID"));
+        Reg.setCellValueFactory(new PropertyValueFactory("RegNumber"));
+        Mile.setCellValueFactory(new PropertyValueFactory("Mileage"));
+        ToB.setCellValueFactory(new PropertyValueFactory("BookingType"));
+        MID.setCellValueFactory(new PropertyValueFactory("MechanicID"));
+        BD.setCellValueFactory(new PropertyValueFactory("BookingDate"));
+        BT.setCellValueFactory(new PropertyValueFactory("BookingTime"));
+        RepDur.setCellValueFactory(new PropertyValueFactory("RepairTime"));
+        B.setCellValueFactory(new PropertyValueFactory("Bill"));
+
+        Booking.setItems(allBookings);
+    }
+    
     @FXML 
     private void viewParts(ActionEvent event) throws IOException
     {

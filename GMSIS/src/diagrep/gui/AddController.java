@@ -158,7 +158,7 @@ public class AddController implements Initializable {
                 
                 //INSERT INFORMATION INTO DATABASE
                 String sql = "INSERT INTO Booking(RegistrationNumber, Mileage, BookingType, MechanicID, BookingDate, "
-                            + "BookingTime, RepairTime, Bill, CustomerID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            + "BookingTime, RepairTime, Bill, CustomerID, Status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
                 stmt = connect.prepareStatement(sql);
@@ -172,6 +172,7 @@ public class AddController implements Initializable {
                 stmt.setString(7, Repair);
                 stmt.setDouble(8, Bill);
                 stmt.setInt(9, CustID);
+                stmt.setString(10, "INCOMPLETE");
                 
                 
                 stmt.executeUpdate();

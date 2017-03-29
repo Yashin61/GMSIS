@@ -26,11 +26,11 @@
       <Button layoutX="809.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Specialist" text="SPECIALIST REPAIRS" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-4.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../customer/Car.png" />
+            <Image url="@../../../../../SE8-3/GMSIS/src/customer/Car.png" />
          </image>
       </ImageView>
       <TableView fx:id="Booking" layoutX="9.0" layoutY="183.0" prefHeight="333.0" prefWidth="976.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
-        <columns>
+         <columns>
             <TableColumn fx:id="BID" prefWidth="80.46964263916016" text="Booking ID" />
             <TableColumn fx:id="Reg" minWidth="0.0" prefWidth="144.99996948242188" text="Registration Number" />
             <TableColumn fx:id="Mile" prefWidth="92.2974853515625" text="Mileage" />
@@ -40,13 +40,14 @@
             <TableColumn fx:id="BT" minWidth="0.0" prefWidth="115.3162841796875" text="Booking Time" />
             <TableColumn fx:id="RepDur" prefWidth="108.72467041015625" text="Repair Duration" />
             <TableColumn fx:id="B" minWidth="0.0" prefWidth="79.70245361328125" text="Bill" />
-        </columns>
+         </columns>
       </TableView>
-      <Button fx:id="Add_Button" layoutX="760.0" layoutY="540.0" mnemonicParsing="false" onAction="#openAddBooking" prefWidth="70.0" text="ADD" />
-      <Button fx:id="Edit_Button" layoutX="874.0" layoutY="540.0" mnemonicParsing="false" onAction="#openEditBooking" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="79.0" />
-      <Button fx:id="Show" layoutX="106.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowBookings" text="View All Bookings" AnchorPane.leftAnchor="78.0" />
-      <Button layoutX="215.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowPastBookings" text="View Past Bookings" />
-      <Button layoutX="365.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowFutureBookings" text="View Future Bookings" />
-      <Button layoutX="580.0" layoutY="540.0" mnemonicParsing="false" onAction="#viewParts" text="View Parts Used" />
-  </children>
+      <Button fx:id="Add_Button" layoutX="818.0" layoutY="540.0" mnemonicParsing="false" onAction="#openAddBooking" prefWidth="70.0" text="ADD" />
+      <Button fx:id="Edit_Button" layoutX="903.0" layoutY="540.0" mnemonicParsing="false" onAction="#openEditBooking" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="21.0" />
+      <Button fx:id="Show" layoutX="9.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowBookings" text="View All Bookings" AnchorPane.leftAnchor="9.0" />
+      <Button layoutX="146.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowPastBookings" text="View Past Bookings" />
+      <Button layoutX="296.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowFutureBookings" text="View Future Bookings" />
+      <Button layoutX="646.0" layoutY="540.0" mnemonicParsing="false" onAction="#viewParts" text="View Parts Used" />
+      <Button layoutX="459.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowCompletedBookings" text="View Completed Bookings" />
+   </children>
 </AnchorPane>
