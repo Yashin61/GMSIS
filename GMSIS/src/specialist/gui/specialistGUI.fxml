@@ -44,8 +44,8 @@
       </TableView>
       <Button layoutX="790.0" layoutY="465.0" mnemonicParsing="false" onAction="#showData" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL SPC" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="465.0" />
       <Button layoutX="717.0" layoutY="465.0" mnemonicParsing="false" onAction="#deleteSPCButton" text="DELETE" AnchorPane.rightAnchor="222.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="657.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcEditPage" text="EDIT" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="465.0" />
-      <Button layoutX="593.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcAddPage" text="ADD" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="465.0" />
+      <Button fx:id="eSPC" layoutX="657.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcEditPage" text="EDIT" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="465.0" />
+      <Button fx:id="aSPC" layoutX="593.0" layoutY="465.0" mnemonicParsing="false" onAction="#spcAddPage" text="ADD" AnchorPane.rightAnchor="360.0" AnchorPane.topAnchor="465.0" />
       <Separator layoutX="70.0" layoutY="336.0" prefWidth="200.0" />
       <Label layoutX="154.0" layoutY="322.0" text="OR" textFill="#000000c1" />
       <Button layoutX="128.0" layoutY="73.0" mnemonicParsing="false" onAction="#homePage" prefHeight="25.0" prefWidth="83.0" text="HOME" />

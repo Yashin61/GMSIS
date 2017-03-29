@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.TemplateController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="590.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.TemplateController">
    <children>
       <Button layoutX="188.0" layoutY="400.0" mnemonicParsing="false" onAction="#adminLoginPage" prefHeight="100.0" prefWidth="175.0" text="Admin Access" AnchorPane.leftAnchor="100.0">
          <font>
