@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,7 @@ public class EditVehicleController implements Initializable
     @FXML
     private DatePicker lastServiceDate;
     @FXML
-    private ComboBox<Integer> customerID;
+    private ComboBox <String> customerID;
     @FXML
     private TextField warrantyID;
     @FXML
@@ -80,8 +81,8 @@ public class EditVehicleController implements Initializable
     private RadioButton edTruck;
     private Stage stage=null;
     private String type="";
-    private boolean checkWarr=false;
     private static int custID=0;
+    private boolean checkWarr=false;
     Button viewVeh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
@@ -102,14 +103,14 @@ public class EditVehicleController implements Initializable
         
     }
     
-    private ObservableList<Integer> filling() throws SQLException
+    private ObservableList<String> filling() throws SQLException
     {
-        ArrayList<Integer> custIDList =new ArrayList<>();
+        ArrayList<String> custIDList =new ArrayList<>();
         String query = "SELECT ID FROM Customer_Accounts";
         ResultSet rs = con.createStatement().executeQuery(query);
         while(rs.next())
         {
-            custIDList.add(rs.getInt("ID"));
+            custIDList.add(String.valueOf(rs.getInt("ID")));
         }
         return FXCollections.observableArrayList(custIDList);
     }
@@ -126,15 +127,18 @@ public class EditVehicleController implements Initializable
         regNumber.setText(veh.getRegistrationNumber());
         customerID.getSelectionModel().select(veh.getCustomerID()-1);
         warrantyID.setText(Integer.toString(veh.getWarrantyID()));
+        if(veh.getWarrantyID()!=0)
+        {
+            checkWarr=true;
+        }
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         motRenDate.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         lastServiceDate.setValue(LocalDate.parse(veh.getLastServiceDate(), formatter2));
         custID=veh.getCustomerID();
         String message="";
-        if(veh.getWarrantyID()>0)
+        if(veh.getWarrantyID()!=0)
         {
-            checkWarr=true;
             try
             {
                 String sql = "SELECT * FROM Warranty WHERE WarrantyID = ?";
@@ -178,63 +182,152 @@ public class EditVehicleController implements Initializable
     {
         String message="";
         if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
-                fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || 
-                regNumber.getText().isEmpty() || custID==0 || motRenDate.toString().isEmpty() || lastServiceDate.toString().isEmpty())
+                fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
+                motRenDate.toString().isEmpty() || lastServiceDate.toString().isEmpty())
         {
             message="There are empty option(s)!";
             VehiclePageController.warningAlert(message);
             return;
         }
-        try
+        if(checkWarr)
         {
-            int a = Integer.parseInt(year.getText());
-            int b = Integer.parseInt(mileage.getText());
-            if(edCar.isSelected())
-            {
-                type = "Car";
-            }
-            else if(edVan.isSelected())
-            {
-                type = "Van";
-            }
-            else if(edTruck.isSelected())
-            {
-                type = "Truck";
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            String sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
-                    + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
-                    + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
-                    + "Colour = '" + colour.getText() + "', CustomerID = " + String.valueOf(customerID.getValue()) + ", "
-                    + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
-                    + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = " + warrantyID.getText() + ", "
-                    + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
             try
             {
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.executeUpdate();
-                message="The vehicle is now edited!";
-                VehiclePageController.infoAlert(message);
-                if(checkWarr)
+                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || 
+                Integer.parseInt(year.getText())<1940 || engineSize.getText().trim().isEmpty() || 
+                fuelType.getText().trim().isEmpty() || mileage.getText().trim().isEmpty() || Integer.parseInt(mileage.getText())<0 || 
+                colour.getText().trim().isEmpty() || customerID.getValue().trim().isEmpty() || customerID.getValue().equals("0") || 
+                companyName.getText().trim().isEmpty() || companyAddress.getText().trim().isEmpty())
                 {
+                    message="There are an inappropriate value(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                int yearInt = Integer.parseInt(year.getText());
+                int mileageInt = Integer.parseInt(mileage.getText());
+                Calendar now = Calendar.getInstance();
+                if(yearInt>now.get(Calendar.YEAR))
+                {
+                    message="The given year cannot be greater than the current year!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(edCar.isSelected())
+                {
+                    type = "Car";
+                }
+                else if(edVan.isSelected())
+                {
+                    type = "Van";
+                }
+                else if(edTruck.isSelected())
+                {
+                    type = "Truck";
+                }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
+                        + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
+                        + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
+                        + "Colour = '" + colour.getText() + "', CustomerID = " + customerID.getValue() + ", "    // String.valueOf(customerID.getValue())  When it was Integer in combobox
+                        + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
+                        + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = " + warrantyID.getText() + ", "
+                        + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
+                try
+                {
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.executeUpdate();
                     String sql2 = "UPDATE Warranty SET Name = '" + companyName.getText() + "' , Address = '" + companyAddress.getText() + "' , "
                             + "ExpiryDate = '" + expiryDate.getValue().format(formatter) + "' WHERE WarrantyID = " + warrantyID.getText();
                     ps = con.prepareStatement(sql2);
                     ps.executeUpdate();
-                    message="The warranty details is now edited!";
+                    message="The vehicle is now edited!";
                     VehiclePageController.infoAlert(message);
+//                    message="The warranty details is now edited!";
+//                    VehiclePageController.infoAlert(message);
+                    viewVeh.fire();
                 }
-                viewVeh.fire();
+                catch(SQLException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch(SQLException e)
+            catch(NumberFormatException e)
             {
-                e.printStackTrace();
+                VehiclePageController.warningAlert("There are an inappropriate value(s)!");
+                return;
             }
         }
-        catch(NumberFormatException e)
+        else
         {
-            VehiclePageController.warningAlert("There are an inappropriate value(s)!");
-            return;
+            try
+            {
+                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || 
+                Integer.parseInt(year.getText())<1940 || engineSize.getText().trim().isEmpty() || 
+                fuelType.getText().trim().isEmpty() || mileage.getText().trim().isEmpty() || Integer.parseInt(mileage.getText())<0 || 
+                colour.getText().trim().isEmpty() || customerID.getValue().trim().isEmpty() || customerID.getValue().equals("0"))
+                {
+                    message="There are an inappropriate value(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                int yearInt = Integer.parseInt(year.getText());
+                int mileageInt = Integer.parseInt(mileage.getText());
+                Calendar now = Calendar.getInstance();
+                if(yearInt>now.get(Calendar.YEAR))
+                {
+                    message="The given year cannot be greater than the current year!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(edCar.isSelected())
+                {
+                    type = "Car";
+                }
+                else if(edVan.isSelected())
+                {
+                    type = "Van";
+                }
+                else if(edTruck.isSelected())
+                {
+                    type = "Truck";
+                }
+                try
+                {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate, RegistrationNumber) VALUES(?,?,?,?)";
+                    PreparedStatement stmt2=con.prepareStatement(sql2);
+                    stmt2.setString(1, companyName.getText());
+                    stmt2.setString(2, companyAddress.getText());
+                    stmt2.setString(3, expiryDate.getValue().format(formatter));
+                    stmt2.setString(4, regNumber.getText());
+                    stmt2.executeUpdate();
+                    ResultSet rs = con.createStatement().executeQuery("SELECT WarrantyID FROM Warranty WHERE RegistrationNumber= '" + regNumber.getText() + "'" );
+                    int warrId = rs.getInt(1);
+                    String sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
+                        + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
+                        + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
+                        + "Colour = '" + colour.getText() + "', CustomerID = " + customerID.getValue() + ", "
+                        + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
+                        + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = " + warrId + ", "
+                        + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.executeUpdate();
+                    message="The vehicle is now edited!";
+                    VehiclePageController.infoAlert(message);
+//                    message="The warranty details is now edited!";
+//                    VehiclePageController.infoAlert(message);
+                    viewVeh.fire();
+                }
+                catch(SQLException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            catch(NumberFormatException e)
+            {
+                VehiclePageController.warningAlert("There are an inappropriate value(s)!");
+                return;
+            }
         }
         closeWin();
     }
@@ -264,7 +357,6 @@ public class EditVehicleController implements Initializable
         fuelType.clear();
         colour.clear();
         mileage.clear();
-        regNumber.clear();
         customerID.getSelectionModel().clearSelection();
         companyName.clear();
         companyAddress.clear();
@@ -276,8 +368,7 @@ public class EditVehicleController implements Initializable
 
     private void futureDateRestrictor()
     {
-        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
-        {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell(){
             @Override
             public void updateItem(LocalDate item, boolean empty)
             {
@@ -295,8 +386,7 @@ public class EditVehicleController implements Initializable
     
     private void pastDateRestrictor()
     {
-        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
-        {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell(){
             @Override
             public void updateItem(LocalDate item, boolean empty)
             {

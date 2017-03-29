@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -255,14 +256,30 @@ public class AddVehicleController implements Initializable
             VehiclePageController.warningAlert(message);
             return;
         }
-        int year = 0;
-        int mil = 0;
+        int yearInt = 0;
+        int mileageInt = 0;
         try
         {
-            year = Integer.parseInt(yearTemp.getText());
-            mil = Integer.parseInt(milTemp.getText());
+            yearInt = Integer.parseInt(yearTemp.getText());
+            mileageInt = Integer.parseInt(milTemp.getText());
+            Calendar now = Calendar.getInstance();
+            if(yearInt>now.get(Calendar.YEAR))
+            {
+                message="The given year cannot be greater than the current year!";
+                VehiclePageController.warningAlert(message);
+                return;
+            }
         }
         catch(NumberFormatException e)
+        {
+            message="There are an inappropriate value(s)!";
+            VehiclePageController.warningAlert(message);
+            return;
+        }
+        if(make.trim().isEmpty() || model.trim().isEmpty() || yearTemp.getText().trim().isEmpty() || 
+                Integer.parseInt(yearTemp.getText())<1940 || engSize.trim().isEmpty() || 
+                fType.trim().isEmpty() || milTemp.getText().trim().isEmpty() || Integer.parseInt(milTemp.getText())<0 || 
+                cl.trim().isEmpty() || regNum.trim().isEmpty())
         {
             message="There are an inappropriate value(s)!";
             VehiclePageController.warningAlert(message);
@@ -281,6 +298,12 @@ public class AddVehicleController implements Initializable
         String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate) VALUES(?,?,?)";
         if(expDateTemp.getValue() != null && !cmpNameTemp.getText().isEmpty() && !cmpAddressTemp.getText().isEmpty())
         {
+            if(cmpNameTemp.getText().trim().isEmpty() || cmpAddressTemp.getText().trim().isEmpty())
+            {
+                message="There are an inappropriate value(s)!";
+                VehiclePageController.warningAlert(message);
+                return;
+            }
             try
             {
                 LocalDate localDate3 = expDateTemp.getValue();
@@ -302,10 +325,10 @@ public class AddVehicleController implements Initializable
                 PreparedStatement stmt=con.prepareStatement(sql1);
                 stmt.setString(1, make);
                 stmt.setString(2, model);
-                stmt.setInt(3, year);
+                stmt.setInt(3, yearInt);
                 stmt.setString(4, engSize);
                 stmt.setString(5, fType);
-                stmt.setInt(6, mil);
+                stmt.setInt(6, mileageInt);
                 stmt.setString(7, cl);
                 stmt.setString(8, regNum);
                 stmt.setInt(9, cstID);
@@ -341,10 +364,10 @@ public class AddVehicleController implements Initializable
                     PreparedStatement stmt=con.prepareStatement(sql1);
                     stmt.setString(1, make);
                     stmt.setString(2, model);
-                    stmt.setInt(3, year);
+                    stmt.setInt(3, yearInt);
                     stmt.setString(4, engSize);
                     stmt.setString(5, fType);
-                    stmt.setInt(6, mil);
+                    stmt.setInt(6, mileageInt);
                     stmt.setString(7, cl);
                     stmt.setString(8, regNum);
                     stmt.setInt(9, cstID);
@@ -412,8 +435,7 @@ public class AddVehicleController implements Initializable
 
     private void futureDateRestrictor()  // think about how not having these methods in the class editcontriller
     {
-        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
-        {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell(){
             @Override
             public void updateItem(LocalDate item, boolean empty)
             {
@@ -431,8 +453,7 @@ public class AddVehicleController implements Initializable
     
     private void pastDateRestrictor()
     {
-        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell()
-        {
+        Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell(){
             @Override
             public void updateItem(LocalDate item, boolean empty)
             {
