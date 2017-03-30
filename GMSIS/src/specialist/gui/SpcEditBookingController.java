@@ -28,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -274,92 +275,100 @@ public class SpcEditBookingController implements Initializable {
     @FXML
     private void updateSpcBookingButton(ActionEvent event) 
     {
-        String name = spcList.getSelectionModel().getSelectedItem();
-        String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        String arrived = "No";
-        String rDate = "";
-        String returned = "No";
-        
-        String workOn = repairOn.getValue();
-        int parts = 0;
-        if(workOn != null)
+        try
         {
-            if(workOn.equals("Part"))
+            String name = spcList.getSelectionModel().getSelectedItem();
+            String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            String arrived = "No";
+            String rDate = "";
+            String returned = "No";
+
+            String workOn = repairOn.getValue();
+            int parts = 0;
+            if(workOn != null)
             {
-                SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
-                parts = partSPC.getPartId();
+                if(workOn.equals("Part"))
+                {
+                    SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
+                    parts = partSPC.getPartId();
+                }
+            }
+            /*else
+            {
+                //System.out.println("Select what to work on");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Missing Data");
+                alert.setHeaderText("Form is not completed properly");
+                alert.setContentText("Select what to work on");
+                alert.showAndWait();
+            }*/
+
+
+            String reg = "";
+            int cust = 0;
+
+            SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
+            if(vehicleSPC == null)
+            {
+                //JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Missing Data");
+                alert.setHeaderText("Form is not completed properly");
+                alert.setContentText("Please select a vehicle from the vehicle list displayed on the left side of the page");
+                alert.showAndWait();
+            }
+            else
+            {
+                reg = vehicleSPC.getRegNo();
+                cust = vehicleSPC.getCust();
+            } 
+
+            String type = "";
+            double cost = 0.0;
+
+            if(repairType.getValue().equals("Repair - 5 days"))
+            {
+                cost = 50.00;
+                rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                type = "Repair";
+            }
+            else if(repairType.getValue().equals("Re-condition - 11 days"))
+            {
+                cost = 100.00;
+                rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                type = "Re-condition";
+            }
+            /*else
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Missing Data");
+                alert.setHeaderText("Form is not completed properly");
+                alert.setContentText("Please select the type of special repair you want");
+                alert.showAndWait();
+            }*/
+
+            int bookId = Integer.parseInt(bookingID.getText());
+
+            if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getText().equals("") || workOn.equals("") || type.equals("")))
+            {
+                    //System.out.println("It works");
+                    SpecialistDB a= new SpecialistDB();
+                    a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
+                    try
+                    {
+                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+                        rootPane.getChildren().setAll(pane);
+                    } catch (IOException ex) {
+                    Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
             }
         }
-        /*else
-        {
-            //System.out.println("Select what to work on");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Select what to work on");
-            alert.showAndWait();
-        }*/
-        
-        
-        String reg = "";
-        int cust = 0;
-        
-        SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
-        if(vehicleSPC == null)
-        {
-            //JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Please select a vehicle from the vehicle list displayed on the left side of the page");
-            alert.showAndWait();
-        }
-        else
-        {
-            reg = vehicleSPC.getRegNo();
-            cust = vehicleSPC.getCust();
-        } 
-                     
-        String type = "";
-        double cost = 0.0;
-        
-        if(repairType.getValue().equals("Repair - 5 days"))
-        {
-            cost = 50.00;
-            rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            type = "Repair";
-        }
-        else if(repairType.getValue().equals("Re-condition - 11 days"))
-        {
-            cost = 100.00;
-            rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            type = "Re-condition";
-        }
-        /*else
+        catch (NullPointerException e) 
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Please select the type of special repair you want");
-            alert.showAndWait();
-        }*/
-
-        int bookId = Integer.parseInt(bookingID.getText());
-        
-        if(!name.equals("") && !dDate.equals("") && !reg.equals("") && !custName.getText().equals("") && !workOn.equals("") && !type.equals(""))
-        {
-            //System.out.println("It works");
-            SpecialistDB a= new SpecialistDB();
-            a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.close();
-        }
-        else
-        {
-            //System.out.println("Please input all the details.");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Please complete");
-            alert.setHeaderText("Some details are still missing");
+            alert.setTitle("Missing details");
+            alert.setHeaderText("Form not completed");
             alert.setContentText("Please input all the details");
             alert.showAndWait();
         }

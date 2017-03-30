@@ -28,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -171,7 +172,7 @@ public class SpcAddBookingController2 implements Initializable {
         
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
             String[] name = custName.getText().split(" ");
@@ -206,7 +207,7 @@ public class SpcAddBookingController2 implements Initializable {
             {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.createStatement();
                     partData = FXCollections.observableArrayList();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");
@@ -244,7 +245,7 @@ public class SpcAddBookingController2 implements Initializable {
         Statement stmt = null;
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             partData = FXCollections.observableArrayList();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");
@@ -269,91 +270,98 @@ public class SpcAddBookingController2 implements Initializable {
     @FXML
     private void addSpcBookingButton(ActionEvent event) 
     {
-        // get names and dates in the correct format
-        String name = spcList.getSelectionModel().getSelectedItem();
-        String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        String arrived = "No";
-        String rDate = "";
-        String returned = "No";
-        
-        //get the work on information - part or vehicle
-        String workOn = repairOn.getValue();
-        int parts = 0;
-        if(workOn != null)
+        try
         {
-            if(workOn.equals("Part"))
-            {
-                SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
-                parts = partSPC.getPartId();
-            }
-        }else
-        {
-            //System.out.println("Select what to work on");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Select what to work on");
-            alert.showAndWait();
-        }
-        
-        // get customer and vehicle information
-        String reg = "";
-        int cust = 0;
-        
-        SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
-        if(vehicleSPC == null)
-        {
-            //JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Please select a vehicle from the vehicle list displayed on the left side of the page");
-            alert.showAndWait();
-        }
-        else
-        {
-            reg = vehicleSPC.getRegNo();
-            cust = vehicleSPC.getCust();
-        } 
-                 
-        //calculate the cost the type of repair which will be done. calculate the return date with this
-        String type = "";
-        double cost = 0.0;
-        
-        if(repairType.getValue().equals("Repair - 5 days"))
-        {
-            cost = 50.00;
-            rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            type = "Repair";
-            
-        }
-        else if(repairType.getValue().equals("Re-condition - 11 days"))
-        {
-            cost = 100.00;
-            rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-            type = "Re-condition";
-        }
+            // get names and dates in the correct format
+            String name = spcList.getSelectionModel().getSelectedItem();
+            String dDate = ""+bookingDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            String arrived = "No";
+            String rDate = "";
+            String returned = "No";
 
-        //get the booking id - foreign key
-        int bookId = Integer.parseInt(bookingID.getText());
-        
-        if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getText().equals("") || workOn.equals("") || type.equals("")))
-        {
-            //System.out.println("It works");
-            SpecialistDB a= new SpecialistDB();
-            a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.close();
+            //get the work on information - part or vehicle
+            String workOn = repairOn.getValue();
+            int parts = 0;
+            if(workOn != null)
+            {
+                if(workOn.equals("Part"))
+                {
+                    SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
+                    parts = partSPC.getPartId();
+                }
+            }/*else
+            {
+                //System.out.println("Select what to work on");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Missing Data");
+                alert.setHeaderText("Form is not completed properly");
+                alert.setContentText("Select what to work on");
+                alert.showAndWait();
+            }*/
+
+            // get customer and vehicle information
+            String reg = "";
+            int cust = 0;
+
+            SpcBookingTables vehicleSPC = vehicleList.getSelectionModel().getSelectedItem();
+            if(vehicleSPC == null)
+            {
+                //JOptionPane.showMessageDialog(null,"Please select a vehicle from the vehicle list displayed on the left side of the page");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Missing Data");
+                alert.setHeaderText("Form is not completed properly");
+                alert.setContentText("Please select a vehicle from the vehicle list displayed on the left side of the page");
+                alert.showAndWait();
+            }
+            else
+            {
+                reg = vehicleSPC.getRegNo();
+                cust = vehicleSPC.getCust();
+            } 
+
+            //calculate the cost the type of repair which will be done. calculate the return date with this
+            String type = "";
+            double cost = 0.0;
+
+            if(repairType.getValue().equals("Repair - 5 days"))
+            {
+                cost = 50.00;
+                rDate = ""+bookingDate.getValue().plusDays(5).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                type = "Repair";
+
+            }
+            else if(repairType.getValue().equals("Re-condition - 11 days"))
+            {
+                cost = 100.00;
+                rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                type = "Re-condition";
+            }
+
+            //get the booking id - foreign key
+            int bookId = Integer.parseInt(bookingID.getText());
+
+            if(!(name.equals("") || dDate.equals("") || reg.equals("") || custName.getText().equals("") || workOn.equals("") || type.equals("")))
+            {
+                    //System.out.println("It works");
+                    SpecialistDB a= new SpecialistDB();
+                    a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
+                    try
+                    {
+                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
+                        rootPane.getChildren().setAll(pane);
+                    } catch (IOException ex) {
+                    Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
+            }
         }
-        else
+        catch (NullPointerException e) 
         {
-            //System.out.println("Please input all the details.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Data");
-            alert.setHeaderText("Form is not completed properly");
-            alert.setContentText("Please input all the details.");
+            alert.setTitle("Missing details");
+            alert.setHeaderText("Form not completed");
+            alert.setContentText("Please input all the details");
             alert.showAndWait();
-            
         }
     }
     
