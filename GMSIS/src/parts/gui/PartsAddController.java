@@ -94,7 +94,7 @@ public class PartsAddController implements Initializable {
     @FXML
     private TableColumn<Parts_Table, Integer> qty;
 
-    ConnectionToParts conn;
+    ConnectionToParts conn = null;
     Connection con;
     int ChosenID = 0;
 
@@ -296,7 +296,7 @@ public class PartsAddController implements Initializable {
     }
 
     @FXML
-    private void updateQTYparts(ActionEvent event) {
+    private void updateQTYparts(ActionEvent event) throws SQLException {
         if (checkAction()) {
 
             try {
@@ -319,11 +319,12 @@ public class PartsAddController implements Initializable {
                         lbl_data_Name.setText("");
                         lbl_data_Description.setText("");
                         txt_Search_ID_QTY.setText("");
-                        con.close();
+                       stat.close();
+                       
                     } catch (SQLException e) {
 
                     }
-
+ con.close();
                     updateTable();
                 }
             } catch (NumberFormatException e) {
@@ -362,7 +363,7 @@ public class PartsAddController implements Initializable {
     }
 
     @FXML
-    private void search_p(ActionEvent event) {
+    private void search_p(ActionEvent event) throws SQLException {
         if (idsearchCheck(txt_ID_Search.getText())) {
             con = conn.connect();
             String sql = "SELECT * FROM Parts WHERE Name LIKE '%" + txt_ID_Search.getText() + "%' OR Description Like '" + txt_ID_Search.getText() + "%'";
@@ -387,10 +388,12 @@ public class PartsAddController implements Initializable {
                 parts_table.setItems(null);
                 parts_table.setItems(data);
 
-                con.close();
+                st.close();
+                rs.close();
             } catch (Exception e) {
 
             }
+            con.close();
         }
     }
 
@@ -403,7 +406,7 @@ public class PartsAddController implements Initializable {
     }
 
     @FXML
-    private void add_qty_update(ActionEvent event) {
+    private void add_qty_update(ActionEvent event) throws SQLException {
         if (checkAction()) {
             con = conn.connect();
             String sql = "";
@@ -441,7 +444,7 @@ public class PartsAddController implements Initializable {
                         lbl_data_Description.setText("");
                         make_txt.clear();
                         model_txt.clear();
-                        con.close();
+                       
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -451,22 +454,27 @@ public class PartsAddController implements Initializable {
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Please enter numbers in the quantity and cost fields");
             }
+            stat.close();
         }
-    }
+        con.close();
+    } 
 
     @FXML
-    private void DeletePartCompletely(ActionEvent event) {
+    private void DeletePartCompletely(ActionEvent event) throws SQLException {
         con = conn.connect();
         String sql = "DELETE FROM Parts WHERE ID = ? ";
+        int i = parts_table.getSelectionModel().getSelectedItem().getID();
         try {
             PreparedStatement stat = con.prepareStatement(sql);
-            stat.setInt(1, parts_table.getSelectionModel().getSelectedItem().getID());
+            stat.setInt(1,i );
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, parts_table.getSelectionModel().getSelectedItem().getName() + " has been deleted");
-            con.close();
+            stat.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "You must select a part from the table");
         }
+        
+        con.close();
         updateTable();
 
     }

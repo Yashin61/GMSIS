@@ -112,7 +112,7 @@ public class PartsEditController implements Initializable {
     private static ObservableList<Customers_Parts_Edit> l;
     private ObservableList<Customers_Parts_Edit> data;
 
-    ConnectionToParts conn;
+    ConnectionToParts conn = null;
     Connection con;
     @FXML
     private ChoiceBox<String> regNo;
@@ -150,7 +150,7 @@ public class PartsEditController implements Initializable {
     }
 
     @FXML
-    private void Search_ID(ActionEvent event) {
+    private void Search_ID(ActionEvent event) throws SQLException {
 
         if (Search_ID_CheckBox.isSelected()) {
 
@@ -187,7 +187,7 @@ public class PartsEditController implements Initializable {
     }
 
     @FXML
-    private void DeletePartByID(ActionEvent event) {
+    private void DeletePartByID(ActionEvent event) throws SQLException {
 
         try {
 
@@ -209,7 +209,7 @@ public class PartsEditController implements Initializable {
                     stat.execute();
                     String partss = "SELECT * FROM Parts WHERE ID = ?";
                     PreparedStatement partsdh = con.prepareStatement(partss);
-                    partsdh.setInt(1, Integer.parseInt(Delete_ID_Part.getText()));
+                    partsdh.setInt(1, a);
                     ResultSet p = partsdh.executeQuery();
                     updatetotal(false, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), Double.parseDouble(p.getString(7)));
 
@@ -242,12 +242,17 @@ public class PartsEditController implements Initializable {
                     state.setInt(2, Integer.parseInt(Delete_ID_Part.getText()));
                     state.executeUpdate();
                     JOptionPane.showMessageDialog(null, "You have deleted the part with the ID " + Delete_ID_Part.getText() + " called " + infos.getString(2) + ".");
-                    con.close();
+                      stat.close();
+                      ko.close();
+                      partsdh.close();
+                      info.close();
+                      p.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Delete unsuccessfull try again");
                 }
-
+              
+con.close();
                 Delete_ID_Part.setText("");
                 Add_ID_Part.setText("");
             }
@@ -258,7 +263,7 @@ public class PartsEditController implements Initializable {
     }
 
     @FXML
-    private void Add_Parts_By_ID(ActionEvent event) {
+    private void Add_Parts_By_ID(ActionEvent event) throws SQLException {
 
         try {
             int a = Integer.parseInt(Add_ID_Part.getText());
@@ -303,12 +308,18 @@ public class PartsEditController implements Initializable {
                     updatetotal(true, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), Double.parseDouble(costdetail.getString(7)));
                     Delete_ID_Part.setText("");
                     Add_ID_Part.setText("");
-                    con.close();
+                   stat.close();
+                   ko.close();
+                   info.close();
+                   partsd.close();
+                   costdetail.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Add unsuccessfull");
 
-                }
+                } 
+              
+                con.close();
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "You must enter a number when adding a part");
@@ -318,9 +329,10 @@ public class PartsEditController implements Initializable {
 
     }
 
-    public void updatetotal(boolean edit, int bookingID, String reg, double cost) {
+    public void updatetotal(boolean edit, int bookingID, String reg, double cost) throws SQLException {
         double price = 0;
         String booking = "SELECT * FROM Booking WHERE BookingID = ? AND RegistrationNumber = ? ";
+                 con = conn.connect();
         try {
             PreparedStatement book = con.prepareStatement(booking);
             book.setInt(1, bookingID);
@@ -339,9 +351,13 @@ public class PartsEditController implements Initializable {
             state.setString(3, reg);
             state.executeUpdate();
             totalCost.setText("£" + price + " for booking with ID " + bookingID);
+            book.close();
+            bookinginfo.close();
+            state.close();
         } catch (SQLException e) {
             System.out.println("fail");
         }
+        con.close();
     }
 
     @FXML
@@ -379,11 +395,9 @@ public class PartsEditController implements Initializable {
         txt_ID_Cost.setStyle("-fx-background-color:White");
     }
 
-    private void ID_Search() {
+    private void ID_Search() throws SQLException {
 
         ResultSet in = null;
-        ResultSet info = null;
-        ResultSet cu = null;
         int i = 0;
         regNo.getItems().clear();
         String sqlRegno = "SELECT * FROM Vehicles WHERE RegistrationNumber LIKE '%" + txt_Search_By_ID.getText() + "%' ";
@@ -405,21 +419,24 @@ public class PartsEditController implements Initializable {
                 }
             }
 
-            con.close();
+           s.close();
+           in.close();
         } catch (SQLException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Customer with the Registration number " + txt_Search_By_ID.getText() + " does not exist");
             txt_Search_By_ID.setText("");
-        }
+        } 
+        con.close();
     }
 
-    public void hi() {
+    public void hi() throws SQLException {
         ResultSet info = null;
         ResultSet cu = null;
         if (booking()) {
             String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
-
+con = conn.connect();
             try {
-                con = conn.connect();
+                
                 PreparedStatement stat = con.prepareStatement(sql);
 
                 stat.setString(1, regNo.getValue());
@@ -482,18 +499,25 @@ public class PartsEditController implements Initializable {
                         b = false;
                     }
                 }
-
-                con.close();
+info.close();
+               stat.close();
+               s.close();
+               in.close();
+               a.close();
+               cu.close();
+               bookingsinfo.close();
+               book.close();
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Doesn't work");
-            }
+            } 
+            con.close();
         } else {
             JOptionPane.showMessageDialog(null, txt_firstname_display.getText() + " " + txt_Surname_display.getText() + " has not made a booing with the vehicle containing the registration number " + regNo.getValue() + " yet");
         }
     }
 
-    private void name_search() {
+    private void name_search() throws SQLException {
 
         ResultSet in = null;
         ResultSet info = null;
@@ -522,18 +546,22 @@ public class PartsEditController implements Initializable {
                     t = false;
                 }
             }
-
-            con.close();
+s.close();
+in.close();
+ w.close();
+ info.close();
+         
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Customer with the name " + txt_First_search.getText() + " " + txt_Surename_search.getText() + " does not exist");
             txt_First_search.setText("");
             txt_Surename_search.setText("");
 
-        }
+        }  
+        con.close();
 
     }
 
-    public boolean CheckPartsID(int PartID) {
+    public boolean CheckPartsID(int PartID) throws SQLException {
         try {
             con = conn.connect();
             String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? And PartsID = ? AND BookingID = ?";
@@ -549,16 +577,17 @@ public class PartsEditController implements Initializable {
                 con.close();
                 return true;
             }
-            con.close();
+          ko.close();
+          info.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-
+  con.close();
         return false;
     }
 
-    public boolean CheckIdStock(int partID) {
+    public boolean CheckIdStock(int partID) throws SQLException {
         con = conn.connect();
 
         try {
@@ -573,19 +602,24 @@ public class PartsEditController implements Initializable {
                     return true;
                 }
             }
-            con.close();
+            
             JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
             Add_ID_Part.setText("");
+            ko.close();
+            info.close();
+            
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
-            Add_ID_Part.setText("");
-            return false;
+            Add_ID_Part.setText(""); 
+            
         }
+       con.close();
+            return false;
     }
 
-    public boolean withdrawPart(int partID) {
+    public boolean withdrawPart(int partID) throws SQLException {
         String h = "SELECT * FROM Parts WHERE ID = ?";
         String sql = "UPDATE Parts SET Quantity = ? WHERE ID = ?  ";
         con = conn.connect();
@@ -608,19 +642,21 @@ public class PartsEditController implements Initializable {
                 stat.setInt(1, qtyindatabase);
                 stat.executeUpdate();
             }
-            con.close();
+           ko.close();
+           info.close();
         } catch (SQLException e) {
 
-        }
+        } 
+        con.close();
         return true;
     }
 
     @FXML
-    private void booked_parts(ActionEvent event) {
+    private void booked_parts(ActionEvent event) throws SQLException {
         hi();
     }
 
-    public boolean booking() {
+    public boolean booking() throws SQLException {
         con = conn.connect();
         String sql = "SELECT * FROM Booking WHERE RegistrationNumber = ?";
         Customers_Parts_Editt.setItems(null);
@@ -641,16 +677,20 @@ public class PartsEditController implements Initializable {
                 no++;
             }
 
-            con.close();
+            ko.close();
+            info.close();
             return true;
         } catch (SQLException e) {
           
-            return false;
-        }
+            
+        } 
+        con.close();
+        return false;
+       
     }
 
     @FXML
-    private void showBookingType(MouseEvent event) {
+    private void showBookingType(MouseEvent event) throws SQLException {
         con = conn.connect();
         if (event.getClickCount() == 2) {
             String sql = "SELECT * FROM Booking WHERE RegistrationNumber = ? AND BookingID = ?";
@@ -677,11 +717,14 @@ public class PartsEditController implements Initializable {
                     infoparts.getString(4) + "\nDescription: " + 
                     infoparts.getString(5) + "\nCost: £" +
                     infoparts.getString(7));
-                con.close();
+                
+                ko.close();
+                info.close();
                 
             } catch (SQLException e) {
                
             }
+            con.close();
         }
     }
 }

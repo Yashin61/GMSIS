@@ -12,6 +12,7 @@ import parts.*;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -94,7 +95,7 @@ public class PartsPageController implements Initializable {
     private TableColumn<Customers_Parts_Edit, String> REgistrationNumber;
     private ObservableList<Customers_Parts_Edit> data;
 
-    ConnectionToParts conn = new ConnectionToParts();
+    ConnectionToParts conn =null;
     Connection con = null;
     @FXML
     private AnchorPane mainPane;
@@ -147,7 +148,7 @@ public class PartsPageController implements Initializable {
     }
 
     @FXML
-    private void search_customer(ActionEvent event) {
+    private void search_customer(ActionEvent event) throws SQLException {
         if (firstname.getText().equals("") && surname.getText().equals("") && regNumber.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "You must enter a Customer ID or First name and Surname to make a search");
             return;
@@ -205,17 +206,20 @@ public class PartsPageController implements Initializable {
             }
            update_table();
 
-            con.close();
-
+            s.close();
+in.close();
+stat.close();
+info.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Customer with ID " + regNumber.getText() + " Does not exist");
             regNumber.setText("");
             return;
         }
        
+        con.close();
     }
 
-    public void first_sur(String f, String s) {
+    public void first_sur(String f, String s) throws SQLException {
 
         String sql = "SELECT * FROM Customer_Accounts WHERE Firstname = ? AND Surname = ?";
         con = conn.connect();
@@ -237,13 +241,15 @@ public class PartsPageController implements Initializable {
             colour(postcode, false);
             phone.setText(info.getString(6));
             colour(phone, false);
-            con.close();
+          stat.close();
+          info.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }  
+        con.close();
     }
 
-    public void reg_no() {
+    public void reg_no() throws SQLException {
 
         String sql = "SELECT * FROM Customer_Accounts WHERE ID = ? ";
         con = conn.connect();
@@ -261,10 +267,12 @@ public class PartsPageController implements Initializable {
             colour(postcode, false);
             phone.setText(info.getString(6));
             colour(phone, false);
-            con.close();
+            stat.close();
+            info.close();
         } catch (SQLException e) {
 
         }
+        con.close();
     }
 
     public void visible(Label l, boolean t) {
@@ -281,27 +289,35 @@ public class PartsPageController implements Initializable {
     }
 
     @FXML
-    private void Add_Choice(ActionEvent event) {
+    private void Add_Choice(ActionEvent event) throws SQLException {
+//          String sqlt = "UPDATE PartsUsed SET ExpireDate = '"+ txtexpire.getText() + "' WHERE RegistrationNumber = '"+ reg+ "' AND PartsID = "+Parts.getValue() ;
+//        String sql2t = "UPDATE PartsUsed SET InstallationDate = '"+ instal.getText() + "' WHERE RegistrationNumber = '"+ reg+ "' AND PartsID = "+Parts.getValue();
         String sql = "UPDATE PartsUsed SET ExpireDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
         String sql2 = "UPDATE PartsUsed SET InstallationDate = ? WHERE RegistrationNumber = ? AND PartsID = ? ";
 
-        con = conn.connect();
+        con =DriverManager.getConnection("jdbc:sqlite:Records.db");
         try {
             PreparedStatement stat = con.prepareStatement(sql);
+//            Statement stat = con.createStatement();
             stat.setString(1, txtexpire.getText());
             stat.setString(2, reg);
             stat.setInt(3, Integer.parseInt(Parts.getValue()));
-            stat.executeUpdate();
-            PreparedStatement st = con.prepareStatement(sql2);
-            st.setString(1, instal.getText());
-            st.setString(2, reg);
-            st.setInt(3, Integer.parseInt(Parts.getValue()));
-            st.executeUpdate();
-            con.close();
+           stat.executeUpdate();
+           stat.close();
+            PreparedStatement stat2 = con.prepareStatement(sql2);
+//            Statement st = con.createStatement();
+            stat2.setString(1, instal.getText());
+            stat2.setString(2, reg);
+            stat2.setInt(3, Integer.parseInt(Parts.getValue()));
+            stat2.executeUpdate();
+           
+           stat2.close();
         } catch (SQLException e) {
 
-        }
+        } 
+        con.close();
         update_table();
+       
     }
 
     @FXML
@@ -324,10 +340,9 @@ public class PartsPageController implements Initializable {
         txtexpire.setText(change[0] + "-" + change[1] + "-" + year);
     }
 
-    public void update_table() {
+    public void update_table() throws SQLException {
 
         con = conn.connect();
-
         try {
 
             String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
@@ -350,11 +365,12 @@ public class PartsPageController implements Initializable {
                 data.add(new Customers_Parts_Edit(info.getString(1), info.getInt(2), info.getInt(3), info.getString(4), info.getString(5)));
 
             }
-
+stat.close();
+info.close();
         } catch (SQLException e) {
             System.out.println("Doesn't work");
         }
-
+con.close();
         dataTable.setItems(null);
         dataTable.setItems(data);
 
