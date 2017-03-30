@@ -13,7 +13,7 @@ public class Database
     private Database() throws ClassNotFoundException, SQLException
     {
         Class.forName("org.sqlite.JDBC");
-        connection=DriverManager.getConnection("jdbc:sqlite:Records.db");
+        connection=DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
         System.out.print("Connected to database!");
     }
     
