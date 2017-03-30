@@ -728,7 +728,7 @@ public class VehiclePageController
     @FXML
     private void custAccPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerPage.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/customer/gui/CustomerRealPage.fxml"));
         mainAnchor.getChildren().setAll(pane);
     }
 
