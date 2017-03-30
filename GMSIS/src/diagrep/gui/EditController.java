@@ -571,7 +571,7 @@ public class EditController implements Initializable {
                        + "MechanicID = ? , " + "BookingDate = ? , " + "BookingTime = ? , "
                        + "RepairTime = ? , " + "Mileage = ? , " + "Bill = ? " + " WHERE BookingID = ?";
             
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.prepareStatement(sql);
 
             stmt.setString(1, RegNo.getText());         

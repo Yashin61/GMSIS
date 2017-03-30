@@ -25,7 +25,7 @@
       <Button layoutX="809.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Specialist" text="SPECIALIST REPAIRS" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-4.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../SE8-3/GMSIS/src/customer/Car.png" />
+            <Image url="@../../diagrep/gui/Car.png" />
          </image>
       </ImageView>
       <TableView fx:id="Booking" layoutX="9.0" layoutY="183.0" prefHeight="333.0" prefWidth="976.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
