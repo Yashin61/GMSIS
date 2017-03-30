@@ -293,16 +293,6 @@ public class SpcEditBookingController implements Initializable {
                     parts = partSPC.getPartId();
                 }
             }
-            /*else
-            {
-                //System.out.println("Select what to work on");
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Missing Data");
-                alert.setHeaderText("Form is not completed properly");
-                alert.setContentText("Select what to work on");
-                alert.showAndWait();
-            }*/
-
 
             String reg = "";
             int cust = 0;
@@ -338,14 +328,6 @@ public class SpcEditBookingController implements Initializable {
                 rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 type = "Re-condition";
             }
-            /*else
-            {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Missing Data");
-                alert.setHeaderText("Form is not completed properly");
-                alert.setContentText("Please select the type of special repair you want");
-                alert.showAndWait();
-            }*/
 
             int bookId = Integer.parseInt(bookingID.getText());
 
@@ -353,15 +335,9 @@ public class SpcEditBookingController implements Initializable {
             {
                     //System.out.println("It works");
                     SpecialistDB a= new SpecialistDB();
-                    a.addSPCBooking(name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
-                    try
-                    {
-                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
-                        rootPane.getChildren().setAll(pane);
-                    } catch (IOException ex) {
-                    Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
+                    a.editSPCBooking(""+booking.getSpcBookingId(),name,dDate,arrived,rDate,returned,parts,reg,cust,workOn,type,cost,bookId);
+                    Stage stage = (Stage) rootPane.getScene().getWindow();
+                    stage.close();
             }
         }
         catch (NullPointerException e) 
