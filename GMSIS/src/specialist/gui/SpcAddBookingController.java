@@ -326,7 +326,7 @@ public class SpcAddBookingController implements Initializable {
                 SpcBookingTables partSPC = partList.getSelectionModel().getSelectedItem();
                 parts = partSPC.getPartId();
             }
-        }else
+        }/*else
         {
             //System.out.println("Select what to work on");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -334,7 +334,7 @@ public class SpcAddBookingController implements Initializable {
             alert.setHeaderText("Form is not completed properly");
             alert.setContentText("Select what to work on");
             alert.showAndWait();
-        }
+        }*/
         
         // get customer and vehicle information
         String reg = "";
@@ -389,7 +389,7 @@ public class SpcAddBookingController implements Initializable {
                 Logger.getLogger(SpcAddBookingController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else
+        else if(name.equals("") || dDate.equals("") || reg.equals("") || custName.getValue().equals("") || workOn.equals("") || type.equals(""))
         {
             //System.out.println("Please input all the details.");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -405,6 +405,7 @@ public class SpcAddBookingController implements Initializable {
     @FXML
     private void Reset(ActionEvent event) {
         custName.setValue(null);
+        bookingID.setValue(null);
         bookingDate.setValue(null);
         repairType.setValue(null);
         spcList.getSelectionModel().clearSelection();

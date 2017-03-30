@@ -290,7 +290,7 @@ public class SpcEditBookingController implements Initializable {
                 parts = partSPC.getPartId();
             }
         }
-        else
+        /*else
         {
             //System.out.println("Select what to work on");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -298,7 +298,7 @@ public class SpcEditBookingController implements Initializable {
             alert.setHeaderText("Form is not completed properly");
             alert.setContentText("Select what to work on");
             alert.showAndWait();
-        }
+        }*/
         
         
         String reg = "";
@@ -335,14 +335,14 @@ public class SpcEditBookingController implements Initializable {
             rDate = ""+bookingDate.getValue().plusDays(11).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
             type = "Re-condition";
         }
-        else
+        /*else
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Missing Data");
             alert.setHeaderText("Form is not completed properly");
             alert.setContentText("Please select the type of special repair you want");
             alert.showAndWait();
-        }
+        }*/
 
         int bookId = Integer.parseInt(bookingID.getText());
         
@@ -368,8 +368,6 @@ public class SpcEditBookingController implements Initializable {
     //resets all the choices that has been made
     @FXML
     private void Reset(ActionEvent event) {
-        custName.setText(null);
-        bookingDate.setValue(null);
         repairType.setValue(null);
         spcList.getSelectionModel().clearSelection();
         repairOn.setValue(null);

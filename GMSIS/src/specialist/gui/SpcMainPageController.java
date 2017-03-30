@@ -693,11 +693,16 @@ public class SpcMainPageController implements Initializable {
         SpcBookings spcBookings = dataTable.getSelectionModel().getSelectedItem();
         if(spcBookings == null)
         {
-            JOptionPane.showMessageDialog(null,"Please select a SPC");
+            //JOptionPane.showMessageDialog(null,"Please select a SPC");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Input");
+            alert.setContentText("Please select a SPC Booking that you want to edit");
+            alert.showAndWait();
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SpcEditBooking.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("spcEditBooking.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             SpcEditBookingController Econtroller = fxmlLoader.<SpcEditBookingController>getController();
             Econtroller.setAllFields(spcBookings);

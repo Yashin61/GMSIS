@@ -207,7 +207,7 @@ public class SpecialistGUIController implements Initializable {
     @FXML
     private void spcAddPage(ActionEvent event) throws IOException
     {
-        /*Connection connect = null;
+        Connection connect = null;
         Statement stmt = null;
 
         try
@@ -235,7 +235,7 @@ public class SpecialistGUIController implements Initializable {
             alert.showAndWait();
         }
         else
-        {*/
+        {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addSPC.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
@@ -245,7 +245,7 @@ public class SpecialistGUIController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             showData2();
-        //} 
+        } 
     }
     
     // linked to the edit page where details of the spc can be changed
