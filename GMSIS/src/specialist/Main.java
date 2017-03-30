@@ -20,10 +20,8 @@ public class Main extends Application
 {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         Scene scene = new Scene(root);
-        
         primaryStage.setTitle("GMSIS Login");
         primaryStage.setScene(scene);
         primaryStage.show();
