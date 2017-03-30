@@ -154,7 +154,7 @@ public class EditController implements Initializable {
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             allBookingsE = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM Booking");
@@ -194,7 +194,7 @@ public class EditController implements Initializable {
             if(CFN.isSelected()) {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
                                + "ON Booking.CustomerID = Customer_Accounts.ID "
                                + "WHERE Firstname like '%" + Search_Bar.getText() + "%'";
@@ -231,7 +231,7 @@ public class EditController implements Initializable {
             else if(CSN.isSelected()) {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Customer_Accounts "
                                + "ON Booking.CustomerID = Customer_Accounts.ID "
                                + "WHERE Surname like '%" + Search_Bar.getText() + "%'";
@@ -268,7 +268,7 @@ public class EditController implements Initializable {
             else if(RN.isSelected()) {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     String sql = "SELECT * FROM Booking WHERE RegistrationNumber like '%" + Search_Bar.getText() + "%'";
                     stmt = connect.prepareStatement(sql);
                     allBookingsE = FXCollections.observableArrayList();
@@ -303,7 +303,7 @@ public class EditController implements Initializable {
             else if(M.isSelected()) {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     String sql = "SELECT * FROM Booking INNER JOIN Vehicles "
                                + "ON Booking.RegistrationNumber = Vehicles.RegistrationNumber "
                                + "WHERE Make like '%" + Search_Bar.getText() + "%'";
@@ -373,7 +373,7 @@ public class EditController implements Initializable {
             if(result.get() == yes)
             {
                 int BookID = book.getBookingID();
-                Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                Connection connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 PreparedStatement stmt = null;
                 try
                 {
@@ -451,7 +451,7 @@ public class EditController implements Initializable {
                     String status = "COMPLETE";
                     String sql = "UPDATE Booking SET Status = ? " + " WHERE BookingID = ?";
 
-                Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                Connection connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 PreparedStatement stmt = connect.prepareStatement(sql);
 
                 stmt.setString(1, status);
@@ -530,7 +530,7 @@ public class EditController implements Initializable {
             //GET WAGE FOR MECHANIC
             String sql1 = "SELECT Hourly_Wage FROM Employees WHERE ID = '"+Mechanic+"'";
 
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.prepareStatement(sql1);
             ResultSet rs1 = stmt.executeQuery();
                 
@@ -544,7 +544,7 @@ public class EditController implements Initializable {
             int getBID = book.getBookingID();
             String sql2 = "SELECT * FROM Booking WHERE BookingID = '"+getBID+"'";
 
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.prepareStatement(sql2);
             ResultSet rs = stmt.executeQuery();
             
@@ -591,7 +591,7 @@ public class EditController implements Initializable {
             
             String sql3 = "UPDATE Vehicles SET Mileage = ? " + " WHERE RegistrationNumber = ?";
             
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.prepareStatement(sql3);
             
             stmt.setString(1, Mileage.getText());

@@ -298,7 +298,7 @@ public class AddController implements Initializable {
         
         String sql = "INSERT INTO BillsPaid(CustomerID, BookingID, SettleBill) VALUES(?, ?, ?)";
 
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.prepareStatement(sql);
                 
                 stmt.setInt(1, CID);         
@@ -326,7 +326,7 @@ public class AddController implements Initializable {
     //DISPLAY ALL CUSTOMERS
     private ObservableList<String> CustomerFill() throws SQLException
     {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:Records.db");
         ArrayList<String> CustomerList = new ArrayList<>();
         String query = "SELECT Firstname, Surname FROM Customer_Accounts";
         ResultSet rs = conn.createStatement().executeQuery(query);
@@ -341,7 +341,7 @@ public class AddController implements Initializable {
     //DISPLAY ALL MECHANICS
     private ObservableList<String> MechanicFill() throws SQLException
     {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:Records.db");
         ArrayList<String> MechanicList = new ArrayList<>();
         String query = "SELECT ID FROM Employees WHERE UserType = 'USER'";
         ResultSet rs = conn.createStatement().executeQuery(query);
@@ -387,7 +387,7 @@ public class AddController implements Initializable {
         
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             VehicleData = FXCollections.observableArrayList();
             String[] name = CustomerName.getValue().split(" ");

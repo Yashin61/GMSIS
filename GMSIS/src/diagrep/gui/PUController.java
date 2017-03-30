@@ -58,7 +58,7 @@ public class PUController implements Initializable {
         PreparedStatement stmt = null;
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             ObservableList<String> data = FXCollections.observableArrayList();
             int PID = 0;
             String sql = "SELECT * FROM PartsUsed WHERE BookingID = '"+BID+"'";
