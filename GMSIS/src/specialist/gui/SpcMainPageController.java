@@ -40,7 +40,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import specialist.logic.SpcBookings;
 import specialist.logic.SpecialistDB;
 
