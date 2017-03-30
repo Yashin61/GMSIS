@@ -161,15 +161,13 @@ public class PartsEditController implements Initializable {
                 bookedparts_btn.setDisable(false);
                 ID_Search();
             }
+        } else if (txt_Surename_search.getText().equals("") || txt_First_search.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "You must insert a Firstname AND Surname");
+            txt_Surename_search.setText("");
+            txt_First_search.setText("");
         } else {
-            if (txt_Surename_search.getText().equals("") || txt_First_search.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "You must insert a Firstname AND Surname");
-                txt_Surename_search.setText("");
-                txt_First_search.setText("");
-            } else {
-                bookedparts_btn.setDisable(false);
-                name_search();
-            }
+            bookedparts_btn.setDisable(false);
+            name_search();
         }
 
     }
@@ -207,16 +205,22 @@ public class PartsEditController implements Initializable {
                     stat.setString(2, regNo.getValue());
                     stat.setString(3, BookingIDchouce.getValue());
                     stat.execute();
+                    stat.close();
                     String partss = "SELECT * FROM Parts WHERE ID = ?";
                     PreparedStatement partsdh = con.prepareStatement(partss);
-                    partsdh.setInt(1, a);
+                    partsdh.setInt(1, Integer.parseInt(Delete_ID_Part.getText()));
                     ResultSet p = partsdh.executeQuery();
-                    updatetotal(false, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), Double.parseDouble(p.getString(7)));
-
+                    double d = Double.parseDouble(p.getString(7));
+                    partsdh.close();
+                    p.close();
+                    con.close();
+                    updatetotal(false, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), d);
+                    con = conn.connect();
                     String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
                     PreparedStatement ko = con.prepareStatement(h);
                     ko.setString(1, regNo.getValue());
                     ResultSet info = ko.executeQuery();
+
                     data = FXCollections.observableArrayList();
                     Part_ID.setCellValueFactory(new PropertyValueFactory("PartsID"));
 
@@ -229,6 +233,8 @@ public class PartsEditController implements Initializable {
                         data.add(new Customers_Parts_Edit(info.getString(1), info.getInt(2), info.getInt(3)));
 
                     }
+                    ko.close();
+                    info.close();
 
                     Customers_Parts_Editt.setItems(null);
                     Customers_Parts_Editt.setItems(data);
@@ -236,25 +242,23 @@ public class PartsEditController implements Initializable {
                     PreparedStatement partsd = con.prepareStatement(parts);
                     partsd.setInt(1, Integer.parseInt(Delete_ID_Part.getText()));
                     ResultSet infos = partsd.executeQuery();
+                    partsd.close();
                     String sqlupdate = "UPDATE Parts SET Quantity = ? WHERE ID = ?  ";
                     PreparedStatement state = con.prepareStatement(sqlupdate);
                     state.setInt(1, infos.getInt(6) + 1);
                     state.setInt(2, Integer.parseInt(Delete_ID_Part.getText()));
                     state.executeUpdate();
+                    state.close();
                     JOptionPane.showMessageDialog(null, "You have deleted the part with the ID " + Delete_ID_Part.getText() + " called " + infos.getString(2) + ".");
-                      stat.close();
-                      ko.close();
-                      partsdh.close();
-                      info.close();
-                      p.close();
+                    infos.close();
+                    Delete_ID_Part.setText("");
+
                 } catch (SQLException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Delete unsuccessfull try again");
+                  
                 }
-              
-con.close();
-                Delete_ID_Part.setText("");
-                Add_ID_Part.setText("");
+
+                con.close();
+
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "You must enter a number when Deleting a part");
@@ -264,7 +268,6 @@ con.close();
 
     @FXML
     private void Add_Parts_By_ID(ActionEvent event) throws SQLException {
-
         try {
             int a = Integer.parseInt(Add_ID_Part.getText());
             if (CheckIdStock(Integer.parseInt(Add_ID_Part.getText())) && withdrawPart(Integer.parseInt(Add_ID_Part.getText()))) {
@@ -277,7 +280,7 @@ con.close();
                     stat.setInt(2, Integer.parseInt(Add_ID_Part.getText()));
                     stat.setInt(3, Integer.parseInt(BookingIDchouce.getValue()));
                     stat.execute();
-
+                    stat.close();
                     String h = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ?";
                     PreparedStatement ko = con.prepareStatement(h);
                     ko.setString(1, regNo.getValue());
@@ -295,7 +298,7 @@ con.close();
                         data.add(new Customers_Parts_Edit(info.getString(1), info.getInt(2), info.getInt(3)));
 
                     }
-
+                    ko.close();
                     Customers_Parts_Editt.setItems(null);
                     Customers_Parts_Editt.setItems(data);
 
@@ -304,22 +307,25 @@ con.close();
                     partsd.setInt(1, Integer.parseInt(Add_ID_Part.getText()));
                     costdetail = partsd.executeQuery();
                     JOptionPane.showMessageDialog(null, "You have Added the part with the ID " + Add_ID_Part.getText() + " called " + costdetail.getString(2) + ".");
-
-                    updatetotal(true, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(), Double.parseDouble(costdetail.getString(7)));
-                    Delete_ID_Part.setText("");
+                    partsd.close();
+                    info.close();
+                
+                   
+                    JOptionPane.showMessageDialog(null, "You have Added the part with the ID " + Add_ID_Part.getText() + " called " + costdetail.getString("Name") + ".");
+                    double c = Double.parseDouble(costdetail.getString("Cost"));
+                    costdetail.close(); 
+                    con.close();
+                     updatetotal(true, Integer.parseInt(BookingIDchouce.getValue()), regNo.getValue(),c );
+                     
+                    
                     Add_ID_Part.setText("");
-                   stat.close();
-                   ko.close();
-                   info.close();
-                   partsd.close();
-                   costdetail.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Add unsuccessfull");
 
-                } 
-              
-                con.close();
+                   
+                } catch (SQLException e) {
+
+                }
+
+                 
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "You must enter a number when adding a part");
@@ -332,18 +338,20 @@ con.close();
     public void updatetotal(boolean edit, int bookingID, String reg, double cost) throws SQLException {
         double price = 0;
         String booking = "SELECT * FROM Booking WHERE BookingID = ? AND RegistrationNumber = ? ";
-                 con = conn.connect();
+        con = conn.connect();
         try {
             PreparedStatement book = con.prepareStatement(booking);
             book.setInt(1, bookingID);
             book.setString(2, reg);
 
             ResultSet bookinginfo = book.executeQuery();
+            book.close();
             if (edit) {
                 price = bookinginfo.getDouble("Bill") + cost;
             } else {
-                price = bookinginfo.getDouble(9) - cost;
+                price = bookinginfo.getDouble("Bill") - cost;
             }
+            bookinginfo.close();
             String sql = "UPDATE Booking SET Bill = ? WHERE BookingID = ? AND RegistrationNumber = ? ";
             PreparedStatement state = con.prepareStatement(sql);
             state.setDouble(1, price);
@@ -351,11 +359,9 @@ con.close();
             state.setString(3, reg);
             state.executeUpdate();
             totalCost.setText("£" + price + " for booking with ID " + bookingID);
-            book.close();
-            bookinginfo.close();
             state.close();
         } catch (SQLException e) {
-            System.out.println("fail");
+      
         }
         con.close();
     }
@@ -419,13 +425,13 @@ con.close();
                 }
             }
 
-           s.close();
-           in.close();
+            s.close();
+            in.close();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Customer with the Registration number " + txt_Search_By_ID.getText() + " does not exist");
             txt_Search_By_ID.setText("");
-        } 
+        }
         con.close();
     }
 
@@ -434,9 +440,9 @@ con.close();
         ResultSet cu = null;
         if (booking()) {
             String sql = "SELECT * FROM PartsUsed WHERE RegistrationNumber = ? ";
-con = conn.connect();
+            con = conn.connect();
             try {
-                
+
                 PreparedStatement stat = con.prepareStatement(sql);
 
                 stat.setString(1, regNo.getValue());
@@ -499,18 +505,18 @@ con = conn.connect();
                         b = false;
                     }
                 }
-info.close();
-               stat.close();
-               s.close();
-               in.close();
-               a.close();
-               cu.close();
-               bookingsinfo.close();
-               book.close();
+                info.close();
+                stat.close();
+                s.close();
+                in.close();
+                a.close();
+                cu.close();
+                bookingsinfo.close();
+                book.close();
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Doesn't work");
-            } 
+            }
             con.close();
         } else {
             JOptionPane.showMessageDialog(null, txt_firstname_display.getText() + " " + txt_Surname_display.getText() + " has not made a booing with the vehicle containing the registration number " + regNo.getValue() + " yet");
@@ -546,17 +552,17 @@ info.close();
                     t = false;
                 }
             }
-s.close();
-in.close();
- w.close();
- info.close();
-         
+            s.close();
+            in.close();
+            w.close();
+            info.close();
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Customer with the name " + txt_First_search.getText() + " " + txt_Surename_search.getText() + " does not exist");
             txt_First_search.setText("");
             txt_Surename_search.setText("");
 
-        }  
+        }
         con.close();
 
     }
@@ -577,13 +583,13 @@ in.close();
                 con.close();
                 return true;
             }
-          ko.close();
-          info.close();
+            ko.close();
+            info.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-  con.close();
+        con.close();
         return false;
     }
 
@@ -602,21 +608,21 @@ in.close();
                     return true;
                 }
             }
-            
+
             JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
             Add_ID_Part.setText("");
             ko.close();
             info.close();
-            
+
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Part with the ID " + Add_ID_Part.getText() + " does not exist");
-            Add_ID_Part.setText(""); 
-            
+            Add_ID_Part.setText("");
+
         }
-       con.close();
-            return false;
+        con.close();
+        return false;
     }
 
     public boolean withdrawPart(int partID) throws SQLException {
@@ -642,11 +648,11 @@ in.close();
                 stat.setInt(1, qtyindatabase);
                 stat.executeUpdate();
             }
-           ko.close();
-           info.close();
+            ko.close();
+            info.close();
         } catch (SQLException e) {
 
-        } 
+        }
         con.close();
         return true;
     }
@@ -681,12 +687,11 @@ in.close();
             info.close();
             return true;
         } catch (SQLException e) {
-          
-            
-        } 
+
+        }
         con.close();
         return false;
-       
+
     }
 
     @FXML
@@ -701,28 +706,25 @@ in.close();
                 ResultSet info = ko.executeQuery();
                 lbl_type_of_booking.setText(info.getString(4));
                 lbl_type_of_booking.setStyle("-fx-background-color:White");
-             
-                
-   
-       
-            String sqlparts = "SELECT * FROM Parts WHERE ID = ?";
-           
+
+                String sqlparts = "SELECT * FROM Parts WHERE ID = ?";
+
                 PreparedStatement koparts = con.prepareStatement(sqlparts);
-               
+
                 koparts.setInt(1, Customers_Parts_Editt.getSelectionModel().getSelectedItem().getPartsID());
                 ResultSet infoparts = koparts.executeQuery();
-            JOptionPane.showMessageDialog(null, "Name: " +
-                    infoparts.getString(2) + "\nModel: " + 
-                    infoparts.getString(3) + "\nMake: " + 
-                    infoparts.getString(4) + "\nDescription: " + 
-                    infoparts.getString(5) + "\nCost: £" +
-                    infoparts.getString(7));
-                
+                JOptionPane.showMessageDialog(null, "Name: "
+                        + infoparts.getString(2) + "\nModel: "
+                        + infoparts.getString(3) + "\nMake: "
+                        + infoparts.getString(4) + "\nDescription: "
+                        + infoparts.getString(5) + "\nCost: £"
+                        + infoparts.getString(7));
+
                 ko.close();
                 info.close();
-                
+
             } catch (SQLException e) {
-               
+
             }
             con.close();
         }
