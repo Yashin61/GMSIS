@@ -205,7 +205,7 @@ public class VehiclePageController
     {
         try
         {
-            con = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            con = DriverManager.getConnection("jdbc:sqlite:Records.db");
             data = FXCollections.observableArrayList();
             ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles");
             while(rs.next())
@@ -234,7 +234,7 @@ public class VehiclePageController
     {
         try
         {
-            con = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            con = DriverManager.getConnection("jdbc:sqlite:Records.db");
             data = FXCollections.observableArrayList();
             ResultSet rs = con.createStatement().executeQuery("SELECT * FROM Vehicles WHERE Make = '" + vwMake.getValue() + "'");
             while(rs.next())

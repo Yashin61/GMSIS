@@ -174,7 +174,7 @@ public class SpcEditBookingController implements Initializable {
         
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
             String[] name = custName.getText().split(" ");
@@ -211,7 +211,7 @@ public class SpcEditBookingController implements Initializable {
             {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.createStatement();
                     partData = FXCollections.observableArrayList();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");
@@ -249,7 +249,7 @@ public class SpcEditBookingController implements Initializable {
         Statement stmt = null;
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             partData = FXCollections.observableArrayList();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");

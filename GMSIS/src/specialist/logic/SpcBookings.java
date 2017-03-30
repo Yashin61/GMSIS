@@ -69,7 +69,7 @@ public class SpcBookings
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             ResultSet set = stmt.executeQuery("SELECT Firstname, Surname FROM Customer_Accounts WHERE ID = "+cust+";");
             while(set.next()){
@@ -217,7 +217,7 @@ public class SpcBookings
         
         try
         {
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
 
             String sql = "UPDATE SPCBooking SET Arrived = '"+arrived+"' WHERE Id = "+getSpcBookingId()+" ;";
@@ -243,7 +243,7 @@ public class SpcBookings
         
         try
         {
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
 
             String sql = "UPDATE SPCBooking SET Returned = '"+returned+"' WHERE Id = "+getSpcBookingId()+" ;";

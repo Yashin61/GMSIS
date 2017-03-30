@@ -115,7 +115,7 @@ public class SpcAddBookingController implements Initializable {
         Statement stmt = null;
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();         
             customerList = FXCollections.observableArrayList();
             ResultSet rs = stmt.executeQuery("SELECT Firstname, Surname FROM Customer_Accounts");
@@ -149,7 +149,7 @@ public class SpcAddBookingController implements Initializable {
         Statement stmt = null;
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();         
             bookingList = FXCollections.observableArrayList();
             if(custName != null)
@@ -238,7 +238,7 @@ public class SpcAddBookingController implements Initializable {
         
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             vehicleData = FXCollections.observableArrayList();
             
@@ -274,7 +274,7 @@ public class SpcAddBookingController implements Initializable {
             {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.createStatement();
                     partData = FXCollections.observableArrayList();
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Parts");

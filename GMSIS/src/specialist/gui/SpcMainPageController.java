@@ -203,7 +203,7 @@ public class SpcMainPageController implements Initializable {
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             allSPCBooking= FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking");
@@ -252,7 +252,7 @@ public class SpcMainPageController implements Initializable {
             //gets the basic information of the vehicle from the database
             try
             {
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 ResultSet set = stmt.executeQuery("SELECT SPCBooking.RegistrationNumber, Vehicles.RegistrationNumber, Vehicles.Model, Vehicles.VehicleType "
                         + "FROM SPCBooking INNER JOIN Vehicles ON SPCBooking.RegistrationNumber = Vehicles.RegistrationNumber WHERE SPCBooking.ID = '" + spc.getSpcBookingId()+ "' ");
@@ -272,7 +272,7 @@ public class SpcMainPageController implements Initializable {
             //gets the details of the customers linked to the bookings / parts / vehicle
             try
             {
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 ResultSet set = stmt.executeQuery("SELECT SPCBooking.CustomerID, Customer_Accounts.ID, Customer_Accounts.Firstname, Customer_Accounts.Surname, Customer_Accounts.Address,"
                         + " Customer_Accounts.Postcode, Customer_Accounts.Phone, Customer_Accounts.Email, Customer_Accounts.Account "
@@ -319,7 +319,7 @@ public class SpcMainPageController implements Initializable {
         
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             allSPCBooking= FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '" + name +"';");
@@ -355,7 +355,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
@@ -377,7 +377,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE Returned = 'No';");
@@ -415,7 +415,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
@@ -437,7 +437,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Part';");
@@ -475,7 +475,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
@@ -497,7 +497,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE WorkOn = 'Vehicle';");
@@ -537,7 +537,7 @@ public class SpcMainPageController implements Initializable {
             {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.createStatement();
                     ResultSet set = stmt.executeQuery("SELECT * FROM Vehicles WHERE RegistrationNumber ='"+spcBooking.getSpcRNumber()+ "';");
                     while(set.next()){
@@ -576,7 +576,7 @@ public class SpcMainPageController implements Initializable {
             {
                 try
                 {   
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.createStatement();
                     ResultSet set = stmt.executeQuery("SELECT * FROM Parts WHERE ID ='"+spcBooking.getSpcPartId() + "';");
                     while(set.next()){
@@ -629,7 +629,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE SPCname = '"+name+"' "
@@ -651,7 +651,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE Returned = 'Yes';");
@@ -863,7 +863,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking INNER JOIN Customer_Accounts ON SPCBooking.CustomerID = Customer_Accounts.ID"
@@ -885,7 +885,7 @@ public class SpcMainPageController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPCBooking= FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPCBooking WHERE RegistrationNumber like '%" + searchSPC.getText() + "%'");

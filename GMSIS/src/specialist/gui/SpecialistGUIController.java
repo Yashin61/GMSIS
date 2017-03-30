@@ -37,7 +37,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javax.swing.JOptionPane;
-import specialist.logic.SpcBookings;
 import specialist.logic.theSPC;
 
 /**
@@ -88,7 +87,7 @@ public class SpecialistGUIController implements Initializable {
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             allSPC = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
@@ -213,7 +212,7 @@ public class SpecialistGUIController implements Initializable {
 
         try
         {   
-            connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+            connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
             stmt = connect.createStatement();
             allSPC = FXCollections.observableArrayList();
             ResultSet set = stmt.executeQuery("SELECT * FROM SPC");
@@ -305,7 +304,7 @@ public class SpecialistGUIController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPC = FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPC WHERE SPCId = " + spcId.getText());
@@ -324,7 +323,7 @@ public class SpecialistGUIController implements Initializable {
         {
             try
             {   
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 allSPC = FXCollections.observableArrayList();
                 ResultSet set = stmt.executeQuery("SELECT * FROM SPC WHERE SPCname like '%" + spcName.getText() + "%'");

@@ -26,7 +26,7 @@ public class SpecialistDB
     private Object[] cols;
     private int rowsLength;
     private String[] SPCList;
-    String Recordurl = "jdbc:sqlite:src/common/Records.db";
+    String Recordurl = "jdbc:sqlite:Records.db";
     
     //adds spc to the database
     public void addSPC(String name, String address, String phone, String email)
