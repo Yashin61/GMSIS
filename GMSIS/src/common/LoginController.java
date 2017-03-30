@@ -71,7 +71,7 @@ public class LoginController implements Initializable
             try
             {
                 //Connect to database 
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.createStatement();
                 ResultSet set = stmt.executeQuery("SELECT * FROM Employees WHERE ID = '" + username + "' "); 
                 boolean flag = false;

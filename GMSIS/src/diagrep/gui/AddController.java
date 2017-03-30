@@ -142,7 +142,7 @@ public class AddController implements Initializable {
                 
                 String sql1 = "SELECT Hourly_Wage FROM Employees WHERE ID = '"+Mechanic.getValue()+"'";
 
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.prepareStatement(sql1);
                 ResultSet rs = stmt.executeQuery();
                 
@@ -160,7 +160,7 @@ public class AddController implements Initializable {
                 String sql = "INSERT INTO Booking(RegistrationNumber, Mileage, BookingType, MechanicID, BookingDate, "
                             + "BookingTime, RepairTime, Bill, CustomerID, Status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                 stmt = connect.prepareStatement(sql);
 
                 stmt.setString(1, Reg);   
@@ -203,7 +203,7 @@ public class AddController implements Initializable {
                     String custName = rs2.getString("Firstname")+" "+rs2.getString("Surname");*/
                     String sql2 = "SELECT * FROM Booking INNER JOIN Customer_Accounts ON Booking.CustomerID = Customer_Accounts.ID "
                             + "ORDER BY BOOKINGID DESC LIMIT 1";
-                    connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+                    connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
                     stmt = connect.prepareStatement(sql2);
                     ResultSet rs2 = stmt.executeQuery();
                     int bookID = rs2.getInt("BookingID");
@@ -258,7 +258,7 @@ public class AddController implements Initializable {
 
     public void SubmitToBillsPaid() throws SQLException
     {
-        Connection connect = DriverManager.getConnection("jdbc:sqlite:src/common/Records.db");
+        Connection connect = DriverManager.getConnection("jdbc:sqlite:Records.db");
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
