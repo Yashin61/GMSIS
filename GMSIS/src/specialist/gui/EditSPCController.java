@@ -80,7 +80,7 @@ public class EditSPCController implements Initializable {
         String phone = spcPhone.getText();
         String email = spcEmail.getText();
 
-        if(!(spcId.getText().equals("") || spcName.getText().equals("") || spcAddress.getText().equals("") || spcPhone.getText().equals("") || spcEmail.getText().equals("")))
+        if(!(spcId.getText().trim().isEmpty() || spcName.getText().trim().isEmpty() || spcAddress.getText().trim().isEmpty() || spcPhone.getText().trim().isEmpty() || spcEmail.getText().trim().isEmpty()))
         {
             
             SpecialistDB a= new SpecialistDB();

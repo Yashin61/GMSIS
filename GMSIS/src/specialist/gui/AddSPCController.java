@@ -43,7 +43,7 @@ public class AddSPCController implements Initializable {
         String address = spcAddress.getText();
         String phone = spcPhone.getText();
         String email = spcEmail.getText();
-        if(!(name.equals("") || address.equals("") || phone.equals("") || email.equals("")))
+        if(!(name.trim().isEmpty() || address.trim().isEmpty() || phone.trim().isEmpty() || email.trim().isEmpty()))
         {
             //System.out.println("It works");
             SpecialistDB a= new SpecialistDB();
