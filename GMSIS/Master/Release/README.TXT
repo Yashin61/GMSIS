@@ -16,7 +16,7 @@ In the case of entering wrong username or password, you will be asked to correct
 
 Customer Accounts:
 When the customer page is opened, the table will display a list of business and private customers. All the buttons are situated under the table.
-  
+
 1. A customer account can be added by clicking the add button under the table.
 2. A customer account can be edited by selecting it from the table and then clicking the edit button under the table.
 3. A customer account can be deleted by selecting it from the table and then clicking the delete button.
@@ -29,6 +29,7 @@ When the customer page is opened, the table will display a list of business and 
 
 
 Vehicle Record:
+
 1. All of the vehicles can be seen by clicking on "View All Vehicles".
 2. The parts related to the selected vehicle can be seen by clicking on "View Parts".
 3. The related bookings to the selected vehicle can be seen by clicking on "View Bookings".
@@ -41,8 +42,8 @@ Vehicle Record:
 Diagnosis and Repair Bookings:
 This module allows users to add, edit and delete bookings from vehicles that exist in the system.
 Users can:
-1. Display Bookings on the main page.
 
+1. Display Bookings on the main page.
 Select the view all bookings button to view all bookings
 Select the view past bookings button to view bookings with dates previous to the current date
 Select the view future bookings to view bookings with dates in the future from the current date
@@ -64,6 +65,7 @@ Make sure all fields are completed and a vehicle is selected in the vehicle tabl
 
 
 Specialist Repair:
+
 1. Going to the Specialist page
 Click on the Specialist Repair button located on the top of the page to access the specialist repairs main page.
 
