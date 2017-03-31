@@ -88,7 +88,7 @@ public class ViewController implements Initializable
                 allParts.setItems(data);
             }
         }
-        catch(SQLException  e)
+        catch(SQLException e)
         {
             System.out.println("SQL Error");
         }

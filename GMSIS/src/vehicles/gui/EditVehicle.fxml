@@ -81,8 +81,8 @@
             <Label layoutX="10.0" layoutY="167.0" text="Company Address" GridPane.rowIndex="6" />
             <TextField fx:id="companyAddress" layoutX="110.0" layoutY="162.0" prefHeight="26.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <DatePicker fx:id="motRenDate" editable="false" GridPane.columnIndex="1" />
-            <DatePicker fx:id="lastServiceDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <DatePicker fx:id="expiryDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="lastServiceDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <DatePicker fx:id="expiryDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="customerID" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="warrantyID" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>

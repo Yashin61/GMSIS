@@ -127,18 +127,22 @@ public class EditVehicleController implements Initializable
         regNumber.setText(veh.getRegistrationNumber());
         customerID.getSelectionModel().select(veh.getCustomerID()-1);
         warrantyID.setText(Integer.toString(veh.getWarrantyID()));
-        if(veh.getWarrantyID()!=0)
-        {
-            checkWarr=true;
-        }
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        motRenDate.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        lastServiceDate.setValue(LocalDate.parse(veh.getLastServiceDate(), formatter2));
+        DateTimeFormatter formatter2;
+        formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        try
+        {
+            motRenDate.setValue(LocalDate.parse(veh.getMOTRenewalDate(), formatter1));
+            lastServiceDate.setValue(LocalDate.parse(veh.getLastServiceDate(), formatter2));
+        }
+        catch(Exception e)
+        {}
+        
         custID=veh.getCustomerID();
         String message="";
         if(veh.getWarrantyID()!=0)
         {
+            checkWarr=true;
             try
             {
                 String sql = "SELECT * FROM Warranty WHERE WarrantyID = ?";
@@ -148,7 +152,12 @@ public class EditVehicleController implements Initializable
                 companyName.setText(info.getString(2));
                 companyAddress.setText(info.getString(3));
                 DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                expiryDate.setValue(LocalDate.parse(info.getString(4),formatter3));
+                try
+                {
+                    expiryDate.setValue(LocalDate.parse(info.getString(4),formatter3));
+                }
+                catch(Exception e)
+                {}
             }
             catch(SQLException e)
             {
@@ -181,25 +190,30 @@ public class EditVehicleController implements Initializable
     private void edit(ActionEvent event) throws SQLException
     {
         String message="";
-        if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
-                fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
-                motRenDate.toString().isEmpty() || lastServiceDate.toString().isEmpty())
-        {
-            message="There are empty option(s)!";
-            VehiclePageController.warningAlert(message);
-            return;
-        }
         if(checkWarr)
         {
             try
             {
-                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || 
-                Integer.parseInt(year.getText())<1940 || engineSize.getText().trim().isEmpty() || 
+                if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
+                fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
+                motRenDate.getValue()==null || lastServiceDate.getValue()==null || expiryDate.getValue()==null || companyName.getText().isEmpty() || companyAddress.getText().isEmpty())
+                {
+                    message="There are empty option(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || engineSize.getText().trim().isEmpty() || 
                 fuelType.getText().trim().isEmpty() || mileage.getText().trim().isEmpty() || Integer.parseInt(mileage.getText())<0 || 
                 colour.getText().trim().isEmpty() || customerID.getValue().trim().isEmpty() || customerID.getValue().equals("0") || 
                 companyName.getText().trim().isEmpty() || companyAddress.getText().trim().isEmpty())
                 {
                     message="There are an inappropriate value(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(Integer.parseInt(year.getText())<1940)
+                {
+                    message="The given year cannot be smaller than 1940!";
                     VehiclePageController.warningAlert(message);
                     return;
                 }
@@ -261,12 +275,36 @@ public class EditVehicleController implements Initializable
         {
             try
             {
-                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || 
-                Integer.parseInt(year.getText())<1940 || engineSize.getText().trim().isEmpty() || 
+                if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
+                fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
+                motRenDate.getValue()==null || lastServiceDate.getValue()==null)
+                {
+                    message="There are empty option(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(expiryDate.getValue()!=null || !companyName.getText().isEmpty() || !companyAddress.getText().isEmpty())
+                {
+                    if(expiryDate.getValue()==null || companyName.getText().isEmpty() || companyAddress.getText().isEmpty())
+                    {
+                        
+                        message="There are empty option(s)!";
+                        VehiclePageController.warningAlert(message);
+                        return;
+                    }
+//                companyName.getText().trim().isEmpty() || companyAddress.getText().trim().isEmpty())
+                }
+                if(make.getText().trim().isEmpty() || model.getText().trim().isEmpty() || year.getText().trim().isEmpty() || engineSize.getText().trim().isEmpty() || 
                 fuelType.getText().trim().isEmpty() || mileage.getText().trim().isEmpty() || Integer.parseInt(mileage.getText())<0 || 
                 colour.getText().trim().isEmpty() || customerID.getValue().trim().isEmpty() || customerID.getValue().equals("0"))
                 {
                     message="There are an inappropriate value(s)!";
+                    VehiclePageController.warningAlert(message);
+                    return;
+                }
+                if(Integer.parseInt(year.getText())<1940)
+                {
+                    message="The given year cannot be smaller than 1940!";
                     VehiclePageController.warningAlert(message);
                     return;
                 }
@@ -291,25 +329,45 @@ public class EditVehicleController implements Initializable
                 {
                     type = "Truck";
                 }
+                int warrId=0;
+                String sql="";
                 try
                 {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate, RegistrationNumber) VALUES(?,?,?,?)";
-                    PreparedStatement stmt2=con.prepareStatement(sql2);
-                    stmt2.setString(1, companyName.getText());
-                    stmt2.setString(2, companyAddress.getText());
-                    stmt2.setString(3, expiryDate.getValue().format(formatter));
-                    stmt2.setString(4, regNumber.getText());
-                    stmt2.executeUpdate();
-                    ResultSet rs = con.createStatement().executeQuery("SELECT WarrantyID FROM Warranty WHERE RegistrationNumber= '" + regNumber.getText() + "'" );
-                    int warrId = rs.getInt(1);
-                    String sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
+                    if(expiryDate.getValue()!=null && !companyName.getText().isEmpty() && !companyAddress.getText().isEmpty())
+                    {
+                        String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate, RegistrationNumber) VALUES(?,?,?,?)";
+                        PreparedStatement stmt2=con.prepareStatement(sql2);
+                        stmt2.setString(1, companyName.getText());
+                        stmt2.setString(2, companyAddress.getText());
+                        try
+                        {
+                            stmt2.setString(3, expiryDate.getValue().format(formatter));
+                        }
+                        catch(NullPointerException e)
+                        {}
+                        stmt2.setString(4, regNumber.getText());
+                        stmt2.executeUpdate();
+                        ResultSet rs = con.createStatement().executeQuery("SELECT WarrantyID FROM Warranty WHERE RegistrationNumber= '" + regNumber.getText() + "'" );
+                        warrId = rs.getInt(1);
+                        sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
                         + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
                         + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
                         + "Colour = '" + colour.getText() + "', CustomerID = " + customerID.getValue() + ", "
                         + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
                         + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = " + warrId + ", "
                         + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
+                    }
+                    else if(expiryDate.getValue()==null && companyName.getText().isEmpty() && companyAddress.getText().isEmpty())
+                    {
+                        sql = "UPDATE Vehicles SET Make = '" + make.getText() + "' ,  Model = '" + model.getText() + "' , "
+                        + "Year = " + year.getText() + ", EngineSize = '" + engineSize.getText() + "' , "
+                        + "FuelType = '" + fuelType.getText() + "', Mileage = " + mileage.getText() + " , "
+                        + "Colour = '" + colour.getText() + "', CustomerID = " + customerID.getValue() + ", "
+                        + "MOTRenewalDate = '" + motRenDate.getValue().format(formatter) + "', "
+                        + "LastServiceDate = '" + lastServiceDate.getValue().format(formatter) + "', WarrantyID = NULL" + ", "
+                        + "VehicleType = '" + type + "' WHERE RegistrationNumber = '" + regNumber.getText() + "'";
+                    }
                     PreparedStatement ps = con.prepareStatement(sql);
                     ps.executeUpdate();
                     message="The vehicle is now edited!";
@@ -346,7 +404,7 @@ public class EditVehicleController implements Initializable
     }
     
     @FXML
-    private void clear(ActionEvent event) // think about other possible way
+    private void clear(ActionEvent event) // Think about other possible way
     {
         make.clear();
         model.clear();

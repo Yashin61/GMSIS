@@ -136,7 +136,6 @@ public class VehiclePageController
         {
             System.out.println(e.getMessage());
         }
-        
         // Deselects the selecteds
         mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
@@ -150,7 +149,6 @@ public class VehiclePageController
                 compAddress.clear();
             }
         });
-        
         // Gets warranty details when mouse is clicked
 //        dataTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
 //        {
@@ -320,7 +318,7 @@ public class VehiclePageController
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewParts.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewParts.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
             controller.setParts(vehObject);
@@ -346,7 +344,7 @@ public class VehiclePageController
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewBookings.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
             controller.setBookings(vehObject);
@@ -368,7 +366,7 @@ public class VehiclePageController
 //        }
 //        else
 //        {
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewBookings.fxml"));
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewBookings.fxml"));
 //            Parent root = (Parent) fxmlLoader.load();
 //            ViewController controller=fxmlLoader.<ViewController>getController();
 //            controller.setBookings(vehObject);
@@ -392,7 +390,7 @@ public class VehiclePageController
         }
         else
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("viewCustomers.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewCustomers.fxml"));
             Parent root = (Parent) fxmlLoader.load();
             ViewController controller=fxmlLoader.<ViewController>getController();
             controller.setCustomers(vehObject);
@@ -416,7 +414,7 @@ public class VehiclePageController
         {
             data = FXCollections.observableArrayList();
             PreparedStatement s=con.prepareStatement("SELECT * FROM Vehicles WHERE VehicleType=?");
-            btnSelected = (RadioButton) vehType.getSelectedToggle();   // how can i put this out of this method?
+            btnSelected = (RadioButton) vehType.getSelectedToggle();
             s.setString(1, btnSelected.getText());
             ResultSet rs = s.executeQuery();
             while(rs.next())
@@ -674,7 +672,7 @@ public class VehiclePageController
                 {
                     return true;
                 }
-//                else  // why with this, the mathod still need return statement, the all possible circumstances have been defined?!
+//                else
 //                {
 //                    return false;
 //                }

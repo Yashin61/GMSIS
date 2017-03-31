@@ -85,14 +85,14 @@ public class AddVehicleController implements Initializable
     private static String fType;
     private static String cl;
     private static int cstID=0;
-    Button viewVeh; // think why not private!
+    Button viewVeh;
     private Stage stage=null;
 //    private static Vehicle veh;
     private CommonDatabase db=new CommonDatabase();
     private Connection con=db.getConnection();
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) // it is public, so, does not it effect other classes, even in other packages?
+    public void initialize(URL url, ResourceBundle rb)
     {
         try
         {
@@ -105,7 +105,7 @@ public class AddVehicleController implements Initializable
         }
         catch(SQLException e)
         {}
-        if(makeTemp.getSelectionModel().isEmpty())  // THINK ABOUT THIS!!!!!!!!!!!!
+        if(makeTemp.getSelectionModel().isEmpty())
         {
             makeTemp.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> make=newValue);
 //            make = makeTemp.getSelectionModel().getSelectedItem();
@@ -152,7 +152,7 @@ public class AddVehicleController implements Initializable
 //        setUpDatePickers();
     }
 
-    private ObservableList<String> filling1() throws SQLException  // think of making aall in one method, possibly linkedlist?!
+    private ObservableList<String> filling1() throws SQLException
     {
         ArrayList<String> makeList =new ArrayList<>();
         String query = "SELECT DISTINCT Make FROM VehiclesTemplate";
@@ -276,8 +276,7 @@ public class AddVehicleController implements Initializable
             VehiclePageController.warningAlert(message);
             return;
         }
-        if(make.trim().isEmpty() || model.trim().isEmpty() || yearTemp.getText().trim().isEmpty() || 
-                Integer.parseInt(yearTemp.getText())<1940 || engSize.trim().isEmpty() || 
+        if(make.trim().isEmpty() || model.trim().isEmpty() || yearTemp.getText().trim().isEmpty() || engSize.trim().isEmpty() || 
                 fType.trim().isEmpty() || milTemp.getText().trim().isEmpty() || Integer.parseInt(milTemp.getText())<0 || 
                 cl.trim().isEmpty() || regNum.trim().isEmpty())
         {
@@ -285,14 +284,32 @@ public class AddVehicleController implements Initializable
             VehiclePageController.warningAlert(message);
             return;
         }
+        if(Integer.parseInt(yearTemp.getText())<1940)
+        {
+            message="The given year cannot be smaller than 1940!";
+            VehiclePageController.warningAlert(message);
+            return;
+        }
 //        String motRen = motRenTemp.getConverter().toString(motRenTemp.getValue());  // It records the date with "/" separation
 //        String motRen = toDate(motRenTemp).toString();  // If using just toDate method, the format is yyyy-mm-dd
 //        veh.setMOTRenewalDate(motRenTemp.toString());
-        LocalDate localDate = motRenTemp.getValue();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String formattedString = localDate.format(formatter);
-        LocalDate localDate2 = lSrvDtTemp.getValue();
-        String formattedString2 = localDate2.format(formatter);
+        DateTimeFormatter formatter=null;
+        String formattedString="";
+        String formattedString2="";
+        try
+        {
+            LocalDate localDate = motRenTemp.getValue();
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            formattedString = localDate.format(formatter);
+            LocalDate localDate2 = lSrvDtTemp.getValue();
+            formattedString2 = localDate2.format(formatter);
+        }
+        catch(Exception e)
+        {
+            message="There are empty option(s)!";
+            VehiclePageController.warningAlert(message);
+            return;
+        }
         String sql1 = "INSERT INTO Vehicles(Make, Model, Year, EngineSize, FuelType, Mileage, Colour, "
                 + "RegistrationNumber, CustomerID, MOTRenewalDate, LastServiceDate, WarrantyID, VehicleType) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String sql2 = "INSERT INTO Warranty(Name, Address, ExpiryDate) VALUES(?,?,?)";
@@ -373,8 +390,8 @@ public class AddVehicleController implements Initializable
                     stmt.setInt(9, cstID);
                     stmt.setString(10, formattedString);
                     stmt.setString(11, formattedString2);
-                    stmt.setInt(12, 0);
-    //                stmt.setNull(12, Types.NULL);
+//                    stmt.setInt(12, 0);
+//                    stmt.setNull(12, Types.NULL);
                     RadioButton btnSelected = (RadioButton) vehType.getSelectedToggle();
                     stmt.setString(13, btnSelected.getText());
                     stmt.executeUpdate();
@@ -399,7 +416,7 @@ public class AddVehicleController implements Initializable
     }
     
     @FXML
-    private void clear(ActionEvent event) // think about other possible way
+    private void clear(ActionEvent event)
     {
         yearTemp.clear();
         milTemp.clear();
@@ -433,7 +450,7 @@ public class AddVehicleController implements Initializable
         closeWin();
     }
 
-    private void futureDateRestrictor()  // think about how not having these methods in the class editcontriller
+    private void futureDateRestrictor()
     {
         Callback<DatePicker, DateCell> dayCellFactory = dp -> new DateCell(){
             @Override
@@ -592,7 +609,7 @@ public class AddVehicleController implements Initializable
 //        return temp;
 //    }
     
-//    private ArrayList removeDuplicates2(ArrayList<Integer> temp)  // how to make these 2 methods 1???
+//    private ArrayList removeDuplicates2(ArrayList<Integer> temp)
 //    {
 //        Set<Integer> hs = new HashSet<>();
 //        hs.addAll(temp);
