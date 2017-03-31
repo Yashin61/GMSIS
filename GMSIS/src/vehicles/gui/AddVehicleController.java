@@ -261,7 +261,6 @@ public class AddVehicleController implements Initializable
         try
         {
             yearInt = Integer.parseInt(yearTemp.getText());
-            mileageInt = Integer.parseInt(milTemp.getText());
             Calendar now = Calendar.getInstance();
             if(yearInt>now.get(Calendar.YEAR))
             {
@@ -272,7 +271,17 @@ public class AddVehicleController implements Initializable
         }
         catch(NumberFormatException e)
         {
-            message="There are an inappropriate value(s)!";
+            message="The value of year should be an integer!!";
+            VehiclePageController.warningAlert(message);
+            return;
+        }
+        try
+        {
+            mileageInt = Integer.parseInt(milTemp.getText());
+        }
+        catch(NumberFormatException e)
+        {
+            message="The value of mileage should be an integer!";
             VehiclePageController.warningAlert(message);
             return;
         }

@@ -126,7 +126,7 @@ public class VehiclePageController
         {
             db=new CommonDatabase();
             con=db.getConnection();
-            ResultSet rs = con.createStatement().executeQuery("SELECT DISTINCT Make FROM Vehicles");
+            ResultSet rs = con.createStatement().executeQuery("SELECT DISTINCT Make FROM VehiclesTemplate");
             while(rs.next())
             {
                 vwMake.getItems().add(rs.getString("Make"));

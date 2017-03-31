@@ -194,7 +194,7 @@ public class EditVehicleController implements Initializable
         {
             try
             {
-                if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
+                if(vehType.getSelectedToggle() == null || make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
                 fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
                 motRenDate.getValue()==null || lastServiceDate.getValue()==null || expiryDate.getValue()==null || companyName.getText().isEmpty() || companyAddress.getText().isEmpty())
                 {
@@ -217,8 +217,8 @@ public class EditVehicleController implements Initializable
                     VehiclePageController.warningAlert(message);
                     return;
                 }
-                int yearInt = Integer.parseInt(year.getText());
                 int mileageInt = Integer.parseInt(mileage.getText());
+                int yearInt= Integer.parseInt(year.getText());;
                 Calendar now = Calendar.getInstance();
                 if(yearInt>now.get(Calendar.YEAR))
                 {
@@ -267,7 +267,7 @@ public class EditVehicleController implements Initializable
             }
             catch(NumberFormatException e)
             {
-                VehiclePageController.warningAlert("There are an inappropriate value(s)!");
+                VehiclePageController.warningAlert("Please change the values of Year or Mileage to integer!");
                 return;
             }
         }
@@ -275,7 +275,7 @@ public class EditVehicleController implements Initializable
         {
             try
             {
-                if(make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
+                if(vehType.getSelectedToggle() == null || make.getText().isEmpty() || model.getText().isEmpty() || year.getText().isEmpty() || engineSize.getText().isEmpty() || 
                 fuelType.getText().isEmpty() || mileage.getText().isEmpty() || colour.getText().isEmpty() || customerID.getValue().isEmpty() || 
                 motRenDate.getValue()==null || lastServiceDate.getValue()==null)
                 {
@@ -383,7 +383,7 @@ public class EditVehicleController implements Initializable
             }
             catch(NumberFormatException e)
             {
-                VehiclePageController.warningAlert("There are an inappropriate value(s)!");
+                VehiclePageController.warningAlert("Please change the values of Year or Mileage to integer!");
                 return;
             }
         }

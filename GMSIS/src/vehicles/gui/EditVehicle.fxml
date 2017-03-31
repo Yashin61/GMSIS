@@ -83,7 +83,7 @@
             <DatePicker fx:id="motRenDate" editable="false" GridPane.columnIndex="1" />
             <DatePicker fx:id="lastServiceDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="expiryDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="customerID" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="customerID" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="warrantyID" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
          <columnConstraints>
