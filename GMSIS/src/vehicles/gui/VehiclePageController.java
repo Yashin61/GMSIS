@@ -719,7 +719,7 @@ public class VehiclePageController
     @FXML
     private void spcPage(ActionEvent event) throws IOException
     {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/specialistGUI.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/specialist/gui/spcMainPage.fxml"));
         mainAnchor.getChildren().setAll(pane);
     }
 
