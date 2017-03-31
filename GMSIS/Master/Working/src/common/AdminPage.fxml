@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="584.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="common.AdminController">
+   <children>
+      <ImageView fitHeight="141.0" fitWidth="118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="406.0" layoutY="51.0" text="ADMIN ACCESS" textFill="#463d3d">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TableView fx:id="dataTable" layoutX="322.0" layoutY="145.0" prefHeight="297.0" prefWidth="622.0" AnchorPane.rightAnchor="27.0">
+        <columns>
+          <TableColumn fx:id="table_id" prefWidth="76.0" text="ID" />
+          <TableColumn fx:id="table_firstname" prefWidth="110.0" text="Firstname" />
+          <TableColumn fx:id="table_surname" prefWidth="119.0" text="Surname" />
+          <TableColumn fx:id="table_password" prefWidth="118.0" text="Password" />
+          <TableColumn fx:id="table_wage" prefWidth="105.0" text="Hourly Wage" />
+            <TableColumn fx:id="table_type" prefWidth="93.0" text="User Type" />
+        </columns>
+      </TableView>
+      <Button layoutX="255.0" layoutY="474.0" mnemonicParsing="false" onAction="#addUser" text="ADD" AnchorPane.topAnchor="478.0" />
+      <Label layoutX="29.0" layoutY="142.0" text="ADD  USER">
+         <font>
+            <Font name="Apple Braille" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="26.0" layoutY="203.0" text="Firstname: " AnchorPane.leftAnchor="26.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="26.0" layoutY="258.0" text="Surname: " AnchorPane.leftAnchor="26.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="312.0" text="Password:" AnchorPane.leftAnchor="27.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="26.0" layoutY="367.0" text="Hourly Wage: " AnchorPane.leftAnchor="26.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstname" layoutX="132.0" layoutY="200.0" prefHeight="26.0" prefWidth="172.0" />
+      <TextField fx:id="surname" layoutX="131.0" layoutY="254.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <TextField fx:id="password" layoutX="134.0" layoutY="309.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <TextField fx:id="hourlyWage" layoutX="133.0" layoutY="364.0" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="131.0" />
+      <Button layoutX="180.0" layoutY="474.0" mnemonicParsing="false" onAction="#clearDetails" text="CLEAR" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="735.0" layoutY="486.0" mnemonicParsing="false" onAction="#openEdit" text="EDIT" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="791.0" layoutY="488.0" mnemonicParsing="false" onAction="#deleteUser" text="DELETE" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="868.0" layoutY="486.0" mnemonicParsing="false" onAction="#displayAllUsers" text="VIEW ALL" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="478.0" />
+      <Button layoutX="161.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBack" prefHeight="58.0" prefWidth="108.0" text="HOME" />
+      <CheckBox fx:id="adminType" layoutX="322.0" layoutY="490.0" mnemonicParsing="false" onAction="#displayAdmins" text="ADMIN" AnchorPane.topAnchor="480.0" />
+      <Label layoutX="27.0" layoutY="422.0" text="User Type:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="userType" layoutX="135.0" layoutY="424.0" mnemonicParsing="false" selected="true" text="User">
+         <toggleGroup>
+            <ToggleGroup fx:id="Accounts" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="adminsType" layoutX="210.0" layoutY="424.0" mnemonicParsing="false" text="Admin" toggleGroup="$Accounts" />
+      <CheckBox fx:id="userCheck" layoutX="406.0" layoutY="479.0" mnemonicParsing="false" onAction="#displayUsers" text="USER" AnchorPane.topAnchor="480.0" />
+   </children>
+</AnchorPane>

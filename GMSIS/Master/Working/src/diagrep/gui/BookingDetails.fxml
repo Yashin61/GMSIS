@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" maxWidth="1100.0" prefHeight="590.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="diagrep.gui.MainController">
+   <children>
+      <Label layoutX="398.0" layoutY="133.0" text="Booking Details" AnchorPane.leftAnchor="359.0" AnchorPane.rightAnchor="359.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Separator layoutX="101.0" layoutY="81.0" prefHeight="35.0" prefWidth="872.0" />
+      <Button layoutX="186.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Customer" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="495.0" layoutY="71.0" mnemonicParsing="false" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
+      <Button layoutX="355.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Vehicle" text="VEHICLE RECORDS" />
+      <Button layoutX="748.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Parts" text="PARTS" />
+      <Button layoutX="809.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Specialist" text="SPECIALIST REPAIRS" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-4.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../diagrep/gui/Car.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="Booking" layoutX="9.0" layoutY="183.0" prefHeight="333.0" prefWidth="976.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
+         <columns>
+            <TableColumn fx:id="BID" prefWidth="80.46964263916016" text="Booking ID" />
+            <TableColumn fx:id="Reg" minWidth="0.0" prefWidth="144.99996948242188" text="Registration Number" />
+            <TableColumn fx:id="Mile" prefWidth="92.2974853515625" text="Mileage" />
+            <TableColumn fx:id="ToB" minWidth="0.0" prefWidth="121.42578125" text="Type of Booking" />
+            <TableColumn fx:id="MID" minWidth="0.0" prefWidth="99.63116455078125" text="Mechanic ID" />
+            <TableColumn fx:id="BD" minWidth="0.0" prefWidth="129.683837890625" text="Booking Date" />
+            <TableColumn fx:id="BT" minWidth="0.0" prefWidth="115.3162841796875" text="Booking Time" />
+            <TableColumn fx:id="RepDur" prefWidth="108.72467041015625" text="Repair Duration" />
+            <TableColumn fx:id="B" minWidth="0.0" prefWidth="79.70245361328125" text="Bill" />
+         </columns>
+      </TableView>
+      <Button fx:id="Add_Button" layoutX="818.0" layoutY="540.0" mnemonicParsing="false" onAction="#openAddBooking" prefWidth="70.0" text="ADD" />
+      <Button fx:id="Edit_Button" layoutX="903.0" layoutY="540.0" mnemonicParsing="false" onAction="#openEditBooking" prefWidth="70.0" text="EDIT" AnchorPane.rightAnchor="21.0" />
+      <Button fx:id="Show" layoutX="9.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowBookings" text="View All Bookings" AnchorPane.leftAnchor="9.0" />
+      <Button layoutX="146.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowPastBookings" text="View Past Bookings" />
+      <Button layoutX="296.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowFutureBookings" text="View Future Bookings" />
+      <Button layoutX="646.0" layoutY="540.0" mnemonicParsing="false" onAction="#viewParts" text="View Parts Used" />
+      <Button layoutX="459.0" layoutY="540.0" mnemonicParsing="false" onAction="#ShowCompletedBookings" text="View Completed Bookings" />
+      <Button layoutX="128.0" layoutY="71.0" mnemonicParsing="false" onAction="#change2Home" text="HOME" />
+   </children>
+</AnchorPane>

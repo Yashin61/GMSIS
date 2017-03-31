@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.ViewController">
+   <children>
+      <ImageView fitHeight="112.5" fitWidth="150.0" layoutX="-10.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../vehicles/gui/Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="305.0" layoutY="18.0" prefHeight="55.0" prefWidth="93.0" text="Bookings">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="none" layoutX="65.0" layoutY="186.0" prefHeight="68.0" prefWidth="499.0" text="No bookings are made for this vehicle!" visible="false">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <ListView fx:id="allBookings" layoutX="82.0" layoutY="83.0" prefHeight="302.0" prefWidth="547.0" />
+   </children>
+</AnchorPane>

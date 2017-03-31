@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.viewController">
+   <children>
+      <ImageView fitHeight="116.0" fitWidth="97.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="281.0" layoutY="44.0" text="PARTS">
+         <font>
+            <Font name="Apple Braille" size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="NameLabel" layoutX="14.0" layoutY="322.0" prefHeight="24.0" prefWidth="186.0" textAlignment="CENTER" textFill="#000000af">
+         <font>
+            <Font name="Apple Braille" size="19.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="176.0" fitWidth="143.0" layoutX="14.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../person.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="none" layoutX="252.0" layoutY="184.0" prefHeight="68.0" prefWidth="318.0" text="No Vehicle Owned by this Customer" textFill="#d30b0b" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ListView fx:id="allParts" layoutX="204.0" layoutY="102.0" prefHeight="325.0" prefWidth="505.0" />
+   </children>
+</AnchorPane>

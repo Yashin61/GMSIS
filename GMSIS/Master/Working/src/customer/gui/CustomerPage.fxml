@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" onMouseMoved="#handle" prefHeight="584.0" prefWidth="971.0" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.RealController">
+   <children>
+      <AnchorPane fx:id="topPane" layoutX="-9.0" layoutY="-5.0" prefHeight="110.0" prefWidth="982.0" stylesheets="@customerGUI.css" />
+      <Separator layoutX="91.0" layoutY="71.0" prefHeight="35.0" prefWidth="872.0" />
+      <ImageView fitHeight="110.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Car.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="118.0" layoutY="61.0" mnemonicParsing="false" onAction="#change2Home" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="HOME" />
+      <Button layoutX="176.0" layoutY="61.0" mnemonicParsing="false" text="CUSTOMER ACCOUNTS" />
+      <Button layoutX="485.0" layoutY="61.0" mnemonicParsing="false" onAction="#change2Bookings" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="DIAGNOSTIC AND REPAIR BOOKINGS" />
+      <Button layoutX="345.0" layoutY="61.0" mnemonicParsing="false" onAction="#change2Vehicle" stylesheets="@customerGUI.css" text="VEHICLE RECORDS" />
+      <Button layoutX="738.0" layoutY="61.0" mnemonicParsing="false" onAction="#change2Parts" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="PARTS" />
+      <Button layoutX="799.0" layoutY="61.0" mnemonicParsing="false" onAction="#change2Specialist" styleClass="mainFxmlClass" stylesheets="@customerGUI.css" text="SPECIALIST REPAIRS" />
+      <Label layoutX="20.0" layoutY="136.0" text="Search Customer">
+         <font>
+            <Font name="Apple Braille Pinpoint 8 Dot" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="246.0" text="Firstname: " AnchorPane.topAnchor="246.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="300.0" text="Surname: " AnchorPane.topAnchor="300.0">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstname" layoutX="146.0" layoutY="243.0" onAction="#searchCustomer" onMouseClicked="#handleNames" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="146.0" AnchorPane.topAnchor="243.0" />
+      <TextField fx:id="surname" layoutX="146.0" layoutY="297.0" onAction="#searchCustomer" prefHeight="26.0" prefWidth="171.0" AnchorPane.leftAnchor="146.0" AnchorPane.topAnchor="297.0" />
+      <Button layoutX="242.0" layoutY="424.0" mnemonicParsing="false" onAction="#searchCustomer" prefHeight="28.0" prefWidth="72.0" text="SEARCH" AnchorPane.leftAnchor="242.0" AnchorPane.topAnchor="424.0" />
+      <Button layoutX="163.0" layoutY="424.0" mnemonicParsing="false" onAction="#clearSearch" prefHeight="28.0" prefWidth="67.0" text="CLEAR" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="424.0" />
+      <TableView fx:id="dataTable" layoutX="336.0" layoutY="130.0" prefHeight="322.0" prefWidth="620.0">
+        <columns>
+          <TableColumn fx:id="customer_ID" prefWidth="34.0" text="ID" />
+          <TableColumn fx:id="first" prefWidth="116.0" text="Firstname" />
+            <TableColumn fx:id="sur" prefWidth="87.0" text="Surname" />
+            <TableColumn fx:id="adr" prefWidth="115.0" text="Address" />
+            <TableColumn fx:id="post" prefWidth="79.0" text="Postcode" />
+            <TableColumn fx:id="mobile" prefWidth="88.0" text="Phone_No" />
+            <TableColumn fx:id="ema" prefWidth="100.0" text="Email" />
+            <TableColumn fx:id="type" prefWidth="100.0" text="Account" />
+        </columns>
+      </TableView>
+      <Button layoutX="789.0" layoutY="498.0" mnemonicParsing="false" onAction="#displayCustomers" prefHeight="26.0" prefWidth="171.0" text="VIEW ALL CUSTOMERS" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="498.0" />
+      <Button layoutX="888.0" layoutY="461.0" mnemonicParsing="false" onAction="#deleteCustomer" text="DELETE" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="461.0" />
+      <Button layoutX="831.0" layoutY="461.0" mnemonicParsing="false" onAction="#openEditPage" text="EDIT" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="461.0" />
+      <Button layoutX="776.0" layoutY="461.0" mnemonicParsing="false" onAction="#openAdd" text="ADD" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="461.0" />
+      <Label layoutX="24.0" layoutY="354.0" text="Vehicle Registration Number:">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="regNumber" layoutX="25.0" layoutY="390.0" onMouseClicked="#handleOther" prefHeight="26.0" prefWidth="291.0" />
+      <Separator layoutX="71.0" layoutY="345.0" prefWidth="200.0" />
+      <Button layoutX="646.0" layoutY="498.0" mnemonicParsing="false" onAction="#viewVehicle" prefHeight="26.0" prefWidth="134.0" text="VIEW VEHICLES" AnchorPane.leftAnchor="646.0" />
+      <Button layoutX="504.0" layoutY="498.0" mnemonicParsing="false" onAction="#viewBookings" prefHeight="26.0" prefWidth="134.0" text="VIEW BOOKINGS" AnchorPane.leftAnchor="504.0" />
+      <Button layoutX="389.0" layoutY="498.0" mnemonicParsing="false" onAction="#viewParts" prefHeight="26.0" prefWidth="108.0" text="VIEW PARTS" AnchorPane.leftAnchor="389.0" />
+      <Label layoutX="27.0" layoutY="199.0" text="Account: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="private_c" layoutX="147.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchPrivateCustomer" text="Private" />
+      <CheckBox fx:id="business_c" layoutX="239.0" layoutY="200.0" mnemonicParsing="false" onAction="#serachBusinessCustomer" text="Business" />
+      <Button layoutX="271.0" layoutY="498.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="26.0" prefWidth="108.0" text="ADD VEHICLE" AnchorPane.leftAnchor="274.0" />
+      <Button layoutX="146.0" layoutY="498.0" mnemonicParsing="false" onAction="#addBooking" prefHeight="26.0" prefWidth="120.0" text="ADD BOOKING" />
+   </children>
+</AnchorPane>

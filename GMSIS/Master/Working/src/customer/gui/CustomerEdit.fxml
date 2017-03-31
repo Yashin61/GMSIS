@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="427.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.gui.EditController">
+   <children>
+      <Separator layoutX="100.0" layoutY="83.0" prefHeight="3.0" prefWidth="522.0" />
+      <ImageView fitHeight="107.0" fitWidth="94.0" layoutX="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Car.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="227.0" layoutY="39.0" prefHeight="55.0" prefWidth="215.0" text="Edit Customer">
+         <font>
+            <Font name="Apple Braille" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="166.0" text="Firstname: " AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="166.0">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="216.0" text="Surname: " AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="216.0">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstname" layoutX="117.0" layoutY="163.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="surname" layoutX="118.0" layoutY="213.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="336.0" />
+      <Button layoutX="579.0" layoutY="360.0" mnemonicParsing="false" onAction="#edit" text="EDIT" AnchorPane.rightAnchor="28.0" />
+      <Label layoutX="30.0" layoutY="266.0" text="Address: " AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="266.0">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="address" layoutX="117.0" layoutY="263.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="338.0" layoutY="166.0" text="Postcode: ">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="postcode" layoutX="426.0" layoutY="163.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="341.0" layoutY="216.0" text="Phone_NO:">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="phone" layoutX="426.0" layoutY="213.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="340.0" layoutY="266.0" text="Email:">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="email" layoutX="426.0" layoutY="263.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="28.0" />
+      <Label layoutX="30.0" layoutY="316.0" text="Account Type: " AnchorPane.topAnchor="316.0">
+         <font>
+            <Font name="Apple Braille" size="15.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="private_type" layoutX="141.0" layoutY="317.0" mnemonicParsing="false" selected="true" text="Private">
+        <toggleGroup>
+            <ToggleGroup fx:id="Type" />
+        </toggleGroup>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="business_type" layoutX="231.0" layoutY="317.0" mnemonicParsing="false" text="Business" toggleGroup="$Type">
+         <font>
+            <Font size="14.0" />
+         </font></RadioButton>
+      <Label layoutX="29.0" layoutY="124.0" text="Update their details below:" textFill="#000000c5" />
+      
+   </children>
+</AnchorPane>
